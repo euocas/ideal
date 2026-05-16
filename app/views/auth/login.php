@@ -1,5 +1,5 @@
 <?php
-// app/views/auth/login.php
+ //app/views/auth/login.php
 ?>
 
 <!DOCTYPE html>
@@ -13,14 +13,14 @@
     <!-- Favicon -->
     <link
         rel="shortcut icon"
-        href="/projetoSenacMVC/public/assets/icons/empreiteira.png"
+        href="assets/icons/empreiteira.png"
         type="image/x-icon"
     >
 
     <!-- CSS -->
     <link
         rel="stylesheet"
-        href="/projetoSenacMVC/public/assets/css/login.css"
+        href="assets/css/login.css"
     >
 </head>
 
@@ -63,7 +63,7 @@
             <div class="logo">
 
                 <img
-                    src="/projetoSenacMVC/public/assets/img/logo.png"
+                    src="assets/img/logo.png"
                     alt="Logo"
                 >
 
@@ -115,7 +115,7 @@
 
             <!-- FORM -->
             <form
-                action="/projetoSenacMVC/public/index.php?url=login"
+                action="index.php?url=logar"
                 method="POST"
             >
 

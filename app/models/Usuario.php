@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../../config/conexao.php';
+
+namespace App\Models;
+use App\Config\Conexao;
 
 class Usuario{
 
