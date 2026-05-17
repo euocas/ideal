@@ -115,8 +115,9 @@
 
             <!-- FORM -->
             <form
-                action="index.php?url=logar"
+                action="/ideal/public/index.php?url=logar"
                 method="POST"
+                id="loginForm"
             >
 
                 <!-- EMAIL -->

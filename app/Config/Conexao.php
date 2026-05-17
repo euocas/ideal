@@ -1,7 +1,12 @@
 <?php
 
 namespace App\Config;
-class Database
+
+use PDO;
+use PDOException;
+use Exception;
+use Throwable;
+class Conexao
 {
     private $host = 'localhost';
     private $db_name = 'empreiteira';

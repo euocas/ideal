@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Config\Conexao;
+use PDO;
 
 class Usuario{
 
@@ -9,9 +10,9 @@ private $conn;
 
 public function __construct(){
 
-$database = new Conexao();
+$conexao = new Conexao();
 
-$this->conn = $database->conectar();
+$this->conn = $conexao->getConnection();
 
 }
 public function buscarPorEmail($email)
