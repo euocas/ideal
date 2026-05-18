@@ -11,79 +11,80 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Dashboard</title>
 
-    <link rel="stylesheet"
-          href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-<div class="layout">
+    <div class="layout">
 
-    <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+        <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
 
-    <div class="content">
+        <div class="content">
 
-    <h1>
-        Bem-vindo,<br>
-         <?= $_SESSION['usuario']['nome']; ?>
-    </h1>
+            <h1>
+                Bem-vindo,<br>
+                <?= $_SESSION['usuario']['nome']; ?>
+            </h1>
 
-    <h2 class="titulo-pagina">
-        IDEAL - Soluções elétricas
-    </h2>
-    <h3> Seleciona uma opção</h3>
+            <h2 class="titulo-pagina">
+                IDEAL - Soluções elétricas
+            </h2>
+            <h3> Seleciona uma opção</h3>
 
-    <!-- cards estilo botões para o usuário selecionar -->
-    <div class="cards">
+            <!-- cards estilo botões para o usuário selecionar -->
+            <div class="cards">
 
 
 
-        <a href="index.php?url=clientes" class="card">
+                <a href="index.php?url=clientes" class="card">
 
-            <h3>Clientes</h3>
+                    <h3>Clientes</h3>
 
-            <p>
-                Gerencie os clientes cadastrados.
-            </p>
+                    <p>
+                        Gerencie os clientes cadastrados.
+                    </p>
 
-        </a>
+                </a>
 
-        <a href="index.php?url=funcionarios" class="card">
+                <a href="index.php?url=funcionarios" class="card">
 
-            <h3>Funcionários</h3>
+                    <h3>Funcionários</h3>
 
-            <p>
-                Controle de funcionários da empresa.
-            </p>
+                    <p>
+                        Controle de funcionários da empresa.
+                    </p>
 
-        </a>
+                </a>
 
-        <a href="index.php?url=obras" class="card">
+                <a href="index.php?url=obras" class="card">
 
-            <h3>Obras</h3>
+                    <h3>Obras</h3>
 
-            <p>
-                Acompanhe o andamento das obras.
-            </p>
+                    <p>
+                        Acompanhe o andamento das obras.
+                    </p>
 
-        </a>
+                </a>
 
-        <a href="index.php?url=financeiro" class="card">
+                <a href="index.php?url=financeiro" class="card">
 
-            <h3>Financeiro</h3>
+                    <h3>Financeiro</h3>
 
-            <p>
-                Controle financeiro e pagamentos.
-            </p>
+                    <p>
+                        Controle financeiro e pagamentos.
+                    </p>
 
-        </a>
+                </a>
 
-    </div>
+            </div>
 
-</div>
+        </div>
