@@ -11,7 +11,8 @@ class DashboardController
         }
 
         if (empty($_SESSION['usuario'])) {
-            header('Location: ../public/index.php?url=login');
+            header('Location: index.php?url=login');
+            // header('Location: ../public/index.php?url=login');
             exit;
         }
 

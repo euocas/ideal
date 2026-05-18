@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 
@@ -9,7 +10,7 @@ error_reporting(E_ALL);
 
 $url = $_GET['url'] ?? 'login';
 
-$method = $_SERVER['REQUEST_METHOD'];
+// $method = $_SERVER['REQUEST_METHOD'];
 
 $authController = new AuthController();
 
@@ -19,8 +20,12 @@ switch ($url) {
         $authController->index();
         break;
 
-    case 'logar':
+    case 'logar':  
         $authController->login();
+        break;
+
+    case 'logout':
+        $authController->logout();
         break;
 
     case 'dashboard':
@@ -30,5 +35,6 @@ switch ($url) {
 
     default:
         echo "Página não encontrada";
+        break;
 }
 ?>
