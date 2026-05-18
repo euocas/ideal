@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f4f4f4;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 20px;
+}
+
+.container-funcionario {
+  width: 100%;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 20px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.busca-funcionario {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+
+  position: relative;
+}
+
+/* .busca-funcionario::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+    left: 60%;
+
+  width: 1px;
+
+  background: #e5e5e5;
+} */
+.busca-esquerda {
+  /* flex: 2;
+  border-right: 1px solid #e5e5e5;
+  padding-right: 30px; */
+
+    width: 54%;
+    border-right: 1px solid #e5e5e5;
+    padding-right: 30px;
+}
+.busca-esquerda form {
+  display: flex;
+  gap: 20px;
+  align-items: end;
+  margin-top: 20px;
+}
+.dica {
+  /* flex: 1;
+  background: #eef5ff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-left: 10px;
+  border-left: 4px solid #3867ff; */
+
+    width: 46%;
+    background: #eef5ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-left: 10px;
+    border-left: 4px solid #3867ff;
+}
+p{
+    font-size: 18px;
+}
+h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+h3 {
+  margin-bottom: 10px;
+  color: #2f5bea;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+input
+/* ,select,
+textarea */ {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus
+/* ,select:focus,
+textarea:focus */ {
+  border-color: #2f5bea;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  margin-top: 20px;
+}
+
+/* .observacao {
+  margin-top: 20px;
+} */
+
+/* textarea {
+  height: 120px;
+  resize: none;
+} */
+
+.btn-buscar {
+    background: #2f3542;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 45px;
+    min-width: 160px;
+}
+
+/* .acoes {
+  display: flex;
+  justify-content: end;
+  gap: 15px;
+  margin-top: 25px;
+} */
+
+.btn {
+  border: none;
+  padding: 12px 22px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* .novo {
+  background: #3867ff;
+}
+
+.salvar {
+  background: #20bf6b;
+}
+
+.alterar {
+  background: #f7b731;
+}
+
+.excluir {
+  background: #eb3b5a;
+}
+
+.limpar {
+  background: #a5b1c2;
+} */

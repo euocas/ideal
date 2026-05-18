@@ -5,6 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\EsqueciSenhaController;
+use App\Controllers\FuncionariosController;
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -44,6 +45,13 @@ switch ($url) {
         $controller->redefinir();
 
         break;
+
+    case 'funcionarios':
+        $controller = new FuncionariosController();
+        $controller->index();
+
+        break;
+
 
     default:
         echo "Página não encontrada";

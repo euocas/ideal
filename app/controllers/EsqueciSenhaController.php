@@ -23,14 +23,17 @@ class EsqueciSenhaController
                 echo "Preencha todos os campos.";
                 exit;
             }
-
+            // Evita que o usuário coloque senhas diferentes nos campos para redefinição de senha
             if ($novaSenha !== $confirmarSenha) {
 
                 echo "As senhas não coincidem.";
                 exit;
             }
 
-            $usuarioModel = new Usuario();
+            // isso é instância da classe usuário que está em Model>Usuario.php
+            $usuarioModel = new Usuario(); //objeto dessa classe
+
+            //$usuarioModel → variável que guarda esse objeto
 
             $usuario = $usuarioModel->buscarPorEmail($email);
 

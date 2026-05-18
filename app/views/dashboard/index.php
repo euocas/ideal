@@ -20,6 +20,10 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+  <!-- Icone na Aba de navegador-->
+        <link rel="shortcut icon" href="assets/icons/home.png" type="image/x-icon">
+
+
 </head>
 
 <body>
