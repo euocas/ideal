@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
+use App\Controllers\EsqueciSenhaController;
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -20,7 +21,7 @@ switch ($url) {
         $authController->index();
         break;
 
-    case 'logar':  
+    case 'logar':
         $authController->login();
         break;
 
@@ -31,6 +32,17 @@ switch ($url) {
     case 'dashboard':
         $dashboardController = new DashboardController();
         $dashboardController->index();
+        break;
+
+    case 'esqueci-senha':
+        $controller = new EsqueciSenhaController();
+        $controller->index();
+        break;
+
+    case 'redefinir-senha':
+        $controller = new EsqueciSenhaController();
+        $controller->redefinir();
+
         break;
 
     default:

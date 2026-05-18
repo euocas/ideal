@@ -1,30 +1,46 @@
 <?php
-
+//importação da classe
 namespace App\Models;
+
 use App\Config\Conexao;
 use PDO;
 
-class Usuario{
-
-private $conn;
-
-public function __construct(){
-
-$conexao = new Conexao();
-
-$this->conn = $conexao->getConnection();
-
-}
-public function buscarPorEmail($email)
+class Usuario
 {
-$sql = "SELECT * FROM usuarios WHERE email = :email";
+    private $conn;
 
-$stmt = $this->conn->prepare($sql);
-$stmt->bindValue(':email', $email);
-$stmt->execute();
+    public function __construct()
+    {
+        $conexao = new Conexao();
 
-return $stmt -> fetch (PDO::FETCH_ASSOC);
+        $this->conn = $conexao->getConnection();
+    }
 
-}
+    public function buscarPorEmail($email)
+    {
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
 
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(':email', $email);
+
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function atualizarSenha($email, $senha)
+    {
+        $sql = "UPDATE usuarios
+                SET senha = :senha
+                WHERE email = :email";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(':senha', $senha);
+
+        $stmt->bindValue(':email', $email);
+
+        return $stmt->execute();
+    }
 }

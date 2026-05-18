@@ -31,60 +31,58 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         <div class="content">
 
             <h1>
-                Bem-vindo,<br>
+                Bem-vindo,
                 <?= $_SESSION['usuario']['nome']; ?>
             </h1>
 
-            <h2 class="titulo-pagina">
-                IDEAL - Soluções elétricas
+            <h2 class="subtitulo-pagina">
+                SISTEMA - IDEAL - Soluções elétricas
             </h2>
-            <h3> Seleciona uma opção</h3>
+            <br>
+            <!-- ÁREA DOS CARDS -->
 
-            <!-- cards estilo botões para o usuário selecionar -->
-            <div class="cards">
+            <section class="painel-opcoes">
+
+                <div class="painel-titulo">
+                    Selecione uma opção
+                </div>
+
+                <!-- cards estilo botões para o usuário selecionar -->
+                <div class="cards-dashboard">
 
 
+                    <a href="index.php?url=clientes" class="card-dashboard card-clientes">
+                        <div class="card-icon">
+                            👥
+                        </div>
+                        <h3>Clientes</h3>
+                        <p>Gerencie os clientes cadastrados.</p>
+                    </a>
 
-                <a href="index.php?url=clientes" class="card">
+                    <a href="index.php?url=funcionarios" class="card-dashboard card-funcionarios">
+                        <div class="card-icon">
+                            👷
+                        </div>
+                        <h3>Funcionários</h3>
+                        <p>Controle de funcionários da empresa.</p>
+                    </a>
 
-                    <h3>Clientes</h3>
+                    <a href="index.php?url=obras" class="card-dashboard card-obras">
+                        <div class="card-icon">
+                            🏢
+                        </div>
+                        <h3>Obras</h3>
+                        <p> Acompanhe o andamento das obras.</p>
+                    </a>
 
-                    <p>
-                        Gerencie os clientes cadastrados.
-                    </p>
+                    <a href="index.php?url=financeiro" class="card-dashboard card-financeiro">
+                        <div class="card-icon">
+                            💰
+                        </div>
+                        <h3>Financeiro</h3>
+                        <p>Controle financeiro e pagamentos.</p>
+                    </a>
 
-                </a>
-
-                <a href="index.php?url=funcionarios" class="card">
-
-                    <h3>Funcionários</h3>
-
-                    <p>
-                        Controle de funcionários da empresa.
-                    </p>
-
-                </a>
-
-                <a href="index.php?url=obras" class="card">
-
-                    <h3>Obras</h3>
-
-                    <p>
-                        Acompanhe o andamento das obras.
-                    </p>
-
-                </a>
-
-                <a href="index.php?url=financeiro" class="card">
-
-                    <h3>Financeiro</h3>
-
-                    <p>
-                        Controle financeiro e pagamentos.
-                    </p>
-
-                </a>
-
-            </div>
-
+                </div>
+            </section>
         </div>

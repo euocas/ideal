@@ -8,6 +8,7 @@
 body {
     background: #0d0d0d;
     color: white;
+
 }
 
 .login-box .logo {
@@ -167,15 +168,6 @@ body {
     flex-shrink: 0;
 }
 
-.link-esqueceu {
-    font-size: 13px;
-    color: #ff5a1f;
-    text-decoration: none;
-}
-
-.link-esqueceu:hover {
-    text-decoration: underline;
-}
 
 /* ── Botão principal ── */
 .login-box button[type="submit"] {
@@ -220,4 +212,39 @@ body {
 .alerta-sucesso a {
     color: #90d090;
     font-weight: bold;
+}
+/* .forgot-password {
+    color: #ff5a1f;
+    text-decoration: none;
+    font-size: 14px;
+
+    display: block;
+    margin-top: 15px;
+
+    transition: 0.3s;
+}
+.forgot-password:hover {
+    color: #ff7b47;
+} */
+
+
+/* .forgot-password {
+    font-size: 13px;
+    color: #ff5a1f;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.forgot-password:hover {
+    color: #ff7b47;
+} */
+
+a.forgot-password,
+a.forgot-password:visited {
+    color: #ff5a1f;
+    text-decoration: none;
+}
+
+a.forgot-password:hover {
+    color: #ff7b47;
 }
