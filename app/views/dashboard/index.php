@@ -38,6 +38,8 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
         IDEAL - Soluções elétricas
     </h2>
     <h3> Seleciona uma opção</h3>
+
+    <!-- cards estilo botões para o usuário selecionar -->
     <div class="cards">
 
 

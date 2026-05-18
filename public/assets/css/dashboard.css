@@ -33,7 +33,7 @@ body {
 /* Sidebar                                                                    */
 /* -------------------------------------------------------------------------- */
 .sidebar {
- ´ width: 220px;
+  width: 220px;
   min-height: 100vh;
   flex-shrink: 0;
   position: sticky; /* ← fica presa enquanto o conteúdo rola */
@@ -45,7 +45,6 @@ body {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  /* box-sizing: border-box; */
 }
 
 /* ----------TAMANHO DA IMAGEM  ---------- */

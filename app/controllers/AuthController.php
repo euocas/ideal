@@ -51,6 +51,7 @@ class AuthController
         exit;
     }
 
+    // Função para sair do sistema e voltar para tela de login
     public function logout(){
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();

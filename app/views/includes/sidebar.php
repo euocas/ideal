@@ -87,6 +87,7 @@
 
         <h3>Administrador</h3>
 
+        <!-- Comando abaixo pega as informações  no banco: o usuário e nome  -->
         <span>
          <?= $_SESSION['usuario']['nome']; ?>
         </span>
