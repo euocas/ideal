@@ -1,337 +1,207 @@
+<?php
+// Lógica para definir se estamos no modo de Edição ou Criação
+$isEdit = isset($funcionario) && !empty($funcionario);
+$actionUrl = $isEdit ? "/ideal/public/index.php?url=funcionarios/update&id={$funcionario['idFuncionario']}" : "/ideal/public/index.php?url=funcionarios/store";
+$cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Funcionários</title>
-
-    <!-- Ícone -->
     <link rel="shortcut icon" href="/ideal/public/assets/icons/funcionario.png" type="image/x-icon">
-
-    <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- CSS DO DASHBOARD -->
     <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-
-    <!-- CSS DA TELA FUNCIONÁRIOS -->
     <link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css">
-
 </head>
 
 <body>
-
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
-        <!-- CONTEÚDO -->
         <main class="main-content">
 
-            <!-- TÍTULO -->
-            <!-- <div class="page-header">
-                <h1>Funcionários</h1>
-            </div> -->
-
-            <!-- CARD BUSCA -->
             <section class="card">
-
                 <h2>Buscar Funcionário</h2>
-
                 <div class="grid-busca">
-
-                    <!-- ESQUERDA -->
                     <div class="busca-box">
-
                         <h2>BUSCAR FUNCIONÁRIO</h2>
+                        
+                        <?php if (!empty($mensagem)): ?>
+                            <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;">
+                                <?= htmlspecialchars($mensagem); ?>
+                            </p>
+                        <?php endif; ?>
 
-                        <form class="form-busca">
-
+                        <form class="form-busca" action="/ideal/public/index.php?url=funcionarios" method="POST">
                             <div class="input-group">
                                 <label>CPF</label>
-                                <input type="text" name="cpf" oninput="mascaraCPF(this)" placeholder="000.000.000-00"
-                                    required>
+                                <input type="text" name="cpf" oninput="mascaraCPF(this)" placeholder="000.000.000-00" required maxlength="14">
                             </div>
-
-                            <button class="btn-buscar">
-                                BUSCAR
-                            </button>
-
+                            <button type="submit" class="btn-buscar">BUSCAR</button>
                         </form>
-
                     </div>
 
-                    <!-- DIREITA -->
                     <div class="dica-box">
-
                         <h3>DICA</h3>
-
-                        <p>
-                            Digite o CPF sem pontuaçao do funcionário e clique em <strong> BUSCAR</strong>.
-                            Se não existir, você poderá cadastrar um novo funcionário.
-                        </p>
-
+                        <p>Digite o CPF do funcionário e clique em <strong>BUSCAR</strong>. Se não existir, você poderá cadastrar um novo funcionário.</p>
                     </div>
-
                 </div>
-
             </section>
 
-            <!-- CARD DADOS -->
             <section class="card">
-
                 <h2>Dados do Funcionário</h2>
-
-                <form>
-
+                
+                <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
                     <div class="grid-form">
-
-                        <!-- Nome -->
+                        
                         <div class="form-group">
-
                             <label>Nome</label>
-                            <input type="text" name="nome" minlength="3" pattern="[A-Za-zÀ-ÿ\s]+"
-                                title="Digite pelo menos 3 letras" placeholder="Digite o Nome Completo" required>
-
+                            <input type="text" name="nome" value="<?= htmlspecialchars($funcionario['nome'] ?? '') ?>" minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras" placeholder="Digite o Nome Completo" required>
                         </div>
 
-                        <!-- Sexo -->
                         <div class="form-group">
                             <label>Sexo</label>
                             <select name="sexo">
-                                <option>Selecione</option>
-                                <option>Masculino</option>
-                                <option>Feminino</option>
-                                <option>Outro</option>
+                                <option value="">Selecione</option>
+                                <option value="Masculino" <?= ($funcionario['sexo'] ?? '') === 'Masculino' ? 'selected' : '' ?>>Masculino</option>
+                                <option value="Feminino" <?= ($funcionario['sexo'] ?? '') === 'Feminino' ? 'selected' : '' ?>>Feminino</option>
+                                <option value="Outro" <?= ($funcionario['sexo'] ?? '') === 'Outro' ? 'selected' : '' ?>>Outro</option>
                             </select>
-
                         </div>
 
-                        <!-- Data nascimento -->
                         <div class="form-group">
                             <label>Data Nascimento</label>
-                            <input type="date" name="data_nascimento">
-
+                            <input type="date" name="dataNascimento" value="<?= htmlspecialchars($funcionario['dataNascimento'] ?? '') ?>">
                         </div>
 
-                        <!-- Naturalidade -->
                         <div class="form-group">
                             <label for="naturalidade">Naturalidade</label>
-                            <input type="text" name="naturalidade" minlength="3" title="Digite apenas letras"
-                                placeholder="Digite apenas o nome da cidade">
+                            <input type="text" name="naturalidade" value="<?= htmlspecialchars($funcionario['naturalidade'] ?? '') ?>" minlength="3" title="Digite apenas letras" placeholder="Digite apenas o nome da cidade">
                         </div>
 
-                        <!-- Estado de Nascimento -->
                         <div class="form-group">
                             <label>Estado Nasc.</label>
-                            <select name="estado_nasc" required>
+                            <select name="estadoNascimento">
                                 <option value="">Selecione o Estado</option>
-                                <option value="AC">Acre</option>
-                                <option value="AL">Alagoas</option>
-                                <option value="AP">Amapá</option>
-                                <option value="AM">Amazonas</option>
-                                <option value="BA">Bahia</option>
-                                <option value="CE">Ceará</option>
-                                <option value="DF">Distrito Federal</option>
-                                <option value="ES">Espírito Santo</option>
-                                <option value="GO">Goiás</option>
-                                <option value="MA">Maranhão</option>
-                                <option value="MT">Mato Grosso</option>
-                                <option value="MS">Mato Grosso do Sul</option>
-                                <option value="MG">Minas Gerais</option>
-                                <option value="PA">Pará</option>
-                                <option value="PB">Paraíba</option>
-                                <option value="PR">Paraná</option>
-                                <option value="PE">Pernambuco</option>
-                                <option value="PI">Piauí</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="RN">Rio Grande do Norte</option>
-                                <option value="RS">Rio Grande do Sul</option>
-                                <option value="RO">Rondônia</option>
-                                <option value="RR">Roraima</option>
-                                <option value="SC">Santa Catarina</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="SE">Sergipe</option>
-                                <option value="TO">Tocantins</option>
-                            </select>
+                                <option value="SP" <?= ($funcionario['estadoNascimento'] ?? '') === 'SP' ? 'selected' : '' ?>>São Paulo</option>
+                                <option value="RJ" <?= ($funcionario['estadoNascimento'] ?? '') === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
+                                </select>
                         </div>
 
-                        <!-- CPF  inputmode serve para qdo o usuário tiver usando o celular-->
                         <div class="form-group">
                             <label>CPF</label>
-                            <input type="text" name="cpf" maxlength="14" inputmode="numeric"
-                                placeholder="000.000.000-00" oninput="mascaraCPF(this)" required>
+                            <input type="text" name="cpf" value="<?= htmlspecialchars($cpfValue) ?>" maxlength="14" inputmode="numeric" placeholder="000.000.000-00" oninput="mascaraCPF(this)" <?= $isEdit ? 'readonly style="background-color: #eee;"' : 'required' ?>>
                         </div>
 
-                        <!-- Cargo -->
                         <div class="form-group">
                             <label>Cargo / Função</label>
-                            <select name="cargo">
-                                <option>Selecione</option>
-                                <option>Azulegista</option>
-                                <option>Eletrecista</option>
-                                <option>Marceneiro</option>
-                                <option>Pintor</option>
+                            <select name="cargoFuncao">
+                                <option value="">Selecione</option>
+                                <option value="Azulejista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Azulejista' ? 'selected' : '' ?>>Azulejista</option>
+                                <option value="Eletricista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Eletricista' ? 'selected' : '' ?>>Eletricista</option>
+                                <option value="Marceneiro" <?= ($funcionario['cargoFuncao'] ?? '') === 'Marceneiro' ? 'selected' : '' ?>>Marceneiro</option>
+                                <option value="Pintor" <?= ($funcionario['cargoFuncao'] ?? '') === 'Pintor' ? 'selected' : '' ?>>Pintor</option>
                             </select>
                         </div>
 
-                        <!-- Endereço -->
                         <div class="form-group">
                             <label for="endereco">Endereço</label>
-                            <input type="text" name="endereco" minlength="3" title="Digite apenas letras"
-                                placeholder="Digite apenas o nome da Rua/Avenida/Alameda/Viela">
+                            <input type="text" name="nomeLogradouro" value="<?= htmlspecialchars($funcionario['nomeLogradouro'] ?? '') ?>" minlength="3" title="Digite apenas letras" placeholder="Digite apenas o nome da Rua/Avenida/Alameda/Viela">
                         </div>
 
-                        <!-- Número -->
                         <div class="form-group">
                             <label>Número</label>
-                            <input type="text" name="numero" pattern="[0-9]+" placeholder="Somente números">
+                            <input type="text" name="numero" value="<?= htmlspecialchars($funcionario['numero'] ?? '') ?>" pattern="[0-9]+" placeholder="Somente números">
                         </div>
 
-                        <!-- Complemento -->
                         <div class="form-group">
                             <label>Complemento</label>
-                            <input type="text" name="complemento" placeholder="Números e letras">
+                            <input type="text" name="complemento" value="<?= htmlspecialchars($funcionario['complemento'] ?? '') ?>" placeholder="Números e letras">
                         </div>
 
-                        <!-- Cidade -->
                         <div class="form-group">
                             <label>Cidade</label>
-                            <input type="text" name="cidade" minlength="3" pattern="[A-Za-zÀ-ÿ\s]+"
-                                title="Digite pelo menos 3 letras" placeholder="Digite o nome da cidade" required>
+                            <input type="text" name="cidade" value="<?= htmlspecialchars($funcionario['cidade'] ?? '') ?>" minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras" placeholder="Digite o nome da cidade" required>
                         </div>
 
-                        <!-- CEP -->
                         <div class="form-group">
                             <label>CEP</label>
-                            <input type="text" name="cep" maxlength="9" inputmode="numeric" oninput="mascaraCEP(this)"
-                                placeholder="00000-000">
+                            <input type="text" name="cep" value="<?= htmlspecialchars($funcionario['cep'] ?? '') ?>" maxlength="9" inputmode="numeric" oninput="mascaraCEP(this)" placeholder="00000-000">
                         </div>
 
-                        <!-- Estado -->
                         <div class="form-group">
                             <label>Estado</label>
-
                             <select name="estado" required>
                                 <option value="">Selecione o Estado</option>
-
-                                <option value="AC">Acre</option>
-                                <option value="AL">Alagoas</option>
-                                <option value="AP">Amapá</option>
-                                <option value="AM">Amazonas</option>
-                                <option value="BA">Bahia</option>
-                                <option value="CE">Ceará</option>
-                                <option value="DF">Distrito Federal</option>
-                                <option value="ES">Espírito Santo</option>
-                                <option value="GO">Goiás</option>
-                                <option value="MA">Maranhão</option>
-                                <option value="MT">Mato Grosso</option>
-                                <option value="MS">Mato Grosso do Sul</option>
-                                <option value="MG">Minas Gerais</option>
-                                <option value="PA">Pará</option>
-                                <option value="PB">Paraíba</option>
-                                <option value="PR">Paraná</option>
-                                <option value="PE">Pernambuco</option>
-                                <option value="PI">Piauí</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="RN">Rio Grande do Norte</option>
-                                <option value="RS">Rio Grande do Sul</option>
-                                <option value="RO">Rondônia</option>
-                                <option value="RR">Roraima</option>
-                                <option value="SC">Santa Catarina</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="SE">Sergipe</option>
-                                <option value="TO">Tocantins</option>
-                            </select>
+                                <option value="SP" <?= ($funcionario['estado'] ?? '') === 'SP' ? 'selected' : '' ?>>São Paulo</option>
+                                <option value="RJ" <?= ($funcionario['estado'] ?? '') === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
+                                </select>
                         </div>
 
-
-
-                        <!-- Email -->
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" minlength="5" maxlength="100"
-                                placeholder="seuemail@dominio.com" title="Digite um e-mail válido"
-                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                            <input type="email" name="email" value="<?= htmlspecialchars($funcionario['email'] ?? '') ?>" minlength="5" maxlength="100" placeholder="seuemail@dominio.com" title="Digite um e-mail válido" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                         </div>
 
-                        <!-- Tipo contrato -->
                         <div class="form-group">
                             <label>Tipo Contrato</label>
-                            <select name="tipo_contrato">
-                                <option>Selecione</option>
-                                <option>CLT</option>
-                                <option>Contrato Temporário</option>
-                                <option>Pessoa Jurídica</option>
-                                <option>Tercerizada</option>
+                            <select name="tipoContrato">
+                                <option value="">Selecione</option>
+                                <option value="CLT" <?= ($funcionario['tipoContrato'] ?? '') === 'CLT' ? 'selected' : '' ?>>CLT</option>
+                                <option value="CONTRATO TEMPORARIO" <?= ($funcionario['tipoContrato'] ?? '') === 'CONTRATO TEMPORARIO' ? 'selected' : '' ?>>Contrato Temporário</option>
+                                <option value="PESSOA JURÍRIDICA" <?= ($funcionario['tipoContrato'] ?? '') === 'PESSOA JURÍRIDICA' ? 'selected' : '' ?>>Pessoa Jurídica</option>
+                                <option value="TERCERIZADA" <?= ($funcionario['tipoContrato'] ?? '') === 'TERCERIZADA' ? 'selected' : '' ?>>Tercerizada</option>
                             </select>
                         </div>
 
-                        <!-- Status -->
                         <div class="form-group">
                             <label>Status</label>
                             <select name="status">
-                                <option>Selecione</option>
-                                <option>Ativo</option>
-                                <option>Inativo</option>
-
+                                <option value="">Selecione</option>
+                                <option value="ativo" <?= ($funcionario['status'] ?? '') === 'ativo' ? 'selected' : '' ?>>Ativo</option>
+                                <option value="inativo" <?= ($funcionario['status'] ?? '') === 'inativo' ? 'selected' : '' ?>>Inativo</option>
                             </select>
                         </div>
 
-                        <!-- Observações -->
                         <div class="form-group observacoes">
-
                             <label>Observações</label>
-
-                            <textarea></textarea>
-
+                            <textarea name="observacoes"><?= htmlspecialchars($funcionario['observacoes'] ?? '') ?></textarea>
                         </div>
 
                     </div>
-
                 </form>
             </section>
-            <!-- BOTÕES -->
-            <div class="acoes">
-                <button type="button" class="btn novo">
-                    Novo
-                </button>
-                <button type="submit" class="btn salvar">
-                    Salvar
-                </button>
-                <button type="button" class="btn alterar">
-                    Alterar
-                </button>
-                <button type="button" class="btn excluir">
-                    Excluir
-                </button>
-                <button type="reset" class="btn limpar">
-                    Limpar
-                </button>
-            </div>
-        </main>
 
+            <div class="acoes">
+                <a href="/ideal/public/index.php?url=funcionarios" class="btn novo" style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>
+                
+                <?php if (!$isEdit): ?>
+                    <button type="submit" form="form-dados" class="btn salvar">Salvar</button>
+                <?php else: ?>
+                    <button type="submit" form="form-dados" class="btn alterar">Alterar</button>
+                    <a href="/ideal/public/index.php?url=funcionarios/delete&id=<?= $funcionario['idFuncionario'] ?>" class="btn excluir" style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;" onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">Excluir</a>
+                <?php endif; ?>
+
+                <button type="reset" form="form-dados" class="btn limpar">Limpar</button>
+            </div>
+
+        </main>
     </div>
-    <!-- Máscara do CPF-->
+
     <script>
         function mascaraCPF(input) {
-
             let valor = input.value.replace(/\D/g, '');
-
             valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
             valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
             valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-
             input.value = valor;
         }
     </script>
 
-    <!-- MÁSCARA do CEP -->
     <script>
         function mascaraCEP(input) {
             let valor = input.value.replace(/\D/g, '');
@@ -340,7 +210,5 @@
             input.value = valor;
         }
     </script>
-
 </body>
-
 </html>

@@ -12,8 +12,6 @@ error_reporting(E_ALL);
 
 $url = $_GET['url'] ?? 'login';
 
-// $method = $_SERVER['REQUEST_METHOD'];
-
 $authController = new AuthController();
 
 switch ($url) {
@@ -43,15 +41,39 @@ switch ($url) {
     case 'redefinir-senha':
         $controller = new EsqueciSenhaController();
         $controller->redefinir();
-
         break;
 
+    // --- ROTAS DE FUNCIONÁRIOS ---
     case 'funcionarios':
         $controller = new FuncionariosController();
         $controller->index();
-
         break;
 
+    case 'funcionarios/create':
+        $controller = new FuncionariosController();
+        $controller->create();
+        break;
+
+    case 'funcionarios/edit':
+        $controller = new FuncionariosController();
+        $controller->edit();
+        break;
+
+    case 'funcionarios/store':
+        $controller = new FuncionariosController();
+        $controller->store();
+        break;
+
+    case 'funcionarios/update':
+        $controller = new FuncionariosController();
+        $controller->update();
+        break;
+
+    case 'funcionarios/delete':
+        $controller = new FuncionariosController();
+        $controller->delete();
+        break;
+    // ------------------------------
 
     default:
         echo "Página não encontrada";
