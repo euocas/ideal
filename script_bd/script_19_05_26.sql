@@ -343,8 +343,8 @@ SELECT * FROM usuarios;
 select * from cliente;
 SELECT*FROM funcionarios;
 
-INSERT INTO funcionarios(nome, datanascimento, sexo, naturalidade, estado_nascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, STATUS,observacoes,cpf)
-VALUES('Teste dos santos',2003/03/03,'masculino','brasileiro','SP','Avenida','Conselheiro Nebias',300,'Perdido','Santos',33443-200,'SP','testeFuncionario@gmail.com','Cargoteste','CLT','Ativo','Nenhuma','66655544403')
+INSERT INTO funcionarios(nome, datanascimento, sexo, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, STATUS,observacoes,cpf)
+VALUES('Teste dos santos','2003-03-03','masculino','brasileiro','SP','Avenida','Conselheiro Nebias',300,'Perdido','Santos',33443-200,'SP','testeFuncionario@gmail.com','Cargoteste','CLT','Ativo','Nenhuma','66655544403');
 
 DELETE FROM funcionarios
 WHERE idfuncionario = 1
