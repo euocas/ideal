@@ -25,26 +25,70 @@ class FuncionariosController
         require_once __DIR__ . '/../views/funcionarios/index.php';
     }
 
+
+/**
+     * Executa a lógica de pesquisa de CPF no banco de dados
+     */
     private function buscar()
     {
-        $cpf = preg_replace('/[^0-9]/', '', $_POST['cpf'] ?? '');
+        // O operador ?? '' garante que se o POST vier vazio, ele será uma string vazia e não "null"
+        $cpfDigitado = (string) ($_POST['cpf'] ?? '');
 
-        if (empty($cpf) || strlen($cpf) !== 11) {
-            $mensagem = "Por favor, digite um CPF válido contendo 11 dígitos.";
+        // Passa o CPF digitado pela validação matemática
+        if (!$this->validarCpf($cpfDigitado)) {
+            $mensagem = "O CPF informado é inválido. Verifique os números e tente novamente.";
             require_once __DIR__ . '/../views/funcionarios/index.php';
             return;
         }
 
+        // Se o CPF é válido, limpamos a formatação (pontos e traços) para buscar no banco
+        $cpfLimpo = preg_replace('/[^0-9]/', '', $cpfDigitado);
+
         $funcionarioModel = new Funcionario();
-        $funcionario = $funcionarioModel->findByCpf($cpf);
+        $funcionario = $funcionarioModel->findByCpf($cpfLimpo);
 
         if ($funcionario) {
             header("Location: /ideal/public/index.php?url=funcionarios/edit&id=" . $funcionario['idFuncionario']);
             exit;
         } else {
-            header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpf);
+            header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpfLimpo);
             exit;
         }
+    }
+
+    /**
+     * Valida matematicamente um CPF
+     */
+    private function validarCpf($cpf)
+    {
+        // Garante que o valor seja tratado como string para evitar o erro "Deprecated"
+        $cpf = (string) $cpf;
+        
+        // Extrai somente os números
+        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
+        // Verifica se a quantidade de dígitos está correta após limpar
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+
+        // Bloqueia CPFs com sequências repetidas (ex: 11111111111)
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+
+        // Calcula e verifica os dois dígitos verificadores
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function create()
