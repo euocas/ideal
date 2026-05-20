@@ -10,6 +10,10 @@ use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\EsqueciSenhaController;
 use App\Controllers\FuncionariosController;
+use App\Controllers\VeiculosController;
+use App\Controllers\ClientesController;
+use App\Controllers\ObrasController;
+use App\Controllers\FinanceiroController;
 
 // ini_set('display_errors', 1);
 // error_reporting(E_ALL);
@@ -78,6 +82,30 @@ switch ($url) {
         $controller->delete();
         break;
     // ------------------------------
+
+    // --- ROTA DE VEÍCULOS ---
+    case 'veiculos':
+        $controller = new VeiculosController();
+        $controller->index();
+        break;
+
+    // --- ROTA DE CLIENTES---
+    case 'clientes':
+        $controller = new ClientesController();
+        $controller->index();
+        break;
+
+       // --- ROTA DE OBRAS---
+        case 'obras':
+        $controller = new ObrasController();
+        $controller->index();
+        break;
+
+        // --- ROTA DE OBRAS---
+        case 'financeiro':
+        $controller = new FinanceiroController();
+        $controller->index();
+        break;
 
     default:
         echo "Página não encontrada";

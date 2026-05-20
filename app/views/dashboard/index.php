@@ -15,7 +15,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
     <title>Dashboard</title>
 
-    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <!-- APÓS TERMINAR O PROJETO TIRAR COMENTÁRIO DO CSS ABAIXO E DELETAR A VERSÃO TIME QUE É TEMPORÁRIA -->
+    <!-- <link rel="stylesheet" href="assets/css/dashboard.css?v=1"> -->
+     <link rel="stylesheet" href="assets/css/dashboard.css?v=<?= time() ?>">
 
     <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -55,6 +57,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                 <div class="cards-dashboard">
 
 
+                <!-- CARD PARA  ACESSO A PÁGINA CLIENTES -->
                     <a href="index.php?url=clientes" class="card-dashboard card-clientes">
                         <div class="card-icon">
                             👥
@@ -63,13 +66,16 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                         <p>Gerencie os clientes cadastrados.</p>
                     </a>
 
+                        <!-- CARD PARA  ACESSO A PÁGINA FUNCIONÁRIOS -->
                     <a href="index.php?url=funcionarios" class="card-dashboard card-funcionarios">
                         <div class="card-icon">
                             👷
                         </div>
                         <h3>Funcionários</h3>
-                        <p>Controle de funcionários da empresa.</p>
+                        <p>Gerencie os funcionários.</p>
                     </a>
+
+                        <!-- CARD PARA  ACESSO A PÁGINA OBRAS-->
 
                     <a href="index.php?url=obras" class="card-dashboard card-obras">
                         <div class="card-icon">
@@ -79,12 +85,22 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                         <p> Acompanhe o andamento das obras.</p>
                     </a>
 
-                    <a href="index.php?url=financeiro" class="card-dashboard card-financeiro">
+                 <!-- CARD PARA  ACESSO A PÁGINA FINANCEIROS -->
+                    <a href="index.php?url=financeiro" class="card-dashboard card-financeiros">
                         <div class="card-icon">
                             💰
                         </div>
                         <h3>Financeiro</h3>
                         <p>Controle financeiro e pagamentos.</p>
+                    </a>
+
+                    <!-- CARD PARA  ACESSO A PÁGINA VEÍCULOS-->
+                    <a href="index.php?url=veiculos" class="card-dashboard card-veiculos">
+                        <div class="card-icon">
+                            🚗
+                        </div>
+                        <h3>Veículos</h3>
+                        <p> Controle da frota e veículos.</p>
                     </a>
 
                 </div>
