@@ -4,15 +4,24 @@ namespace App\Controllers;
 
 use App\Models\Funcionario;
 
+use App\Core\Auth;
+
+require_once __DIR__ . '/../core/Auth.php';
+
 class FuncionariosController
 {
+    public function __construct()
+    {
+        Auth::verificar();
+    }
+
     public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->buscar();
         }
 
-        $mensagem = null; 
+        $mensagem = null;
         require_once __DIR__ . '/../views/funcionarios/index.php';
     }
 
@@ -68,10 +77,10 @@ class FuncionariosController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $funcionarioModel = new Funcionario();
-            
+
             // O CPF vem do form com a formatação (ex: 111.222.333-44), limpamos para gravar só números no BD
             $_POST['cpf'] = preg_replace('/[^0-9]/', '', $_POST['cpf'] ?? '');
-            
+
             $funcionarioModel->save($_POST);
 
             header("Location: /ideal/public/index.php?url=funcionarios");

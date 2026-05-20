@@ -1,8 +1,19 @@
 <?php
 
 namespace App\Controllers;
+
+use App\Core\Auth;
+
+require_once __DIR__ . '/../core/Auth.php';
+
 class DashboardController
 {
+
+   public function __construct()
+    {
+        Auth::verificar();
+    }
+
     public function index()
     {
         // Proteção de rota: redireciona para login se não autenticado

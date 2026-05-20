@@ -51,14 +51,53 @@ class AuthController
         exit;
     }
 
-    // Função para sair do sistema e voltar para tela de login
-    public function logout(){
+    // public function logout(){
+        //     if (session_status() !== PHP_SESSION_ACTIVE) {
+            //         session_start();
+            
+            //     }
+            //     session_destroy();
+            
+            //     header('Location: index.php?url=login');
+            //     exit;
+            // }
+
+    // Função para sair do sistema, eliminar os cookies e voltar para tela de login
+            public function logout()
+    {
+
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
-            
         }
+
+        // limpa variáveis da sessão
+        $_SESSION = [];
+
+        // remove cookie da sessão
+        if (ini_get("session.use_cookies")) {
+
+            $params = session_get_cookie_params();
+
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params["path"],
+                $params["domain"],
+                $params["secure"],
+                $params["httponly"]
+            );
+        }
+
+        // destrói a sessão
         session_destroy();
 
+        // impede cache
+        header("Cache-Control: no-cache, no-store, must-revalidate");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        // redireciona
         header('Location: index.php?url=login');
         exit;
     }

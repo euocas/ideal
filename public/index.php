@@ -1,5 +1,9 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\AuthController;
@@ -7,8 +11,8 @@ use App\Controllers\DashboardController;
 use App\Controllers\EsqueciSenhaController;
 use App\Controllers\FuncionariosController;
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
 
 $url = $_GET['url'] ?? 'login';
 

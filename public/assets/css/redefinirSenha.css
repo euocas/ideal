@@ -169,3 +169,14 @@ a {
 
     background: #e04a10;
 }
+
+.mensagem-sucesso{
+  text-align: center;
+}
+.mensagem-sucesso h2 {
+    color: white;
+}
+
+.mensagem-sucesso h2 span {
+    color: #00bfff; /* exemplo azul */
+}
