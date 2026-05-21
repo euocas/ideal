@@ -334,4 +334,4 @@ CREATE TABLE usuario (
 
 SELECT * FROM usuarios;
 select * from cliente;
-select * from usuarios;
+select * from funcionarios;
