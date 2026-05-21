@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
     <link rel="stylesheet" href="/ideal/public/assets/css/obras.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 

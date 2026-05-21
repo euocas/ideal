@@ -14,21 +14,23 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
     <link rel="shortcut icon" href="/ideal/public/assets/icons/funcionario.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css">
+    <link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css?v=<?= time() ?>">
 </head>
 
 <body>
     <div class="dashboard-container">
 
+        <!-- SIDEBAR -->
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
         <main class="main-content">
 
+            <!-- SECTION DE BUSCA DE FUNCIONÁRIO -->
             <section class="card">
-                <h2>Buscar Funcionário</h2>
+                <!-- <h2>🔎 Buscar Funcionário</h2> -->
                 <div class="grid-busca">
                     <div class="busca-box">
-                        <h2>BUSCAR FUNCIONÁRIO</h2>
+                        <h2>🔎 BUSCAR FUNCIONÁRIO</h2>
 
                         <?php if (!empty($mensagem)): ?>
                             <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;">
@@ -54,6 +56,7 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                 </div>
             </section>
 
+            <!-- SECTION DE DADOS DE FUNCIONÁRIO -->
             <section class="card">
                 <h2>Dados do Funcionário</h2>
 
@@ -298,16 +301,30 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             </select>
                         </div>
 
+                        <!-- CONTATO TELEFONICO -->
+                        <div class="form-group">
+                            <label>Telefone</label>
+                            <input type="text" name="telefone" placeholder="(11) 0000-0000">
+                        </div>
+
+                        <div class="form-group">
+                            <label>WhatsApp</label>
+                            <input type="text" name="whatsapp" placeholder="(11) 00000-0000">
+                        </div>
                         <div class="form-group observacoes">
                             <label>Observações</label>
+
                             <textarea
                                 name="observacoes"><?= htmlspecialchars($funcionario['observacoes'] ?? '') ?></textarea>
                         </div>
 
-                    </div>
+                    </div> <!-- FECHA GRID-FORM -->
+
                 </form>
+
             </section>
 
+            <!-- BOTÕES DE AÇOES DO FORMULÁRIO -->
             <div class="acoes">
                 <a href="/ideal/public/index.php?url=funcionarios" class="btn novo"
                     style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>
@@ -328,6 +345,7 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
         </main>
     </div>
 
+    <!-- SCRIPT DE MASCARA DE CPF -->
     <script>
         function mascaraCPF(input) {
             let valor = input.value.replace(/\D/g, '');
@@ -338,6 +356,7 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
         }
     </script>
 
+    <!-- SCRIPT DE MASCARA DE CEP -->
     <script>
         function mascaraCEP(input) {
             let valor = input.value.replace(/\D/g, '');

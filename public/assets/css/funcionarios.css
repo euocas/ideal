@@ -37,7 +37,7 @@ body {
   background: white;
   border-radius: 12px;
   padding: 25px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
@@ -93,7 +93,7 @@ body {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 0 14px;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 /* BOTÃO BUSCAR */
@@ -122,15 +122,11 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   background: #eef4ff;
   border: 1px solid #dbe6ff;
   border-radius: 12px;
-
   padding: 20px 22px 20px 30px;
-
   overflow: hidden;
-
   margin-right: 19px;
 }
 
@@ -199,6 +195,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  align-items: start;
 }
 
 /* CAMPOS */
@@ -219,18 +216,12 @@ body {
 .form-group input,
 .form-group select {
   width: 100%;
-
   padding: 10px 0;
-
   border: none;
   border-bottom: 2px solid #d1d1d1;
-
   background: transparent;
-
-  font-size: 16px;
-
+  font-size: 18px;
   outline: none;
-
   transition: 0.3s;
 }
 
@@ -246,50 +237,33 @@ body {
 
 .form-group textarea {
   width: 100%;
-
-  min-height: 100px;
-
+  height: 70px;
   padding: 10px;
-
   border: 1px solid #d1d1d1;
   border-radius: 8px;
-
   font-size: 15px;
-
   resize: none;
-
   outline: none;
 }
 
 /* OBSERVAÇÕES */
 
 .observacoes {
-  grid-column: 2 / 4;
-
-  margin-bottom: 0;
+  grid-column: 1 / -1;
 }
 
 /* BOTÕES */
 
 .acoes {
-  margin-top: 10px;
+  margin-top: 0;
   display: flex;
   justify-content: center;
   gap: 12px;
-
 }
 
 /* BOTÕES PADRÃO */
 
 .btn {
-  /* border: none;
-  padding: 12px 22px;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s; */
-
   min-width: 150px;
   border: none;
   padding: 12px 22px;
@@ -298,6 +272,7 @@ body {
   cursor: pointer;
   font-weight: bold;
   text-align: center;
+  transition: 0.2s;
 }
 
 .btn:hover {
