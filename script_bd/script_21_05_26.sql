@@ -374,11 +374,5 @@ UPDATE funcionarios
 SET cpf = '58058711063'
 WHERE idFuncionario = 1;
 
-UPDATE funcionarios 
-SET cpf = '06302962005'
-WHERE idFuncionario = 16;
 
-UPDATE funcionarios 
-SET cpf = '57384493048'
-WHERE idFuncionario = 14;
 
