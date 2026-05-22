@@ -12,7 +12,7 @@ class Funcionario
         $banco = new Conexao();
         $pdo = $banco->getConnection();
         
-        $stmt = $pdo->prepare("SELECT * FROM funcionarios WHERE cpf = :cpf");
+        $stmt = $pdo->prepare("SELECT * FROM funcionario WHERE cpf = :cpf");
         $stmt->bindValue(':cpf', $cpf, PDO::PARAM_STR);
         $stmt->execute();
         
@@ -24,7 +24,7 @@ class Funcionario
         $banco = new Conexao();
         $pdo = $banco->getConnection();
         
-        $stmt = $pdo->prepare("SELECT * FROM funcionarios WHERE idFuncionario = :id");
+        $stmt = $pdo->prepare("SELECT * FROM funcionario WHERE idFuncionario = :id");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         
@@ -36,7 +36,7 @@ class Funcionario
         $banco = new Conexao();
         $pdo = $banco->getConnection();
         
-        $sql = "INSERT INTO funcionarios (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, observacoes) 
+        $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, observacoes) 
                 VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, 'Rua', :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :observacoes)";
         
         $stmt = $pdo->prepare($sql);
@@ -66,7 +66,7 @@ class Funcionario
         $banco = new Conexao();
         $pdo = $banco->getConnection();
         
-        $sql = "UPDATE funcionarios SET 
+        $sql = "UPDATE funcionario SET 
                 nome = :nome, sexo = :sexo, dataNascimento = :dataNascimento, naturalidade = :naturalidade, estadoNascimento = :estadoNascimento, 
                 nomeLogradouro = :nomeLogradouro, numero = :numero, complemento = :complemento, cidade = :cidade, cep = :cep, estado = :estado, 
                 email = :email, cargoFuncao = :cargoFuncao, tipoContrato = :tipoContrato, status = :status, observacoes = :observacoes 
@@ -99,7 +99,7 @@ class Funcionario
         $banco = new Conexao();
         $pdo = $banco->getConnection();
         
-        $stmt = $pdo->prepare("DELETE FROM funcionarios WHERE idFuncionario = :id");
+        $stmt = $pdo->prepare("DELETE FROM funcionario WHERE idFuncionario = :id");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }

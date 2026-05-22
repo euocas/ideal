@@ -18,7 +18,7 @@ class Usuario
 
     public function buscarPorEmail($email)
     {
-        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $sql = "SELECT * FROM usuario WHERE email = :email";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -31,7 +31,7 @@ class Usuario
 
     public function atualizarSenha($email, $senha)
     {
-        $sql = "UPDATE usuarios
+        $sql = "UPDATE usuario
                 SET senha = :senha
                 WHERE email = :email";
 
