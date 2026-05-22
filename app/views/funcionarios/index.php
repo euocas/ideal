@@ -1,4 +1,9 @@
 <?php
+// Valores padrão para evitar notices de variáveis indefinidas
+$mensagem = $mensagem ?? '';
+$cpfBusca = $cpfBusca ?? '';
+$funcionario = $funcionario ?? [];
+
 // Lógica para definir se estamos no modo de Edição ou Criação
 $isEdit = isset($funcionario) && !empty($funcionario);
 $actionUrl = $isEdit ? "/ideal/public/index.php?url=funcionarios/update&id={$funcionario['idFuncionario']}" : "/ideal/public/index.php?url=funcionarios/store";
@@ -58,6 +63,25 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
 
             <!-- SECTION DE DADOS DE FUNCIONÁRIO -->
             <section class="card">
+                <?php
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                ?>
+
+                <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                    <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
+                        ✅ <?= $_SESSION['mensagem_sucesso']; ?>
+                    </div>
+                    <?php unset($_SESSION['mensagem_sucesso']); ?>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
+                        ❌ <?= $_SESSION['mensagem_erro']; ?>
+                    </div>
+                    <?php unset($_SESSION['mensagem_erro']); ?>
+                <?php endif; ?>
                 <h2>Dados do Funcionário</h2>
 
                 <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
@@ -267,7 +291,7 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                                 <option value="SE" <?= ($funcionario['estado'] ?? '') === 'SE' ? 'selected' : '' ?>>Sergipe
                                 </option>
                                 <option value="TO" <?= ($funcionario['estado'] ?? '') === 'TO' ? 'selected' : '' ?>>
-                                    Tocantins</option>x
+                                    Tocantins</option>
 
                             </select>
                         </div>

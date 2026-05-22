@@ -247,30 +247,17 @@ CREATE TABLE automovelFuncionario (
 -- =====================================================
 -- INSERÇAO DE DADOS DE USUÁRIOS
 -- =====================================================
+
 INSERT INTO usuario (nome, email, senha)
-VALUES ('Administrador', 'emailteste@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
-
-insert into usuario (nome, email, senha)
-values ('Juliana', 'jujusantista23@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
-
-insert into usuario (nome, email, senha)
-values ('Douglas', 'emaildodouglas@gmail.com', '$2y$10$Cvl.oxQKkCy9N/GHUByXuOle40RaHZSpVj9g.tTImDMeBbRiNjZhm');
-
-insert into usuario (nome, email, senha)
-values ('Matheus', 'emaildomatheus@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
-
-insert into usuario (nome, email, senha)
-values ('Camila', 'emaildacamila@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
-
-insert into usuario (nome, email, senha)
-values ('Francielly', 'emaildafrancielly@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
-
-insert into usuario (nome, email, senha)
-values ('Danilo', 'emaildodanilo@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
-
-insert into usuario (nome, email, senha)
-values ('Alexandre', 'emaildoalexandre@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
-
+VALUES
+('Administrador', 'emailteste@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Juliana', 'jujusantista23@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Douglas', 'emaildodouglas@gmail.com', '$2y$10$Cvl.oxQKkCy9N/GHUByXuOle40RaHZSpVj9g.tTImDMeBbRiNjZhm'),
+('Matheus', 'emaildomatheus@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Camila', 'emaildacamila@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Francielly', 'emaildafrancielly@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Danilo', 'emaildodanilo@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Alexandre', 'emaildoalexandre@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
 
 -- =====================================================
 -- SENHA CRIPTOGRAFADA PARA USAR NO PROJETO. PARA O USUÁRIO SERÁ: 1234 

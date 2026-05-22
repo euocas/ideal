@@ -26,7 +26,7 @@ class FuncionariosController
     }
 
 
-/**
+    /**
      * Executa a lógica de pesquisa de CPF no banco de dados
      */
     private function buscar()
@@ -63,7 +63,7 @@ class FuncionariosController
     {
         // Garante que o valor seja tratado como string para evitar o erro "Deprecated"
         $cpf = (string) $cpf;
-        
+
         // Extrai somente os números
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
@@ -122,12 +122,28 @@ class FuncionariosController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $funcionarioModel = new Funcionario();
 
+            // O cep vem do form com a formatação, limpamos para gravar só números no BD
+            $_POST['cep'] = preg_replace('/[^0-9]/', '', $_POST['cep'] ?? '');
+
             // O CPF vem do form com a formatação (ex: 111.222.333-44), limpamos para gravar só números no BD
             $_POST['cpf'] = preg_replace('/[^0-9]/', '', $_POST['cpf'] ?? '');
 
-            $funcionarioModel->save($_POST);
+            $salvou = $funcionarioModel->save($_POST);
 
-            header("Location: /ideal/public/index.php?url=funcionarios");
+            //header("Location: /ideal/public/index.php?url=funcionarios");
+            //exit;
+            
+            if ($salvou) {
+                // Cria a mensagem de sucesso
+                $_SESSION['mensagem_sucesso'] = "O funcionário foi cadastrado com sucesso!";
+            } else {
+                // Opcional: Criar uma mensagem de erro se falhar
+                $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
+            }
+
+            // 6. Recarrega a página (Redirecionamento)
+            // Ajuste a URL para o caminho exato que aparece no seu navegador na tela do formulário
+            header("Location: http://localhost/ideal/public/index.php?url=funcionarios");
             exit;
         }
     }
