@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Funcionario;
 use App\Core\Auth;
+
 class FuncionariosController
 {
     public function __construct()
@@ -38,13 +39,14 @@ class FuncionariosController
         $cpfLimpo = preg_replace('/[^0-9]/', '', $cpfDigitado);
 
         $funcionarioModel = new Funcionario();
+        // Na POO, o findByCpf retorna o Objeto inteiro do funcionário
         $funcionario = $funcionarioModel->findByCpf($cpfLimpo);
 
         if ($funcionario) {
-            header("Location: /ideal/public/index.php?url=funcionarios/edit&id=" . $funcionario['idFuncionario']);
+            // Como agora é um objeto, pegamos o ID usando o Getter
+            header("Location: /ideal/public/index.php?url=funcionarios/edit&id=" . $funcionario->getIdFuncionario());
             exit;
         } else {
-            // header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpfLimpo);
             header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpfLimpo . "&novo=1");
             exit;
         }
@@ -79,24 +81,17 @@ class FuncionariosController
         return true;
     }
 
-    // public function create()
-    // {
-    //     $cpfBusca = $_GET['cpf'] ?? '';
-    //     require_once __DIR__ . '/../views/funcionarios/index.php';
-    // }
-
     public function create()
-{
-    $cpfBusca = $_GET['cpf'] ?? '';
+    {
+        $cpfBusca = $_GET['cpf'] ?? '';
+        $mensagem = null;
 
-    $mensagem = null;
+        if (isset($_GET['novo'])) {
+            $mensagem = "CPF não cadastrado. Preencha os dados para criar um novo funcionário.";
+        }
 
-    if (isset($_GET['novo'])) {
-        $mensagem = "CPF não cadastrado. Preencha os dados para criar um novo funcionário.";
+        require_once __DIR__ . '/../views/funcionarios/index.php';
     }
-
-    require_once __DIR__ . '/../views/funcionarios/index.php';
-}
 
     public function edit()
     {
@@ -118,16 +113,48 @@ class FuncionariosController
         require_once __DIR__ . '/../views/funcionarios/index.php';
     }
 
+    /**
+     * Helper privado para preencher os dados do objeto Funcionario
+     * Isso evita repetir código no Store e no Update
+     */
+    private function popularObjeto(Funcionario $funcionario, array $dados): void
+    {
+        $funcionario->setNome($dados['nome'] ?? null);
+        $funcionario->setCpf($dados['cpf'] ?? null); // A máscara do CPF é limpa lá na Model agora!
+        $funcionario->setSexo($dados['sexo'] ?? null);
+        $funcionario->setDataNascimento($dados['dataNascimento'] ?? null);
+        $funcionario->setNaturalidade($dados['naturalidade'] ?? null);
+        $funcionario->setEstadoNascimento($dados['estadoNascimento'] ?? null);
+        $funcionario->setTipoLogradouro($dados['tipoLogradouro'] ?? 'Rua');
+        $funcionario->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
+        $funcionario->setNumero($dados['numero'] ?? null);
+        $funcionario->setComplemento($dados['complemento'] ?? null);
+        $funcionario->setCidade($dados['cidade'] ?? null);
+        $funcionario->setCep($dados['cep'] ?? null); // A máscara do CEP é limpa lá na Model agora!
+        $funcionario->setEstado($dados['estado'] ?? null);
+        $funcionario->setEmail($dados['email'] ?? null);
+        $funcionario->setCargoFuncao($dados['cargoFuncao'] ?? null);
+        $funcionario->setTipoContrato($dados['tipoContrato'] ?? null);
+        $funcionario->setStatus($dados['status'] ?? null);
+        $funcionario->setObservacoes($dados['observacoes'] ?? null);
+        $funcionario->setTelefone($dados['telefone'] ?? null);
+        $funcionario->setWhatsapp($dados['whatsapp'] ?? null);
+    }
+
+
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $funcionarioModel = new Funcionario();
-
-            $_POST['cep'] = preg_replace('/[^0-9]/', '', $_POST['cep'] ?? '');
-            $_POST['cpf'] = preg_replace('/[^0-9]/', '', $_POST['cpf'] ?? '');
-
-            $salvou = $funcionarioModel->save($_POST);
+            $funcionario = new Funcionario();
             
+            // Popula o objeto com os dados do formulário
+            $this->popularObjeto($funcionario, $_POST);
+
+            // O objeto salva a si mesmo
+            $salvou = $funcionario->save();
+            
+            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "O funcionário foi cadastrado com sucesso!";
             } else {
@@ -145,8 +172,24 @@ class FuncionariosController
             $id = $_GET['id'] ?? null;
 
             if ($id) {
-                $funcionarioModel = new Funcionario();
-                $funcionarioModel->update($id, $_POST);
+                // Primeiro, buscamos o funcionário existente para garantir que ele existe
+                $funcionario = (new Funcionario())->findById($id);
+
+                if ($funcionario) {
+                    // Atualizamos o objeto com os novos dados
+                    $this->popularObjeto($funcionario, $_POST);
+                    
+                    // O objeto atualiza a si mesmo
+                    $atualizou = $funcionario->update();
+
+                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
+                    if ($atualizou) {
+                         $_SESSION['mensagem_sucesso'] = "Cadastro atualizado com sucesso!";
+                    } else {
+                         $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados.";
+                    }
+                }
             }
 
             header("Location: /ideal/public/index.php?url=funcionarios");
@@ -160,7 +203,15 @@ class FuncionariosController
 
         if ($id) {
             $funcionarioModel = new Funcionario();
-            $funcionarioModel->delete($id);
+            $deletou = $funcionarioModel->delete($id);
+
+            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+            
+            if ($deletou) {
+                 $_SESSION['mensagem_sucesso'] = "Funcionário excluído com sucesso!";
+            } else {
+                 $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o funcionário.";
+            }
         }
 
         header("Location: /ideal/public/index.php?url=funcionarios");

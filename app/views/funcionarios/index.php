@@ -1,13 +1,20 @@
 <?php
+// A sessão DEVE ser a primeira coisa do arquivo, antes de qualquer HTML
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+/** @var \App\Models\Funcionario|null $funcionario */ //
+
 // Valores padrão para evitar notices de variáveis indefinidas
 $mensagem = $mensagem ?? '';
 $cpfBusca = $cpfBusca ?? '';
-$funcionario = $funcionario ?? [];
 
-// Lógica para definir se estamos no modo de Edição ou Criação
-$isEdit = isset($funcionario) && !empty($funcionario);
-$actionUrl = $isEdit ? "/ideal/public/index.php?url=funcionarios/update&id={$funcionario['idFuncionario']}" : "/ideal/public/index.php?url=funcionarios/store";
-$cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
+// Lógica para definir se estamos no modo de Edição (agora validando se é Objeto)
+$isEdit = isset($funcionario) && is_object($funcionario);
+
+$actionUrl = $isEdit ? "/ideal/public/index.php?url=funcionarios/update&id={$funcionario->getIdFuncionario()}" : "/ideal/public/index.php?url=funcionarios/store";
+$cpfValue = $isEdit ? $funcionario->getCpf() : ($cpfBusca ?? '');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -25,17 +32,14 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
 <body>
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
         <main class="main-content">
 
-            <!-- SECTION DE BUSCA DE FUNCIONÁRIO -->
             <section class="card">
                 <div class="grid-busca">
                     <div class="busca-box">
                         <h2>🔎 BUSCAR FUNCIONÁRIO</h2>
-
 
                         <?php if (!empty($mensagem)): ?>
                             <div class="alerta-cadastro">
@@ -61,29 +65,22 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                 </div>
             </section>
 
-            <!-- SECTION DE DADOS DE FUNCIONÁRIO -->
             <section class="card">
-                <?php
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
-                ?>
 
                 <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                    <div
-                        style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
+                    <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
                         ✅ <?= $_SESSION['mensagem_sucesso']; ?>
                     </div>
                     <?php unset($_SESSION['mensagem_sucesso']); ?>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                    <div
-                        style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
+                    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
                         ❌ <?= $_SESSION['mensagem_erro']; ?>
                     </div>
                     <?php unset($_SESSION['mensagem_erro']); ?>
                 <?php endif; ?>
+                
                 <h2>Dados do Funcionário</h2>
 
                 <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
@@ -91,7 +88,7 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
 
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" name="nome" value="<?= htmlspecialchars($funcionario['nome'] ?? '') ?>"
+                            <input type="text" name="nome" value="<?= htmlspecialchars($isEdit ? $funcionario->getNome() : '') ?>"
                                 minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras"
                                 placeholder="Digite o Nome Completo" required>
                         </div>
@@ -100,23 +97,22 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Sexo</label>
                             <select name="sexo">
                                 <option value="">Selecione</option>
-                                <option value="Masculino" <?= ($funcionario['sexo'] ?? '') === 'Masculino' ? 'selected' : '' ?>>Masculino</option>
-                                <option value="Feminino" <?= ($funcionario['sexo'] ?? '') === 'Feminino' ? 'selected' : '' ?>>Feminino</option>
-                                <option value="Outro" <?= ($funcionario['sexo'] ?? '') === 'Outro' ? 'selected' : '' ?>>
-                                    Outro</option>
+                                <option value="Masculino" <?= ($isEdit ? $funcionario->getSexo() : '') === 'Masculino' ? 'selected' : '' ?>>Masculino</option>
+                                <option value="Feminino" <?= ($isEdit ? $funcionario->getSexo() : '') === 'Feminino' ? 'selected' : '' ?>>Feminino</option>
+                                <option value="Outro" <?= ($isEdit ? $funcionario->getSexo() : '') === 'Outro' ? 'selected' : '' ?>>Outro</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Data Nascimento</label>
                             <input type="date" name="dataNascimento"
-                                value="<?= htmlspecialchars($funcionario['dataNascimento'] ?? '') ?>">
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getDataNascimento() : '') ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="naturalidade">Naturalidade</label>
                             <input type="text" name="naturalidade"
-                                value="<?= htmlspecialchars($funcionario['naturalidade'] ?? '') ?>" minlength="3"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNaturalidade() : '') ?>" minlength="3"
                                 title="Digite apenas letras" placeholder="Digite apenas o nome da cidade">
                         </div>
 
@@ -124,60 +120,33 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Estado Nasc.</label>
                             <select name="estadoNascimento" required>
                                 <option value="">Selecione o Estado</option>
-                                <option value="AC" <?= ($funcionario['estadoNascimento'] ?? '') === 'AC' ? 'selected' : '' ?>>Acre
-                                </option>
-                                <option value="AL" <?= ($funcionario['estadoNascimento'] ?? '') === 'AL' ? 'selected' : '' ?>>Alagoas
-                                </option>
-                                <option value="AP" <?= ($funcionario['estadoNascimento'] ?? '') === 'AP' ? 'selected' : '' ?>>Amapá
-                                </option>
-                                <option value="AM" <?= ($funcionario['estadoNascimento'] ?? '') === 'AM' ? 'selected' : '' ?>>
-                                    Amazonas</option>
-                                <option value="BA" <?= ($funcionario['estadoNascimento'] ?? '') === 'BA' ? 'selected' : '' ?>>Bahia
-                                </option>
-                                <option value="CE" <?= ($funcionario['estadoNascimento'] ?? '') === 'CE' ? 'selected' : '' ?>>Ceará
-                                </option>
-                                <option value="DF" <?= ($funcionario['estadoNascimento'] ?? '') === 'DF' ? 'selected' : '' ?>>
-                                    Distrito Federal</option>
-                                <option value="ES" <?= ($funcionario['estadoNascimento'] ?? '') === 'ES' ? 'selected' : '' ?>>
-                                    Espírito Santo</option>
-                                <option value="GO" <?= ($funcionario['estadoNascimento'] ?? '') === 'GO' ? 'selected' : '' ?>>Goiás
-                                </option>
-                                <option value="MA" <?= ($funcionario['estadoNascimento'] ?? '') === 'MA' ? 'selected' : '' ?>>
-                                    Maranhão</option>
-                                <option value="MT" <?= ($funcionario['estadoNascimento'] ?? '') === 'MT' ? 'selected' : '' ?>>Mato
-                                    Grosso</option>
-                                <option value="MS" <?= ($funcionario['estadoNascimento'] ?? '') === 'MS' ? 'selected' : '' ?>>Mato
-                                    Grosso do Sul</option>
-                                <option value="MG" <?= ($funcionario['estadoNascimento'] ?? '') === 'MG' ? 'selected' : '' ?>>Minas
-                                    Gerais</option>
-                                <option value="PA" <?= ($funcionario['estadoNascimento'] ?? '') === 'PA' ? 'selected' : '' ?>>Pará
-                                </option>
-                                <option value="PB" <?= ($funcionario['estadoNascimento'] ?? '') === 'PB' ? 'selected' : '' ?>>Paraíba
-                                </option>
-                                <option value="PR" <?= ($funcionario['estadoNascimento'] ?? '') === 'PR' ? 'selected' : '' ?>>Paraná
-                                </option>
-                                <option value="PE" <?= ($funcionario['estadoNascimento'] ?? '') === 'PE' ? 'selected' : '' ?>>
-                                    Pernambuco</option>
-                                <option value="PI" <?= ($funcionario['estadoNascimento'] ?? '') === 'PI' ? 'selected' : '' ?>>Piauí
-                                </option>
-                                <option value="RJ" <?= ($funcionario['estadoNascimento'] ?? '') === 'RJ' ? 'selected' : '' ?>>Rio de
-                                    Janeiro</option>
-                                <option value="RN" <?= ($funcionario['estadoNascimento'] ?? '') === 'RN' ? 'selected' : '' ?>>Rio
-                                    Grande do Norte</option>
-                                <option value="RS" <?= ($funcionario['estadoNascimento'] ?? '') === 'RS' ? 'selected' : '' ?>>Rio
-                                    Grande do Sul</option>
-                                <option value="RO" <?= ($funcionario['estadoNascimento'] ?? '') === 'RO' ? 'selected' : '' ?>>
-                                    Rondônia</option>
-                                <option value="RR" <?= ($funcionario['estadoNascimento'] ?? '') === 'RR' ? 'selected' : '' ?>>Roraima
-                                </option>
-                                <option value="SC" <?= ($funcionario['estadoNascimento'] ?? '') === 'SC' ? 'selected' : '' ?>>Santa
-                                    Catarina</option>
-                                <option value="SP" <?= ($funcionario['estadoNascimento'] ?? '') === 'SP' ? 'selected' : '' ?>>São
-                                    Paulo</option>
-                                <option value="SE" <?= ($funcionario['estadoNascimento'] ?? '') === 'SE' ? 'selected' : '' ?>>Sergipe
-                                </option>
-                                <option value="TO" <?= ($funcionario['estadoNascimento'] ?? '') === 'TO' ? 'selected' : '' ?>>
-                                    Tocantins</option>
+                                <option value="AC" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'AC' ? 'selected' : '' ?>>Acre</option>
+                                <option value="AL" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'AL' ? 'selected' : '' ?>>Alagoas</option>
+                                <option value="AP" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'AP' ? 'selected' : '' ?>>Amapá</option>
+                                <option value="AM" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'AM' ? 'selected' : '' ?>>Amazonas</option>
+                                <option value="BA" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'BA' ? 'selected' : '' ?>>Bahia</option>
+                                <option value="CE" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'CE' ? 'selected' : '' ?>>Ceará</option>
+                                <option value="DF" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'DF' ? 'selected' : '' ?>>Distrito Federal</option>
+                                <option value="ES" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'ES' ? 'selected' : '' ?>>Espírito Santo</option>
+                                <option value="GO" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'GO' ? 'selected' : '' ?>>Goiás</option>
+                                <option value="MA" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'MA' ? 'selected' : '' ?>>Maranhão</option>
+                                <option value="MT" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'MT' ? 'selected' : '' ?>>Mato Grosso</option>
+                                <option value="MS" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'MS' ? 'selected' : '' ?>>Mato Grosso do Sul</option>
+                                <option value="MG" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'MG' ? 'selected' : '' ?>>Minas Gerais</option>
+                                <option value="PA" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'PA' ? 'selected' : '' ?>>Pará</option>
+                                <option value="PB" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'PB' ? 'selected' : '' ?>>Paraíba</option>
+                                <option value="PR" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'PR' ? 'selected' : '' ?>>Paraná</option>
+                                <option value="PE" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'PE' ? 'selected' : '' ?>>Pernambuco</option>
+                                <option value="PI" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'PI' ? 'selected' : '' ?>>Piauí</option>
+                                <option value="RJ" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
+                                <option value="RN" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'RN' ? 'selected' : '' ?>>Rio Grande do Norte</option>
+                                <option value="RS" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'RS' ? 'selected' : '' ?>>Rio Grande do Sul</option>
+                                <option value="RO" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'RO' ? 'selected' : '' ?>>Rondônia</option>
+                                <option value="RR" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'RR' ? 'selected' : '' ?>>Roraima</option>
+                                <option value="SC" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'SC' ? 'selected' : '' ?>>Santa Catarina</option>
+                                <option value="SP" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'SP' ? 'selected' : '' ?>>São Paulo</option>
+                                <option value="SE" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'SE' ? 'selected' : '' ?>>Sergipe</option>
+                                <option value="TO" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === 'TO' ? 'selected' : '' ?>>Tocantins</option>
                             </select>
                         </div>
 
@@ -191,20 +160,20 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Cargo / Função</label>
                             <select name="cargoFuncao">
                                 <option value="">Selecione</option>
-                                <option value="Auxiliar Administrativo" <?= ($funcionario['cargoFuncao'] ?? '') === 'Auxiliar Administrativo' ? 'selected' : '' ?>>Auxiliar Administrativo</option>
-                                <option value="Auxiliar de RH" <?= ($funcionario['cargoFuncao'] ?? '') === 'Auxiliar de RH' ? 'selected' : '' ?>>Auxiliar de RH</option>
-                                <option value="Azulejista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Azulejista' ? 'selected' : '' ?>>Azulejista</option>
-                                <option value="Eletricista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Eletricista' ? 'selected' : '' ?>>Eletricista</option>
-                                <option value="Encarregado" <?= ($funcionario['cargoFuncao'] ?? '') === 'Encarregado' ? 'selected' : '' ?>>Encarregado</option>
-                                <option value="Marceneiro" <?= ($funcionario['cargoFuncao'] ?? '') === 'Marceneiro' ? 'selected' : '' ?>>Marceneiro</option>
-                                <option value="Pintor" <?= ($funcionario['cargoFuncao'] ?? '') === 'Pintor' ? 'selected' : '' ?>>Pintor</option>
+                                <option value="Auxiliar Administrativo" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Auxiliar Administrativo' ? 'selected' : '' ?>>Auxiliar Administrativo</option>
+                                <option value="Auxiliar de RH" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Auxiliar de RH' ? 'selected' : '' ?>>Auxiliar de RH</option>
+                                <option value="Azulejista" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Azulejista' ? 'selected' : '' ?>>Azulejista</option>
+                                <option value="Eletricista" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Eletricista' ? 'selected' : '' ?>>Eletricista</option>
+                                <option value="Encarregado" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Encarregado' ? 'selected' : '' ?>>Encarregado</option>
+                                <option value="Marceneiro" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Marceneiro' ? 'selected' : '' ?>>Marceneiro</option>
+                                <option value="Pintor" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Pintor' ? 'selected' : '' ?>>Pintor</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="endereco">Endereço</label>
                             <input type="text" name="nomeLogradouro"
-                                value="<?= htmlspecialchars($funcionario['nomeLogradouro'] ?? '') ?>" minlength="3"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNomeLogradouro() : '') ?>" minlength="3"
                                 title="Digite apenas letras"
                                 placeholder="Digite apenas o nome da Rua/Avenida/Alameda/Viela">
                         </div>
@@ -212,28 +181,28 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                         <div class="form-group">
                             <label>Número</label>
                             <input type="text" name="numero"
-                                value="<?= htmlspecialchars($funcionario['numero'] ?? '') ?>" pattern="[0-9]+"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNumero() : '') ?>" pattern="[0-9]+"
                                 placeholder="Somente números">
                         </div>
 
                         <div class="form-group">
                             <label>Complemento</label>
                             <input type="text" name="complemento"
-                                value="<?= htmlspecialchars($funcionario['complemento'] ?? '') ?>"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getComplemento() : '') ?>"
                                 placeholder="Números e letras">
                         </div>
 
                         <div class="form-group">
                             <label>Cidade</label>
                             <input type="text" name="cidade"
-                                value="<?= htmlspecialchars($funcionario['cidade'] ?? '') ?>" minlength="3"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getCidade() : '') ?>" minlength="3"
                                 pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras"
                                 placeholder="Digite o nome da cidade" required>
                         </div>
 
                         <div class="form-group">
                             <label>CEP</label>
-                            <input type="text" name="cep" value="<?= htmlspecialchars($funcionario['cep'] ?? '') ?>"
+                            <input type="text" name="cep" value="<?= htmlspecialchars($isEdit ? $funcionario->getCep() : '') ?>"
                                 maxlength="9" inputmode="numeric" oninput="mascaraCEP(this)" placeholder="00000-000">
                         </div>
 
@@ -241,67 +210,40 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Estado</label>
                             <select name="estado" required>
                                 <option value="">Selecione o Estado</option>
-                                <option value="AC" <?= ($funcionario['estado'] ?? '') === 'AC' ? 'selected' : '' ?>>Acre
-                                </option>
-                                <option value="AL" <?= ($funcionario['estado'] ?? '') === 'AL' ? 'selected' : '' ?>>Alagoas
-                                </option>
-                                <option value="AP" <?= ($funcionario['estado'] ?? '') === 'AP' ? 'selected' : '' ?>>Amapá
-                                </option>
-                                <option value="AM" <?= ($funcionario['estado'] ?? '') === 'AM' ? 'selected' : '' ?>>
-                                    Amazonas</option>
-                                <option value="BA" <?= ($funcionario['estado'] ?? '') === 'BA' ? 'selected' : '' ?>>Bahia
-                                </option>
-                                <option value="CE" <?= ($funcionario['estado'] ?? '') === 'CE' ? 'selected' : '' ?>>Ceará
-                                </option>
-                                <option value="DF" <?= ($funcionario['estado'] ?? '') === 'DF' ? 'selected' : '' ?>>
-                                    Distrito Federal</option>
-                                <option value="ES" <?= ($funcionario['estado'] ?? '') === 'ES' ? 'selected' : '' ?>>
-                                    Espírito Santo</option>
-                                <option value="GO" <?= ($funcionario['estado'] ?? '') === 'GO' ? 'selected' : '' ?>>Goiás
-                                </option>
-                                <option value="MA" <?= ($funcionario['estado'] ?? '') === 'MA' ? 'selected' : '' ?>>
-                                    Maranhão</option>
-                                <option value="MT" <?= ($funcionario['estado'] ?? '') === 'MT' ? 'selected' : '' ?>>Mato
-                                    Grosso</option>
-                                <option value="MS" <?= ($funcionario['estado'] ?? '') === 'MS' ? 'selected' : '' ?>>Mato
-                                    Grosso do Sul</option>
-                                <option value="MG" <?= ($funcionario['estado'] ?? '') === 'MG' ? 'selected' : '' ?>>Minas
-                                    Gerais</option>
-                                <option value="PA" <?= ($funcionario['estado'] ?? '') === 'PA' ? 'selected' : '' ?>>Pará
-                                </option>
-                                <option value="PB" <?= ($funcionario['estado'] ?? '') === 'PB' ? 'selected' : '' ?>>Paraíba
-                                </option>
-                                <option value="PR" <?= ($funcionario['estado'] ?? '') === 'PR' ? 'selected' : '' ?>>Paraná
-                                </option>
-                                <option value="PE" <?= ($funcionario['estado'] ?? '') === 'PE' ? 'selected' : '' ?>>
-                                    Pernambuco</option>
-                                <option value="PI" <?= ($funcionario['estado'] ?? '') === 'PI' ? 'selected' : '' ?>>Piauí
-                                </option>
-                                <option value="RJ" <?= ($funcionario['estado'] ?? '') === 'RJ' ? 'selected' : '' ?>>Rio de
-                                    Janeiro</option>
-                                <option value="RN" <?= ($funcionario['estado'] ?? '') === 'RN' ? 'selected' : '' ?>>Rio
-                                    Grande do Norte</option>
-                                <option value="RS" <?= ($funcionario['estado'] ?? '') === 'RS' ? 'selected' : '' ?>>Rio
-                                    Grande do Sul</option>
-                                <option value="RO" <?= ($funcionario['estado'] ?? '') === 'RO' ? 'selected' : '' ?>>
-                                    Rondônia</option>
-                                <option value="RR" <?= ($funcionario['estado'] ?? '') === 'RR' ? 'selected' : '' ?>>Roraima
-                                </option>
-                                <option value="SC" <?= ($funcionario['estado'] ?? '') === 'SC' ? 'selected' : '' ?>>Santa
-                                    Catarina</option>
-                                <option value="SP" <?= ($funcionario['estado'] ?? '') === 'SP' ? 'selected' : '' ?>>São
-                                    Paulo</option>
-                                <option value="SE" <?= ($funcionario['estado'] ?? '') === 'SE' ? 'selected' : '' ?>>Sergipe
-                                </option>
-                                <option value="TO" <?= ($funcionario['estado'] ?? '') === 'TO' ? 'selected' : '' ?>>
-                                    Tocantins</option>
+                                <option value="AC" <?= ($isEdit ? $funcionario->getEstado() : '') === 'AC' ? 'selected' : '' ?>>Acre</option>
+                                <option value="AL" <?= ($isEdit ? $funcionario->getEstado() : '') === 'AL' ? 'selected' : '' ?>>Alagoas</option>
+                                <option value="AP" <?= ($isEdit ? $funcionario->getEstado() : '') === 'AP' ? 'selected' : '' ?>>Amapá</option>
+                                <option value="AM" <?= ($isEdit ? $funcionario->getEstado() : '') === 'AM' ? 'selected' : '' ?>>Amazonas</option>
+                                <option value="BA" <?= ($isEdit ? $funcionario->getEstado() : '') === 'BA' ? 'selected' : '' ?>>Bahia</option>
+                                <option value="CE" <?= ($isEdit ? $funcionario->getEstado() : '') === 'CE' ? 'selected' : '' ?>>Ceará</option>
+                                <option value="DF" <?= ($isEdit ? $funcionario->getEstado() : '') === 'DF' ? 'selected' : '' ?>>Distrito Federal</option>
+                                <option value="ES" <?= ($isEdit ? $funcionario->getEstado() : '') === 'ES' ? 'selected' : '' ?>>Espírito Santo</option>
+                                <option value="GO" <?= ($isEdit ? $funcionario->getEstado() : '') === 'GO' ? 'selected' : '' ?>>Goiás</option>
+                                <option value="MA" <?= ($isEdit ? $funcionario->getEstado() : '') === 'MA' ? 'selected' : '' ?>>Maranhão</option>
+                                <option value="MT" <?= ($isEdit ? $funcionario->getEstado() : '') === 'MT' ? 'selected' : '' ?>>Mato Grosso</option>
+                                <option value="MS" <?= ($isEdit ? $funcionario->getEstado() : '') === 'MS' ? 'selected' : '' ?>>Mato Grosso do Sul</option>
+                                <option value="MG" <?= ($isEdit ? $funcionario->getEstado() : '') === 'MG' ? 'selected' : '' ?>>Minas Gerais</option>
+                                <option value="PA" <?= ($isEdit ? $funcionario->getEstado() : '') === 'PA' ? 'selected' : '' ?>>Pará</option>
+                                <option value="PB" <?= ($isEdit ? $funcionario->getEstado() : '') === 'PB' ? 'selected' : '' ?>>Paraíba</option>
+                                <option value="PR" <?= ($isEdit ? $funcionario->getEstado() : '') === 'PR' ? 'selected' : '' ?>>Paraná</option>
+                                <option value="PE" <?= ($isEdit ? $funcionario->getEstado() : '') === 'PE' ? 'selected' : '' ?>>Pernambuco</option>
+                                <option value="PI" <?= ($isEdit ? $funcionario->getEstado() : '') === 'PI' ? 'selected' : '' ?>>Piauí</option>
+                                <option value="RJ" <?= ($isEdit ? $funcionario->getEstado() : '') === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
+                                <option value="RN" <?= ($isEdit ? $funcionario->getEstado() : '') === 'RN' ? 'selected' : '' ?>>Rio Grande do Norte</option>
+                                <option value="RS" <?= ($isEdit ? $funcionario->getEstado() : '') === 'RS' ? 'selected' : '' ?>>Rio Grande do Sul</option>
+                                <option value="RO" <?= ($isEdit ? $funcionario->getEstado() : '') === 'RO' ? 'selected' : '' ?>>Rondônia</option>
+                                <option value="RR" <?= ($isEdit ? $funcionario->getEstado() : '') === 'RR' ? 'selected' : '' ?>>Roraima</option>
+                                <option value="SC" <?= ($isEdit ? $funcionario->getEstado() : '') === 'SC' ? 'selected' : '' ?>>Santa Catarina</option>
+                                <option value="SP" <?= ($isEdit ? $funcionario->getEstado() : '') === 'SP' ? 'selected' : '' ?>>São Paulo</option>
+                                <option value="SE" <?= ($isEdit ? $funcionario->getEstado() : '') === 'SE' ? 'selected' : '' ?>>Sergipe</option>
+                                <option value="TO" <?= ($isEdit ? $funcionario->getEstado() : '') === 'TO' ? 'selected' : '' ?>>Tocantins</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" name="email"
-                                value="<?= htmlspecialchars($funcionario['email'] ?? '') ?>" minlength="5"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getEmail() : '') ?>" minlength="5"
                                 maxlength="100" placeholder="seuemail@dominio.com" title="Digite um e-mail válido"
                                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                         </div>
@@ -310,10 +252,10 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Tipo Contrato</label>
                             <select name="tipoContrato">
                                 <option value="">Selecione</option>
-                                <option value="CLT" <?= ($funcionario['tipoContrato'] ?? '') === 'CLT' ? 'selected' : '' ?>>CLT</option>
-                                <option value="CONTRATO TEMPORARIO" <?= ($funcionario['tipoContrato'] ?? '') === 'CONTRATO TEMPORARIO' ? 'selected' : '' ?>>Contrato Temporário</option>
-                                <option value="PESSOA JURÍRIDICA" <?= ($funcionario['tipoContrato'] ?? '') === 'PESSOA JURÍRIDICA' ? 'selected' : '' ?>>Pessoa Jurídica</option>
-                                <option value="TERCERIZADA" <?= ($funcionario['tipoContrato'] ?? '') === 'TERCERIZADA' ? 'selected' : '' ?>>Tercerizada</option>
+                                <option value="CLT" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'CLT' ? 'selected' : '' ?>>CLT</option>
+                                <option value="CONTRATO TEMPORARIO" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'CONTRATO TEMPORARIO' ? 'selected' : '' ?>>Contrato Temporário</option>
+                                <option value="PESSOA JURÍRIDICA" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'PESSOA JURÍRIDICA' ? 'selected' : '' ?>>Pessoa Jurídica</option>
+                                <option value="TERCERIZADA" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'TERCERIZADA' ? 'selected' : '' ?>>Tercerizada</option>
                             </select>
                         </div>
 
@@ -321,38 +263,33 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Status</label>
                             <select name="status">
                                 <option value="">Selecione</option>
-                                <option value="ativo" <?= ($funcionario['status'] ?? '') === 'ativo' ? 'selected' : '' ?>>
-                                    Ativo</option>
-                                <option value="inativo" <?= ($funcionario['status'] ?? '') === 'inativo' ? 'selected' : '' ?>>Inativo</option>
+                                <option value="ativo" <?= ($isEdit ? $funcionario->getStatus() : '') === 'ativo' ? 'selected' : '' ?>>Ativo</option>
+                                <option value="inativo" <?= ($isEdit ? $funcionario->getStatus() : '') === 'inativo' ? 'selected' : '' ?>>Inativo</option>
                             </select>
                         </div>
 
-                        <!-- CONTATO TELEFONICO -->
                         <div class="form-group">
                             <label>Telefone</label>
                             <input type="text" name="telefone" placeholder="(11) 0000-0000"
-                                value="<?= htmlspecialchars($funcionario['telefone'] ?? '') ?>">
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getTelefone() : '') ?>">
                         </div>
 
                         <div class="form-group">
                             <label>WhatsApp</label>
                             <input type="text" name="whatsapp" placeholder="(11) 00000-0000"
-                                value="<?= htmlspecialchars($funcionario['whatsapp'] ?? '') ?>">
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getWhatsapp() : '') ?>">
                         </div>
 
                         <div class="form-group observacoes">
                             <label>Observações</label>
                             <textarea
-                                name="observacoes"><?= htmlspecialchars($funcionario['observacoes'] ?? '') ?></textarea>
+                                name="observacoes"><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
                         </div>
 
-                    </div> <!-- FECHA GRID-FORM -->
-
-                </form>
+                    </div> </form>
 
             </section>
 
-            <!-- BOTÕES DE AÇOES DO FORMULÁRIO -->
             <div class="acoes">
                 <a href="/ideal/public/index.php?url=funcionarios" class="btn novo"
                     style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>
@@ -361,7 +298,7 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                     <button type="submit" form="form-dados" class="btn salvar">Salvar</button>
                 <?php else: ?>
                     <button type="submit" form="form-dados" class="btn alterar">Alterar</button>
-                    <a href="/ideal/public/index.php?url=funcionarios/delete&id=<?= $funcionario['idFuncionario'] ?>"
+                    <a href="/ideal/public/index.php?url=funcionarios/delete&id=<?= $funcionario->getIdFuncionario() ?>"
                         class="btn excluir"
                         style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;"
                         onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">Excluir</a>
@@ -373,7 +310,6 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
         </main>
     </div>
 
-    <!-- SCRIPT DE MASCARA DE CPF -->
     <script>
         function mascaraCPF(input) {
             let valor = input.value.replace(/\D/g, '');
@@ -384,7 +320,6 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
         }
     </script>
 
-    <!-- SCRIPT DE MASCARA DE CEP -->
     <script>
         function mascaraCEP(input) {
             let valor = input.value.replace(/\D/g, '');
