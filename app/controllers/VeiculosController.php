@@ -3,9 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Auth;
-
-require_once __DIR__ . '/../core/Auth.php';
-
 class VeiculosController
 {
     public function __construct()

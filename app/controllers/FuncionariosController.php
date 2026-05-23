@@ -4,9 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Funcionario;
 use App\Core\Auth;
-
-require_once __DIR__ . '/../core/Auth.php';
-
 class FuncionariosController
 {
     public function __construct()
