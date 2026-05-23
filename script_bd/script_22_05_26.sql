@@ -307,15 +307,6 @@ INSERT INTO funcionario (
 );
 
 
-insert into contatoFuncionario (idFuncionario,telefone, whatsapp)
-values 
-(1,13998887762,13998887762)
-
-insert into contatoFuncionario (idFuncionario,telefone, whatsapp)
-values 
-(4,1332276495,13998887762)
-
-
 -- =====================================================
 -- CONSULTAS
 -- =====================================================

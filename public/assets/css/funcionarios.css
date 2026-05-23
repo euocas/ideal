@@ -301,3 +301,12 @@ body {
   background: #d1d5db;
   color: #333;
 }
+.alerta-cadastro{
+    background: #fff3cd;
+    color: #856404;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #ffc107;
+    font-weight: 600;
+}

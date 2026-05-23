@@ -47,7 +47,8 @@ class FuncionariosController
             header("Location: /ideal/public/index.php?url=funcionarios/edit&id=" . $funcionario['idFuncionario']);
             exit;
         } else {
-            header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpfLimpo);
+            // header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpfLimpo);
+            header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpfLimpo . "&novo=1");
             exit;
         }
     }
@@ -81,11 +82,24 @@ class FuncionariosController
         return true;
     }
 
+    // public function create()
+    // {
+    //     $cpfBusca = $_GET['cpf'] ?? '';
+    //     require_once __DIR__ . '/../views/funcionarios/index.php';
+    // }
+
     public function create()
-    {
-        $cpfBusca = $_GET['cpf'] ?? '';
-        require_once __DIR__ . '/../views/funcionarios/index.php';
+{
+    $cpfBusca = $_GET['cpf'] ?? '';
+
+    $mensagem = null;
+
+    if (isset($_GET['novo'])) {
+        $mensagem = "CPF não cadastrado. Preencha os dados para criar um novo funcionário.";
     }
+
+    require_once __DIR__ . '/../views/funcionarios/index.php';
+}
 
     public function edit()
     {
