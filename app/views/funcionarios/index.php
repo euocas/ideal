@@ -124,59 +124,59 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Estado Nasc.</label>
                             <select name="estadoNascimento" required>
                                 <option value="">Selecione o Estado</option>
-                                <option value="AC" <?= ($funcionario['estado'] ?? '') === 'AC' ? 'selected' : '' ?>>Acre
+                                <option value="AC" <?= ($funcionario['estadoNascimento'] ?? '') === 'AC' ? 'selected' : '' ?>>Acre
                                 </option>
-                                <option value="AL" <?= ($funcionario['estado'] ?? '') === 'AL' ? 'selected' : '' ?>>Alagoas
+                                <option value="AL" <?= ($funcionario['estadoNascimento'] ?? '') === 'AL' ? 'selected' : '' ?>>Alagoas
                                 </option>
-                                <option value="AP" <?= ($funcionario['estado'] ?? '') === 'AP' ? 'selected' : '' ?>>Amapá
+                                <option value="AP" <?= ($funcionario['estadoNascimento'] ?? '') === 'AP' ? 'selected' : '' ?>>Amapá
                                 </option>
-                                <option value="AM" <?= ($funcionario['estado'] ?? '') === 'AM' ? 'selected' : '' ?>>
+                                <option value="AM" <?= ($funcionario['estadoNascimento'] ?? '') === 'AM' ? 'selected' : '' ?>>
                                     Amazonas</option>
-                                <option value="BA" <?= ($funcionario['estado'] ?? '') === 'BA' ? 'selected' : '' ?>>Bahia
+                                <option value="BA" <?= ($funcionario['estadoNascimento'] ?? '') === 'BA' ? 'selected' : '' ?>>Bahia
                                 </option>
-                                <option value="CE" <?= ($funcionario['estado'] ?? '') === 'CE' ? 'selected' : '' ?>>Ceará
+                                <option value="CE" <?= ($funcionario['estadoNascimento'] ?? '') === 'CE' ? 'selected' : '' ?>>Ceará
                                 </option>
-                                <option value="DF" <?= ($funcionario['estado'] ?? '') === 'DF' ? 'selected' : '' ?>>
+                                <option value="DF" <?= ($funcionario['estadoNascimento'] ?? '') === 'DF' ? 'selected' : '' ?>>
                                     Distrito Federal</option>
-                                <option value="ES" <?= ($funcionario['estado'] ?? '') === 'ES' ? 'selected' : '' ?>>
+                                <option value="ES" <?= ($funcionario['estadoNascimento'] ?? '') === 'ES' ? 'selected' : '' ?>>
                                     Espírito Santo</option>
-                                <option value="GO" <?= ($funcionario['estado'] ?? '') === 'GO' ? 'selected' : '' ?>>Goiás
+                                <option value="GO" <?= ($funcionario['estadoNascimento'] ?? '') === 'GO' ? 'selected' : '' ?>>Goiás
                                 </option>
-                                <option value="MA" <?= ($funcionario['estado'] ?? '') === 'MA' ? 'selected' : '' ?>>
+                                <option value="MA" <?= ($funcionario['estadoNascimento'] ?? '') === 'MA' ? 'selected' : '' ?>>
                                     Maranhão</option>
-                                <option value="MT" <?= ($funcionario['estado'] ?? '') === 'MT' ? 'selected' : '' ?>>Mato
+                                <option value="MT" <?= ($funcionario['estadoNascimento'] ?? '') === 'MT' ? 'selected' : '' ?>>Mato
                                     Grosso</option>
-                                <option value="MS" <?= ($funcionario['estado'] ?? '') === 'MS' ? 'selected' : '' ?>>Mato
+                                <option value="MS" <?= ($funcionario['estadoNascimento'] ?? '') === 'MS' ? 'selected' : '' ?>>Mato
                                     Grosso do Sul</option>
-                                <option value="MG" <?= ($funcionario['estado'] ?? '') === 'MG' ? 'selected' : '' ?>>Minas
+                                <option value="MG" <?= ($funcionario['estadoNascimento'] ?? '') === 'MG' ? 'selected' : '' ?>>Minas
                                     Gerais</option>
-                                <option value="PA" <?= ($funcionario['estado'] ?? '') === 'PA' ? 'selected' : '' ?>>Pará
+                                <option value="PA" <?= ($funcionario['estadoNascimento'] ?? '') === 'PA' ? 'selected' : '' ?>>Pará
                                 </option>
-                                <option value="PB" <?= ($funcionario['estado'] ?? '') === 'PB' ? 'selected' : '' ?>>Paraíba
+                                <option value="PB" <?= ($funcionario['estadoNascimento'] ?? '') === 'PB' ? 'selected' : '' ?>>Paraíba
                                 </option>
-                                <option value="PR" <?= ($funcionario['estado'] ?? '') === 'PR' ? 'selected' : '' ?>>Paraná
+                                <option value="PR" <?= ($funcionario['estadoNascimento'] ?? '') === 'PR' ? 'selected' : '' ?>>Paraná
                                 </option>
-                                <option value="PE" <?= ($funcionario['estado'] ?? '') === 'PE' ? 'selected' : '' ?>>
+                                <option value="PE" <?= ($funcionario['estadoNascimento'] ?? '') === 'PE' ? 'selected' : '' ?>>
                                     Pernambuco</option>
-                                <option value="PI" <?= ($funcionario['estado'] ?? '') === 'PI' ? 'selected' : '' ?>>Piauí
+                                <option value="PI" <?= ($funcionario['estadoNascimento'] ?? '') === 'PI' ? 'selected' : '' ?>>Piauí
                                 </option>
-                                <option value="RJ" <?= ($funcionario['estado'] ?? '') === 'RJ' ? 'selected' : '' ?>>Rio de
+                                <option value="RJ" <?= ($funcionario['estadoNascimento'] ?? '') === 'RJ' ? 'selected' : '' ?>>Rio de
                                     Janeiro</option>
-                                <option value="RN" <?= ($funcionario['estado'] ?? '') === 'RN' ? 'selected' : '' ?>>Rio
+                                <option value="RN" <?= ($funcionario['estadoNascimento'] ?? '') === 'RN' ? 'selected' : '' ?>>Rio
                                     Grande do Norte</option>
-                                <option value="RS" <?= ($funcionario['estado'] ?? '') === 'RS' ? 'selected' : '' ?>>Rio
+                                <option value="RS" <?= ($funcionario['estadoNascimento'] ?? '') === 'RS' ? 'selected' : '' ?>>Rio
                                     Grande do Sul</option>
-                                <option value="RO" <?= ($funcionario['estado'] ?? '') === 'RO' ? 'selected' : '' ?>>
+                                <option value="RO" <?= ($funcionario['estadoNascimento'] ?? '') === 'RO' ? 'selected' : '' ?>>
                                     Rondônia</option>
-                                <option value="RR" <?= ($funcionario['estado'] ?? '') === 'RR' ? 'selected' : '' ?>>Roraima
+                                <option value="RR" <?= ($funcionario['estadoNascimento'] ?? '') === 'RR' ? 'selected' : '' ?>>Roraima
                                 </option>
-                                <option value="SC" <?= ($funcionario['estado'] ?? '') === 'SC' ? 'selected' : '' ?>>Santa
+                                <option value="SC" <?= ($funcionario['estadoNascimento'] ?? '') === 'SC' ? 'selected' : '' ?>>Santa
                                     Catarina</option>
-                                <option value="SP" <?= ($funcionario['estado'] ?? '') === 'SP' ? 'selected' : '' ?>>São
+                                <option value="SP" <?= ($funcionario['estadoNascimento'] ?? '') === 'SP' ? 'selected' : '' ?>>São
                                     Paulo</option>
-                                <option value="SE" <?= ($funcionario['estado'] ?? '') === 'SE' ? 'selected' : '' ?>>Sergipe
+                                <option value="SE" <?= ($funcionario['estadoNascimento'] ?? '') === 'SE' ? 'selected' : '' ?>>Sergipe
                                 </option>
-                                <option value="TO" <?= ($funcionario['estado'] ?? '') === 'TO' ? 'selected' : '' ?>>
+                                <option value="TO" <?= ($funcionario['estadoNascimento'] ?? '') === 'TO' ? 'selected' : '' ?>>
                                     Tocantins</option>
                             </select>
                         </div>
@@ -191,6 +191,8 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                             <label>Cargo / Função</label>
                             <select name="cargoFuncao">
                                 <option value="">Selecione</option>
+                                <option value="Auxiliar Administrativo" <?= ($funcionario['cargoFuncao'] ?? '') === 'Auxiliar Administrativo' ? 'selected' : '' ?>>Auxiliar Administrativo</option>
+                                <option value="Auxiliar de RH" <?= ($funcionario['cargoFuncao'] ?? '') === 'Auxiliar de RH' ? 'selected' : '' ?>>Auxiliar de RH</option>
                                 <option value="Azulejista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Azulejista' ? 'selected' : '' ?>>Azulejista</option>
                                 <option value="Eletricista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Eletricista' ? 'selected' : '' ?>>Eletricista</option>
                                 <option value="Marceneiro" <?= ($funcionario['cargoFuncao'] ?? '') === 'Marceneiro' ? 'selected' : '' ?>>Marceneiro</option>
