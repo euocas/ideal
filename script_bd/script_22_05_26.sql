@@ -307,6 +307,15 @@ INSERT INTO funcionario (
 );
 
 
+insert into contatoFuncionario (idFuncionario,telefone, whatsapp)
+values 
+(1,13998887762,13998887762)
+
+insert into contatoFuncionario (idFuncionario,telefone, whatsapp)
+values 
+(4,1332276495,13998887762)
+
+
 -- =====================================================
 -- CONSULTAS
 -- =====================================================
@@ -314,9 +323,14 @@ INSERT INTO funcionario (
 SELECT * FROM usuario;
 select * from cliente;
 SELECT * FROM funcionario;
+Select * from contatoFuncionario;
 SELECT CONSTRAINT_NAME, TABLE_NAME
 FROM information_schema.TABLE_CONSTRAINTS
 WHERE CONSTRAINT_SCHEMA = 'empreiteira';
 
 describe veiculo;
 describe funcionario;
+describe contatoFuncionario;
+
+
+
