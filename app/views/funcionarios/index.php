@@ -195,6 +195,7 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                                 <option value="Auxiliar de RH" <?= ($funcionario['cargoFuncao'] ?? '') === 'Auxiliar de RH' ? 'selected' : '' ?>>Auxiliar de RH</option>
                                 <option value="Azulejista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Azulejista' ? 'selected' : '' ?>>Azulejista</option>
                                 <option value="Eletricista" <?= ($funcionario['cargoFuncao'] ?? '') === 'Eletricista' ? 'selected' : '' ?>>Eletricista</option>
+                                <option value="Encarregado" <?= ($funcionario['cargoFuncao'] ?? '') === 'Encarregado' ? 'selected' : '' ?>>Encarregado</option>
                                 <option value="Marceneiro" <?= ($funcionario['cargoFuncao'] ?? '') === 'Marceneiro' ? 'selected' : '' ?>>Marceneiro</option>
                                 <option value="Pintor" <?= ($funcionario['cargoFuncao'] ?? '') === 'Pintor' ? 'selected' : '' ?>>Pintor</option>
                             </select>
