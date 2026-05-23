@@ -1,8 +1,8 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\core\Auth;
+use App\Core\Auth;
 
 require_once __DIR__ . '/../core/Auth.php';
 
