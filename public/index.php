@@ -92,6 +92,31 @@ switch ($url) {
         $controller->index();
         break;
 
+        case 'veiculos/create':
+        $controller = new VeiculosController();
+        $controller->create();
+        break;
+
+    case 'veiculos/edit':
+        $controller = new VeiculosController();
+        $controller->edit();
+        break;
+
+    case 'veiculos/store':
+        $controller = new VeiculosController();
+        $controller->store();
+        break;
+
+    case 'veiculos/update':
+        $controller = new VeiculosController();
+        $controller->update();
+        break;
+
+    case 'veiculos/delete':
+        $controller = new VeiculosController();
+        $controller->delete();
+        break;
+
     // --- ROTA DE CLIENTES---
     case 'clientes':
         $controller = new ClientesController();
