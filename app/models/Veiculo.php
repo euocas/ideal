@@ -85,4 +85,83 @@ class Veiculo
     { 
         $this->anoModelo = !empty($ano) ? (int) substr($ano, 0, 4) : null; 
     }
+
+    public function getCor(): ?string { return $this->cor; }
+    public function setCor(?string $cor): void { $this->cor = $cor; }
+
+    public function getStatusVeiculo(): string { return $this->statusVeiculo; }
+    public function setStatusVeiculo(?string $status): void
+
+    
+    {  $this->statusVeiculo = in_array($statusFormatado, $valoresPermitidos) ? $statusFormatado : 'ATIVO';}
+
+
+    public function getTipoPosse(): string { return $this->tipoPosse; }
+    public function setTipoPosse(?string $posse): void 
+
+   // =====================================================
+    // VALIDAÇÃO DE VALORES PERMITIDOS (ENUMS DO BANCO)
+    // Garante que apenas dados tabelados sejam aceitos
+    // =====================================================
+
+    {$valoresPermitidos = ['PROPRIO', 'ALUGADO', 'EMPRESTADO', 'TERCEIRIZADO'];
+        $posseFormatada = strtoupper(trim($posse ?? ''));
+        
+        $this->tipoPosse = in_array($posseFormatada, $valoresPermitidos) ? $posseFormatada : 'PROPRIO';}
+
+
+    public function getQuilometragem(): int { return $this->quilometragem; }
+    public function setQuilometragem(?int $km): void { $this->quilometragem = $km ?: 0; }
+
+    public function getDataUltimaRevisao(): ?string { return $this->dataUltimaRevisao; }
+    public function setDataUltimaRevisao(?string $data): void { $this->dataUltimaRevisao = $data ?: null; }
+
+    public function getProximaRevisao(): ?string { return $this->proximaRevisao; }
+    public function setProximaRevisao(?string $data): void { $this->proximaRevisao = $data ?: null; }
+
+    public function getPropriedadeVeiculo(): ?string { return $this->propriedadeVeiculo; }
+    public function setPropriedadeVeiculo(?string $propriedade): void { $this->propriedadeVeiculo = $propriedade ?: null; }
+
+    public function getResponsavelVeiculo(): ?string { return $this->responsavelVeiculo; }
+    public function setResponsavelVeiculo(?string $responsavel): void { $this->responsavelVeiculo = $responsavel ?: null; }
+
+    public function getQuantidade(): int { return $this->quantidade; }
+    public function setQuantidade(?int $qtd): void { $this->quantidade = $qtd ?: 1; }
+
+    public function getObservacoes(): ?string { return $this->observacoes; }
+    public function setObservacoes(?string $obs): void { $this->observacoes = $obs ?: null; }
+
+    public function getDataCadastro(): ?string { return $this->dataCadastro; }
+    public function setDataCadastro(?string $data): void { $this->dataCadastro = $data; }
+
+    // =====================================================
+    // 4. MÉTODOS DE BANCO DE DADOS (CRUD)
+    // =====================================================
+
+    /**
+     * Helper privado para transformar o array do banco em um Objeto Veiculo
+     */
+    
+    private function hydrate(array $dados): self
+    {
+        $veiculo = new self();
+        $veiculo->setIdVeiculo($dados['idVeiculo'] ?? null);
+        $veiculo->setRenavam($dados['renavam'] ?? null);
+        $veiculo->setPlaca($dados['placa'] ?? null);
+        $veiculo->setChassi($dados['chassi'] ?? null);
+        $veiculo->setMarca($dados['marca'] ?? null);
+        $veiculo->setModelo($dados['modelo'] ?? null);
+        $veiculo->setAnoFabricacao($dados['anoFabricacao'] ?? null);
+        $veiculo->setAnoModelo($dados['anoModelo'] ?? null);
+        $veiculo->setCor($dados['cor'] ?? null);
+        $veiculo->setStatusVeiculo($dados['statusVeiculo'] ?? null);
+        $veiculo->setTipoPosse($dados['tipoPosse'] ?? null);
+        $veiculo->setQuilometragem($dados['quilometragem'] ?? null);
+        $veiculo->setDataUltimaRevisao($dados['dataUltimaRevisao'] ?? null);
+        $veiculo->setProximaRevisao($dados['proximaRevisao'] ?? null);
+        $veiculo->setResponsavelVeiculo($dados['responsavelVeiculo'] ?? null);
+        $veiculo->setObservacoes($dados['observacoes'] ?? null);
+
+        return $veiculo;
+    }
 }
