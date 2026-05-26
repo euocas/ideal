@@ -1,10 +1,8 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\core\Auth;
-
-require_once __DIR__ . '/../core/Auth.php';
+use App\Core\Auth;
 
 class FinanceiroController
 {

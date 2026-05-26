@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f4f6f9;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.card-construcao {
+    text-align: center;
+    width: 100%;
+}
+
+.card-construcao img {
+    width: 180px;
+    margin-bottom: 20px;
+}
+
+.card-construcao h1 {
+    font-size: 70px;
+    color: #f97316;
+    font-weight: bold;
+}

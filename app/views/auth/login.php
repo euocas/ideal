@@ -1,7 +1,3 @@
-<?php
-// app/Views/auth/login.php
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 

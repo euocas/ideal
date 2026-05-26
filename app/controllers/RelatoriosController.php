@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Core\Auth;
 
-require_once __DIR__ . '/../core/Auth.php';
-
-class ClientesController
+class RelatoriosController
 {
     public function __construct()
     {
@@ -15,7 +12,7 @@ class ClientesController
 
     public function index()
     {
-        require_once __DIR__ . '/../views/clientes/index.php';
+        require_once __DIR__ . '/../views/relatorios/index.php';
 
     }
 }

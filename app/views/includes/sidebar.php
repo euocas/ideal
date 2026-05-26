@@ -58,22 +58,29 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
             </a>
         </li>
 
+        <li>
+            <a href="index.php?url=relatorios">
+               <i class="fa-solid fa-chart-line"></i>
+                Relatórios
+            </a>
+        </li>
+
         <!-- CONFIGURAÇÕES -->
         <div class="menu-title">
             CONFIGURAÇÕES
         </div>
 
-        <li>
+        <!-- <li>
             <a href="index.php?url=usuarios">
                 <i class="fa-regular fa-circle-user"></i>
                 Usuários
             </a>
-        </li>
+        </li> -->
 
         <li>
             <a href="index.php?url=empresas">
                 <i class="fa-regular fa-building"></i>
-                Empresas
+                Empresas Associadas
             </a>
         </li>
 

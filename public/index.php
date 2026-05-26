@@ -14,6 +14,9 @@ use App\Controllers\VeiculosController;
 use App\Controllers\ClientesController;
 use App\Controllers\ObrasController;
 use App\Controllers\FinanceiroController;
+use App\Controllers\RelatoriosController;
+use App\Controllers\EmpresasController;
+
 
 // ini_set('display_errors', 1);
 // error_reporting(E_ALL);
@@ -89,21 +92,58 @@ switch ($url) {
         $controller->index();
         break;
 
+        case 'veiculos/create':
+        $controller = new VeiculosController();
+        $controller->create();
+        break;
+
+    case 'veiculos/edit':
+        $controller = new VeiculosController();
+        $controller->edit();
+        break;
+
+    case 'veiculos/store':
+        $controller = new VeiculosController();
+        $controller->store();
+        break;
+
+    case 'veiculos/update':
+        $controller = new VeiculosController();
+        $controller->update();
+        break;
+
+    case 'veiculos/delete':
+        $controller = new VeiculosController();
+        $controller->delete();
+        break;
+
     // --- ROTA DE CLIENTES---
     case 'clientes':
         $controller = new ClientesController();
         $controller->index();
         break;
 
-       // --- ROTA DE OBRAS---
-        case 'obras':
+    // --- ROTA DE OBRAS---
+    case 'obras':
         $controller = new ObrasController();
         $controller->index();
         break;
 
-        // --- ROTA DE OBRAS---
-        case 'financeiro':
+    // --- ROTA DE FINANCEIRO--
+    case 'financeiro':
         $controller = new FinanceiroController();
+        $controller->index();
+        break;
+
+    // --- ROTA DE RELATORIOS--
+    case 'relatorios':
+        $controller = new RelatoriosController();
+        $controller->index();
+        break;
+
+    // --- ROTA DE EMPRESAS--
+    case 'empresas':
+        $controller = new EmpresasController();
         $controller->index();
         break;
 
