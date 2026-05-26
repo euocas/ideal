@@ -34,7 +34,10 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
             <section class="card">
                 <div class="grid-busca">
                     <div class="busca-box">
-                        <h2>🔎 BUSCAR FUNCIONÁRIO</h2>
+                        <h2>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            BUSCAR FUNCIONÁRIO
+                        </h2>
 
 
                         <?php if (!empty($mensagem)): ?>
@@ -54,7 +57,10 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                     </div>
 
                     <div class="dica-box">
-                        <h3>DICA</h3>
+                        <h3>
+                            <i class="fa-solid fa-circle-info"></i>
+                            DICA
+                        </h3>
                         <p>Digite o CPF do funcionário e clique em <strong>BUSCAR</strong>. Se não existir, você poderá
                             cadastrar um novo funcionário.</p>
                     </div>
@@ -330,13 +336,13 @@ $cpfValue = $isEdit ? $funcionario['cpf'] : ($cpfBusca ?? '');
                         <!-- CONTATO TELEFONICO -->
                         <div class="form-group">
                             <label>Telefone</label>
-                            <input type="text" name="telefone" placeholder="(11) 0000-0000"
+                            <input type="text" name="telefone" placeholder="(00) 0000-0000" maxlength="15"
                                 value="<?= htmlspecialchars($funcionario['telefone'] ?? '') ?>">
                         </div>
 
                         <div class="form-group">
                             <label>WhatsApp</label>
-                            <input type="text" name="whatsapp" placeholder="(11) 00000-0000"
+                            <input type="text" name="whatsapp" placeholder="(00) 00000-0000" maxlength="15"
                                 value="<?= htmlspecialchars($funcionario['whatsapp'] ?? '') ?>">
                         </div>
 
