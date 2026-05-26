@@ -276,24 +276,14 @@ $cpfValue = $isEdit ? $funcionario->getCpf() : ($cpfBusca ?? '');
 
                         <div class="form-group">
                             <label>Telefone</label>
-<<<<<<< HEAD
-                            <input type="text" name="telefone" placeholder="(00) 0000-0000" maxlength="15"
-                                value="<?= htmlspecialchars($funcionario['telefone'] ?? '') ?>">
-=======
-                            <input type="text" name="telefone" placeholder="(11) 0000-0000"
+                            <input type="text" name="telefone" placeholder="(11) 0000-0000" oninput="mascaraTelefone(this)"
                                 value="<?= htmlspecialchars($isEdit ? $funcionario->getTelefone() : '') ?>">
->>>>>>> 4a577b5a53f688a96ce4b8d30fc8ea51048d38d5
                         </div>
 
                         <div class="form-group">
                             <label>WhatsApp</label>
-<<<<<<< HEAD
-                            <input type="text" name="whatsapp" placeholder="(00) 00000-0000" maxlength="15"
-                                value="<?= htmlspecialchars($funcionario['whatsapp'] ?? '') ?>">
-=======
-                            <input type="text" name="whatsapp" placeholder="(11) 00000-0000"
+                            <input type="text" name="whatsapp" placeholder="(11) 00000-0000" oninput="mascaraTelefone(this)"
                                 value="<?= htmlspecialchars($isEdit ? $funcionario->getWhatsapp() : '') ?>">
->>>>>>> 4a577b5a53f688a96ce4b8d30fc8ea51048d38d5
                         </div>
 
                         <div class="form-group observacoes">
