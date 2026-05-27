@@ -283,4 +283,46 @@ class Veiculo
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+    public function findByPlaca(string $placa): ?self
+    {
+        $sql = "SELECT * FROM veiculo WHERE placa = :placa";
+        $stmt = $this->pdo->prepare($sql);
+        
+        $renavamLimpo = preg_replace('/[^0-9]/', '', $placa);
+        $stmt->bindValue(':placa', $placaLimpo, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $dados ? $this->hydrate($dados) : null;
+    }
+
+    public function findById(int $id): ?self
+    {
+        $sql = "SELECT * FROM veiculo WHERE idVeiculo = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $dados ? $this->hydrate($dados) : null;
+    }
+    public function findAll(): array
+    {
+        $sql = "SELECT * FROM veiculo";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        
+        // Busca todas as linhas como um array associativo
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $veiculos = [];
+        
+        // Itera sobre cada linha retornada pelo banco
+        foreach ($resultados as $linha) {
+            // Hidrata a linha transformando-a em um Objeto Veiculo e adiciona ao array final
+            $veiculos[] = $this->hydrate($linha);
+        }
+        
+        return $veiculos;
+    }
 }
