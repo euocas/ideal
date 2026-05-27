@@ -228,13 +228,13 @@ require_once __DIR__ . '/../includes/header.php';
         }
     </script>
 
-    <script>
+    <!-- <script>
         window.onpageshow = function (event) {
             if (event.persisted) {
                 window.location.href = window.location.href;
             }
         };
-    </script>
+    </script> -->
 </body>
 
 </html>

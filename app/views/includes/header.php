@@ -18,22 +18,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
     <title><?= $titulo ?? 'Sistema'; ?></title>
 
-    <!-- SCRIPT para quando sair a tela não voltar novamente. BFcache-->
-    <!-- <script>
-        window.addEventListener('pageshow', function (event) {
-
-            const navigation = performance.getEntriesByType("navigation");
-
-            if (
-                event.persisted ||
-                (navigation.length > 0 && navigation[0].type === "back_forward")
-            ) {
-                window.location.reload();
-            }
-
-        });
-    </script> -->
-
     <script>
         window.addEventListener("unload", function () {
             // força o navegador a invalidar BFCache
