@@ -265,7 +265,7 @@ VALUES
 
 UPDATE usuario
 SET senha = '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'
-WHERE email = 'emailteste@gmail.com';
+WHERE email = 'emaildodouglas@gmail.com';
 
 -- =====================================================
 -- INSERÇAO DE DADOS DE FUNCIONÁRIOS
