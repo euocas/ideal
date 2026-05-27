@@ -13,7 +13,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard</title>
+    <title>HOME</title>
 
     <!-- APÓS TERMINAR O PROJETO TIRAR COMENTÁRIO DO CSS ABAIXO E DELETAR A VERSÃO TIME QUE É TEMPORÁRIA -->
     <!-- <link rel="stylesheet" href="assets/css/dashboard.css?v=1"> -->

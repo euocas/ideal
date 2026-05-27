@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Empresas</title>
+     <link rel="shortcut icon" href="/ideal/public/assets/icons/empresas2.png" type="image/x-icon">
 
     <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
     <link rel="stylesheet" href="/ideal/public/assets/css/empresas.css?v=<?= time() ?>"">

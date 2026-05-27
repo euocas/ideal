@@ -20,6 +20,7 @@ if (!empty($veiculo['anoModelo'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veículos</title>
     <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+      <link rel="shortcut icon" href="/ideal/public/assets/icons/veiculo.png" type="image/x-icon">
     <link rel="stylesheet" href="/ideal/public/assets/css/veiculos.css?v=<?= time() ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
