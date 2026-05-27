@@ -69,6 +69,7 @@ class Veiculo
     { 
         $this->chassi = $chassi ? strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $chassi)) : null; 
     }
+    
     public function getMarca(): ?string { return $this->marca; }
     public function setMarca(?string $marca): void { $this->marca = $marca; }
 
@@ -80,6 +81,7 @@ class Veiculo
     { 
         $this->anoFabricacao = !empty($ano) ? (int) substr($ano, 0, 4) : null; 
     }
+    
     public function getAnoModelo(): ?int { return $this->anoModelo; }
     public function setAnoModelo(?string $ano): void 
     { 
@@ -89,26 +91,30 @@ class Veiculo
     public function getCor(): ?string { return $this->cor; }
     public function setCor(?string $cor): void { $this->cor = $cor; }
 
-    public function getStatusVeiculo(): string { return $this->statusVeiculo; }
-    public function setStatusVeiculo(?string $status): void
-
-    
-    {  $this->statusVeiculo = in_array($statusFormatado, $valoresPermitidos) ? $statusFormatado : 'ATIVO';}
-
-
-    public function getTipoPosse(): string { return $this->tipoPosse; }
-    public function setTipoPosse(?string $posse): void 
-
-   // =====================================================
+    // =====================================================
     // VALIDAÇÃO DE VALORES PERMITIDOS (ENUMS DO BANCO)
     // Garante que apenas dados tabelados sejam aceitos
     // =====================================================
 
-    {$valoresPermitidos = ['PROPRIO', 'ALUGADO', 'EMPRESTADO', 'TERCEIRIZADO'];
+    public function getStatusVeiculo(): string { return $this->statusVeiculo; }
+    public function setStatusVeiculo(?string $status): void 
+    { 
+        $valoresPermitidos = ['ATIVO', 'EM MANUTENCAO', 'INATIVO', 'VENDIDO'];
+        $statusFormatado = strtoupper(trim($status ?? ''));
+        
+        $this->statusVeiculo = in_array($statusFormatado, $valoresPermitidos) ? $statusFormatado : 'ATIVO';
+    }
+
+    public function getTipoPosse(): string { return $this->tipoPosse; }
+    public function setTipoPosse(?string $posse): void 
+    {
+        $valoresPermitidos = ['PROPRIO', 'ALUGADO', 'EMPRESTADO', 'TERCEIRIZADO'];
         $posseFormatada = strtoupper(trim($posse ?? ''));
         
-        $this->tipoPosse = in_array($posseFormatada, $valoresPermitidos) ? $posseFormatada : 'PROPRIO';}
+        $this->tipoPosse = in_array($posseFormatada, $valoresPermitidos) ? $posseFormatada : 'PROPRIO';
+    }
 
+    // =====================================================
 
     public function getQuilometragem(): int { return $this->quilometragem; }
     public function setQuilometragem(?int $km): void { $this->quilometragem = $km ?: 0; }
@@ -138,14 +144,11 @@ class Veiculo
     // 4. MÉTODOS DE BANCO DE DADOS (CRUD)
     // =====================================================
 
-    /**
-     * Helper privado para transformar o array do banco em um Objeto Veiculo
-     */
-    
     private function hydrate(array $dados): self
     {
         $veiculo = new self();
         $veiculo->setIdVeiculo($dados['idVeiculo'] ?? null);
+        $veiculo->setIdFuncionario($dados['idFuncionario'] ?? null);
         $veiculo->setRenavam($dados['renavam'] ?? null);
         $veiculo->setPlaca($dados['placa'] ?? null);
         $veiculo->setChassi($dados['chassi'] ?? null);
@@ -159,9 +162,125 @@ class Veiculo
         $veiculo->setQuilometragem($dados['quilometragem'] ?? null);
         $veiculo->setDataUltimaRevisao($dados['dataUltimaRevisao'] ?? null);
         $veiculo->setProximaRevisao($dados['proximaRevisao'] ?? null);
+        $veiculo->setPropriedadeVeiculo($dados['propriedadeVeiculo'] ?? null);
         $veiculo->setResponsavelVeiculo($dados['responsavelVeiculo'] ?? null);
+        $veiculo->setQuantidade($dados['quantidade'] ?? null);
         $veiculo->setObservacoes($dados['observacoes'] ?? null);
+        $veiculo->setDataCadastro($dados['dataCadastro'] ?? null);
 
         return $veiculo;
+    }
+
+    public function save(): bool
+    {
+        try {
+            $this->pdo->beginTransaction();
+
+            // INSERT atualizado com todas as colunas da tabela
+            $sql = "INSERT INTO veiculo (
+                        idFuncionario, renavam, placa, chassi, marca, modelo, anoFabricacao, anoModelo, cor, 
+                        statusVeiculo, tipoPosse, quilometragem, dataUltimaRevisao, proximaRevisao, 
+                        propriedadeVeiculo, responsavelVeiculo, quantidade, observacoes
+                    ) VALUES (
+                        :idFuncionario, :renavam, :placa, :chassi, :marca, :modelo, :anoFabricacao, :anoModelo, :cor, 
+                        :statusVeiculo, :tipoPosse, :quilometragem, :dataUltimaRevisao, :proximaRevisao, 
+                        :propriedadeVeiculo, :responsavelVeiculo, :quantidade, :observacoes
+                    )";
+
+            $stmt = $this->pdo->prepare($sql);
+            
+            $stmt->bindValue(':idFuncionario', $this->getIdFuncionario(), $this->getIdFuncionario() ? PDO::PARAM_INT : PDO::PARAM_NULL);
+            $stmt->bindValue(':renavam', $this->getRenavam(), PDO::PARAM_STR);
+            $stmt->bindValue(':placa', $this->getPlaca(), PDO::PARAM_STR);
+            $stmt->bindValue(':chassi', $this->getChassi(), PDO::PARAM_STR);
+            $stmt->bindValue(':marca', $this->getMarca(), PDO::PARAM_STR);
+            $stmt->bindValue(':modelo', $this->getModelo(), PDO::PARAM_STR);
+            $stmt->bindValue(':anoFabricacao', $this->getAnoFabricacao(), PDO::PARAM_INT);
+            $stmt->bindValue(':anoModelo', $this->getAnoModelo(), PDO::PARAM_INT);
+            $stmt->bindValue(':cor', $this->getCor(), PDO::PARAM_STR);
+            $stmt->bindValue(':statusVeiculo', $this->getStatusVeiculo(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipoPosse', $this->getTipoPosse(), PDO::PARAM_STR);
+            $stmt->bindValue(':quilometragem', $this->getQuilometragem(), PDO::PARAM_INT);
+            $stmt->bindValue(':dataUltimaRevisao', $this->getDataUltimaRevisao(), $this->getDataUltimaRevisao() ? PDO::PARAM_STR : PDO::PARAM_NULL);
+            $stmt->bindValue(':proximaRevisao', $this->getProximaRevisao(), $this->getProximaRevisao() ? PDO::PARAM_STR : PDO::PARAM_NULL);
+            $stmt->bindValue(':propriedadeVeiculo', $this->getPropriedadeVeiculo(), PDO::PARAM_STR);
+            $stmt->bindValue(':responsavelVeiculo', $this->getResponsavelVeiculo(), PDO::PARAM_STR);
+            $stmt->bindValue(':quantidade', $this->getQuantidade(), PDO::PARAM_INT);
+            $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
+
+            $stmt->execute();
+            
+            // =====================================================
+            // CAPTURA DO ID GERADO
+            // Isso garante que o objeto atual saiba qual foi o ID 
+            // que o banco de dados acabou de criar para ele.
+            // =====================================================
+            $this->idVeiculo = (int) $this->pdo->lastInsertId();
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+    public function update(): bool
+    {
+        if (!$this->getIdVeiculo()) {
+            return false; 
+        }
+
+        try {
+            $this->pdo->beginTransaction();
+
+            // UPDATE atualizado com todas as colunas da tabela
+            $sql = "UPDATE veiculo SET 
+                        idFuncionario = :idFuncionario, placa = :placa, chassi = :chassi, marca = :marca, modelo = :modelo, 
+                        anoFabricacao = :anoFabricacao, anoModelo = :anoModelo, cor = :cor, 
+                        statusVeiculo = :statusVeiculo, tipoPosse = :tipoPosse, quilometragem = :quilometragem, 
+                        dataUltimaRevisao = :dataUltimaRevisao, proximaRevisao = :proximaRevisao, 
+                        propriedadeVeiculo = :propriedadeVeiculo, responsavelVeiculo = :responsavelVeiculo, 
+                        quantidade = :quantidade, observacoes = :observacoes
+                    WHERE idVeiculo = :id";
+
+            $stmt = $this->pdo->prepare($sql);
+            
+            $stmt->bindValue(':idFuncionario', $this->getIdFuncionario(), $this->getIdFuncionario() ? PDO::PARAM_INT : PDO::PARAM_NULL);
+            $stmt->bindValue(':placa', $this->getPlaca(), PDO::PARAM_STR);
+            $stmt->bindValue(':chassi', $this->getChassi(), PDO::PARAM_STR);
+            $stmt->bindValue(':marca', $this->getMarca(), PDO::PARAM_STR);
+            $stmt->bindValue(':modelo', $this->getModelo(), PDO::PARAM_STR);
+            $stmt->bindValue(':anoFabricacao', $this->getAnoFabricacao(), PDO::PARAM_INT);
+            $stmt->bindValue(':anoModelo', $this->getAnoModelo(), PDO::PARAM_INT);
+            $stmt->bindValue(':cor', $this->getCor(), PDO::PARAM_STR);
+            $stmt->bindValue(':statusVeiculo', $this->getStatusVeiculo(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipoPosse', $this->getTipoPosse(), PDO::PARAM_STR);
+            $stmt->bindValue(':quilometragem', $this->getQuilometragem(), PDO::PARAM_INT);
+            $stmt->bindValue(':dataUltimaRevisao', $this->getDataUltimaRevisao(), $this->getDataUltimaRevisao() ? PDO::PARAM_STR : PDO::PARAM_NULL);
+            $stmt->bindValue(':proximaRevisao', $this->getProximaRevisao(), $this->getProximaRevisao() ? PDO::PARAM_STR : PDO::PARAM_NULL);
+            $stmt->bindValue(':propriedadeVeiculo', $this->getPropriedadeVeiculo(), PDO::PARAM_STR);
+            $stmt->bindValue(':responsavelVeiculo', $this->getResponsavelVeiculo(), PDO::PARAM_STR);
+            $stmt->bindValue(':quantidade', $this->getQuantidade(), PDO::PARAM_INT);
+            $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
+            $stmt->bindValue(':id', $this->getIdVeiculo(), PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (\Exception $e) {
+            $this->pdo->rollBack();
+            return false;
+        }
+    }
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM veiculo WHERE idVeiculo = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }
