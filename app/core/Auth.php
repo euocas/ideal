@@ -10,19 +10,23 @@ class Auth
             session_start();
         }
 
-           // Impede que o navegador armazene páginas privadas em cache
-        // Isso evita que o usuário consiga voltar após logout
-        header("Cache-Control: no-cache, no-store, must-revalidate");
+        // Remove cache completamente
+        header("Expires: Tue, 01 Jan 2000 00:00:00 GMT");
 
-        // Compatibilidade com navegadores antigos
+        // HTTP 1.1
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+
+        // HTTP 1.0
         header("Pragma: no-cache");
 
-        // Define expiração imediata da página
-        header("Expires: 0");
-
+        // Validação da sessão
         if (!isset($_SESSION['usuario'])) {
+
             header('Location: /ideal/public/index.php?url=login');
+
             exit;
+
+
         }
     }
 }

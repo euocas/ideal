@@ -12,19 +12,26 @@ $anoModValue = '';
 if (!empty($veiculo['anoModelo'])) {
     $anoModValue = strlen($veiculo['anoModelo']) === 4 ? $veiculo['anoModelo'] . '-01-01' : $veiculo['anoModelo'];
 }
+// HEADERS ANTI CACHE
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+// TÍTULO
+$titulo = 'Veículo';
+
+// HEADER
+require_once __DIR__ . '/../includes/header.php';
+
 ?>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veículos</title>
-    <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-      <link rel="shortcut icon" href="/ideal/public/assets/icons/veiculo.png" type="image/x-icon">
-    <link rel="stylesheet" href="/ideal/public/assets/css/veiculos.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="shortcut icon" href="/ideal/public/assets/icons/veiculo.png" type="image/x-icon">
+<link rel="stylesheet" href="/ideal/public/assets/css/veiculos.css?v=<?= time() ?>">
+
 </head>
-<body>
+
+<body onunload="">
     <div class="dashboard-container">
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
@@ -34,53 +41,63 @@ if (!empty($veiculo['anoModelo'])) {
                     <div class="busca-box">
                         <h2>🚘 BUSCAR VEÍCULO</h2>
                         <?php if (!empty($mensagem)): ?>
-                            <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;"><?= htmlspecialchars($mensagem); ?></p>
+                            <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;">
+                                <?= htmlspecialchars($mensagem); ?>
+                            </p>
                         <?php endif; ?>
                         <form class="form-busca" action="/ideal/public/index.php?url=veiculos" method="POST">
                             <div class="input-group">
                                 <label>RENAVAM</label>
-                                <input type="text" name="renavam" oninput="mascaraRenavam(this)" placeholder="0000.000000-0" required maxlength="13">
+                                <input type="text" name="renavam" oninput="mascaraRenavam(this)"
+                                    placeholder="0000.000000-0" required maxlength="13">
                             </div>
                             <button type="submit" class="btn-buscar">BUSCAR</button>
                         </form>
                     </div>
                     <div class="dica-box">
                         <h3>DICA</h3>
-                        <p>Digite o Renavam do veículo e clique em <strong>BUSCAR</strong>. Se não existir, você poderá cadastrar um novo veículo.</p>
+                        <p>Digite o Renavam do veículo e clique em <strong>BUSCAR</strong>. Se não existir, você poderá
+                            cadastrar um novo veículo.</p>
                     </div>
                 </div>
             </section>
 
-            <form id="form-dados" action="<?= $actionUrl ?>" method="POST" novalidate>
-                
+            <form id="form-dados" action="<?= $actionUrl ?>" method="POST" novalidate autocomplete="off">
+
                 <section class="card">
                     <h2>Dados do Veículo</h2>
                     <div class="grid-form">
                         <div class="form-group">
                             <label>Renavam</label>
-                            <input type="text" name="renavam" value="<?= htmlspecialchars($renavamValue) ?>" oninput="mascaraRenavam(this)" placeholder="0000.000000-0" maxlength="13">
+                            <input type="text" name="renavam" value="<?= htmlspecialchars($renavamValue) ?>"
+                                oninput="mascaraRenavam(this)" placeholder="0000.000000-0" maxlength="13">
                         </div>
                         <div class="form-group">
                             <label>Placa</label>
-                            <input type="text" name="placa" value="<?= htmlspecialchars($veiculo['placa'] ?? '') ?>" placeholder="ABC1D23" maxlength="7">
+                            <input type="text" name="placa" value="<?= htmlspecialchars($veiculo['placa'] ?? '') ?>"
+                                placeholder="ABC1D23" maxlength="7">
                         </div>
                         <div class="form-group">
                             <label>Chassi</label>
-                            <input type="text" name="chassi" value="<?= htmlspecialchars($veiculo['chassi'] ?? '') ?>" oninput="mascaraChassi(this)" maxlength="17" placeholder="9BWZZZ377VT004251">
+                            <input type="text" name="chassi" value="<?= htmlspecialchars($veiculo['chassi'] ?? '') ?>"
+                                oninput="mascaraChassi(this)" maxlength="17" placeholder="9BWZZZ377VT004251">
                         </div>
                         <div class="form-group">
                             <label>Marca</label>
                             <select name="marca">
                                 <option value="">Selecione a marca</option>
                                 <optgroup label="Utilitários leves">
-                                    <option value="Fiat" <?= ($veiculo['marca'] ?? '') === 'Fiat' ? 'selected' : '' ?>>Fiat</option>
+                                    <option value="Fiat" <?= ($veiculo['marca'] ?? '') === 'Fiat' ? 'selected' : '' ?>>Fiat
+                                    </option>
                                     <option value="Volkswagen" <?= ($veiculo['marca'] ?? '') === 'Volkswagen' ? 'selected' : '' ?>>Volkswagen</option>
                                     <option value="Chevrolet" <?= ($veiculo['marca'] ?? '') === 'Chevrolet' ? 'selected' : '' ?>>Chevrolet</option>
                                     <option value="Renault" <?= ($veiculo['marca'] ?? '') === 'Renault' ? 'selected' : '' ?>>Renault</option>
                                 </optgroup>
                                 <optgroup label="Picapes médias">
-                                    <option value="Toyota" <?= ($veiculo['marca'] ?? '') === 'Toyota' ? 'selected' : '' ?>>Toyota</option>
-                                    <option value="Ford" <?= ($veiculo['marca'] ?? '') === 'Ford' ? 'selected' : '' ?>>Ford</option>
+                                    <option value="Toyota" <?= ($veiculo['marca'] ?? '') === 'Toyota' ? 'selected' : '' ?>>
+                                        Toyota</option>
+                                    <option value="Ford" <?= ($veiculo['marca'] ?? '') === 'Ford' ? 'selected' : '' ?>>Ford
+                                    </option>
                                 </optgroup>
                             </select>
                         </div>
@@ -112,10 +129,14 @@ if (!empty($veiculo['anoModelo'])) {
                             <label>Cor</label>
                             <select name="cor">
                                 <option value="">Selecione</option>
-                                <option value="Branco" <?= ($veiculo['cor'] ?? '') === 'Branco' ? 'selected' : '' ?>>Branco</option>
-                                <option value="Preto" <?= ($veiculo['cor'] ?? '') === 'Preto' ? 'selected' : '' ?>>Preto</option>
-                                <option value="Prata" <?= ($veiculo['cor'] ?? '') === 'Prata' ? 'selected' : '' ?>>Prata</option>
-                                <option value="Cinza" <?= ($veiculo['cor'] ?? '') === 'Cinza' ? 'selected' : '' ?>>Cinza</option>
+                                <option value="Branco" <?= ($veiculo['cor'] ?? '') === 'Branco' ? 'selected' : '' ?>>Branco
+                                </option>
+                                <option value="Preto" <?= ($veiculo['cor'] ?? '') === 'Preto' ? 'selected' : '' ?>>Preto
+                                </option>
+                                <option value="Prata" <?= ($veiculo['cor'] ?? '') === 'Prata' ? 'selected' : '' ?>>Prata
+                                </option>
+                                <option value="Cinza" <?= ($veiculo['cor'] ?? '') === 'Cinza' ? 'selected' : '' ?>>Cinza
+                                </option>
                             </select>
                         </div>
                         <h2 class="subtitulo-form" style="grid-column: 1 / -1;">Situação do Veículo</h2>
@@ -131,15 +152,19 @@ if (!empty($veiculo['anoModelo'])) {
                         </div>
                         <div class="form-group">
                             <label>Quilometragem</label>
-                            <input type="text" name="quilometragem" value="<?= htmlspecialchars($veiculo['quilometragem'] ?? '') ?>" maxlength="9" pattern="\d{1,7}" inputmode="numeric" placeholder="Ex: 125000">
+                            <input type="text" name="quilometragem"
+                                value="<?= htmlspecialchars($veiculo['quilometragem'] ?? '') ?>" maxlength="9"
+                                pattern="\d{1,7}" inputmode="numeric" placeholder="Ex: 125000">
                         </div>
                         <div class="form-group">
                             <label>Última Revisão</label>
-                            <input type="date" name="ultimaRevisao" value="<?= htmlspecialchars($veiculo['dataUltimaRevisao'] ?? '') ?>">
+                            <input type="date" name="ultimaRevisao"
+                                value="<?= htmlspecialchars($veiculo['dataUltimaRevisao'] ?? '') ?>">
                         </div>
                         <div class="form-group">
                             <label>Próxima Revisão</label>
-                            <input type="date" name="proximaRevisao" value="<?= htmlspecialchars($veiculo['proximaRevisao'] ?? '') ?>">
+                            <input type="date" name="proximaRevisao"
+                                value="<?= htmlspecialchars($veiculo['proximaRevisao'] ?? '') ?>">
                         </div>
                         <h2 class="subtitulo-form" style="grid-column: 1 / -1;">Responsável</h2>
                         <div class="form-group">
@@ -154,23 +179,30 @@ if (!empty($veiculo['anoModelo'])) {
                         </div>
                         <div class="form-group">
                             <label>Responsável pelo veículo</label>
-                            <input type="text" name="responsavel" value="<?= htmlspecialchars($veiculo['responsavelVeiculo'] ?? '') ?>" minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo">
+                            <input type="text" name="responsavel"
+                                value="<?= htmlspecialchars($veiculo['responsavelVeiculo'] ?? '') ?>" minlength="3"
+                                pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo">
                         </div>
                         <div class="form-group observacoes">
                             <label>Observações</label>
-                            <textarea name="observacoes"><?= htmlspecialchars($veiculo['observacoes'] ?? '') ?></textarea>
+                            <textarea
+                                name="observacoes"><?= htmlspecialchars($veiculo['observacoes'] ?? '') ?></textarea>
                         </div>
                     </div>
                 </section>
 
                 <div class="acoes">
-                    <a href="/ideal/public/index.php?url=veiculos" class="btn novo" style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>
+                    <a href="/ideal/public/index.php?url=veiculos" class="btn novo"
+                        style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>
 
                     <?php if (!$isEdit): ?>
                         <button type="submit" class="btn salvar">Salvar</button>
                     <?php else: ?>
                         <button type="submit" class="btn alterar">Alterar</button>
-                        <a href="/ideal/public/index.php?url=veiculos/delete&id=<?= $veiculo['idVeiculo'] ?>" class="btn excluir" style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;" onclick="return confirm('Excluir este veículo?')">Excluir</a>
+                        <a href="/ideal/public/index.php?url=veiculos/delete&id=<?= $veiculo['idVeiculo'] ?>"
+                            class="btn excluir"
+                            style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;"
+                            onclick="return confirm('Excluir este veículo?')">Excluir</a>
                     <?php endif; ?>
 
                     <button type="reset" class="btn limpar">Limpar</button>
@@ -195,5 +227,14 @@ if (!empty($veiculo['anoModelo'])) {
             input.value = valor;
         }
     </script>
+
+    <script>
+        window.onpageshow = function (event) {
+            if (event.persisted) {
+                window.location.href = window.location.href;
+            }
+        };
+    </script>
 </body>
+
 </html>

@@ -3,15 +3,20 @@
 namespace App\Controllers;
 
 use App\Models\Veiculo;
-
+use App\Core\Auth;
 class VeiculosController
 {
+    public function __construct()
+    {
+        Auth::verificar();
+    }
+
     public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->buscar();
         }
-        $mensagem = null; 
+        $mensagem = null;
         require_once __DIR__ . '/../views/veiculos/index.php';
     }
 
@@ -53,7 +58,7 @@ class VeiculosController
         }
 
         $veiculoModel = new Veiculo();
-        $veiculo = $veiculoModel->findById((int)$id);
+        $veiculo = $veiculoModel->findById((int) $id);
 
         if (!$veiculo) {
             header("Location: /ideal/public/index.php?url=veiculos");
@@ -90,8 +95,8 @@ class VeiculosController
             if ($id) {
                 try {
                     $veiculoModel = new Veiculo();
-                    $veiculoModel->update((int)$id, $_POST);
-                    
+                    $veiculoModel->update((int) $id, $_POST);
+
                     // --- ALTERAÇÃO AQUI: Redireciona de volta para a mesma página de edição ---
                     header("Location: /ideal/public/index.php?url=veiculos/edit&id=" . $id);
                     exit;
@@ -116,7 +121,7 @@ class VeiculosController
         $id = $_GET['id'] ?? null;
         if ($id) {
             $veiculoModel = new Veiculo();
-            $veiculoModel->delete((int)$id);
+            $veiculoModel->delete((int) $id);
         }
         header("Location: /ideal/public/index.php?url=veiculos");
         exit;

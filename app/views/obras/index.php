@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!--HEADER PHP  -->
+<?php
+// TÍTULO DA PÁGINA
+$titulo = 'Obras';
+require_once __DIR__ . '/../includes/header.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obras</title>
 
-    <link rel="shortcut icon" href="/ideal/public/assets/icons/obra2.png" type="image/x-icon">
-    <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/obras.css?v=<?= time() ?>">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="shortcut icon" href="/ideal/public/assets/icons/obra2.png" type="image/x-icon">
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/obras.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -36,17 +34,13 @@
                             BUSCAR OBRA
                         </h2>
 
-                        <form class="form-busca"
-                            action="/ideal/public/index.php?url=obra"
-                            method="POST">
+                        <form class="form-busca" action="/ideal/public/index.php?url=obra" method="POST">
 
                             <div class="input-group">
 
                                 <label>Contrato</label>
 
-                                <input type="text"
-                                    name="contratoBusca"
-                                    placeholder="Digite o número do contrato">
+                                <input type="text" name="contratoBusca" placeholder="Digite o número do contrato">
 
                             </div>
 
@@ -83,9 +77,7 @@
 
                 <h2>Dados da Obra</h2>
 
-                <form id="form-dados"
-                    action="<?= $actionUrl ?>"
-                    method="POST">
+                <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
 
                     <div class="grid-form">
 
@@ -95,10 +87,7 @@
 
                             <label>Contrato</label>
 
-                            <input type="text"
-                                name="contrato"
-                                maxlength="45"
-                                placeholder="Digite o contrato">
+                            <input type="text" name="contrato" maxlength="45" placeholder="Digite o contrato">
 
                         </div>
 
@@ -130,9 +119,7 @@
 
                             <label>Data de Início</label>
 
-                            <input type="datetime-local"
-                                name="dataInicio"
-                                required>
+                            <input type="datetime-local" name="dataInicio" required>
 
                         </div>
 
@@ -140,8 +127,7 @@
 
                             <label>Data de Finalização</label>
 
-                            <input type="datetime-local"
-                                name="dataFim">
+                            <input type="datetime-local" name="dataFim">
 
                         </div>
 
@@ -155,12 +141,8 @@
 
                             <label>CEP</label>
 
-                            <input type="text"
-                                name="cep"
-                                placeholder="00000-000"
-                                maxlength="9"
-                                oninput="mascaraCEP(this)"
-                                required>
+                            <input type="text" name="cep" placeholder="00000-000" maxlength="9"
+                                oninput="mascaraCEP(this)" required>
 
                         </div>
 
@@ -186,11 +168,7 @@
 
                             <label>Cidade</label>
 
-                            <input type="text"
-                                name="cidade"
-                                maxlength="45"
-                                placeholder="Digite a cidade"
-                                required>
+                            <input type="text" name="cidade" maxlength="45" placeholder="Digite a cidade" required>
 
                         </div>
 
@@ -198,10 +176,7 @@
 
                             <label>Logradouro</label>
 
-                            <input type="text"
-                                name="logradouro"
-                                maxlength="80"
-                                placeholder="Rua, Avenida, Alameda..."
+                            <input type="text" name="logradouro" maxlength="80" placeholder="Rua, Avenida, Alameda..."
                                 required>
 
                         </div>
@@ -210,11 +185,7 @@
 
                             <label>Endereço</label>
 
-                            <input type="text"
-                                name="endereco"
-                                maxlength="50"
-                                placeholder="Digite o endereço"
-                                required>
+                            <input type="text" name="endereco" maxlength="50" placeholder="Digite o endereço" required>
 
                         </div>
 
@@ -222,11 +193,7 @@
 
                             <label>Número</label>
 
-                            <input type="text"
-                                name="numero"
-                                maxlength="4"
-                                placeholder="1234"
-                                required>
+                            <input type="text" name="numero" maxlength="4" placeholder="1234" required>
 
                         </div>
 
@@ -234,9 +201,7 @@
 
                             <label>Complemento</label>
 
-                            <input type="text"
-                                name="complemento"
-                                maxlength="45"
+                            <input type="text" name="complemento" maxlength="45"
                                 placeholder="Apartamento, bloco, sala...">
 
                         </div>
@@ -260,33 +225,25 @@
             <!-- BOTÕES -->
             <div class="acoes">
 
-                <button type="submit"
-                    form="form-dados"
-                    class="btn novo">
+                <button type="submit" form="form-dados" class="btn novo">
 
                     Novo
 
                 </button>
 
-                <button type="submit"
-                    form="form-dados"
-                    class="btn alterar">
+                <button type="submit" form="form-dados" class="btn alterar">
 
                     Alterar
 
                 </button>
 
-                <button type="submit"
-                    form="form-dados"
-                    class="btn excluir">
+                <button type="submit" form="form-dados" class="btn excluir">
 
                     Excluir
 
                 </button>
 
-                <button type="reset"
-                    form="form-dados"
-                    class="btn limpar">
+                <button type="reset" form="form-dados" class="btn limpar">
 
                     Limpar
 

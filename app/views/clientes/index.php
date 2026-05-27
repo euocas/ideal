@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<?php
+// TÍTULO DA PÁGINA
+$titulo = 'Clientes';
+require_once __DIR__ . '/../includes/header.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
-   <link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
-    <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/clientes.css?v=<?= time() ?>">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
+<link rel="stylesheet" href="/ideal/public/assets/css/clientes.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -36,16 +32,13 @@
                             BUSCAR CLIENTE
                         </h2>
 
-                        <form class="form-busca"
-                            action="/ideal/public/index.php?url=cliente"
-                            method="POST">
+                        <form class="form-busca" action="/ideal/public/index.php?url=cliente" method="POST">
 
                             <div class="input-group">
 
                                 <label>Tipo</label>
 
-                                <select name="tipoDocumento" id="tipoDocumento"
-                                    onchange="alterarMascaraDocumento()">
+                                <select name="tipoDocumento" id="tipoDocumento" onchange="alterarMascaraDocumento()">
 
                                     <option value="cpf">CPF</option>
                                     <option value="cnpj">CNPJ</option>
@@ -60,12 +53,8 @@
                                     CPF
                                 </label>
 
-                                <input type="text"
-                                    id="documento"
-                                    name="documento"
-                                    placeholder="000.000.000-00"
-                                    maxlength="14"
-                                    oninput="mascaraDocumento(this)">
+                                <input type="text" id="documento" name="documento" placeholder="000.000.000-00"
+                                    maxlength="14" oninput="mascaraDocumento(this)">
 
                             </div>
 
@@ -102,9 +91,7 @@
 
                 <h2>Dados do Cliente</h2>
 
-                <form id="form-dados"
-                    action="<?= $actionUrl ?>"
-                    method="POST">
+                <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
 
                     <div class="grid-form">
 
@@ -114,12 +101,8 @@
 
                             <label>Nome do Cliente</label>
 
-                            <input type="text"
-                                name="nomeCliente"
-                                minlength="3"
-                                maxlength="45"
-                                placeholder="Digite o nome do cliente"
-                                required>
+                            <input type="text" name="nomeCliente" minlength="3" maxlength="45"
+                                placeholder="Digite o nome do cliente" required>
 
                         </div>
 
@@ -127,11 +110,7 @@
 
                             <label>CPF</label>
 
-                            <input type="text"
-                                name="cpf"
-                                id="cpf"
-                                placeholder="000.000.000-00"
-                                maxlength="14"
+                            <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
                                 oninput="mascaraCPF(this)">
 
                         </div>
@@ -140,11 +119,7 @@
 
                             <label>CNPJ</label>
 
-                            <input type="text"
-                                name="cnpj"
-                                id="cnpj"
-                                placeholder="00.000.000/0000-00"
-                                maxlength="18"
+                            <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
                                 oninput="mascaraCNPJ(this)">
 
                         </div>
@@ -159,10 +134,7 @@
 
                             <label>Telefone</label>
 
-                            <input type="text"
-                                name="telefone"
-                                placeholder="(00) 00000-0000"
-                                maxlength="15"
+                            <input type="text" name="telefone" placeholder="(00) 00000-0000" maxlength="15"
                                 oninput="mascaraTelefone(this)">
 
                         </div>
@@ -171,9 +143,7 @@
 
                             <label>E-mail</label>
 
-                            <input type="email"
-                                name="email"
-                                placeholder="cliente@email.com">
+                            <input type="email" name="email" placeholder="cliente@email.com">
 
                         </div>
 
@@ -207,10 +177,7 @@
 
                             <label>CEP</label>
 
-                            <input type="text"
-                                name="cep"
-                                placeholder="00000-000"
-                                maxlength="9"
+                            <input type="text" name="cep" placeholder="00000-000" maxlength="9"
                                 oninput="mascaraCEP(this)">
 
                         </div>
@@ -219,9 +186,7 @@
 
                             <label>Cidade</label>
 
-                            <input type="text"
-                                name="cidade"
-                                placeholder="Digite a cidade">
+                            <input type="text" name="cidade" placeholder="Digite a cidade">
 
                         </div>
 
@@ -260,33 +225,25 @@
             <!-- BOTÕES -->
             <div class="acoes">
 
-                <button type="submit"
-                    form="form-dados"
-                    class="btn novo">
+                <button type="submit" form="form-dados" class="btn novo">
 
                     Novo
 
                 </button>
 
-                <button type="submit"
-                    form="form-dados"
-                    class="btn alterar">
+                <button type="submit" form="form-dados" class="btn alterar">
 
                     Alterar
 
                 </button>
 
-                <button type="submit"
-                    form="form-dados"
-                    class="btn excluir">
+                <button type="submit" form="form-dados" class="btn excluir">
 
                     Excluir
 
                 </button>
 
-                <button type="reset"
-                    form="form-dados"
-                    class="btn limpar">
+                <button type="reset" form="form-dados" class="btn limpar">
 
                     Limpar
 

@@ -1,0 +1,52 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+
+    <title><?= $titulo ?? 'Sistema'; ?></title>
+
+    <!-- SCRIPT para quando sair a tela não voltar novamente. BFcache-->
+    <!-- <script>
+        window.addEventListener('pageshow', function (event) {
+
+            const navigation = performance.getEntriesByType("navigation");
+
+            if (
+                event.persisted ||
+                (navigation.length > 0 && navigation[0].type === "back_forward")
+            ) {
+                window.location.reload();
+            }
+
+        });
+    </script> -->
+
+    <script>
+        window.addEventListener("unload", function () {
+            // força o navegador a invalidar BFCache
+        });
+
+        window.addEventListener("pageshow", function (event) {
+
+            if (
+                event.persisted ||
+                performance.navigation.type === 2
+            ) {
+                window.location.reload();
+            }
+
+        });
+    </script>

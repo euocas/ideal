@@ -1,29 +1,11 @@
-<?php
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+<?php 
+// TÍTULO DA PÁGINA
+$titulo = 'Home';
+require_once __DIR__ . '/../includes/header.php'; 
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>HOME</title>
-
-    <!-- APÓS TERMINAR O PROJETO TIRAR COMENTÁRIO DO CSS ABAIXO E DELETAR A VERSÃO TIME QUE É TEMPORÁRIA -->
-    <!-- <link rel="stylesheet" href="assets/css/dashboard.css?v=1"> -->
-     <link rel="stylesheet" href="assets/css/dashboard.css?v=<?= time() ?>">
-
-    <!-- FONT AWESOME -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <!-- Icone na Aba de navegador-->
-        <link rel="shortcut icon" href="assets/icons/home.png" type="image/x-icon">
+<link rel="shortcut icon" href="assets/icons/home.png" type="image/x-icon">
+<link rel="stylesheet" href="assets/css/dashboard.css?v=<?= time() ?>">
 
 
 </head>
@@ -57,7 +39,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                 <div class="cards-dashboard">
 
 
-                <!-- CARD PARA  ACESSO A PÁGINA CLIENTES -->
+                    <!-- CARD PARA  ACESSO A PÁGINA CLIENTES -->
                     <a href="index.php?url=clientes" class="card-dashboard card-clientes">
                         <div class="card-icon">
                             👥
@@ -66,7 +48,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                         <p>Gerencie os clientes cadastrados.</p>
                     </a>
 
-                        <!-- CARD PARA  ACESSO A PÁGINA FUNCIONÁRIOS -->
+                    <!-- CARD PARA  ACESSO A PÁGINA FUNCIONÁRIOS -->
                     <a href="index.php?url=funcionarios" class="card-dashboard card-funcionarios">
                         <div class="card-icon">
                             👷
@@ -75,7 +57,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                         <p>Gerencie os funcionários.</p>
                     </a>
 
-                        <!-- CARD PARA  ACESSO A PÁGINA OBRAS-->
+                    <!-- CARD PARA  ACESSO A PÁGINA OBRAS-->
 
                     <a href="index.php?url=obras" class="card-dashboard card-obras">
                         <div class="card-icon">
@@ -85,7 +67,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
                         <p> Acompanhe o andamento das obras.</p>
                     </a>
 
-                 <!-- CARD PARA  ACESSO A PÁGINA FINANCEIROS -->
+                    <!-- CARD PARA  ACESSO A PÁGINA FINANCEIROS -->
                     <a href="index.php?url=financeiro" class="card-dashboard card-financeiros">
                         <div class="card-icon">
                             💰

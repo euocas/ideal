@@ -1,9 +1,4 @@
 <?php
-// A sessão DEVE ser a primeira coisa do arquivo, antes de qualquer HTML
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 /** @var \App\Models\Funcionario|null $funcionario */ //
 
 // Valores padrão para evitar notices de variáveis indefinidas
@@ -15,14 +10,14 @@ $isEdit = isset($funcionario) && is_object($funcionario);
 
 $actionUrl = $isEdit ? "/ideal/public/index.php?url=funcionarios/update&id={$funcionario->getIdFuncionario()}" : "/ideal/public/index.php?url=funcionarios/store";
 $cpfValue = $isEdit ? $funcionario->getCpf() : ($cpfBusca ?? '');
-?>
-<!DOCTYPE html>
-<html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funcionários</title>
+// TÍTULO DA PÁGINA
+$titulo = 'Funcionários';
+
+//HEADER
+require_once __DIR__ . '/../includes/header.php';
+?>
+
     <link rel="shortcut icon" href="/ideal/public/assets/icons/funcionario2.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
