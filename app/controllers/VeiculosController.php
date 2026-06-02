@@ -4,10 +4,12 @@ namespace App\Controllers;
 
 use App\Models\Veiculo;
 use App\Core\Auth;
+
 class VeiculosController
 {
     public function __construct()
     {
+        // Protege a rota, exigindo que o usuário esteja logado
         Auth::verificar();
     }
 
@@ -16,42 +18,62 @@ class VeiculosController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $this->buscar();
         }
+
         $mensagem = null;
         require_once __DIR__ . '/../views/veiculos/index.php';
     }
 
+    /**
+     * Executa a lógica de pesquisa de Placa no banco de dados
+     */
     private function buscar()
     {
-        $renavamDigitado = (string) ($_POST['renavam'] ?? '');
-        $renavamLimpo = preg_replace('/[^0-9]/', '', $renavamDigitado);
+        $placaDigitada = (string) ($_POST['placa'] ?? '');
+        $placaLimpa = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $placaDigitada));
 
-        if (strlen($renavamLimpo) !== 11) {
-            $mensagem = "O RENAVAM informado é inválido. Verifique os números e tente novamente.";
+        if (!$this->validarPlaca($placaLimpa)) {
+            $mensagem = "A placa informada é inválida. Verifique os caracteres e tente novamente.";
             require_once __DIR__ . '/../views/veiculos/index.php';
             return;
         }
 
         $veiculoModel = new Veiculo();
-        $veiculo = $veiculoModel->findByRenavam($renavamLimpo);
+        $veiculo = $veiculoModel->findByPlaca($placaLimpa);
 
         if ($veiculo) {
-            header("Location: /ideal/public/index.php?url=veiculos/edit&id=" . $veiculo['idVeiculo']);
+            header("Location: /ideal/public/index.php?url=veiculos/edit&id=" . $veiculo->getIdVeiculo());
             exit;
         } else {
-            header("Location: /ideal/public/index.php?url=veiculos/create&renavam=" . $renavamLimpo);
+            header("Location: /ideal/public/index.php?url=veiculos/create&placa=" . $placaLimpa . "&novo=1");
             exit;
         }
     }
 
+    /**
+     * Valida o formato da Placa (Padrão Antigo ou Mercosul)
+     */
+    private function validarPlaca(string $placa): bool
+    {
+        // Verifica se tem 7 caracteres e se segue o padrão ABC1234 ou ABC1D23
+        return preg_match('/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/', $placa) === 1;
+    }
+
     public function create()
     {
-        $renavamBusca = $_GET['renavam'] ?? '';
+        $placaBusca = $_GET['placa'] ?? '';
+        $mensagem = null;
+
+        if (isset($_GET['novo'])) {
+            $mensagem = "Placa não cadastrada. Preencha os dados para registrar um novo veículo.";
+        }
+
         require_once __DIR__ . '/../views/veiculos/index.php';
     }
 
     public function edit()
     {
         $id = $_GET['id'] ?? null;
+
         if (!$id) {
             header("Location: /ideal/public/index.php?url=veiculos");
             exit;
@@ -64,27 +86,58 @@ class VeiculosController
             header("Location: /ideal/public/index.php?url=veiculos");
             exit;
         }
+
         require_once __DIR__ . '/../views/veiculos/index.php';
+    }
+
+    /**
+     * Helper privado para preencher os dados do objeto Veiculo
+     * Isso evita repetir código no Store e no Update
+     */
+    private function popularObjeto(Veiculo $veiculo, array $dados): void
+    {
+        // O ternário verifica se não está vazio para evitar passar string vazia em campos numéricos
+        $veiculo->setIdFuncionario(!empty($dados['idFuncionario']) ? (int) $dados['idFuncionario'] : null);
+        $veiculo->setRenavam($dados['renavam'] ?? null);
+        $veiculo->setPlaca($dados['placa'] ?? null);
+        $veiculo->setChassi($dados['chassi'] ?? null);
+        $veiculo->setMarca($dados['marca'] ?? null);
+        $veiculo->setModelo($dados['modelo'] ?? null);
+        $veiculo->setAnoFabricacao($dados['anoFabricacao'] ?? null);
+        $veiculo->setAnoModelo($dados['anoModelo'] ?? null);
+        $veiculo->setCor($dados['cor'] ?? null);
+        $veiculo->setStatusVeiculo($dados['statusVeiculo'] ?? null);
+        $veiculo->setTipoPosse($dados['tipoPosse'] ?? null);
+        $veiculo->setQuilometragem(!empty($dados['quilometragem']) ? (int) $dados['quilometragem'] : 0);
+        $veiculo->setDataUltimaRevisao($dados['dataUltimaRevisao'] ?? null);
+        $veiculo->setProximaRevisao($dados['proximaRevisao'] ?? null);
+        $veiculo->setPropriedadeVeiculo($dados['propriedadeVeiculo'] ?? null);
+        $veiculo->setResponsavelVeiculo($dados['responsavelVeiculo'] ?? null);
+        $veiculo->setQuantidade(!empty($dados['quantidade']) ? (int) $dados['quantidade'] : 1);
+        $veiculo->setObservacoes($dados['observacoes'] ?? null);
     }
 
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            try {
-                $veiculoModel = new Veiculo();
-                $veiculoModel->save($_POST);
+            $veiculo = new Veiculo();
+            
+            // Popula o objeto com os dados do formulário
+            $this->popularObjeto($veiculo, $_POST);
 
-                header("Location: /ideal/public/index.php?url=veiculos");
-                exit;
-            } catch (\Exception $e) {
-                echo "<div style='background: #ffe6e6; color: #cc0000; padding: 20px; font-family: Arial; border: 2px solid #cc0000; margin: 20px;'>";
-                echo "<h1>❌ ERRO AO SALVAR NO BANCO!</h1>";
-                echo "<h3>O MySQL respondeu: " . $e->getMessage() . "</h3>";
-                echo "<b>Dados que o botão enviou:</b><pre>";
-                print_r($_POST);
-                echo "</pre><br><a href='javascript:history.back()' style='color: blue;'>Voltar</a></div>";
-                die();
+            // O objeto salva a si mesmo
+            $salvou = $veiculo->save();
+            
+            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
+            if ($salvou) {
+                $_SESSION['mensagem_sucesso'] = "O veículo foi cadastrado com sucesso!";
+            } else {
+                $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
+
+            header("Location: /ideal/public/index.php?url=veiculos");
+            exit;
         }
     }
 
@@ -92,25 +145,28 @@ class VeiculosController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_GET['id'] ?? null;
-            if ($id) {
-                try {
-                    $veiculoModel = new Veiculo();
-                    $veiculoModel->update((int) $id, $_POST);
 
-                    // --- ALTERAÇÃO AQUI: Redireciona de volta para a mesma página de edição ---
-                    header("Location: /ideal/public/index.php?url=veiculos/edit&id=" . $id);
-                    exit;
-                    // ------------------------------------------------------------------------
-                } catch (\Exception $e) {
-                    echo "<div style='background: #ffe6e6; color: #cc0000; padding: 20px; font-family: Arial; border: 2px solid #cc0000; margin: 20px;'>";
-                    echo "<h1>❌ ERRO AO ALTERAR NO BANCO!</h1>";
-                    echo "<h3>O MySQL respondeu: " . $e->getMessage() . "</h3>";
-                    echo "<b>Dados que o botão enviou:</b><pre>";
-                    print_r($_POST);
-                    echo "</pre><br><a href='javascript:history.back()' style='color: blue;'>Voltar</a></div>";
-                    die();
+            if ($id) {
+                // Primeiro, buscamos o veículo existente para garantir que ele existe
+                $veiculo = (new Veiculo())->findById((int) $id);
+
+                if ($veiculo) {
+                    // Atualizamos o objeto com os novos dados
+                    $this->popularObjeto($veiculo, $_POST);
+                    
+                    // O objeto atualiza a si mesmo
+                    $atualizou = $veiculo->update();
+
+                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
+                    if ($atualizou) {
+                         $_SESSION['mensagem_sucesso'] = "Cadastro do veículo atualizado com sucesso!";
+                    } else {
+                         $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados do veículo.";
+                    }
                 }
             }
+
             header("Location: /ideal/public/index.php?url=veiculos");
             exit;
         }
@@ -119,10 +175,20 @@ class VeiculosController
     public function delete()
     {
         $id = $_GET['id'] ?? null;
+
         if ($id) {
             $veiculoModel = new Veiculo();
-            $veiculoModel->delete((int) $id);
+            $deletou = $veiculoModel->delete((int) $id);
+
+            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+            
+            if ($deletou) {
+                 $_SESSION['mensagem_sucesso'] = "Veículo excluído com sucesso!";
+            } else {
+                 $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o veículo. Verifique se ele não possui vínculos.";
+            }
         }
+
         header("Location: /ideal/public/index.php?url=veiculos");
         exit;
     }

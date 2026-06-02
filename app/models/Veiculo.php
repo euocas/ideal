@@ -288,8 +288,10 @@ class Veiculo
         $sql = "SELECT * FROM veiculo WHERE placa = :placa";
         $stmt = $this->pdo->prepare($sql);
         
-        $renavamLimpo = preg_replace('/[^0-9]/', '', $placa);
-        $stmt->bindValue(':placa', $placaLimpo, PDO::PARAM_STR);
+        // Remove tudo que não for letra ou número e deixa maiúsculo
+        $placaLimpa = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $placa));
+        
+        $stmt->bindValue(':placa', $placaLimpa, PDO::PARAM_STR);
         $stmt->execute();
         
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
