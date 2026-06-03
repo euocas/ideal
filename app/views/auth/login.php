@@ -86,11 +86,8 @@
 
                     $erros = [
 
-                        'senha'   =>
-                            'Senha incorreta. Tente novamente.',
-
-                        'usuario' =>
-                            'Usuário não encontrado.',
+                        'credenciais' =>
+                            'E-mail ou senha incorretos.',
 
                         'campos'  =>
                             'Preencha todos os campos.'

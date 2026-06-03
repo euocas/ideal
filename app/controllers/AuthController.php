@@ -11,7 +11,7 @@ class AuthController
 
     public function login()
     {
-         if (session_status() === PHP_SESSION_NONE) {
+        if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         $email = trim($_POST['email'] ?? '');
@@ -30,15 +30,9 @@ class AuthController
         $usuarioModel = new Usuario();
         $usuario = $usuarioModel->buscarPorEmail($email);
 
-        // Usuário não encontrado
-        if (!$usuario) {
-            header('Location: index.php?url=login&erro=usuario&email=' . urlencode($email));
-            exit;
-        }
-
-        // Senha incorreta
-        if (!password_verify($senha, $usuario['senha'])) {
-            header('Location: index.php?url=login&erro=senha&email=' . urlencode($email));
+        // Usuário não encontrado ou senha incorreta — mesma mensagem para não revelar qual falhou
+        if (!$usuario || !password_verify($senha, $usuario['senha'])) {
+            header('Location: index.php?url=login&erro=credenciais');
             exit;
         }
 
