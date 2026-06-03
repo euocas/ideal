@@ -89,8 +89,11 @@
                         'credenciais' =>
                             'E-mail ou senha incorretos.',
 
-                        'campos'  =>
-                            'Preencha todos os campos.'
+                        'campos' =>
+                            'Preencha todos os campos.',
+
+                        'bloqueado' =>
+                            'Muitas tentativas. Tente novamente em ' . (int)($_GET['min'] ?? 15) . ' minuto(s).'
 
                     ];
 
