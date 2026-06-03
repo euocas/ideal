@@ -11,7 +11,9 @@ class AuthController
 
     public function login()
     {
-        session_start();
+         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $email = trim($_POST['email'] ?? '');
         $senha = $_POST['senha'] ?? '';
         // Validação básica dos campos
