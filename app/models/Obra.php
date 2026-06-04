@@ -96,7 +96,7 @@ public function setStatus(?string $status): void
 {
     $this->status = $status;
 }
-
+//=============================================================
 //=============================================================
 
 public function getEstado(): ?string
