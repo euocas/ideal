@@ -86,14 +86,14 @@
 
                     $erros = [
 
-                        'senha'   =>
-                            'Senha incorreta. Tente novamente.',
+                        'credenciais' =>
+                            'E-mail ou senha incorretos.',
 
-                        'usuario' =>
-                            'Usuário não encontrado.',
+                        'campos' =>
+                            'Preencha todos os campos.',
 
-                        'campos'  =>
-                            'Preencha todos os campos.'
+                        'bloqueado' =>
+                            'Muitas tentativas. Tente novamente em ' . (int)($_GET['min'] ?? 15) . ' minuto(s).'
 
                     ];
 

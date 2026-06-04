@@ -3,17 +3,6 @@
 /** @var \App\Models\FinanceiroObra|null $financeiroObra */
 /** @var \App\Models\FinanceiroAutomovel|null $financeiroAutomovel */
 
-// Sessão
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Verifica login
-if (!isset($_SESSION['usuario'])) {
-    header('Location: /ideal/public/login');
-    exit;
-}
-
 $titulo = 'Financeiro';
 require_once __DIR__ . '/../includes/header.php';
 
