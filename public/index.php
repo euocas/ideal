@@ -120,6 +120,31 @@ switch ($url) {
         $controller->index();
         break;
 
+    case 'clientes/create':
+        $controller = new ClientesController();
+        $controller->create();
+        break;
+
+    case 'clientes/edit':
+        $controller = new ClientesController();
+        $controller->edit();
+        break;
+
+    case 'clientes/store':
+        $controller = new ClientesController();
+        $controller->store();
+        break;
+
+    case 'clientes/update':
+        $controller = new ClientesController();
+        $controller->update();
+        break;
+
+    case 'clientes/delete':
+        $controller = new ClientesController();
+        $controller->delete();
+        break;
+
     // --- ROTA DE OBRAS---
     case 'obras':
         $controller = new ObrasController();

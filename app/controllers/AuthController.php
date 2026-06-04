@@ -14,8 +14,31 @@ class AuthController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
+
+        // Rate limiting: máximo de 5 tentativas por IP a cada 15 minutos
+        $ip      = $_SERVER['REMOTE_ADDR'] ?? 'desconhecido';
+        $chave   = 'login_tentativas_' . md5($ip);
+        $limite  = 5;
+        $janela  = 5 * 60; // segundos
+
+        $tentativas  = $_SESSION[$chave]['count']        ?? 0;
+        $bloqueadoAte = $_SESSION[$chave]['bloqueado_ate'] ?? 0;
+
+        if (time() < $bloqueadoAte) {
+            $restam = ceil(($bloqueadoAte - time()) / 60);
+            header('Location: index.php?url=login&erro=bloqueado&min=' . $restam);
+            exit;
+        }
+
+        // Reseta contador se a janela de tempo expirou
+        if (isset($_SESSION[$chave]['desde']) && (time() - $_SESSION[$chave]['desde']) > $janela) {
+            unset($_SESSION[$chave]);
+            $tentativas = 0;
+        }
+
         $email = trim($_POST['email'] ?? '');
         $senha = $_POST['senha'] ?? '';
+
         // Validação básica dos campos
         if (empty($email) || empty($senha)) {
             header('Location: index.php?url=login&erro=campos');
@@ -32,9 +55,22 @@ class AuthController
 
         // Usuário não encontrado ou senha incorreta — mesma mensagem para não revelar qual falhou
         if (!$usuario || !password_verify($senha, $usuario['senha'])) {
+            $tentativas++;
+            $_SESSION[$chave]['count']  = $tentativas;
+            $_SESSION[$chave]['desde'] ??= time();
+
+            if ($tentativas >= $limite) {
+                $_SESSION[$chave]['bloqueado_ate'] = time() + $janela;
+                header('Location: index.php?url=login&erro=bloqueado&min=5');
+                exit;
+            }
+
             header('Location: index.php?url=login&erro=credenciais');
             exit;
         }
+
+        // Login bem-sucedido: zera o contador
+        unset($_SESSION[$chave]);
 
         // Remover dados sensíveis antes de armazenar na sessão
         unset($usuario['senha']);

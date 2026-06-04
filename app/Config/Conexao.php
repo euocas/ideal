@@ -24,12 +24,8 @@ class Conexao
             $dsn = 'mysql:host=' . $this -> host . ';port=' . $this -> port . ';dbname=' . $this -> db_name .';charset=utf8';
             $this -> conn = new PDO($dsn, $this -> username, $this -> password);
             $this -> conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }catch(PDOException $e){
-            echo 'Erro de conexão: ' . $e ->getMessage();
-        }catch (Exception $e){
-            echo 'Erro de Conexão: ' . $e -> getMessage();
-        }catch (Throwable $e){
-            echo 'Erro genérico: ' . $e -> getMessage();
+        } catch (Throwable $e) {
+            error_log('Erro de conexão com o banco: ' . $e->getMessage());
         }
         return $this -> conn;
     }
