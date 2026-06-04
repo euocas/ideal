@@ -19,6 +19,23 @@ require_once __DIR__ . '/../includes/header.php';
         <!-- CONTEÚDO -->
         <main class="main-content">
 
+            <!-- ALERTAS (Feedback do Controller) -->
+            <?php if (isset($mensagem) && $mensagem): ?>
+                <div class="alert alert-warning" style="background: #fff3cd; color: #856404; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <?= $mensagem ?>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                <div class="alert alert-success" style="background: #d4edda; color: #155724; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <?= $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <?= $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
+                </div>
+            <?php endif; ?>
+
             <!-- BUSCA CLIENTE -->
             <section class="card">
 
@@ -32,7 +49,8 @@ require_once __DIR__ . '/../includes/header.php';
                             BUSCAR CLIENTE
                         </h2>
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=cliente" method="POST">
+                        <!-- Action apontando para o método principal de busca no Controller -->
+                        <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
 
                             <div class="input-group">
 
@@ -53,8 +71,10 @@ require_once __DIR__ . '/../includes/header.php';
                                     CPF
                                 </label>
 
+                                <!-- Value adicionado para recuperar o documento se não for encontrado -->
                                 <input type="text" id="documento" name="documento" placeholder="000.000.000-00"
-                                    maxlength="14" oninput="mascaraDocumento(this)">
+                                    maxlength="14" oninput="mascaraDocumento(this)"
+                                    value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>">
 
                             </div>
 
@@ -91,7 +111,11 @@ require_once __DIR__ . '/../includes/header.php';
 
                 <h2>Dados do Cliente</h2>
 
-                <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
+                <!-- Action removido daqui, pois as ações serão disparadas pelos botões -->
+                <form id="form-dados" method="POST">
+
+                    <!-- Campo oculto para o banco de dados saber qual cliente atualizar/excluir -->
+                    <input type="hidden" name="idCliente" value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
 
                     <div class="grid-form">
 
@@ -102,7 +126,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Nome do Cliente</label>
 
                             <input type="text" name="nomeCliente" minlength="3" maxlength="45"
-                                placeholder="Digite o nome do cliente" required>
+                                placeholder="Digite o nome do cliente" required
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getNomeCliente()) : '' ?>">
 
                         </div>
 
@@ -111,7 +136,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>CPF</label>
 
                             <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
-                                oninput="mascaraCPF(this)">
+                                oninput="mascaraCPF(this)"
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCpf()) : '' ?>">
 
                         </div>
 
@@ -120,7 +146,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>CNPJ</label>
 
                             <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
-                                oninput="mascaraCNPJ(this)">
+                                oninput="mascaraCNPJ(this)"
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCnpj()) : '' ?>">
 
                         </div>
 
@@ -222,31 +249,31 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
 
-            <!-- BOTÕES -->
+            <!-- BOTÕES (Agora com rotas para o Controller) -->
             <div class="acoes">
 
-                <button type="submit" form="form-dados" class="btn novo">
-
+                <button type="submit" form="form-dados" class="btn novo" 
+                        formaction="/ideal/public/index.php?url=clientes/store">
                     Novo
-
                 </button>
 
-                <button type="submit" form="form-dados" class="btn alterar">
-
+                <!-- Desabilita o botão caso não haja um cliente sendo visualizado (sem ID) -->
+                <button type="submit" form="form-dados" class="btn alterar" 
+                        formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                        <?= isset($cliente) ? '' : 'disabled' ?>>
                     Alterar
-
                 </button>
 
-                <button type="submit" form="form-dados" class="btn excluir">
-
+                <button type="submit" form="form-dados" class="btn excluir" 
+                        formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                        onclick="return confirm('Tem certeza que deseja excluir este cliente?');"
+                        <?= isset($cliente) ? '' : 'disabled' ?>>
                     Excluir
-
                 </button>
 
-                <button type="reset" form="form-dados" class="btn limpar">
-
+                <!-- Alterado para type="button" com redirecionamento, garantindo que o form limpe totalmente e volte ao estado inicial -->
+                <button type="button" class="btn limpar" onclick="window.location.href='/ideal/public/index.php?url=clientes'">
                     Limpar
-
                 </button>
 
             </div>
