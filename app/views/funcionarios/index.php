@@ -18,10 +18,10 @@ $titulo = 'Funcionários';
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-    <link rel="shortcut icon" href="/ideal/public/assets/icons/funcionario2.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css?v=<?= time() ?>">
+<link rel="shortcut icon" href="/ideal/public/assets/icons/funcionario2.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -69,19 +69,21 @@ require_once __DIR__ . '/../includes/header.php';
             <section class="card">
 
                 <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                    <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
+                    <div
+                        style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
                         ✅ <?= $_SESSION['mensagem_sucesso']; ?>
                     </div>
                     <?php unset($_SESSION['mensagem_sucesso']); ?>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
+                    <div
+                        style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
                         ❌ <?= $_SESSION['mensagem_erro']; ?>
                     </div>
                     <?php unset($_SESSION['mensagem_erro']); ?>
                 <?php endif; ?>
-                
+
                 <h2>Dados do Funcionário</h2>
 
                 <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
@@ -89,8 +91,9 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>Nome</label>
-                            <input type="text" name="nome" value="<?= htmlspecialchars($isEdit ? $funcionario->getNome() : '') ?>"
-                                minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras"
+                            <input type="text" name="nome"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNome() : '') ?>" minlength="3"
+                                pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras"
                                 placeholder="Digite o Nome Completo" required>
                         </div>
 
@@ -113,8 +116,8 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label for="naturalidade">Naturalidade</label>
                             <input type="text" name="naturalidade"
-                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNaturalidade() : '') ?>" minlength="3"
-                                title="Digite apenas letras" placeholder="Digite apenas o nome da cidade">
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNaturalidade() : '') ?>"
+                                minlength="3" title="Digite apenas letras" placeholder="Digite apenas o nome da cidade">
                         </div>
 
                         <div class="form-group">
@@ -161,7 +164,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Cargo / Função</label>
                             <select name="cargoFuncao">
                                 <option value="">Selecione</option>
-                                <option value="Auxiliar Administrativo" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Auxiliar Administrativo' ? 'selected' : '' ?>>Auxiliar Administrativo</option>
+                                <option value="Auxiliar Administrativo" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Auxiliar Administrativo' ? 'selected' : '' ?>>Auxiliar Administrativo
+                                </option>
                                 <option value="Auxiliar de RH" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Auxiliar de RH' ? 'selected' : '' ?>>Auxiliar de RH</option>
                                 <option value="Azulejista" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Azulejista' ? 'selected' : '' ?>>Azulejista</option>
                                 <option value="Eletricista" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === 'Eletricista' ? 'selected' : '' ?>>Eletricista</option>
@@ -174,16 +178,16 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label for="endereco">Endereço</label>
                             <input type="text" name="nomeLogradouro"
-                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNomeLogradouro() : '') ?>" minlength="3"
-                                title="Digite apenas letras"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNomeLogradouro() : '') ?>"
+                                minlength="3" title="Digite apenas letras"
                                 placeholder="Digite apenas o nome da Rua/Avenida/Alameda/Viela">
                         </div>
 
                         <div class="form-group">
                             <label>Número</label>
                             <input type="text" name="numero"
-                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNumero() : '') ?>" pattern="[0-9]+"
-                                placeholder="Somente números">
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getNumero() : '') ?>"
+                                pattern="[0-9]+" placeholder="Somente números">
                         </div>
 
                         <div class="form-group">
@@ -203,8 +207,9 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>CEP</label>
-                            <input type="text" name="cep" value="<?= htmlspecialchars($isEdit ? $funcionario->getCep() : '') ?>"
-                                maxlength="9" inputmode="numeric" oninput="mascaraCEP(this)" placeholder="00000-000">
+                            <input type="text" name="cep"
+                                value="<?= htmlspecialchars($isEdit ? $funcionario->getCep() : '') ?>" maxlength="9"
+                                inputmode="numeric" oninput="mascaraCEP(this)" placeholder="00000-000">
                         </div>
 
                         <div class="form-group">
@@ -271,23 +276,55 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>Telefone</label>
-                            <input type="text" name="telefone" placeholder="(11) 0000-0000" oninput="mascaraTelefone(this)"
+                            <input type="text" name="telefone" placeholder="(11) 0000-0000"
+                                oninput="mascaraTelefone(this)"
                                 value="<?= htmlspecialchars($isEdit ? $funcionario->getTelefone() : '') ?>">
                         </div>
 
                         <div class="form-group">
                             <label>WhatsApp</label>
-                            <input type="text" name="whatsapp" placeholder="(11) 00000-0000" oninput="mascaraTelefone(this)"
+                            <input type="text" name="whatsapp" placeholder="(11) 00000-0000"
+                                oninput="mascaraTelefone(this)"
                                 value="<?= htmlspecialchars($isEdit ? $funcionario->getWhatsapp() : '') ?>">
                         </div>
-
+                        <!--  
                         <div class="form-group observacoes">
                             <label>Observações</label>
                             <textarea
                                 name="observacoes"><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
+                        </div> -->
+                        <div class="secao-inferior">
+                            <!-- Dados de Contratação -->
+                            <div class="card-contratacao">
+                                <h2>Dados de Contratação</h2>
+                                <div class="form-group">
+                                    <label>Data de Admissão</label>
+                                    <input type="date" name="dataAdmissao"
+                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataAdmissao() : '') ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Data de Desligamento</label>
+                                    <input type="date" name="dataDesligamento"
+                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataDesligamento() : '') ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Férias Programadas</label>
+                                    <input type="date" name="feriasProgramadas"
+                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getFeriasProgramadas() : '') ?>">
+                                </div>
+                            </div>
+
+                            <!-- Observações -->
+                            <div class="card-observacoes">
+                                <h2>Observações</h2>
+                                <textarea
+                                    name="observacoes" maxlength="500" placeholder="Digite alguma observação se for necessário" ><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
+                            </div>
                         </div>
 
-                    </div> </form>
+
+                    </div>
+                </form>
 
             </section>
 

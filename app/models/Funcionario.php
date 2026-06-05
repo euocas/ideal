@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Config\Conexao; 
+use App\Config\Conexao;
 use PDO;
 
 class Funcionario
@@ -28,11 +28,18 @@ class Funcionario
     private ?string $cargoFuncao = null;
     private string $tipoContrato = 'CLT'; // Valor padrão
     private string $status = 'ativo'; // Valor padrão
+
+    // novos campos add
+    private ?string $dataAdmissao = null;
+    private ?string $dataDesligamento = null;
+    private ?string $feriasProgramadas = null;
+
     private ?string $observacoes = null;
-    
+
     // Contatos (Tabela Auxiliar)
     private ?string $telefone = null;
     private ?string $whatsapp = null;
+
 
     private PDO $pdo;
 
@@ -49,76 +56,228 @@ class Funcionario
     // 3. GETTERS E SETTERS (Regras de negócio e sanitização)
     // =====================================================
 
-    public function getIdFuncionario(): ?int { return $this->idFuncionario; }
-    public function setIdFuncionario(?int $id): void { $this->idFuncionario = $id; }
+    public function getIdFuncionario(): ?int
+    {
+        return $this->idFuncionario;
+    }
+    public function setIdFuncionario(?int $id): void
+    {
+        $this->idFuncionario = $id;
+    }
 
-    public function getNome(): ?string { return $this->nome; }
-    public function setNome(?string $nome): void { $this->nome = $nome; }
+    public function getNome(): ?string
+    {
+        return $this->nome;
+    }
+    public function setNome(?string $nome): void
+    {
+        $this->nome = $nome;
+    }
 
-    public function getCpf(): ?string { return $this->cpf; }
-    public function setCpf(?string $cpf): void 
-    { 
+    public function getCpf(): ?string
+    {
+        return $this->cpf;
+    }
+    public function setCpf(?string $cpf): void
+    {
         // Remove máscara automaticamente ao "setar" o CPF
-        $this->cpf = $cpf ? preg_replace('/[^0-9]/', '', $cpf) : null; 
+        $this->cpf = $cpf ? preg_replace('/[^0-9]/', '', $cpf) : null;
     }
 
-    public function getSexo(): ?string { return $this->sexo; }
-    public function setSexo(?string $sexo): void { $this->sexo = $sexo; }
+    public function getSexo(): ?string
+    {
+        return $this->sexo;
+    }
+    public function setSexo(?string $sexo): void
+    {
+        $this->sexo = $sexo;
+    }
 
-    public function getDataNascimento(): ?string { return $this->dataNascimento; }
-    public function setDataNascimento(?string $data): void { $this->dataNascimento = $data; }
+    public function getDataNascimento(): ?string
+    {
+        return $this->dataNascimento;
+    }
+    public function setDataNascimento(?string $data): void
+    {
+        $this->dataNascimento = $data;
+    }
 
-    public function getNaturalidade(): ?string { return $this->naturalidade; }
-    public function setNaturalidade(?string $naturalidade): void { $this->naturalidade = $naturalidade; }
+    public function getNaturalidade(): ?string
+    {
+        return $this->naturalidade;
+    }
+    public function setNaturalidade(?string $naturalidade): void
+    {
+        $this->naturalidade = $naturalidade;
+    }
 
-    public function getEstadoNascimento(): ?string { return $this->estadoNascimento; }
-    public function setEstadoNascimento(?string $estado): void { $this->estadoNascimento = $estado; }
+    public function getEstadoNascimento(): ?string
+    {
+        return $this->estadoNascimento;
+    }
+    public function setEstadoNascimento(?string $estado): void
+    {
+        $this->estadoNascimento = $estado;
+    }
 
-    public function getTipoLogradouro(): string { return $this->tipoLogradouro; }
-    public function setTipoLogradouro(string $tipo): void { $this->tipoLogradouro = $tipo ?: 'Rua'; }
+    public function getTipoLogradouro(): string
+    {
+        return $this->tipoLogradouro;
+    }
+    public function setTipoLogradouro(string $tipo): void
+    {
+        $this->tipoLogradouro = $tipo ?: 'Rua';
+    }
 
-    public function getNomeLogradouro(): ?string { return $this->nomeLogradouro; }
-    public function setNomeLogradouro(?string $logradouro): void { $this->nomeLogradouro = $logradouro; }
+    public function getNomeLogradouro(): ?string
+    {
+        return $this->nomeLogradouro;
+    }
+    public function setNomeLogradouro(?string $logradouro): void
+    {
+        $this->nomeLogradouro = $logradouro;
+    }
 
-    public function getNumero(): ?string { return $this->numero; }
-    public function setNumero(?string $numero): void { $this->numero = $numero; }
+    public function getNumero(): ?string
+    {
+        return $this->numero;
+    }
+    public function setNumero(?string $numero): void
+    {
+        $this->numero = $numero;
+    }
 
-    public function getComplemento(): ?string { return $this->complemento; }
-    public function setComplemento(?string $complemento): void { $this->complemento = $complemento; }
+    public function getComplemento(): ?string
+    {
+        return $this->complemento;
+    }
+    public function setComplemento(?string $complemento): void
+    {
+        $this->complemento = $complemento;
+    }
 
-    public function getCidade(): ?string { return $this->cidade; }
-    public function setCidade(?string $cidade): void { $this->cidade = $cidade; }
+    public function getCidade(): ?string
+    {
+        return $this->cidade;
+    }
+    public function setCidade(?string $cidade): void
+    {
+        $this->cidade = $cidade;
+    }
 
-    public function getCep(): ?string { return $this->cep; }
-    public function setCep(?string $cep): void 
-    { 
+    public function getCep(): ?string
+    {
+        return $this->cep;
+    }
+    public function setCep(?string $cep): void
+    {
         // Remove máscara automaticamente
-        $this->cep = $cep ? preg_replace('/[^0-9]/', '', $cep) : null; 
+        $this->cep = $cep ? preg_replace('/[^0-9]/', '', $cep) : null;
     }
 
-    public function getEstado(): ?string { return $this->estado; }
-    public function setEstado(?string $estado): void { $this->estado = $estado; }
+    public function getEstado(): ?string
+    {
+        return $this->estado;
+    }
+    public function setEstado(?string $estado): void
+    {
+        $this->estado = $estado;
+    }
 
-    public function getEmail(): ?string { return $this->email; }
-    public function setEmail(?string $email): void { $this->email = $email; }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
 
-    public function getCargoFuncao(): ?string { return $this->cargoFuncao; }
-    public function setCargoFuncao(?string $cargo): void { $this->cargoFuncao = $cargo; }
+    public function getCargoFuncao(): ?string
+    {
+        return $this->cargoFuncao;
+    }
+    public function setCargoFuncao(?string $cargo): void
+    {
+        $this->cargoFuncao = $cargo;
+    }
 
-    public function getTipoContrato(): string { return $this->tipoContrato; }
-    public function setTipoContrato(?string $tipo): void { $this->tipoContrato = $tipo ?: 'CLT'; }
+    public function getTipoContrato(): string
+    {
+        return $this->tipoContrato;
+    }
+    public function setTipoContrato(?string $tipo): void
+    {
+        $this->tipoContrato = $tipo ?: 'CLT';
+    }
 
-    public function getStatus(): string { return $this->status; }
-    public function setStatus(?string $status): void { $this->status = $status ?: 'ativo'; }
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status ?: 'ativo';
+    }
 
-    public function getObservacoes(): ?string { return $this->observacoes; }
-    public function setObservacoes(?string $obs): void { $this->observacoes = $obs; }
+    public function getObservacoes(): ?string
+    {
+        return $this->observacoes;
+    }
+    public function setObservacoes(?string $obs): void
+    {
+        $this->observacoes = $obs;
+    }
 
-    public function getTelefone(): ?string { return $this->telefone; }
-    public function setTelefone(?string $telefone): void { $this->telefone = $telefone; }
+    //novos campos add 
+    public function getDataAdmissao(): ?string
+    {
+        return $this->dataAdmissao;
+    }
 
-    public function getWhatsapp(): ?string { return $this->whatsapp; }
-    public function setWhatsapp(?string $whatsapp): void { $this->whatsapp = $whatsapp; }
+    public function setDataAdmissao(?string $data): void
+    {
+        $this->dataAdmissao = $data ?: null;
+    }
+
+    public function getDataDesligamento(): ?string
+    {
+        return $this->dataDesligamento;
+    }
+
+    public function setDataDesligamento(?string $data): void
+    {
+        $this->dataDesligamento = $data ?: null;
+    }
+
+    public function getFeriasProgramadas(): ?string
+    {
+        return $this->feriasProgramadas;
+    }
+
+    public function setFeriasProgramadas(?string $data): void
+    {
+        $this->feriasProgramadas = $data ?: null;
+    }
+    // novos dados add acima (data de adm, data de deslig e férias)
+
+    public function getTelefone(): ?string
+    {
+        return $this->telefone;
+    }
+    public function setTelefone(?string $telefone): void
+    {
+        $this->telefone = $telefone;
+    }
+
+    public function getWhatsapp(): ?string
+    {
+        return $this->whatsapp;
+    }
+    public function setWhatsapp(?string $whatsapp): void
+    {
+        $this->whatsapp = $whatsapp;
+    }
 
 
     // =====================================================
@@ -149,7 +308,15 @@ class Funcionario
         $funcionario->setCargoFuncao($dados['cargoFuncao'] ?? null);
         $funcionario->setTipoContrato($dados['tipoContrato'] ?? 'CLT');
         $funcionario->setStatus($dados['status'] ?? 'ativo');
+
+
+        // novos campos add
         $funcionario->setObservacoes($dados['observacoes'] ?? null);
+        $funcionario->setDataAdmissao($dados['dataAdmissao'] ?? null);
+        $funcionario->setDataDesligamento($dados['dataDesligamento'] ?? null);
+        $funcionario->setFeriasProgramadas($dados['feriasProgramadas'] ?? null);
+        // acima campos novos add
+
         $funcionario->setTelefone($dados['telefone'] ?? null);
         $funcionario->setWhatsapp($dados['whatsapp'] ?? null);
 
@@ -162,13 +329,13 @@ class Funcionario
                 FROM funcionario f 
                 LEFT JOIN contatoFuncionario c ON f.idFuncionario = c.idFuncionario 
                 WHERE f.cpf = :cpf";
-                
+
         $stmt = $this->pdo->prepare($sql);
         // Remove pontuação caso tenham passado com máscara na busca
         $cpfLimpo = preg_replace('/[^0-9]/', '', $cpf);
         $stmt->bindValue(':cpf', $cpfLimpo, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
@@ -179,23 +346,25 @@ class Funcionario
                 FROM funcionario f 
                 LEFT JOIN contatoFuncionario c ON f.idFuncionario = c.idFuncionario 
                 WHERE f.idFuncionario = :id";
-                
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
 
     public function save(): bool
-    { 
+    {
         try {
             $this->pdo->beginTransaction();
 
-            $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, observacoes) 
-                    VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :observacoes)";
-            
+            // atualizado o insert com os novos dados da tabela (data adm, data de desliga e férias)
+
+            $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, dataAdmissao, dataDesligamento, feriasProgramadas, observacoes) 
+                    VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status,:dataAdmissao, :dataDesligamento, :feriasProgramadas, :observacoes)";
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
             $stmt->bindValue(':cpf', $this->getCpf(), PDO::PARAM_STR);
@@ -214,8 +383,11 @@ class Funcionario
             $stmt->bindValue(':cargoFuncao', $this->getCargoFuncao(), PDO::PARAM_STR);
             $stmt->bindValue(':tipoContrato', $this->getTipoContrato(), PDO::PARAM_STR);
             $stmt->bindValue(':status', $this->getStatus(), PDO::PARAM_STR);
-            $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
-            
+            // novos dados add 
+            $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
+            $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
+            $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
+
             $stmt->execute();
 
             // Atualiza o ID do objeto instanciado
@@ -236,7 +408,12 @@ class Funcionario
             return true;
 
         } catch (\Exception $e) {
-            $this->pdo->rollBack();
+
+            //    o erro fica registrado no log do PHP/Apache;
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            error_log($e->getMessage());
             return false;
         }
     }
@@ -245,18 +422,20 @@ class Funcionario
     {
         // Impede update se não tiver ID
         if (!$this->getIdFuncionario()) {
-            return false; 
+            return false;
         }
 
         try {
             $this->pdo->beginTransaction();
 
+            // atualizado o UPDATE com os novos dados da tabela (data adm, data de desliga e férias)
             $sql = "UPDATE funcionario SET 
                     nome = :nome, sexo = :sexo, dataNascimento = :dataNascimento, naturalidade = :naturalidade, estadoNascimento = :estadoNascimento, 
                     nomeLogradouro = :nomeLogradouro, numero = :numero, complemento = :complemento, cidade = :cidade, cep = :cep, estado = :estado, 
-                    email = :email, cargoFuncao = :cargoFuncao, tipoContrato = :tipoContrato, status = :status, observacoes = :observacoes 
+                    email = :email, cargoFuncao = :cargoFuncao, tipoContrato = :tipoContrato, status = :status, dataAdmissao = :dataAdmissao,
+                    dataDesligamento = :dataDesligamento, feriasProgramadas = :feriasProgramadas, observacoes = :observacoes 
                     WHERE idFuncionario = :id";
-            
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
             $stmt->bindValue(':sexo', $this->getSexo(), PDO::PARAM_STR);
@@ -273,6 +452,11 @@ class Funcionario
             $stmt->bindValue(':cargoFuncao', $this->getCargoFuncao(), PDO::PARAM_STR);
             $stmt->bindValue(':tipoContrato', $this->getTipoContrato(), PDO::PARAM_STR);
             $stmt->bindValue(':status', $this->getStatus(), PDO::PARAM_STR);
+            //novos campos
+            $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
+            $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
+            $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
+
             $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->getIdFuncionario(), PDO::PARAM_INT);
             $stmt->execute();
@@ -292,13 +476,17 @@ class Funcionario
             $stmtContato->bindValue(':id', $this->getIdFuncionario(), PDO::PARAM_INT);
             $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
             $stmtContato->bindValue(':whatsapp', $this->getWhatsapp(), PDO::PARAM_STR);
-            $stmtContato->execute();
 
+            $stmtContato->execute();
             $this->pdo->commit();
             return true;
 
         } catch (\Exception $e) {
-            $this->pdo->rollBack();
+            //    o erro fica registrado no log do PHP/Apache;
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            error_log($e->getMessage());
             return false;
         }
     }

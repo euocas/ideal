@@ -136,6 +136,16 @@ class FuncionariosController
         $funcionario->setCargoFuncao($dados['cargoFuncao'] ?? null);
         $funcionario->setTipoContrato($dados['tipoContrato'] ?? null);
         $funcionario->setStatus($dados['status'] ?? null);
+        $funcionario->setDataAdmissao(
+            !empty($dados['dataAdmissao']) ? $dados['dataAdmissao'] : null
+        );
+        $funcionario->setDataDesligamento(
+            !empty($dados['dataDesligamento']) ? $dados['dataDesligamento'] : null
+        );
+        $funcionario->setFeriasProgramadas(
+            !empty($dados['feriasProgramadas']) ? $dados['feriasProgramadas'] : null
+        );
+
         $funcionario->setObservacoes($dados['observacoes'] ?? null);
         $funcionario->setTelefone($dados['telefone'] ?? null);
         $funcionario->setWhatsapp($dados['whatsapp'] ?? null);
@@ -146,14 +156,16 @@ class FuncionariosController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $funcionario = new Funcionario();
-            
+
             // Popula o objeto com os dados do formulário
             $this->popularObjeto($funcionario, $_POST);
 
             // O objeto salva a si mesmo
             $salvou = $funcionario->save();
-            
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
 
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "O funcionário foi cadastrado com sucesso!";
@@ -178,16 +190,18 @@ class FuncionariosController
                 if ($funcionario) {
                     // Atualizamos o objeto com os novos dados
                     $this->popularObjeto($funcionario, $_POST);
-                    
+
                     // O objeto atualiza a si mesmo
                     $atualizou = $funcionario->update();
 
-                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
 
                     if ($atualizou) {
-                         $_SESSION['mensagem_sucesso'] = "Cadastro atualizado com sucesso!";
+                        $_SESSION['mensagem_sucesso'] = "Cadastro atualizado com sucesso!";
                     } else {
-                         $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados.";
+                        $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados.";
                     }
                 }
             }
@@ -205,12 +219,14 @@ class FuncionariosController
             $funcionarioModel = new Funcionario();
             $deletou = $funcionarioModel->delete($id);
 
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
-            
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
             if ($deletou) {
-                 $_SESSION['mensagem_sucesso'] = "Funcionário excluído com sucesso!";
+                $_SESSION['mensagem_sucesso'] = "Funcionário excluído com sucesso!";
             } else {
-                 $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o funcionário.";
+                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o funcionário.";
             }
         }
 
