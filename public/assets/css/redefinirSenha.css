@@ -10,7 +10,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  background: #111;
+  background: var(--bg-login);
 }
 
 /* ==========================================
@@ -52,7 +52,7 @@ body {
   margin-bottom: 30px;
   padding: 8px 14px;
 
-  border: 1px solid #ff5a1f;
+  border: 1px solid var(--accent);
   border-radius: 20px;
 
   color: #fff;
@@ -69,13 +69,13 @@ body {
 }
 
 .overlay h1 span {
-  color: #ff5a1f;
+  color: var(--accent);
 }
 
 .overlay p {
   max-width: 500px;
 
-  color: #ddd;
+  color: var(--text-light);
   font-size: 16px;
 }
 
@@ -91,7 +91,7 @@ body {
   justify-content: center;
 
   padding: 40px;
-  background: #0e0e0e;
+  background: var(--bg-dark);
 }
 
 /* ==========================================
@@ -112,12 +112,12 @@ form h2 {
 }
 
 form h2 span {
-  color: #ff5a1f;
+  color: var(--accent);
 }
 
 .descricao {
   margin-bottom: 40px;
-  color: #999;
+  color: var(--text-light);
 }
 
 label {
@@ -126,7 +126,7 @@ label {
   margin-top: 20px;
   margin-bottom: 10px;
 
-  color: #aaa;
+  color: var(--text-light);
   font-size: 14px;
 }
 
@@ -136,13 +136,13 @@ input {
   padding: 16px;
 
   border: none;
-  background: #1b1b1b;
+  background: var(--surface-dark);
 
   color: #fff;
 }
 
 input:focus {
-  outline: 1px solid #ff5a1f;
+  outline: 1px solid var(--accent);
 }
 
 /* ==========================================
@@ -155,7 +155,7 @@ button {
   padding: 18px;
 
   border: none;
-  background: #ff5a1f;
+  background: var(--accent);
 
   color: #fff;
   font-weight: bold;
@@ -175,7 +175,7 @@ button:hover {
   margin-top: 20px;
   padding: 16px;
 
-  background: #ff5a1f;
+  background: var(--accent);
 
   color: #fff;
   font-weight: bold;
@@ -186,7 +186,7 @@ button:hover {
 }
 
 .btn-voltar-login:hover {
-  background: #e04a10;
+  background: var(--orange-dark);
 }
 
 /* ==========================================
@@ -198,7 +198,7 @@ a {
 
   margin-top: 20px;
 
-  color: #ff5a1f;
+  color: var(--accent);
   text-align: center;
   text-decoration: none;
 }
@@ -216,5 +216,5 @@ a {
 }
 
 .mensagem-sucesso h2 span {
-  color: #00bfff;
+  color: var(--info);
 }

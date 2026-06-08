@@ -9,7 +9,7 @@
 }
 
 body {
-  background: #f4f6f9;
+  background: var(--bg);
   font-family: Arial, sans-serif;
 }
 
@@ -35,16 +35,16 @@ body {
   padding: 25px;
   margin-bottom: 15px;
 
-  background: #fff;
-  border-radius: 12px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
 }
 
 .card h2 {
   margin-bottom: 10px;
 
-  color: #333;
+  color: var(--text);
   font-size: 20px;
 }
 
@@ -62,9 +62,9 @@ body {
 .busca-box {
   padding: 20px;
 
-  background: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-default);
 }
 
 .busca-box h2 {
@@ -99,7 +99,7 @@ body {
 
 .input-group label,
 .form-group label {
-  color: #444;
+  color: var(--text-secondary);
   font-size: 15px;
   font-weight: 600;
 }
@@ -123,11 +123,11 @@ body {
 .form-group textarea {
   width: 100%;
 
-  border: 1px solid #dcdfe4;
-  border-radius: 8px;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
 
-  color: #333;
+  color: var(--text);
   font-size: 15px;
 
   outline: none;
@@ -153,7 +153,7 @@ body {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #2563eb;
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
@@ -166,9 +166,9 @@ body {
   height: 46px;
 
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 
-  background: #343943;
+  background: var(--btn-dark);
 
   color: #fff;
   font-weight: 600;
@@ -178,7 +178,7 @@ body {
 }
 
 .btn-buscar:hover {
-  background: #23272f;
+  background: var(--btn-dark-hover);
 }
 
 /* ==========================================
@@ -197,9 +197,9 @@ body {
 
   overflow: hidden;
 
-  background: #eef4ff;
-  border: 1px solid #dbe6ff;
-  border-radius: 12px;
+  background: var(--surface-alt);
+  border: 1px solid var(--primary-light);
+  border-radius: var(--radius-md);
 }
 
 .dica-box::before {
@@ -212,8 +212,8 @@ body {
 
   width: 10px;
 
-  background: #2563eb;
-  border-radius: 12px 0 0 12px;
+  background: var(--primary);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
 }
 
 .dica-box h3 {
@@ -223,12 +223,12 @@ body {
 
   margin-bottom: 12px;
 
-  color: #2c4f94;
+  color: var(--primary);
   font-size: 17px;
 }
 
 .dica-box p {
-  color: #555;
+  color: var(--text-muted);
   font-size: 16px;
   line-height: 1.5;
 }
@@ -251,9 +251,9 @@ body {
   margin-top: 4px;
   padding-top: 16px;
 
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--border-light);
 
-  color: #333;
+  color: var(--text);
   font-size: 19px;
   font-weight: bold;
 }
@@ -296,9 +296,9 @@ body {
 .card-observacoes {
   padding: 20px;
 
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
 }
 
 .card-observacoes {
@@ -310,7 +310,7 @@ body {
 .card-observacoes h3 {
   margin-bottom: 20px;
 
-  color: #333;
+  color: var(--text);
   font-size: 22px;
   font-weight: 600;
 }
@@ -331,8 +331,8 @@ body {
 .card-observacoes textarea {
   padding: 10px;
 
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 /* ==========================================
@@ -354,7 +354,7 @@ body {
   padding: 12px 22px;
 
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
 
   color: #fff;
   font-weight: bold;
@@ -373,24 +373,24 @@ body {
 ========================================== */
 
 .novo {
-  background: #3b82f6;
+  background: var(--btn-primary);
 }
 
 .salvar {
-  background: #22c55e;
+  background: var(--btn-success);
 }
 
 .alterar {
-  background: #f59e0b;
+  background: var(--btn-warning);
 }
 
 .excluir {
-  background: #ef4444;
+  background: var(--btn-danger);
 }
 
 .limpar {
-  background: #d1d5db;
-  color: #333;
+  background: var(--btn-secondary);
+  color: var(--text);
 }
 
 /* ==========================================

@@ -6,7 +6,9 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
 
     <!-- LOGO -->
     <div class="logo">
-        <img src="/ideal/public/assets/img/logo.png" alt="Logo Ideal">
+        <a href="/ideal/public/index.php?url=dashboard">
+    <img src="/ideal/public/assets/img/logo.png" alt="Logo Ideal">
+</a>
     </div>
 
     <!-- MENU -->

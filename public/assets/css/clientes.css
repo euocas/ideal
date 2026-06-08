@@ -19,8 +19,8 @@
 .busca-box {
   padding: 20px;
   background: var(--surface);
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
 }
 
 .busca-box h2 {
@@ -48,7 +48,7 @@
   height: 46px;
   border: none;
   border-radius: var(--radius-sm);
-  background: #343943;
+  background: var(--btn-dark);
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -56,7 +56,7 @@
 }
 
 .btn-buscar:hover {
-  background: #23272f;
+  background: var(--btn-dark-hover);
 }
 
 /* ==========================================
@@ -71,9 +71,9 @@
   height: 100%;
   padding: 20px 22px 20px 30px;
   overflow: hidden;
-  background: #eef4ff;
-  border: 1px solid #dbe6ff;
-  border-radius: 12px;
+  background: var(--surface-alt);
+  border: 1px solid var(--primary-light);
+  border-radius: var(--radius-md);
 }
 
 .dica-box::before {
@@ -83,7 +83,7 @@
   top: 0;
   bottom: 0;
   width: 10px;
-  background: #2563eb;
+  background: var(--primary);
   border-radius: 12px 0 0 12px;
 }
 .dica-box h3 {
@@ -91,12 +91,12 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
-  color: #2c4f94;
+  color: var(--primary);
   font-size: 17px;
 }
 
 .dica-box p {
-  color: #555;
+  color: var(--text-muted);
   font-size: 16px;
   line-height: 1.5;
 }
@@ -118,7 +118,7 @@
   margin-top: 4px;
   padding-top: 16px;
   border-top: 1px solid var(--border-light);
-  color: #333;
+  color: var(--text);
   font-size: 19px;
   font-weight: bold;
 }

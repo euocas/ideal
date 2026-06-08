@@ -10,7 +10,7 @@
 }
 
 body {
-  background: #f1f1f1;
+  background: var(--bg);
 }
 
 /* ==========================================
@@ -26,7 +26,7 @@ body {
 .content {
   flex: 1;
   padding: 40px;
-  background: #f5f5f5;
+  background: var(--bg);
 }
 
 /* ==========================================
@@ -49,7 +49,7 @@ body {
 
   padding: 20px;
 
-  background: #151515;
+  background: var(--bg-dark);
   color: #fff;
 }
 
@@ -101,19 +101,19 @@ body {
 
 .menu li a:hover,
 .menu li a.active:hover {
-  background: #e04a10 !important;
+  background: var(--orange-dark) !important;
   color: #fff !important;
 }
 
 .menu li a.active {
-  background: #494949;
+  background: var(--btn-dark);
   color: #fff;
 }
 
 .menu-title {
   margin: 25px 0 15px;
 
-  color: #e04a10;
+  color: var(--orange-dark);
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -144,7 +144,7 @@ body {
 
   flex-shrink: 0;
 
-  background: #e04a10;
+  background: var(--orange-dark);
   border-radius: 50%;
 
   color: #fff;
@@ -165,7 +165,7 @@ body {
 .user-info span {
   margin-top: 4px;
 
-  color: #8f98a8;
+  color: var(--text-light);
   font-size: 14px;
 }
 
@@ -182,9 +182,9 @@ body {
   margin-bottom: 40px;
   padding: 25px;
 
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
 }
 
 .content input[type="text"] {
@@ -195,9 +195,9 @@ body {
 
   background: transparent;
   border: none;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid var(--border-light);
 
-  color: #333;
+  color: var(--text);
   font-size: 15px;
 
   outline: none;
@@ -205,15 +205,15 @@ body {
 }
 
 .content input[type="text"]:focus {
-  border-bottom-color: #e04a10;
+  border-bottom-color: var(--orange-dark);
 }
 
 .content button[type="submit"] {
   padding: 10px 25px;
 
-  background: #333;
+  background: var(--btn-dark);
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 
   color: #fff;
   font-size: 13px;
@@ -225,24 +225,11 @@ body {
 }
 
 .content button[type="submit"]:hover {
-  background: #e04a10;
+  background: var(--orange-dark);
 }
 
-/* ==========================================
-   TÍTULOS
-========================================== */
-
 .titulo-pagina {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  margin-bottom: 30px;
-
-  border: none;
-  padding: 0;
-
-  color: #1a1a1a;
+  color: var(--text);
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 24px;
   font-weight: 700;
@@ -254,7 +241,7 @@ body {
   flex: 1;
   height: 1px;
 
-  background: linear-gradient(to right, #e04a10, transparent);
+  background: linear-gradient(to right, var(--orange-dark), transparent);
   opacity: 0.3;
 }
 
@@ -265,7 +252,7 @@ body {
 .titulo-dashboard {
   margin-bottom: 10px;
 
-  color: #111;
+  color: var(--text);
   font-size: 42px;
   line-height: 1.1;
 }
@@ -273,7 +260,7 @@ body {
 .subtitulo-dashboard {
   margin-bottom: 50px;
 
-  color: #111;
+  color: var(--text);
   font-size: 32px;
 }
 
@@ -286,9 +273,9 @@ body {
 
   padding: 45px 20px 20px;
 
-  background: #fcfcfc;
-  border: 1px solid #f2b08f;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--orange-light);
+  border-radius: var(--radius-md);
 }
 
 .painel-titulo {
@@ -298,9 +285,9 @@ body {
 
   padding: 0 12px;
 
-  background: #f5f5f5;
+  background: var(--bg);
 
-  color: #222;
+  color: var(--text);
   font-size: 28px;
   font-weight: 600;
 }
@@ -324,9 +311,9 @@ body {
 
   padding: 25px;
 
-  background: #fff;
-  border: 1px solid #f1f1f1;
-  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
 
   color: inherit;
   text-align: center;
@@ -334,12 +321,12 @@ body {
 
   transition: 0.3s ease;
 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-sm);
 }
 
 .card-dashboard:hover {
   transform: translateY(-5px);
-  border-color: #e04a10;
+  border-color: var(--orange-dark);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
@@ -357,10 +344,10 @@ body {
 
   flex-shrink: 0;
 
-  background: #fff1eb;
-  border-radius: 18px;
+  background: var(--surface-alt);
+  border-radius: var(--radius-lg);
 
-  color: #e04a10;
+  color: var(--orange-dark);
   font-size: 32px;
 }
 
@@ -385,21 +372,21 @@ body {
 ========================================== */
 
 .card-clientes p {
-  color: #2563eb;
+  color: var(--primary);
 }
 
 .card-funcionarios p {
-  color: #ea580c;
+  color: var(--orange-dark);
 }
 
 .card-obras p {
-  color: #059669;
+  color: var(--success);
 }
 
 .card-financeiros p {
-  color: #ca8a04;
+  color: var(--warning);
 }
 
 .card-veiculos p {
-  color: #7c3aed;
+  color: var(--purple);
 }

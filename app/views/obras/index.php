@@ -8,6 +8,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 <link rel="shortcut icon" href="/ideal/public/assets/icons/obra2.png" type="image/x-icon">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/obras.css?v=<?= time() ?>">
 </head>
 

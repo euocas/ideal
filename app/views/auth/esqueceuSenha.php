@@ -10,6 +10,7 @@
 
     <title>Redefinir Senha</title>
 
+    <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
     <link rel="stylesheet"
           href="/ideal/public/assets/css/redefinirSenha.css">
 

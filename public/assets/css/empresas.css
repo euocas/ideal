@@ -9,7 +9,7 @@
 }
 
 body {
-  background: #f4f6f9;
+  background: var(--bg);
   font-family: Arial, sans-serif;
 }
 

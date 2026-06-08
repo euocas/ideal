@@ -1,51 +1,56 @@
 :root {
 
   /* FUNDOS */
-
   --bg: #f4f6f9;
   --bg-login: #0d0d0d;
   --surface: #ffffff;
+  --surface-alt: #eef4ff;
 
   /* CORES */
-
   --primary: #2563eb;
   --primary-light: #eef4ff;
-
   --success: #22c55e;
   --warning: #f59e0b;
   --danger: #ef4444;
-
   --orange: #f97316;
   --orange-dark: #e04a10;
+  --orange-light: #f2b08f;
+  --purple: #7c3aed;
+  --info: #00bfff;
 
   /* BOTÕES */
-
   --btn-primary: #3b82f6;
   --btn-success: #22c55e;
   --btn-warning: #f59e0b;
   --btn-danger: #ef4444;
   --btn-secondary: #d1d5db;
+  --btn-dark: #343943;
+  --btn-dark-hover: #23272f;
+  --surface-dark: #222222;
+  --bg-dark: #151515;
+  --accent: #ff5a1f;
 
   /* TEXTOS */
-
   --text: #333333;
-  --text-muted: #666666;
+  --text-secondary: #444444;
+  --text-muted: #555555;
+  --text-light: #666666;
 
   /* BORDAS */
+  --border: #dcdfe4;
+  --border-light: #e5e7eb;
+  --border-soft: #dcdcdc;
 
---border: #dcdfe4;
---border-light: #e5e7eb;
+  /* RADIUS */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-default: 10px;
+  --radius-lg: 18px;
 
-/* RADIUS */
+  /* SOMBRAS */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
 
---radius-sm: 8px;
---radius-md: 12px;
+  /* TRANSIÇÕES */
+  --transition: all .2s ease;
 
-/* SOMBRAS */
-
---shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-
-/* TRANSIÇÕES */
-
---transition: all .2s ease;
 }

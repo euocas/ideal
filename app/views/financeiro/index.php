@@ -35,6 +35,7 @@ $actionAutomovel = $isEditAutomovel
 <link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/financeiro.css?v=<?= time() ?>">
 </head>
 

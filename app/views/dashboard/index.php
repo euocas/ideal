@@ -6,6 +6,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 <link rel="shortcut icon" href="assets/icons/home.png" type="image/x-icon">
 <link rel="stylesheet" href="assets/css/dashboard.css?v=<?= time() ?>">
+<link rel="stylesheet" href="assets/css/variables.css">
 
 
 </head>

@@ -44,6 +44,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
 
 <link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/relatorios.css?v=<?= time() ?>">
 </head>
 
