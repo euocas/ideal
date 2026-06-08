@@ -1,0 +1,66 @@
+.card {
+  padding: 25px;
+  margin-bottom: 15px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.acoes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn {
+  min-width: 150px;
+  min-height: 52px;
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.novo {
+  background: var(--btn-primary);
+}
+
+.salvar {
+  background: var(--btn-success);
+}
+
+.alterar {
+  background: var(--btn-warning);
+}
+
+.excluir {
+  background: var(--btn-danger);
+}
+
+.limpar {
+  background: var(--btn-secondary);
+  color: var(--text);
+}
+
+@media (max-width: 700px) {
+  .acoes {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
