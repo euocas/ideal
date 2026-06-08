@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
 <link rel="stylesheet" href="/ideal/public/assets/css/clientes.css?v=<?= time() ?>">
 </head>

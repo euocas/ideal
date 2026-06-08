@@ -1,368 +1,456 @@
-/* =============================================
-   financeiro.css
-   Estilo da tela Financeiro — padrão do sistema
-   ============================================= */
+/* ==========================================
+   RESET
+========================================== */
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background: #f4f6f9;
-    font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  font-family: Arial, sans-serif;
 }
 
-/* LAYOUT */
+/* ==========================================
+   LAYOUT
+========================================== */
+
 .dashboard-container {
-    display: flex;
-    min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
 .main-content {
-    flex: 1;
-    padding: 25px;
+  flex: 1;
+  padding: 25px;
 }
 
-/* =========================
-   HEADER DA PÁGINA
-========================= */
+/* ==========================================
+   HEADER
+========================================== */
 
 .fin-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
 }
 
 .fin-header h1 {
-    font-size: 28px;
-    color: #222;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #222;
+  font-size: 28px;
 }
 
 .fin-header h1 i {
-    color: #f97316;
+  color: #f97316;
 }
 
 .fin-header p {
-    color: #666;
-    margin-top: 4px;
-    font-size: 14px;
+  margin-top: 4px;
+
+  color: #666;
+  font-size: 14px;
 }
 
-/* =========================
+/* ==========================================
    ALERTAS
-========================= */
+========================================== */
 
 .alerta {
-    padding: 14px 18px;
-    border-radius: 8px;
-    margin-bottom: 18px;
-    font-weight: bold;
-    font-size: 14px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .alerta-sucesso {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
 }
 
 .alerta-erro {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
 }
 
-/* =========================
+/* ==========================================
    ABAS
-========================= */
+========================================== */
 
 .abas-container {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 18px;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 0;
+  display: flex;
+  gap: 8px;
+
+  margin-bottom: 18px;
+  padding-bottom: 0;
+
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .aba {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    border-radius: 8px 8px 0 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: #666;
-    text-decoration: none;
-    border: 1px solid transparent;
-    border-bottom: none;
-    background: transparent;
-    transition: 0.2s;
-    position: relative;
-    bottom: -2px;
+  position: relative;
+  bottom: -2px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 11px 22px;
+
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: 0.2s;
 }
 
 .aba:hover {
-    color: #f97316;
-    background: #fff7f0;
+  background: #fff7f0;
+  color: #f97316;
 }
 
 .aba.ativa {
-    background: #fff;
-    color: #f97316;
-    border-color: #e5e7eb;
-    border-bottom-color: #fff;
+  background: #fff;
+  border-color: #e5e7eb;
+  border-bottom-color: #fff;
+  color: #f97316;
 }
 
 .aba i {
-    font-size: 15px;
+  font-size: 15px;
 }
 
-/* =========================
+/* ==========================================
    CARD
-========================= */
+========================================== */
 
 .card {
-    background: white;
-    border-radius: 12px;
-    padding: 28px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 28px;
+  margin-bottom: 16px;
+
+  background: #fff;
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* CABEÇALHO DO CARD */
+/* ==========================================
+   CABEÇALHO DO CARD
+========================================== */
+
 .card-titulo {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 28px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .icone-aba {
-    font-size: 30px;
-    color: #f97316;
-    margin-top: 2px;
+  margin-top: 2px;
+
+  color: #f97316;
+  font-size: 30px;
 }
 
 .card-titulo h2 {
-    font-size: 20px;
-    color: #222;
-    margin-bottom: 4px;
+  margin-bottom: 4px;
+
+  color: #222;
+  font-size: 20px;
 }
 
 .card-titulo p {
-    font-size: 13px;
-    color: #777;
+  color: #777;
+  font-size: 13px;
 }
 
-/* =========================
+/* ==========================================
    FORMULÁRIO
-========================= */
+========================================== */
 
 .grid-form {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px 20px;
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+.span-3 {
+  grid-column: span 3;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-/* span helpers */
-.span-2 { grid-column: span 2; }
-.span-3 { grid-column: span 3; }
-
 .form-group label {
-    margin-bottom: 8px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #444;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 8px;
+
+  color: #444;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .form-group label i {
-    color: #f97316;
-    font-size: 13px;
+  color: #f97316;
+  font-size: 13px;
 }
 
 .obrigatorio {
-    color: #ef4444;
-    font-size: 15px;
+  color: #ef4444;
+  font-size: 15px;
 }
 
-/* INPUTS */
+/* ==========================================
+   CAMPOS
+========================================== */
+
 .form-group input,
 .form-group select,
 .form-group textarea {
-    width: 100%;
-    border: 1px solid #dcdfe4;
-    border-radius: 8px;
-    background: #fff;
-    font-size: 14px;
-    color: #333;
-    outline: none;
-    transition: 0.2s;
+  width: 100%;
+
+  border: 1px solid #dcdfe4;
+  border-radius: 8px;
+  background: #fff;
+
+  color: #333;
+  font-size: 14px;
+
+  outline: none;
+  transition: 0.2s;
 }
 
 .form-group input,
 .form-group select {
-    height: 46px;
-    padding: 0 14px;
+  height: 46px;
+  padding: 0 14px;
 }
 
 .form-group textarea {
-    min-height: 100px;
-    padding: 12px 14px;
-    resize: vertical;
+  min-height: 100px;
+  padding: 12px 14px;
+  resize: vertical;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    border-color: #f97316;
-    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
 }
 
-/* PREFIXO R$ */
+/* ==========================================
+   INPUT PREFIXO
+========================================== */
+
 .input-prefixo {
-    display: flex;
-    align-items: center;
-    border: 1px solid #dcdfe4;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: 0.2s;
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  border: 1px solid #dcdfe4;
+  border-radius: 8px;
+
+  transition: 0.2s;
 }
 
 .input-prefixo:focus-within {
-    border-color: #f97316;
-    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
 }
 
 .prefixo {
-    padding: 0 12px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    background: #f8f9fa;
-    border-right: 1px solid #dcdfe4;
-    color: #666;
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
+  display: flex;
+  align-items: center;
+
+  height: 46px;
+  padding: 0 12px;
+
+  background: #f8f9fa;
+  border-right: 1px solid #dcdfe4;
+
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
 .input-prefixo input {
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    flex: 1;
+  flex: 1;
+
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
-/* CARD RESUMO TOTAL */
+/* ==========================================
+   RESUMO TOTAL
+========================================== */
+
 .resumo-total {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 20px;
-    background: #fff7f0;
-    border: 1px solid #fed7aa;
-    border-radius: 10px;
-    font-size: 15px;
-    color: #555;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 16px 20px;
+
+  background: #fff7f0;
+  border: 1px solid #fed7aa;
+  border-radius: 10px;
+
+  color: #555;
+  font-size: 15px;
 }
 
 .resumo-total i {
-    color: #f97316;
-    font-size: 18px;
+  color: #f97316;
+  font-size: 18px;
 }
 
 .resumo-total strong {
-    color: #c2410c;
-    font-size: 18px;
-    margin-left: auto;
+  margin-left: auto;
+
+  color: #c2410c;
+  font-size: 18px;
 }
 
-/* =========================
-   BOTÕES DE AÇÃO
-========================= */
+/* ==========================================
+   AÇÕES
+========================================== */
 
 .acoes {
-    margin-top: 8px;
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 8px;
 }
 
 .btn {
-    min-width: 150px;
-    min-height: 50px;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    transition: 0.2s;
+  min-width: 150px;
+  min-height: 50px;
+  padding: 12px 22px;
+
+  border: none;
+  border-radius: 8px;
+
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.92;
+  transform: translateY(-2px);
+  opacity: 0.92;
 }
 
-.novo    { background: #3b82f6; }
-.salvar  { background: #22c55e; }
-.alterar { background: #f59e0b; }
-.excluir { background: #ef4444; }
-.limpar  { background: #d1d5db; color: #333; }
+/* ==========================================
+   VARIAÇÕES DOS BOTÕES
+========================================== */
 
-/* =========================
+.novo {
+  background: #3b82f6;
+}
+
+.salvar {
+  background: #22c55e;
+}
+
+.alterar {
+  background: #f59e0b;
+}
+
+.excluir {
+  background: #ef4444;
+}
+
+.limpar {
+  background: #d1d5db;
+  color: #333;
+}
+
+/* ==========================================
    RESPONSIVO
-========================= */
+========================================== */
 
 @media (max-width: 1100px) {
-    .grid-form {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .span-2 { grid-column: span 2; }
-    .span-3 { grid-column: span 2; }
+  .grid-form {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .span-2,
+  .span-3 {
+    grid-column: span 2;
+  }
 }
 
 @media (max-width: 900px) {
-    .abas-container {
-        flex-wrap: wrap;
-    }
+  .abas-container {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 700px) {
-    .main-content { padding: 15px; }
+  .main-content {
+    padding: 15px;
+  }
 
-    .grid-form {
-        grid-template-columns: 1fr;
-    }
+  .grid-form {
+    grid-template-columns: 1fr;
+  }
 
-    .span-2, .span-3 { grid-column: span 1; }
+  .span-2,
+  .span-3 {
+    grid-column: span 1;
+  }
 
-    .acoes {
-        flex-direction: column;
-    }
+  .acoes {
+    flex-direction: column;
+  }
 
-    .btn { width: 100%; }
+  .btn {
+    width: 100%;
+  }
 
-    .fin-header h1 { font-size: 22px; }
+  .fin-header h1 {
+    font-size: 22px;
+  }
 }

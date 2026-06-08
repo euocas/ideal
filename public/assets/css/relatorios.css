@@ -1,3 +1,7 @@
+/* ==========================================
+   RESET
+========================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -9,6 +13,10 @@ body {
   font-family: Arial, sans-serif;
 }
 
+/* ==========================================
+   LAYOUT
+========================================== */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -19,46 +27,49 @@ body {
   padding: 20px;
 }
 
-/* CONTAINER */
-
 .relatorios-container {
   width: 100%;
 }
 
+/* ==========================================
+   TÍTULO DA PÁGINA
+========================================== */
+
 .titulo-pagina {
-  /* margin-bottom: 20px; */
-  margin-bottom: 14px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 14px;
 }
 
 .titulo-pagina h1 {
+  margin-bottom: 2px;
   font-size: 35px;
   color: #222;
-  margin-bottom: 2px;
 }
 
 .titulo-pagina p {
-  color: #666;
   margin-top: 0.5px;
+  color: #666;
 }
 
-/* CONTEÚDO */
+/* ==========================================
+   CONTEÚDO
+========================================== */
 
 .conteudo-relatorios {
   display: flex;
-  gap: 20px;
   align-items: flex-start;
+  gap: 20px;
 }
-
-/* PAINEL */
 
 .painel-relatorio {
   flex: 1;
 }
 
-/* CARDS */
+/* ==========================================
+   CARDS
+========================================== */
 
 .card {
   background: #fff;
@@ -68,11 +79,13 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* FILTROS */
+/* ==========================================
+   FILTROS
+========================================== */
 
 .card-filtros h2 {
-  font-size: 24px;
   margin-bottom: 25px;
+  font-size: 24px;
   color: #222;
 }
 
@@ -92,40 +105,27 @@ body {
 }
 
 .campo label {
-  font-size: 14px;
   margin-bottom: 8px;
-  color: #444;
+  font-size: 14px;
   font-weight: bold;
+  color: #444;
 }
 
 .campo input,
 .campo select {
   height: 45px;
+  padding: 0 12px;
+
   border: 1px solid #dcdcdc;
   border-radius: 10px;
-  padding: 0 12px;
+
   background: #fff;
   outline: none;
 }
 
-/* BOTÕES */
-
-.acoes-filtros {
-  display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 25px;
-}
-
-.btn-filtrar {
-  background: #2563eb;
-  color: white;
-}
-
-.btn-todos {
-  background: #f97316;
-  color: white;
-}
+/* ==========================================
+   BOTÕES
+========================================== */
 
 .btn-limpar,
 .btn-gerar,
@@ -133,26 +133,35 @@ body {
 .btn-todos,
 .btn-excel,
 .btn-pdf {
+  padding: 14px 22px;
 
-    border: none;
-    border-radius: 10px;
-    padding: 14px 22px;
+  border: none;
+  border-radius: 10px;
 
-    font-weight: bold;
+  font-weight: bold;
+  cursor: pointer;
 
-    cursor: pointer;
+  transition: 0.3s;
+}
 
-    transition: 0.3s;
+.btn-filtrar {
+  background: #2563eb;
+  color: #fff;
+}
+
+.btn-todos {
+  background: #f97316;
+  color: #fff;
+}
+
+.btn-gerar {
+  background: #2563eb;
+  color: #fff;
 }
 
 .btn-limpar {
   background: #f3f4f6;
   color: #333;
-}
-
-.btn-gerar {
-  background: #2563eb;
-  color: white;
 }
 
 .btn-excel {
@@ -162,32 +171,47 @@ body {
 
 .btn-pdf {
   background: #111827;
-  color: white;
+  color: #fff;
 }
 
 .btn-limpar:hover,
 .btn-gerar:hover,
 .btn-excel:hover,
-.btn-pdf:hover {
+.btn-pdf:hover,
+.btn-filtrar:hover,
+.btn-todos:hover {
   transform: translateY(-2px);
 }
 
-/* PREVIEW */
+.acoes-filtros {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+/* ==========================================
+   PREVIEW
+========================================== */
 
 .card-preview h2 {
   margin-bottom: 20px;
 }
 
 .alerta-preview {
-  background: #eef4ff;
-  color: #2563eb;
-  padding: 14px;
-  border-radius: 10px;
   margin-bottom: 20px;
+  padding: 14px;
+
+  background: #eef4ff;
+  border-radius: 10px;
+
+  color: #2563eb;
   font-size: 14px;
 }
 
-/* TABELA */
+/* ==========================================
+   TABELA
+========================================== */
 
 .tabela-container {
   overflow-x: auto;
@@ -199,22 +223,30 @@ table {
 }
 
 table th {
-  background: #f8fafc;
-  color: #333;
-  text-align: left;
   padding: 14px;
+
+  background: #f8fafc;
+
+  color: #333;
   font-size: 14px;
+  text-align: left;
 }
 
 table td {
   padding: 14px;
   border-top: 1px solid #eee;
+
   font-size: 14px;
 }
+
+/* ==========================================
+   STATUS
+========================================== */
 
 .status {
   padding: 6px 12px;
   border-radius: 20px;
+
   font-size: 12px;
   font-weight: bold;
 }
@@ -229,13 +261,16 @@ table td {
   color: #dc2626;
 }
 
-/* FOOTER */
+/* ==========================================
+   FOOTER
+========================================== */
 
 .footer-preview {
-  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  margin-top: 20px;
 }
 
 .acoes-exportar {
@@ -243,73 +278,69 @@ table td {
   gap: 15px;
 }
 
-/* SIDEBAR RELATÓRIOS */
+/* ==========================================
+   SIDEBAR
+========================================== */
 
 .sidebar-relatorios {
   width: 300px;
+
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-/* .card-relatorio {
-  background: white;
-  border-radius: 18px;
-  padding: 28px;
-  display: flex;
-  gap: 15px;
-  align-items: flex-start;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: 0.3s;
-  cursor: pointer;
-  border: 1.7px solid rgba(249, 115, 22, 0.25);
-
-} */
+/* ==========================================
+   CARD RELATÓRIO
+========================================== */
 
 .card-relatorio {
-  background: white;
-  border-radius: 18px;
-  padding: 28px;
   display: flex;
+  align-items: flex-start;
+  gap: 15px;
+
   width: 100%;
   min-height: 150px;
-  gap: 15px;
-  align-items: flex-start;
+  padding: 28px;
+
+  background: #fff;
+  border: 1.7px solid rgba(249, 115, 22, 0.25);
+  border-radius: 18px;
+
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: 0.3s;
-  cursor: pointer;
-  border: 1.7px solid rgba(249, 115, 22, 0.25);
-}
 
-/* .card-relatorio:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.28);
-} */
+  cursor: pointer;
+  transition: 0.3s;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
 
 .card-relatorio:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.2);
   border-color: rgba(249, 115, 22, 0.45);
+  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.2);
 }
+
 .card-relatorio img {
   width: 50px;
 }
 
 .card-relatorio h3 {
-  font-size: 16px;
   margin-bottom: 8px;
+  font-size: 16px;
   color: #222;
 }
 
 .card-relatorio p {
   font-size: 13px;
-  color: #666;
   line-height: 1.5;
+  color: #666;
 }
 
-/* RESPONSIVO */
+/* ==========================================
+   RESPONSIVO
+========================================== */
 
 @media (max-width: 1200px) {
   .conteudo-relatorios {
@@ -332,7 +363,7 @@ table td {
 
   .footer-preview {
     flex-direction: column;
-    gap: 15px;
     align-items: flex-start;
+    gap: 15px;
   }
 }

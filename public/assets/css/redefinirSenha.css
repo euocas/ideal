@@ -1,3 +1,7 @@
+/* ==========================================
+   RESET
+========================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -9,49 +13,59 @@ body {
   background: #111;
 }
 
+/* ==========================================
+   LAYOUT
+========================================== */
+
 .container {
   display: flex;
   height: 100vh;
 }
 
-/* LADO ESQUERDO */
+/* ==========================================
+   LADO ESQUERDO
+========================================== */
 
 .left-side {
   flex: 2;
+  position: relative;
+
   background-image: url("/ideal/public/assets/img/bg-login.jpg");
   background-size: cover;
   background-position: center;
-  position: relative;
 }
 
 .overlay {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.45);
-
   display: flex;
   flex-direction: column;
   justify-content: center;
 
+  width: 100%;
+  height: 100%;
   padding: 60px;
+
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .tag {
-  border: 1px solid #ff5a1f;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 20px;
   width: fit-content;
-  font-size: 12px;
   margin-bottom: 30px;
+  padding: 8px 14px;
+
+  border: 1px solid #ff5a1f;
+  border-radius: 20px;
+
+  color: #fff;
+  font-size: 12px;
 }
 
 .overlay h1 {
-  color: white;
-  font-size: 72px;
-  line-height: 0.95;
-  font-weight: bold;
   margin-bottom: 30px;
+
+  color: #fff;
+  font-size: 72px;
+  font-weight: bold;
+  line-height: 0.95;
 }
 
 .overlay h1 span {
@@ -59,23 +73,30 @@ body {
 }
 
 .overlay p {
-  color: #ddd;
   max-width: 500px;
+
+  color: #ddd;
   font-size: 16px;
 }
 
-/* LADO DIREITO */
+/* ==========================================
+   LADO DIREITO
+========================================== */
 
 .right-side {
   flex: 1;
-  background: #0e0e0e;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   padding: 40px;
+  background: #0e0e0e;
 }
+
+/* ==========================================
+   FORMULÁRIO
+========================================== */
 
 form {
   width: 100%;
@@ -83,10 +104,11 @@ form {
 }
 
 form h2 {
-  color: white;
+  margin-bottom: 20px;
+
+  color: #fff;
   font-size: 48px;
   line-height: 1;
-  margin-bottom: 20px;
 }
 
 form h2 span {
@@ -94,40 +116,51 @@ form h2 span {
 }
 
 .descricao {
-  color: #999;
   margin-bottom: 40px;
+  color: #999;
 }
 
 label {
   display: block;
-  color: #aaa;
-  margin-bottom: 10px;
+
   margin-top: 20px;
+  margin-bottom: 10px;
+
+  color: #aaa;
   font-size: 14px;
 }
 
 input {
   width: 100%;
-  padding: 16px;
-  background: #1b1b1b;
-  border: none;
-  color: white;
   margin-bottom: 10px;
+  padding: 16px;
+
+  border: none;
+  background: #1b1b1b;
+
+  color: #fff;
 }
 
 input:focus {
   outline: 1px solid #ff5a1f;
 }
 
+/* ==========================================
+   BOTÕES
+========================================== */
+
 button {
   width: 100%;
-  padding: 18px;
-  background: #ff5a1f;
-  border: none;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
   margin-top: 30px;
+  padding: 18px;
+
+  border: none;
+  background: #ff5a1f;
+
+  color: #fff;
+  font-weight: bold;
+
+  cursor: pointer;
   transition: 0.3s;
 }
 
@@ -135,48 +168,53 @@ button:hover {
   opacity: 0.9;
 }
 
-a {
-  display: block;
-  text-align: center;
-  color: #ff5a1f;
-  margin-top: 20px;
-  text-decoration: none;
-}
 .btn-voltar-login {
+  display: block;
 
-    display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px;
 
-    width: 100%;
+  background: #ff5a1f;
 
-    padding: 16px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
 
-    background: #ff5a1f;
-
-    color: white;
-
-    text-align: center;
-
-    text-decoration: none;
-
-    font-weight: bold;
-
-    margin-top: 20px;
-
-    transition: 0.3s;
+  transition: 0.3s;
 }
 
 .btn-voltar-login:hover {
-
-    background: #e04a10;
+  background: #e04a10;
 }
 
-.mensagem-sucesso{
+/* ==========================================
+   LINKS
+========================================== */
+
+a {
+  display: block;
+
+  margin-top: 20px;
+
+  color: #ff5a1f;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* ==========================================
+   MENSAGEM DE SUCESSO
+========================================== */
+
+.mensagem-sucesso {
   text-align: center;
 }
+
 .mensagem-sucesso h2 {
-    color: white;
+  color: #fff;
 }
 
 .mensagem-sucesso h2 span {
-    color: #00bfff; /* exemplo azul */
+  color: #00bfff;
 }

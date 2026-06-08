@@ -1,0 +1,51 @@
+:root {
+
+  /* FUNDOS */
+
+  --bg: #f4f6f9;
+  --bg-login: #0d0d0d;
+  --surface: #ffffff;
+
+  /* CORES */
+
+  --primary: #2563eb;
+  --primary-light: #eef4ff;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  --orange: #f97316;
+  --orange-dark: #e04a10;
+
+  /* BOTÕES */
+
+  --btn-primary: #3b82f6;
+  --btn-success: #22c55e;
+  --btn-warning: #f59e0b;
+  --btn-danger: #ef4444;
+  --btn-secondary: #d1d5db;
+
+  /* TEXTOS */
+
+  --text: #333333;
+  --text-muted: #666666;
+
+  /* BORDAS */
+
+--border: #dcdfe4;
+--border-light: #e5e7eb;
+
+/* RADIUS */
+
+--radius-sm: 8px;
+--radius-md: 12px;
+
+/* SOMBRAS */
+
+--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+/* TRANSIÇÕES */
+
+--transition: all .2s ease;
+}

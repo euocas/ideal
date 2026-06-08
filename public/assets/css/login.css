@@ -1,250 +1,297 @@
+/* ==========================================
+   RESET
+========================================== */
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    background: #0d0d0d;
-    color: white;
-
+  background: var(--bg-login, #0d0d0d);
+  color: #fff;
 }
 
-.login-box .logo {
-    display: flex;
-    justify-content: center;
-    margin-top: -8px;
-    margin-bottom: 80px; /* aumenta o respiro antes do título */
-}
-
-.login-box .logo img {
-    width: 250px;
-    height: auto;
-    display: block;
-}
+/* ==========================================
+   LAYOUT
+========================================== */
 
 .container {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
-/* ── LADO ESQUERDO ── */
+/* ==========================================
+   LADO ESQUERDO
+========================================== */
+
 .left {
-    width: 70%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 80px;
-    overflow: hidden;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 70%;
+  padding: 80px;
+
+  overflow: hidden;
 }
 
 .left::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url('../img/bg-login.jpg') center/cover no-repeat;
-    z-index: 0;
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: url("../img/bg-login.jpg") center/cover no-repeat;
+
+  z-index: 0;
 }
 
 .left::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(5, 5, 5, 0.62);
-    z-index: 1;
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: rgba(5, 5, 5, 0.62);
+
+  z-index: 1;
 }
 
 .conteudo {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 
 .tag {
-    display: inline-block;
-    border: 1px solid #ff5a1f;
-    color: white;
-    font-size: 12px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-    letter-spacing: 1px;
+  display: inline-block;
+
+  margin-bottom: 30px;
+  padding: 6px 14px;
+
+  border: 1px solid #ff5a1f;
+  border-radius: 20px;
+
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 1px;
 }
 
 .conteudo h1 {
-    font-size: 90px;
-    line-height: 90px;
+  font-size: 90px;
+  line-height: 90px;
 }
 
 .conteudo h1 span {
-    color: #ff5a1f;
+  color: #ff5a1f;
 }
 
 .conteudo p {
-    margin-top: 30px;
-    color: #ccc;
-    width: 400px;
-    font-size: 15px;
+  width: 400px;
+  margin-top: 30px;
+
+  color: #ccc;
+  font-size: 15px;
 }
 
-/* ── LADO DIREITO ── */
+/* ==========================================
+   LADO DIREITO
+========================================== */
+
 .right {
-    width: 30%;
-    background: #151515;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 30%;
+
+  background: #151515;
 }
+
+/* ==========================================
+   LOGIN BOX
+========================================== */
 
 .login-box {
-    width: 80%;
+  width: 80%;
+}
+
+.login-box .logo {
+  display: flex;
+  justify-content: center;
+
+  margin-top: -8px;
+  margin-bottom: 80px;
+}
+
+.login-box .logo img {
+  display: block;
+  width: 250px;
+  height: auto;
 }
 
 .login-box h2 {
-    margin-bottom: 10px;
-    font-size: 36px;
-    line-height: 1.2;
+  margin-bottom: 10px;
+
+  font-size: 36px;
+  line-height: 1.2;
 }
 
 .p_login {
-    color: white;
-    opacity: 0.5;
-    margin-bottom: 30px;
-    font-size: 14px;
+  margin-bottom: 30px;
+
+  color: #fff;
+  opacity: 0.5;
+  font-size: 14px;
 }
 
+/* ==========================================
+   FORMULÁRIO
+========================================== */
+
 .login-box label {
-    display: block;
-    margin-top: 20px;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: #aaa;
-    text-transform: uppercase;
+  display: block;
+
+  margin-top: 20px;
+
+  color: #aaa;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .login-box input[type="email"],
 .login-box input[type="password"],
 .login-box input[type="text"] {
-    width: 100%;
-    height: 50px;
-    background: #222;
-    border: none;
-    color: white;
-    padding: 10px;
-    margin-top: 8px;
-    border-radius: 2px;
+  width: 100%;
+  height: 50px;
+
+  margin-top: 8px;
+  padding: 10px;
+
+  border: none;
+  border-radius: 2px;
+
+  background: #222;
+
+  color: #fff;
 }
 
 .login-box input:focus {
-    outline: 1px solid #ff5a1f;
+  outline: 1px solid #ff5a1f;
 }
 
-/* ── Opções abaixo da senha ── */
+/* ==========================================
+   OPÇÕES DE LOGIN
+========================================== */
+
 .opcoes-login {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 16px;
 }
 
 .manter-conectado {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #aaa;
-    cursor: pointer;
-    text-transform: none;
-    letter-spacing: 0;
-    margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 0;
+
+  color: #aaa;
+  font-size: 13px;
+
+  cursor: pointer;
+
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .manter-conectado input[type="checkbox"] {
-    width: 13px;
-    height: 13px;
-    accent-color: #ff5a1f;
-    cursor: pointer;
-    margin: 0;
-    flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+
+  margin: 0;
+
+  cursor: pointer;
+  accent-color: #ff5a1f;
+
+  flex-shrink: 0;
 }
 
+/* ==========================================
+   BOTÃO LOGIN
+========================================== */
 
-/* ── Botão principal ── */
 .login-box button[type="submit"] {
-    width: 100%;
-    height: 50px;
-    border: none;
-    background: #ff5a1f;
-    color: white;
-    margin-top: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    letter-spacing: 1px;
-    border-radius: 2px;
-    transition: background .2s;
+  width: 100%;
+  height: 50px;
+
+  margin-top: 30px;
+
+  border: none;
+  border-radius: 2px;
+
+  background: #ff5a1f;
+
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .login-box button[type="submit"]:hover {
-    background: #e04a10;
+  background: #e04a10;
 }
 
-/* ── Alertas ── */
+/* ==========================================
+   ALERTAS
+========================================== */
+
+.alerta-erro,
+.alerta-sucesso {
+  padding: 12px 16px;
+  margin-bottom: 16px;
+
+  border-radius: 2px;
+
+  font-size: 13px;
+}
+
 .alerta-erro {
-    background: #3a1a1a;
-    border: 1px solid #a03030;
-    color: #f09090;
-    padding: 12px 16px;
-    border-radius: 2px;
-    font-size: 13px;
-    margin-bottom: 16px;
+  background: #3a1a1a;
+  border: 1px solid #a03030;
+  color: #f09090;
 }
 
 .alerta-sucesso {
-    background: #1a3a1a;
-    border: 1px solid #307a30;
-    color: #90d090;
-    padding: 12px 16px;
-    border-radius: 2px;
-    font-size: 13px;
-    margin-bottom: 16px;
+  background: #1a3a1a;
+  border: 1px solid #307a30;
+  color: #90d090;
 }
 
 .alerta-sucesso a {
-    color: #90d090;
-    font-weight: bold;
-}
-/* .forgot-password {
-    color: #ff5a1f;
-    text-decoration: none;
-    font-size: 14px;
-
-    display: block;
-    margin-top: 15px;
-
-    transition: 0.3s;
-}
-.forgot-password:hover {
-    color: #ff7b47;
-} */
-
-
-/* .forgot-password {
-    font-size: 13px;
-    color: #ff5a1f;
-    text-decoration: none;
-    transition: 0.3s;
+  color: #90d090;
+  font-weight: bold;
 }
 
-.forgot-password:hover {
-    color: #ff7b47;
-} */
+/* ==========================================
+   LINK ESQUECI SENHA
+========================================== */
 
 a.forgot-password,
 a.forgot-password:visited {
-    color: #ff5a1f;
-    text-decoration: none;
+  color: #ff5a1f;
+  text-decoration: none;
 }
 
 a.forgot-password:hover {
-    color: #ff7b47;
+  color: #ff7b47;
 }

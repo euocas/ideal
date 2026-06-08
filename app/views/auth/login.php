@@ -12,6 +12,10 @@
           href="assets/icons/empreiteira.png"
           type="image/x-icon">
 
+    <!-- Variaveis Globais -->
+    <link rel="stylesheet"
+          href="assets/css/variables.css">
+
     <!-- CSS -->
     <link rel="stylesheet"
           href="assets/css/login.css">

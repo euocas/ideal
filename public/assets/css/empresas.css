@@ -1,3 +1,7 @@
+/* ==========================================
+   RESET
+========================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -9,32 +13,41 @@ body {
   font-family: Arial, sans-serif;
 }
 
+/* ==========================================
+   LAYOUT
+========================================== */
+
 .dashboard-container {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
 .main-content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
 
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
 }
 
+/* ==========================================
+   EM CONSTRUÇÃO
+========================================== */
+
 .card-construcao {
-    text-align: center;
-    width: 100%;
+  width: 100%;
+  text-align: center;
 }
 
 .card-construcao img {
-    width: 180px;
-    margin-bottom: 20px;
+  width: 180px;
+  margin-bottom: 20px;
 }
 
 .card-construcao h1 {
-    font-size: 70px;
-    color: #f97316;
-    font-weight: bold;
+  color: #f97316;
+  font-size: 70px;
+  font-weight: bold;
 }
