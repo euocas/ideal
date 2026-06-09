@@ -69,8 +69,6 @@ class FinanceiroController
 
             $salvou = $obj->save();
 
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "Financeiro do funcionário cadastrado com sucesso!";
             } else {
@@ -95,8 +93,6 @@ class FinanceiroController
                     $this->popularFuncionario($obj, $_POST);
                     $atualizou = $obj->update();
 
-                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
                     if ($atualizou) {
                         $_SESSION['mensagem_sucesso'] = "Financeiro do funcionário atualizado com sucesso!";
                     } else {
@@ -117,8 +113,6 @@ class FinanceiroController
         if ($id) {
             $model = new FinanceiroFuncionario();
             $deletou = $model->delete($id);
-
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
             if ($deletou) {
                 $_SESSION['mensagem_sucesso'] = "Registro financeiro do funcionário excluído com sucesso!";
@@ -179,8 +173,6 @@ class FinanceiroController
 
             $salvou = $obj->save();
 
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "Financeiro da obra cadastrado com sucesso!";
             } else {
@@ -205,8 +197,6 @@ class FinanceiroController
                     $this->popularObra($obj, $_POST);
                     $atualizou = $obj->update();
 
-                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
                     if ($atualizou) {
                         $_SESSION['mensagem_sucesso'] = "Financeiro da obra atualizado com sucesso!";
                     } else {
@@ -227,8 +217,6 @@ class FinanceiroController
         if ($id) {
             $model = new FinanceiroObra();
             $deletou = $model->delete($id);
-
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
             if ($deletou) {
                 $_SESSION['mensagem_sucesso'] = "Registro financeiro da obra excluído com sucesso!";
@@ -286,8 +274,6 @@ class FinanceiroController
 
             $salvou = $obj->save();
 
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "Financeiro do automóvel cadastrado com sucesso!";
             } else {
@@ -312,8 +298,6 @@ class FinanceiroController
                     $this->popularAutomovel($obj, $_POST);
                     $atualizou = $obj->update();
 
-                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
                     if ($atualizou) {
                         $_SESSION['mensagem_sucesso'] = "Financeiro do automóvel atualizado com sucesso!";
                     } else {
@@ -334,8 +318,6 @@ class FinanceiroController
         if ($id) {
             $model = new FinanceiroAutomovel();
             $deletou = $model->delete($id);
-
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
             if ($deletou) {
                 $_SESSION['mensagem_sucesso'] = "Registro financeiro do automóvel excluído com sucesso!";

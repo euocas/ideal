@@ -163,10 +163,6 @@ class FuncionariosController
             // O objeto salva a si mesmo
             $salvou = $funcionario->save();
 
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "O funcionário foi cadastrado com sucesso!";
             } else {
@@ -194,10 +190,6 @@ class FuncionariosController
                     // O objeto atualiza a si mesmo
                     $atualizou = $funcionario->update();
 
-                    if (session_status() === PHP_SESSION_NONE) {
-                        session_start();
-                    }
-
                     if ($atualizou) {
                         $_SESSION['mensagem_sucesso'] = "Cadastro atualizado com sucesso!";
                     } else {
@@ -218,10 +210,6 @@ class FuncionariosController
         if ($id) {
             $funcionarioModel = new Funcionario();
             $deletou = $funcionarioModel->delete($id);
-
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
 
             if ($deletou) {
                 $_SESSION['mensagem_sucesso'] = "Funcionário excluído com sucesso!";

@@ -124,8 +124,6 @@ class ClientesController
 
             // O objeto salva a si mesmo
             $salvou = $cliente->save();
-            
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "O cliente foi cadastrado com sucesso!";
@@ -162,8 +160,6 @@ class ClientesController
                     // O objeto atualiza a si mesmo
                     $atualizou = $cliente->update();
 
-                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
                     if ($atualizou) {
                          $_SESSION['mensagem_sucesso'] = "Cadastro do cliente atualizado com sucesso!";
                     } else {
@@ -185,8 +181,6 @@ class ClientesController
             $clienteModel = new Cliente();
             $deletou = $clienteModel->delete((int) $id);
 
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
-            
             if ($deletou) {
                  $_SESSION['mensagem_sucesso'] = "Cliente excluído com sucesso!";
             } else {

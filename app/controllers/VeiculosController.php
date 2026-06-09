@@ -127,8 +127,6 @@ class VeiculosController
 
             // O objeto salva a si mesmo
             $salvou = $veiculo->save();
-            
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "O veículo foi cadastrado com sucesso!";
@@ -157,8 +155,6 @@ class VeiculosController
                     // O objeto atualiza a si mesmo
                     $atualizou = $veiculo->update();
 
-                    if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
                     if ($atualizou) {
                          $_SESSION['mensagem_sucesso'] = "Cadastro do veículo atualizado com sucesso!";
                     } else {
@@ -179,8 +175,6 @@ class VeiculosController
         if ($id) {
             $veiculoModel = new Veiculo();
             $deletou = $veiculoModel->delete((int) $id);
-
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
             
             if ($deletou) {
                  $_SESSION['mensagem_sucesso'] = "Veículo excluído com sucesso!";
