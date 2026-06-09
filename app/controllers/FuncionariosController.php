@@ -173,7 +173,7 @@ class FuncionariosController
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
 
-            header("Location: http://localhost/ideal/public/index.php?url=funcionarios");
+            header("Location: /ideal/public/index.php?url=funcionarios");
             exit;
         }
     }

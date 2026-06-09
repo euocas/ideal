@@ -15,7 +15,7 @@ class AuthController
             session_start();
         }
 
-        // Rate limiting: máximo de 5 tentativas por IP a cada 15 minutos
+        // Rate limiting: máximo de 5 tentativas por IP a cada 5 minutos
         $ip      = $_SERVER['REMOTE_ADDR'] ?? 'desconhecido';
         $chave   = 'login_tentativas_' . md5($ip);
         $limite  = 5;

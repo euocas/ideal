@@ -179,18 +179,4 @@ public function setContrato(?string $contrato): void
     $this->contrato = $contrato;
 }
 
-public function getPdo(): PDO
-{
-    return $this->pdo;
 }
-
-public function setPdo(PDO $pdo): void
-{
-    $this->pdo = $pdo;
-}
-
-
-
-
-}
-
