@@ -9,7 +9,6 @@ use App\Controllers\ClientesController;
 use App\Controllers\ObrasController;
 use App\Controllers\FinanceirosController;
 use App\Controllers\RelatoriosController;
-use App\Controllers\EmpresasController;
 use App\Controllers\CredenciaisController;
 
 return [
@@ -48,9 +47,9 @@ return [
     'obras/update' => [ObrasController::class, 'update'],
     'obras/delete' => [ObrasController::class, 'delete'],
 
-    'financeiro' => [FinanceirosController::class, 'index'],
+    'financeiros' => [FinanceirosController::class, 'index'],
     'relatorios' => [RelatoriosController::class, 'index'],
-    'empresas' => [EmpresasController::class, 'index'],
+  
 
     // 'trocar-senha' => [trocarSenhacontroller::class, 'index'],
     // 'trocar-senha/salvar' => [trocaSenhacontroller::class, 'salvar'],

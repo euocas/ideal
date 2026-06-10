@@ -7,6 +7,8 @@ use App\Models\FinanceiroObra;
 use App\Models\FinanceiroAutomovel;
 use App\Core\Auth;
 
+
+
 class FinanceirosController
 {
     public function __construct()
@@ -37,7 +39,7 @@ class FinanceirosController
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=financeiro&aba=funcionario");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
             exit;
         }
 
@@ -45,7 +47,7 @@ class FinanceirosController
         $financeiroFuncionario = $model->findById($id);
 
         if (!$financeiroFuncionario) {
-            header("Location: /ideal/public/index.php?url=financeiro&aba=funcionario");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
             exit;
         }
 
@@ -75,7 +77,7 @@ class FinanceirosController
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
 
-            header("Location: /ideal/public/index.php?url=financeiro&aba=funcionario");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
             exit;
         }
     }
@@ -101,7 +103,7 @@ class FinanceirosController
                 }
             }
 
-            header("Location: /ideal/public/index.php?url=financeiro&aba=funcionario");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
             exit;
         }
     }
@@ -121,7 +123,7 @@ class FinanceirosController
             }
         }
 
-        header("Location: /ideal/public/index.php?url=financeiro&aba=funcionario");
+        header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
         exit;
     }
 
@@ -139,7 +141,7 @@ class FinanceirosController
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=financeiro&aba=obra");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
             exit;
         }
 
@@ -147,7 +149,7 @@ class FinanceirosController
         $financeiroObra = $model->findById($id);
 
         if (!$financeiroObra) {
-            header("Location: /ideal/public/index.php?url=financeiro&aba=obra");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
             exit;
         }
 
@@ -179,7 +181,7 @@ class FinanceirosController
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
 
-            header("Location: /ideal/public/index.php?url=financeiro&aba=obra");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
             exit;
         }
     }
@@ -205,7 +207,7 @@ class FinanceirosController
                 }
             }
 
-            header("Location: /ideal/public/index.php?url=financeiro&aba=obra");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
             exit;
         }
     }
@@ -225,7 +227,7 @@ class FinanceirosController
             }
         }
 
-        header("Location: /ideal/public/index.php?url=financeiro&aba=obra");
+        header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
         exit;
     }
 
@@ -243,7 +245,7 @@ class FinanceirosController
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=financeiro&aba=automovel");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
             exit;
         }
 
@@ -251,7 +253,7 @@ class FinanceirosController
         $financeiroAutomovel = $model->findById($id);
 
         if (!$financeiroAutomovel) {
-            header("Location: /ideal/public/index.php?url=financeiro&aba=automovel");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
             exit;
         }
 
@@ -280,7 +282,7 @@ class FinanceirosController
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
 
-            header("Location: /ideal/public/index.php?url=financeiro&aba=automovel");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
             exit;
         }
     }
@@ -306,7 +308,7 @@ class FinanceirosController
                 }
             }
 
-            header("Location: /ideal/public/index.php?url=financeiro&aba=automovel");
+            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
             exit;
         }
     }
@@ -326,7 +328,7 @@ class FinanceirosController
             }
         }
 
-        header("Location: /ideal/public/index.php?url=financeiro&aba=automovel");
+        header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
         exit;
     }
 }

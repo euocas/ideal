@@ -69,7 +69,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </a>
 
                     <!-- CARD PARA  ACESSO A PÁGINA FINANCEIROS -->
-                    <a href="index.php?url=financeiro" class="card-dashboard card-financeiros">
+                    <a href="index.php?url=financeiros" class="card-dashboard card-financeiros">
                         <div class="card-icon">
                             💰
                         </div>

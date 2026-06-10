@@ -20,16 +20,16 @@ $isEditAutomovel    = isset($financeiroAutomovel)     && is_object($financeiroAu
 
 // URLs de action
 $actionFuncionario = $isEditFuncionario
-    ? "/ideal/public/index.php?url=financeiro/updateFuncionario&id={$financeiroFuncionario->getIdFinanceiroFuncionario()}"
-    : "/ideal/public/index.php?url=financeiro/storeFuncionario";
+    ? "/ideal/public/index.php?url=financeiros/updateFuncionario&id={$financeiroFuncionario->getIdFinanceiroFuncionario()}"
+    : "/ideal/public/index.php?url=financeiros/storeFuncionario";
 
 $actionObra = $isEditObra
-    ? "/ideal/public/index.php?url=financeiro/updateObra&id={$financeiroObra->getIdFinanceiroObra()}"
-    : "/ideal/public/index.php?url=financeiro/storeObra";
+    ? "/ideal/public/index.php?url=financeiros/updateObra&id={$financeiroObra->getIdFinanceiroObra()}"
+    : "/ideal/public/index.php?url=financeiros/storeObra";
 
 $actionAutomovel = $isEditAutomovel
-    ? "/ideal/public/index.php?url=financeiro/updateAutomovel&id={$financeiroAutomovel->getIdFinanceiroAutomovel()}"
-    : "/ideal/public/index.php?url=financeiro/storeAutomovel";
+    ? "/ideal/public/index.php?url=financeiros/updateAutomovel&id={$financeiroAutomovel->getIdFinanceiroAutomovel()}"
+    : "/ideal/public/index.php?url=financeiros/storeAutomovel";
 ?>
 
 <link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
@@ -71,17 +71,17 @@ $actionAutomovel = $isEditAutomovel
 
         <!-- ABAS -->
         <div class="abas-container">
-            <a href="?url=financeiro&aba=funcionario"
+            <a href="?url=financeiros&aba=funcionario"
                class="aba <?= $aba === 'funcionario' ? 'ativa' : '' ?>">
                 <i class="fa-solid fa-user-tie"></i>
                 Funcionário
             </a>
-            <a href="?url=financeiro&aba=obra"
+            <a href="?url=financeiros&aba=obra"
                class="aba <?= $aba === 'obra' ? 'ativa' : '' ?>">
                 <i class="fa-solid fa-hard-hat"></i>
                 Obra
             </a>
-            <a href="?url=financeiro&aba=automovel"
+            <a href="?url=financeiros&aba=automovel"
                class="aba <?= $aba === 'automovel' ? 'ativa' : '' ?>">
                 <i class="fa-solid fa-car"></i>
                 Automóvel
@@ -165,13 +165,13 @@ $actionAutomovel = $isEditAutomovel
         </section>
 
         <div class="acao">
-            <a href="/ideal/public/index.php?url=financeiro&aba=funcionario" class="btn novo"
+            <a href="/ideal/public/index.php?url=financeiros&aba=funcionario" class="btn novo"
                style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">Novo</a>
             <?php if (!$isEditFuncionario): ?>
                 <button type="submit" form="form-funcionario" class="btn salvar">Salvar</button>
             <?php else: ?>
                 <button type="submit" form="form-funcionario" class="btn alterar">Alterar</button>
-                <a href="/ideal/public/index.php?url=financeiro/deleteFuncionario&id=<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>"
+                <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>"
                    class="btn excluir"
                    style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
                    onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>
@@ -274,13 +274,13 @@ $actionAutomovel = $isEditAutomovel
         </section>
 
         <div class="acao">
-            <a href="/ideal/public/index.php?url=financeiro&aba=obra" class="btn novo"
+            <a href="/ideal/public/index.php?url=financeiros&aba=obra" class="btn novo"
                style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">Novo</a>
             <?php if (!$isEditObra): ?>
                 <button type="submit" form="form-obra" class="btn salvar">Salvar</button>
             <?php else: ?>
                 <button type="submit" form="form-obra" class="btn alterar">Alterar</button>
-                <a href="/ideal/public/index.php?url=financeiro/deleteObra&id=<?= $financeiroObra->getIdFinanceiroObra() ?>"
+                <a href="/ideal/public/index.php?url=financeiros/deleteObra&id=<?= $financeiroObra->getIdFinanceiroObra() ?>"
                    class="btn excluir"
                    style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
                    onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>
@@ -363,13 +363,13 @@ $actionAutomovel = $isEditAutomovel
         </section>
 
         <div class="acoes">
-            <a href="/ideal/public/index.php?url=financeiro&aba=automovel" class="btn novo"
+            <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo"
                style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">Novo</a>
             <?php if (!$isEditAutomovel): ?>
                 <button type="submit" form="form-automovel" class="btn salvar">Salvar</button>
             <?php else: ?>
                 <button type="submit" form="form-automovel" class="btn alterar">Alterar</button>
-                <a href="/ideal/public/index.php?url=financeiro/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
+                <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
                    class="btn excluir"
                    style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
                    onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>

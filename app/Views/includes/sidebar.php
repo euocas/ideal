@@ -50,7 +50,7 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
         </li>
 
         <li>
-            <a href="index.php?url=financeiro">
+            <a href="index.php?url=financeiros">
                 <i class="fa-solid fa-wallet"></i>
                 Financeiro
             </a>
@@ -68,24 +68,11 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
             CONFIGURAÇÕES
         </div>
 
-        <!-- <li>
-            <a href="index.php?url=usuarios">
-                <i class="fa-regular fa-circle-user"></i>
-                Usuários
-            </a>
-        </li> -->
-
-        <li>
-            <a href="index.php?url=empresas">
-                <i class="fa-regular fa-building"></i>
-                Empresas Associadas
-            </a>
-        </li>
 
         <li>
             <a href="index.php?url=logs">
                 <i class="fa-solid fa-list-check"></i>
-                Logs
+                Troca Senha
             </a>
         </li>
 
