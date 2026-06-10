@@ -17,13 +17,10 @@ require_once __DIR__ . '/../includes/header.php';
 
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
-        <!-- CONTEÚDO -->
         <main class="main-content">
 
-            <!-- ALERTAS (Feedback do Controller) -->
             <?php if (isset($mensagem) && $mensagem): ?>
                 <div class="alert alert-warning" style="background: #fff3cd; color: #856404; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
                     <?= $mensagem ?>
@@ -40,12 +37,10 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <!-- BUSCA CLIENTE -->
             <section class="card">
 
                 <div class="grid-busca">
 
-                    <!-- FORM BUSCA -->
                     <div class="busca-box">
 
                         <h2>
@@ -53,7 +48,6 @@ require_once __DIR__ . '/../includes/header.php';
                             BUSCAR CLIENTE
                         </h2>
 
-                        <!-- Action apontando para o método principal de busca no Controller -->
                         <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
 
                             <div class="input-group">
@@ -75,7 +69,6 @@ require_once __DIR__ . '/../includes/header.php';
                                     CPF
                                 </label>
 
-                                <!-- Value adicionado para recuperar o documento se não for encontrado -->
                                 <input type="text" id="documento" name="documento" placeholder="000.000.000-00"
                                     maxlength="14" oninput="mascaraDocumento(this)"
                                     value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>">
@@ -90,7 +83,6 @@ require_once __DIR__ . '/../includes/header.php';
 
                     </div>
 
-                    <!-- DICA -->
                     <div class="dica-box">
 
                         <h3>
@@ -110,20 +102,15 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
 
-            <!-- DADOS CLIENTE -->
             <section class="card">
 
                 <h2>Dados do Cliente</h2>
 
-                <!-- Action removido daqui, pois as ações serão disparadas pelos botões -->
                 <form id="form-dados" method="POST">
 
-                    <!-- Campo oculto para o banco de dados saber qual cliente atualizar/excluir -->
                     <input type="hidden" name="idCliente" value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
 
                     <div class="grid-form">
-
-                        <!-- DADOS PRINCIPAIS -->
 
                         <div class="form-group">
 
@@ -131,7 +118,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <input type="text" name="nomeCliente" minlength="3" maxlength="45"
                                 placeholder="Digite o nome do cliente" required
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getNomeCliente()) : '' ?>">
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getNomeCliente() ?? '') : '' ?>">
 
                         </div>
 
@@ -141,7 +128,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
                                 oninput="mascaraCPF(this)"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCpf()) : '' ?>">
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCpf() ?? '') : '' ?>">
 
                         </div>
 
@@ -151,11 +138,9 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
                                 oninput="mascaraCNPJ(this)"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCnpj()) : '' ?>">
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCnpj() ?? '') : '' ?>">
 
                         </div>
-
-                        <!-- CONTATO -->
 
                         <h2 class="subtitulo-form">
                             Contato
@@ -166,7 +151,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Telefone</label>
 
                             <input type="text" name="telefone" placeholder="(00) 00000-0000" maxlength="15"
-                                oninput="mascaraTelefone(this)">
+                                oninput="mascaraTelefone(this)"
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getTelefone() ?? '') : '' ?>">
 
                         </div>
 
@@ -174,7 +160,8 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>E-mail</label>
 
-                            <input type="email" name="email" placeholder="cliente@email.com">
+                            <input type="email" name="email" placeholder="cliente@email.com"
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getEmail() ?? '') : '' ?>">
 
                         </div>
 
@@ -186,19 +173,17 @@ require_once __DIR__ . '/../includes/header.php';
 
                                 <option value="">Selecione</option>
 
-                                <option value="PESSOA_FISICA">
+                                <option value="PESSOA_FISICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Física' || $cliente->getTipoCliente() === 'PESSOA_FISICA')) ? 'selected' : '' ?>>
                                     Pessoa Física
                                 </option>
 
-                                <option value="PESSOA_JURIDICA">
+                                <option value="PESSOA_JURIDICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Jurídica' || $cliente->getTipoCliente() === 'PESSOA_JURIDICA')) ? 'selected' : '' ?>>
                                     Pessoa Jurídica
                                 </option>
 
                             </select>
 
                         </div>
-
-                        <!-- ENDEREÇO -->
 
                         <h2 class="subtitulo-form">
                             Endereço
@@ -209,7 +194,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>CEP</label>
 
                             <input type="text" name="cep" placeholder="00000-000" maxlength="9"
-                                oninput="mascaraCEP(this)">
+                                oninput="mascaraCEP(this)"
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCep() ?? '') : '' ?>">
 
                         </div>
 
@@ -217,7 +203,8 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Cidade</label>
 
-                            <input type="text" name="cidade" placeholder="Digite a cidade">
+                            <input type="text" name="cidade" placeholder="Digite a cidade"
+                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCidade() ?? '') : '' ?>">
 
                         </div>
 
@@ -225,15 +212,16 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Estado</label>
 
+                            <?php $estadoAtual = isset($cliente) ? $cliente->getEstado() : ''; ?>
                             <select name="estado">
 
                                 <option value="">Selecione</option>
 
-                                <option value="SP">SP</option>
-                                <option value="RJ">RJ</option>
-                                <option value="MG">MG</option>
-                                <option value="PR">PR</option>
-                                <option value="SC">SC</option>
+                                <option value="SP" <?= $estadoAtual === 'SP' ? 'selected' : '' ?>>SP</option>
+                                <option value="RJ" <?= $estadoAtual === 'RJ' ? 'selected' : '' ?>>RJ</option>
+                                <option value="MG" <?= $estadoAtual === 'MG' ? 'selected' : '' ?>>MG</option>
+                                <option value="PR" <?= $estadoAtual === 'PR' ? 'selected' : '' ?>>PR</option>
+                                <option value="SC" <?= $estadoAtual === 'SC' ? 'selected' : '' ?>>SC</option>
 
                             </select>
 
@@ -243,7 +231,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Observações</label>
 
-                            <textarea name="observacoes"></textarea>
+                            <textarea name="observacoes"><?= isset($cliente) ? htmlspecialchars($cliente->getObservacoes() ?? '') : '' ?></textarea>
 
                         </div>
 
@@ -253,7 +241,6 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
 
-            <!-- BOTÕES (Agora com rotas para o Controller) -->
             <div class="acoes">
 
                 <button type="submit" form="form-dados" class="btn novo" 
@@ -261,7 +248,6 @@ require_once __DIR__ . '/../includes/header.php';
                     Novo
                 </button>
 
-                <!-- Desabilita o botão caso não haja um cliente sendo visualizado (sem ID) -->
                 <button type="submit" form="form-dados" class="btn alterar" 
                         formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
                         <?= isset($cliente) ? '' : 'disabled' ?>>
@@ -275,7 +261,6 @@ require_once __DIR__ . '/../includes/header.php';
                     Excluir
                 </button>
 
-                <!-- Alterado para type="button" com redirecionamento, garantindo que o form limpe totalmente e volte ao estado inicial -->
                 <button type="button" class="btn limpar" onclick="window.location.href='/ideal/public/index.php?url=clientes'">
                     Limpar
                 </button>
@@ -286,7 +271,6 @@ require_once __DIR__ . '/../includes/header.php';
 
     </div>
 
-    <!-- SCRIPT DOCUMENTO -->
     <script>
 
         function alterarMascaraDocumento() {
@@ -331,7 +315,6 @@ require_once __DIR__ . '/../includes/header.php';
 
     </script>
 
-    <!-- SCRIPT CPF -->
     <script>
 
         function mascaraCPF(input) {
@@ -352,7 +335,6 @@ require_once __DIR__ . '/../includes/header.php';
 
     </script>
 
-    <!-- SCRIPT CNPJ -->
     <script>
 
         function mascaraCNPJ(input) {
@@ -375,7 +357,6 @@ require_once __DIR__ . '/../includes/header.php';
 
     </script>
 
-    <!-- SCRIPT TELEFONE -->
     <script>
 
         function mascaraTelefone(input) {
@@ -394,7 +375,6 @@ require_once __DIR__ . '/../includes/header.php';
 
     </script>
 
-    <!-- SCRIPT CEP -->
     <script>
 
         function mascaraCEP(input) {
