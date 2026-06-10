@@ -323,120 +323,120 @@ class Obra
 
  
 }
-<<<<<<< HEAD:app/models/Obra.php
-=======
+// <<<<<<< HEAD:app/models/Obra.php
+// =======
 
-public function setDataInicio(?DateTime $dataInicio): void
-{
-    $this->dataInicio = $dataInicio;
-}
+// public function setDataInicio(?DateTime $dataInicio): void
+// {
+//     $this->dataInicio = $dataInicio;
+// }
 
-public function getDataFim(): ?DateTime
-{
-    return $this->dataFim;
-}
+// public function getDataFim(): ?DateTime
+// {
+//     return $this->dataFim;
+// }
 
-public function setDataFim(?DateTime $dataFim): void
-{
-    $this->dataFim = $dataFim;
-}
+// public function setDataFim(?DateTime $dataFim): void
+// {
+//     $this->dataFim = $dataFim;
+// }
 
-//=============================================================
-// VALIDAÇÃO DE VALORES PERMITIDOS (ENUMS DO BANCO)
-// Garante que apenas dados tabelados sejam aceitos
-//=============================================================
-public function getStatus(): ?string
-{
-    return $this->status;
-}
+// //=============================================================
+// // VALIDAÇÃO DE VALORES PERMITIDOS (ENUMS DO BANCO)
+// // Garante que apenas dados tabelados sejam aceitos
+// //=============================================================
+// public function getStatus(): ?string
+// {
+//     return $this->status;
+// }
 
-public function setStatus(?string $status): void
-{
-    $this->status = $status;
-}
-//=============================================================
-//=============================================================
+// public function setStatus(?string $status): void
+// {
+//     $this->status = $status;
+// }
+// //=============================================================
+// //=============================================================
 
-public function getEstado(): ?string
-{
-    return $this->estado;
-}
+// public function getEstado(): ?string
+// {
+//     return $this->estado;
+// }
 
-public function setEstado(?string $estado): void
-{
-    $this->estado = $estado;
-}
+// public function setEstado(?string $estado): void
+// {
+//     $this->estado = $estado;
+// }
 
-public function getCidade(): ?string
-{
-    return $this->cidade;
-}
+// public function getCidade(): ?string
+// {
+//     return $this->cidade;
+// }
 
-public function setCidade(?string $cidade): void
-{
-    $this->cidade = $cidade;
-}
+// public function setCidade(?string $cidade): void
+// {
+//     $this->cidade = $cidade;
+// }
 
-public function getCep(): ?string
-{
-    return $this->cep;
-}
+// public function getCep(): ?string
+// {
+//     return $this->cep;
+// }
 
-public function setCep(?string $cep): void
-{
-    $this->cep = $cep;
-}
+// public function setCep(?string $cep): void
+// {
+//     $this->cep = $cep;
+// }
 
-public function getLogradouro(): ?string
-{
-    return $this->logradouro;
-}
+// public function getLogradouro(): ?string
+// {
+//     return $this->logradouro;
+// }
 
-public function setLogradouro(?string $logradouro): void
-{
-    $this->logradouro = $logradouro;
-}
+// public function setLogradouro(?string $logradouro): void
+// {
+//     $this->logradouro = $logradouro;
+// }
 
-public function getEndereco(): ?string
-{
-    return $this->endereco;
-}
+// public function getEndereco(): ?string
+// {
+//     return $this->endereco;
+// }
 
-public function setEndereco(?string $endereco): void
-{
-    $this->endereco = $endereco;
-}
+// public function setEndereco(?string $endereco): void
+// {
+//     $this->endereco = $endereco;
+// }
 
-public function getNumero(): ?string
-{
-    return $this->numero;
-}
+// public function getNumero(): ?string
+// {
+//     return $this->numero;
+// }
 
-public function setNumero(?string $numero): void
-{
-    $this->numero = $numero;
-}
+// public function setNumero(?string $numero): void
+// {
+//     $this->numero = $numero;
+// }
 
-public function getComplemento(): ?string
-{
-    return $this->complemento;
-}
+// public function getComplemento(): ?string
+// {
+//     return $this->complemento;
+// }
 
-public function setComplemento(?string $complemento): void
-{
-    $this->complemento = $complemento;
-}
+// public function setComplemento(?string $complemento): void
+// {
+//     $this->complemento = $complemento;
+// }
 
-public function getContrato(): ?string
-{
-    return $this->contrato;
-}
+// public function getContrato(): ?string
+// {
+//     return $this->contrato;
+// }
 
-public function setContrato(?string $contrato): void
-{
-    $this->contrato = $contrato;
-}
+// public function setContrato(?string $contrato): void
+// {
+//     $this->contrato = $contrato;
+// }
 
-}
+// }
 
->>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/model/obra.php
+// >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/model/obra.php

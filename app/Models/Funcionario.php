@@ -6,6 +6,7 @@ use App\Config\Conexao;
 use PDO;
 
 class Funcionario
+
 {
     // =====================================================
     // 1. ATRIBUTOS DA CLASSE (Representam as colunas do banco)

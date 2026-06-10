@@ -38,7 +38,7 @@ class RelatoriosController
             $dados = $this->buscarRelatorio($relatorioSelecionado);
         }
 
-        require_once __DIR__ . '/../view/relatorios/index.php';
+        require_once __DIR__ . '/../Views/relatorios/index.php';
     }
 
     /**

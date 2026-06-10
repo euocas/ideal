@@ -20,7 +20,7 @@ class ClientesController
         }
 
         $mensagem = null;
-        require_once __DIR__ . '/../view/clientes/index.php';
+        require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
     private function buscar()
@@ -30,7 +30,7 @@ class ClientesController
 
         if (!$this->validarDocumento($documentoLimpo)) {
             $mensagem = "O documento informado é inválido. Verifique a quantidade de números e tente novamente.";
-            require_once __DIR__ . '/../view/clientes/index.php';
+            require_once __DIR__ . '/../Views/clientes/index.php';
             return;
         }
 
@@ -61,7 +61,7 @@ class ClientesController
             $mensagem = "Cliente não cadastrado. Preencha os dados abaixo para registrar um novo cliente.";
         }
 
-        require_once __DIR__ . '/../view/clientes/index.php';
+        require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
     public function edit()
@@ -81,7 +81,7 @@ class ClientesController
             exit;
         }
 
-        require_once __DIR__ . '/../view/clientes/index.php';
+        require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
     private function popularObjeto(Cliente $cliente, array $dados): void

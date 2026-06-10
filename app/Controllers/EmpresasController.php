@@ -12,7 +12,7 @@ class EmpresasController
 
     public function index()
     {
-        require_once __DIR__ . '/../view/empresas/index.php';
+        require_once __DIR__ . '/../Views/empresas/index.php';
 
     }
 }

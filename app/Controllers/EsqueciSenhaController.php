@@ -7,7 +7,7 @@ class EsqueciSenhaController
 {
     public function index()
     {
-        require_once __DIR__ . '/../view/auth/esqueceuSenha.php';
+        require_once __DIR__ . '/../Views/auth/esqueceuSenha.php';
     }
 
     public function redefinir()

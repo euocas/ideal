@@ -20,7 +20,7 @@ class VeiculosController
         }
 
         $mensagem = null;
-        require_once __DIR__ . '/../view/veiculos/index.php';
+        require_once __DIR__ . '/../Views/veiculos/index.php';
     }
 
     /**
@@ -33,7 +33,7 @@ class VeiculosController
 
         if (!$this->validarPlaca($placaLimpa)) {
             $mensagem = "A placa informada é inválida. Verifique os caracteres e tente novamente.";
-            require_once __DIR__ . '/../view/veiculos/index.php';
+            require_once __DIR__ . '/../Views/veiculos/index.php';
             return;
         }
 
@@ -67,7 +67,7 @@ class VeiculosController
             $mensagem = "Placa não cadastrada. Preencha os dados para registrar um novo veículo.";
         }
 
-        require_once __DIR__ . '/../view/veiculos/index.php';
+        require_once __DIR__ . '/../Views/veiculos/index.php';
     }
 
     public function edit()
@@ -87,7 +87,7 @@ class VeiculosController
             exit;
         }
 
-        require_once __DIR__ . '/../view/veiculos/index.php';
+        require_once __DIR__ . '/../Views/veiculos/index.php';
     }
 
     /**

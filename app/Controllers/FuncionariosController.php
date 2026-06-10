@@ -19,7 +19,7 @@ class FuncionariosController
         }
 
         $mensagem = null;
-        require_once __DIR__ . '/../view/funcionarios/index.php';
+        require_once __DIR__ . '/../Views/funcionarios/index.php';
     }
 
 
@@ -32,7 +32,7 @@ class FuncionariosController
 
         if (!$this->validarCpf($cpfDigitado)) {
             $mensagem = "O CPF informado é inválido. Verifique os números e tente novamente.";
-            require_once __DIR__ . '/../view/funcionarios/index.php';
+            require_once __DIR__ . '/../Views/funcionarios/index.php';
             return;
         }
 
@@ -90,7 +90,7 @@ class FuncionariosController
             $mensagem = "CPF não cadastrado. Preencha os dados para criar um novo funcionário.";
         }
 
-        require_once __DIR__ . '/../view/funcionarios/index.php';
+        require_once __DIR__ . '/../Views/funcionarios/index.php';
     }
 
     public function edit()
@@ -110,7 +110,7 @@ class FuncionariosController
             exit;
         }
 
-        require_once __DIR__ . '/../view/funcionarios/index.php';
+        require_once __DIR__ . '/../Views/funcionarios/index.php';
     }
 
     /**

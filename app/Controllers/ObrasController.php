@@ -12,46 +12,54 @@ class ObrasController
         Auth::verificar();
     }
 
+    //     public function index()
+//     {
+// <<<<<<< HEAD:app/controllers/ObrasController.php
+//         $obraModel = new Obra();
+//         $obras = $obraModel->listar();
+// =======
+//         require_once __DIR__ . '/../Views/obras/index.php';
+// >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/controller/obracontroller.php
+
+    //         require_once __DIR__ . '/../Views/obras/index.php';
+//     }
+
     public function index()
     {
-<<<<<<< HEAD:app/controllers/ObrasController.php
         $obraModel = new Obra();
         $obras = $obraModel->listar();
-=======
-        require_once __DIR__ . '/../view/obras/index.php';
->>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/controller/obracontroller.php
 
-        require_once __DIR__ . '/../views/obras/index.php';
+        require_once __DIR__ . '/../Views/obras/index.php';
     }
 
     public function create()
-{
-    $actionUrl = "/ideal/public/index.php?url=obras/store";
+    {
+        $actionUrl = "/ideal/public/index.php?url=obras/store";
 
-    require_once __DIR__ . '/../views/obras/index.php';
-}
-
-   public function edit()
-{
-    $id = $_GET['id'] ?? null;
-
-    if (!$id) {
-        header("Location: /ideal/public/index.php?url=obras");
-        exit;
+        require_once __DIR__ . '/../Views/obras/index.php';
     }
 
-    $obraModel = new Obra();
-    $obra = $obraModel->buscarPorId($id);
+    public function edit()
+    {
+        $id = $_GET['id'] ?? null;
 
-    if (!$obra) {
-        header("Location: /ideal/public/index.php?url=obras");
-        exit;
+        if (!$id) {
+            header("Location: /ideal/public/index.php?url=obras");
+            exit;
+        }
+
+        $obraModel = new Obra();
+        $obra = $obraModel->buscarPorId($id);
+
+        if (!$obra) {
+            header("Location: /ideal/public/index.php?url=obras");
+            exit;
+        }
+
+        $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
+
+        require_once __DIR__ . '/../Views/obras/index.php';
     }
-
-    $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
-
-    require_once __DIR__ . '/../views/obras/index.php'; 
-}
 
     private function popularObjeto(Obra $obra, array $dados): void
     {

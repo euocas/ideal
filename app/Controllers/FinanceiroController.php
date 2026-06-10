@@ -20,7 +20,7 @@ class FinanceiroController
 
     public function index()
     {
-        require_once __DIR__ . '/../view/financeiro/index.php';
+        require_once __DIR__ . '/../Views/financeiro/index.php';
     }
 
     // =========================================================
@@ -29,7 +29,7 @@ class FinanceiroController
 
     public function createFuncionario()
     {
-        require_once __DIR__ . '/../view/financeiro/index.php';
+        require_once __DIR__ . '/../Views/financeiro/index.php';
     }
 
     public function editFuncionario()
@@ -49,7 +49,7 @@ class FinanceiroController
             exit;
         }
 
-        require_once __DIR__ . '/../view/financeiro/index.php';
+        require_once __DIR__ . '/../Views/financeiro/index.php';
     }
 
     private function popularFuncionario(FinanceiroFuncionario $obj, array $dados): void
@@ -131,7 +131,7 @@ class FinanceiroController
 
     public function createObra()
     {
-        require_once __DIR__ . '/../view/financeiro/index.php';
+        require_once __DIR__ . '/../Views/financeiro/index.php';
     }
 
     public function editObra()
@@ -151,7 +151,7 @@ class FinanceiroController
             exit;
         }
 
-        require_once __DIR__ . '/../view/financeiro/index.php';
+        require_once __DIR__ . '/../Views/financeiro/index.php';
     }
 
     private function popularObra(FinanceiroObra $obj, array $dados): void
@@ -235,7 +235,7 @@ class FinanceiroController
 
     public function createAutomovel()
     {
-        require_once __DIR__ . '/../view/financeiro/index.php';
+        require_once __DIR__ . '/../Views/financeiro/index.php';
     }
 
     public function editAutomovel()
@@ -255,7 +255,7 @@ class FinanceiroController
             exit;
         }
 
-        require_once __DIR__ . '/../view/financeiro/index.php';
+        require_once __DIR__ . '/../Views/financeiro/index.php';
     }
 
     private function popularAutomovel(FinanceiroAutomovel $obj, array $dados): void

@@ -241,12 +241,13 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
 
-<<<<<<< HEAD:app/views/clientes/index.php
+<!-- <<<<<<< HEAD:app/Views/clientes/index.php -->
             <div class="acoes">
-=======
+<!-- ======= -->
             <!-- BOTÕES (Agora com rotas para o Controller) -->
             <div class="acao">
->>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/view/cliente/index.php
+<!-- >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/Views/cliente/index.php -->
+
 
                 <button type="submit" form="form-dados" class="btn novo" 
                         formaction="/ideal/public/index.php?url=clientes/store">
