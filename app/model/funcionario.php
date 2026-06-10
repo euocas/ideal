@@ -356,67 +356,61 @@ class Funcionario
     }
 
     public function save(): bool
-    {
-        try {
-            $this->pdo->beginTransaction();
+{
+    try {
+        $this->pdo->beginTransaction();
 
-            // atualizado o insert com os novos dados da tabela (data adm, data de desliga e férias)
+        $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, dataAdmissao, dataDesligamento, feriasProgramadas, observacoes) 
+                VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :dataAdmissao, :dataDesligamento, :feriasProgramadas, :observacoes)";
 
-            $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, dataAdmissao, dataDesligamento, feriasProgramadas, observacoes) 
-                    VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status,:dataAdmissao, :dataDesligamento, :feriasProgramadas, :observacoes)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
+        $stmt->bindValue(':cpf', $this->getCpf(), PDO::PARAM_STR);
+        $stmt->bindValue(':sexo', $this->getSexo(), PDO::PARAM_STR);
+        $stmt->bindValue(':dataNascimento', $this->getDataNascimento(), PDO::PARAM_STR);
+        $stmt->bindValue(':naturalidade', $this->getNaturalidade(), PDO::PARAM_STR);
+        $stmt->bindValue(':estadoNascimento', $this->getEstadoNascimento(), PDO::PARAM_STR);
+        $stmt->bindValue(':tipoLogradouro', $this->getTipoLogradouro(), PDO::PARAM_STR);
+        $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), PDO::PARAM_STR);
+        $stmt->bindValue(':numero', $this->getNumero(), PDO::PARAM_STR);
+        $stmt->bindValue(':complemento', $this->getComplemento(), PDO::PARAM_STR);
+        $stmt->bindValue(':cidade', $this->getCidade(), PDO::PARAM_STR);
+        $stmt->bindValue(':cep', $this->getCep(), PDO::PARAM_STR);
+        $stmt->bindValue(':estado', $this->getEstado(), PDO::PARAM_STR);
+        $stmt->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
+        $stmt->bindValue(':cargoFuncao', $this->getCargoFuncao(), PDO::PARAM_STR);
+        $stmt->bindValue(':tipoContrato', $this->getTipoContrato(), PDO::PARAM_STR);
+        $stmt->bindValue(':status', $this->getStatus(), PDO::PARAM_STR);
+        $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
+        $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
+        $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
+        $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
 
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
-            $stmt->bindValue(':cpf', $this->getCpf(), PDO::PARAM_STR);
-            $stmt->bindValue(':sexo', $this->getSexo(), PDO::PARAM_STR);
-            $stmt->bindValue(':dataNascimento', $this->getDataNascimento(), PDO::PARAM_STR);
-            $stmt->bindValue(':naturalidade', $this->getNaturalidade(), PDO::PARAM_STR);
-            $stmt->bindValue(':estadoNascimento', $this->getEstadoNascimento(), PDO::PARAM_STR);
-            $stmt->bindValue(':tipoLogradouro', $this->getTipoLogradouro(), PDO::PARAM_STR);
-            $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), PDO::PARAM_STR);
-            $stmt->bindValue(':numero', $this->getNumero(), PDO::PARAM_STR);
-            $stmt->bindValue(':complemento', $this->getComplemento(), PDO::PARAM_STR);
-            $stmt->bindValue(':cidade', $this->getCidade(), PDO::PARAM_STR);
-            $stmt->bindValue(':cep', $this->getCep(), PDO::PARAM_STR);
-            $stmt->bindValue(':estado', $this->getEstado(), PDO::PARAM_STR);
-            $stmt->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
-            $stmt->bindValue(':cargoFuncao', $this->getCargoFuncao(), PDO::PARAM_STR);
-            $stmt->bindValue(':tipoContrato', $this->getTipoContrato(), PDO::PARAM_STR);
-            $stmt->bindValue(':status', $this->getStatus(), PDO::PARAM_STR);
-            // novos dados add 
-            $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
-            $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
-            $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
+        $stmt->execute();
 
-            $stmt->execute();
+        $this->idFuncionario = (int) $this->pdo->lastInsertId();
 
-            // Atualiza o ID do objeto instanciado
-            $this->idFuncionario = (int) $this->pdo->lastInsertId();
-
-            // Salva Contatos
-            if ($this->getTelefone() || $this->getWhatsapp()) {
-                $sqlContato = "INSERT INTO contatoFuncionario (idFuncionario, telefone, whatsapp) 
-                               VALUES (:idFuncionario, :telefone, :whatsapp)";
-                $stmtContato = $this->pdo->prepare($sqlContato);
-                $stmtContato->bindValue(':idFuncionario', $this->getIdFuncionario(), PDO::PARAM_INT);
-                $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
-                $stmtContato->bindValue(':whatsapp', $this->getWhatsapp(), PDO::PARAM_STR);
-                $stmtContato->execute();
-            }
-
-            $this->pdo->commit();
-            return true;
-
-        } catch (\Exception $e) {
-
-            //    o erro fica registrado no log do PHP/Apache;
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
-            error_log($e->getMessage());
-            return false;
+        if ($this->getTelefone() || $this->getWhatsapp()) {
+            $sqlContato = "INSERT INTO contatoFuncionario (idFuncionario, telefone, whatsapp) 
+                           VALUES (:idFuncionario, :telefone, :whatsapp)";
+            $stmtContato = $this->pdo->prepare($sqlContato);
+            $stmtContato->bindValue(':idFuncionario', $this->getIdFuncionario(), PDO::PARAM_INT);
+            $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
+            $stmtContato->bindValue(':whatsapp', $this->getWhatsapp(), PDO::PARAM_STR);
+            $stmtContato->execute();
         }
+
+        $this->pdo->commit();
+        return true;
+
+    } catch (\Exception $e) {
+        if ($this->pdo->inTransaction()) {
+            $this->pdo->rollBack();
+        }
+        error_log($e->getMessage());
+        return false;
     }
+}
 
     public function update(): bool
     {
