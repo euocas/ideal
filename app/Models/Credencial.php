@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Config\Conexao;
 use PDO;
 
-class TrocarSenha
+class Credencial
 {
     // =====================================================
     // ATRIBUTOS

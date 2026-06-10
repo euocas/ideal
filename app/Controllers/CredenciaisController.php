@@ -6,7 +6,7 @@ use App\Models\Veiculo;
 use App\Core\Auth;
 require_once '../app/models/trocarSenha.php';
 
-class trocarSenhaController
+class CredenciaisController
 
 {
     private $model;

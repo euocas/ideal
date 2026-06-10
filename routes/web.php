@@ -7,10 +7,10 @@ use App\Controllers\FuncionariosController;
 use App\Controllers\VeiculosController;
 use App\Controllers\ClientesController;
 use App\Controllers\ObrasController;
-use App\Controllers\FinanceiroController;
+use App\Controllers\FinanceirosController;
 use App\Controllers\RelatoriosController;
 use App\Controllers\EmpresasController;
-use App\Controllers\TrocaSenhaController;
+use App\Controllers\CredenciaisController;
 
 return [
     'login' => [AuthController::class, 'index'],
@@ -48,7 +48,7 @@ return [
     'obras/update' => [ObrasController::class, 'update'],
     'obras/delete' => [ObrasController::class, 'delete'],
 
-    'financeiro' => [FinanceiroController::class, 'index'],
+    'financeiro' => [FinanceirosController::class, 'index'],
     'relatorios' => [RelatoriosController::class, 'index'],
     'empresas' => [EmpresasController::class, 'index'],
 
