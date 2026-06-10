@@ -151,6 +151,31 @@ switch ($url) {
         $controller->index();
         break;
 
+    case 'obras/create':
+        $controller = new ObrasController();
+        $controller->create();
+        break;
+
+    case 'obras/edit':
+        $controller = new ObrasController();
+        $controller->edit();
+        break;
+
+    case 'obras/store':
+        $controller = new ObrasController();
+        $controller->store();
+        break;
+
+    case 'obras/update':
+        $controller = new ObrasController();
+        $controller->update();
+        break;
+
+    case 'obras/delete':
+        $controller = new ObrasController();
+        $controller->delete();
+        break;
+
     // --- ROTA DE FINANCEIRO--
     case 'financeiro':
         $controller = new FinanceiroController();

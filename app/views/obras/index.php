@@ -1,5 +1,6 @@
 <!--HEADER PHP  -->
 <?php
+$actionUrl ??= '/ideal/public/index.php?url=obras/store';
 // TÍTULO DA PÁGINA
 $titulo = 'Obras';
 require_once __DIR__ . '/../includes/header.php';
@@ -35,7 +36,7 @@ require_once __DIR__ . '/../includes/header.php';
                             BUSCAR OBRA
                         </h2>
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=obra" method="POST">
+                        <form class="form-busca" action="/ideal/public/index.php?url=obras" method="POST">
 
                             <div class="input-group">
 
@@ -88,7 +89,12 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Contrato</label>
 
-                            <input type="text" name="contrato" maxlength="45" placeholder="Digite o contrato">
+                            <input
+                                type="text"
+                                name="contrato"
+                                maxlength="45"
+                                placeholder="Digite o contrato"
+                                value="<?= isset($obra) ? $obra->getContrato() : '' ?>">
 
                         </div>
 
@@ -100,15 +106,18 @@ require_once __DIR__ . '/../includes/header.php';
 
                                 <option value="">Selecione</option>
 
-                                <option value="Em andamento">
+                                <option value="Em andamento"
+                                    <?= isset($obra) && $obra->getStatus() === 'Em andamento' ? 'selected' : '' ?>>
                                     Em andamento
                                 </option>
 
-                                <option value="Concluída">
+                                <option value="Concluída"
+                                    <?= isset($obra) && $obra->getStatus() === 'Concluída' ? 'selected' : '' ?>>
                                     Concluída
                                 </option>
 
-                                <option value="Cancelada">
+                                <option value="Cancelada"
+                                    <?= isset($obra) && $obra->getStatus() === 'Cancelada' ? 'selected' : '' ?>>
                                     Cancelada
                                 </option>
 
@@ -120,7 +129,13 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Data de Início</label>
 
-                            <input type="datetime-local" name="dataInicio" required>
+                            <input
+                                type="datetime-local"
+                                name="dataInicio"
+                                value="<?= isset($obra) && $obra->getDataInicio()
+                                            ? $obra->getDataInicio()->format('Y-m-d\TH:i')
+                                            : '' ?>"
+                                required>
 
                         </div>
 
@@ -128,7 +143,12 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Data de Finalização</label>
 
-                            <input type="datetime-local" name="dataFim">
+                            <input
+                                type="datetime-local"
+                                name="dataFim"
+                                value="<?= isset($obra) && $obra->getDataFim()
+                                            ? $obra->getDataFim()->format('Y-m-d\TH:i')
+                                            : '' ?>">
 
                         </div>
 
@@ -142,8 +162,14 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>CEP</label>
 
-                            <input type="text" name="cep" placeholder="00000-000" maxlength="9"
-                                oninput="mascaraCEP(this)" required>
+                            <input
+                                type="text"
+                                name="cep"
+                                value="<?= isset($obra) ? $obra->getCep() : '' ?>"
+                                placeholder="00000-000"
+                                maxlength="9"
+                                oninput="mascaraCEP(this)"
+                                required>
 
                         </div>
 
@@ -155,11 +181,11 @@ require_once __DIR__ . '/../includes/header.php';
 
                                 <option value="">Selecione</option>
 
-                                <option value="SP">SP</option>
-                                <option value="RJ">RJ</option>
-                                <option value="MG">MG</option>
-                                <option value="PR">PR</option>
-                                <option value="SC">SC</option>
+                                <option value="SP" <?= isset($obra) && $obra->getEstado() === 'SP' ? 'selected' : '' ?>>SP</option>
+                                <option value="RJ" <?= isset($obra) && $obra->getEstado() === 'RJ' ? 'selected' : '' ?>>RJ</option>
+                                <option value="MG" <?= isset($obra) && $obra->getEstado() === 'MG' ? 'selected' : '' ?>>MG</option>
+                                <option value="PR" <?= isset($obra) && $obra->getEstado() === 'PR' ? 'selected' : '' ?>>PR</option>
+                                <option value="SC" <?= isset($obra) && $obra->getEstado() === 'SC' ? 'selected' : '' ?>>SC</option>
 
                             </select>
 
@@ -169,7 +195,13 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Cidade</label>
 
-                            <input type="text" name="cidade" maxlength="45" placeholder="Digite a cidade" required>
+                            <input
+                                type="text"
+                                name="cidade"
+                                maxlength="45"
+                                placeholder="Digite a cidade"
+                                value="<?= isset($obra) ? $obra->getCidade() : '' ?>"
+                                required>
 
                         </div>
 
@@ -177,7 +209,12 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Logradouro</label>
 
-                            <input type="text" name="logradouro" maxlength="80" placeholder="Rua, Avenida, Alameda..."
+                            <input
+                                type="text"
+                                name="logradouro"
+                                maxlength="80"
+                                placeholder="Rua, Avenida, Alameda..."
+                                value="<?= isset($obra) ? $obra->getLogradouro() : '' ?>"
                                 required>
 
                         </div>
@@ -186,15 +223,26 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Endereço</label>
 
-                            <input type="text" name="endereco" maxlength="50" placeholder="Digite o endereço" required>
-
+                            <input
+                                type="text"
+                                name="endereco"
+                                maxlength="50"
+                                placeholder="Digite o endereço"
+                                value="<?= isset($obra) ? $obra->getEndereco() : '' ?>"
+                                required>
                         </div>
 
                         <div class="form-group">
 
                             <label>Número</label>
 
-                            <input type="text" name="numero" maxlength="4" placeholder="1234" required>
+                            <input
+                                type="text"
+                                name="numero"
+                                maxlength="4"
+                                placeholder="1234"
+                                value="<?= isset($obra) ? $obra->getNumero() : '' ?>"
+                                required>
 
                         </div>
 
@@ -202,8 +250,12 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Complemento</label>
 
-                            <input type="text" name="complemento" maxlength="45"
-                                placeholder="Apartamento, bloco, sala...">
+                            <input
+                                type="text"
+                                name="complemento"
+                                maxlength="45"
+                                placeholder="Apartamento, bloco, sala..."
+                                value="<?= isset($obra) ? $obra->getComplemento() : '' ?>">
 
                         </div>
 
@@ -258,7 +310,6 @@ require_once __DIR__ . '/../includes/header.php';
 
     <!-- SCRIPT CEP -->
     <script>
-
         function mascaraCEP(input) {
 
             let valor = input.value.replace(/\D/g, '');
@@ -270,7 +321,6 @@ require_once __DIR__ . '/../includes/header.php';
             input.value = valor;
 
         }
-
     </script>
 
 </body>
