@@ -1,25 +1,17 @@
 <?php
 
-ini_set('display_errors', 0);          
-ini_set('display_startup_errors', 0);  
-ini_set('log_errors', 1);              
-error_reporting(E_ALL);                
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Controllers\AuthController;
-use App\Controllers\DashboardController;
-use App\Controllers\EsqueciSenhaController;
-use App\Controllers\FuncionariosController;
-use App\Controllers\VeiculosController;
-use App\Controllers\ClientesController;
-use App\Controllers\ObrasController;
-use App\Controllers\FinanceiroController;
-use App\Controllers\RelatoriosController;
-use App\Controllers\EmpresasController;
+$rotas = require_once __DIR__ . '/../Routes/web.php';
 
 $url = $_GET['url'] ?? 'login';
 
+<<<<<<< HEAD
 $authController = new AuthController();
 
 switch ($url) {
@@ -197,5 +189,14 @@ switch ($url) {
     default:
         echo "Página não encontrada";
         break;
+=======
+if (array_key_exists($url, $rotas)) {
+    [$classe, $metodo] = $rotas[$url];
+    $controller = new $classe();
+    $controller->$metodo();
+} else {
+    http_response_code(404);
+    echo "Página não encontrada";
+>>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96
 }
 ?>

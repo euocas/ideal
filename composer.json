@@ -1,15 +1,33 @@
 {
-    "name": "matheus.grocha4/ideal",
+    "name": "cod7co/ideal",
     "type": "project",
     "authors": [
         {
             "name": "MatheusGuida08",
             "email": "matheusguida2010@hotmail.com"
+        },
+        {
+            "name": "Danilo"
+        },
+        {
+            "name": "Alexandre"
+        },
+        {
+            "name": "Douglas"
+        },
+        {
+            "name": "Camila"
+        },
+        {
+            "name": "Juliana"
+        },
+        {
+            "name": "Franciélly"
         }
     ],
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "App/"
         }
     },
     "require": {}
