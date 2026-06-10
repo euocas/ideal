@@ -15,7 +15,7 @@ class CredenciaisController
 
     public function index()
     {
-        require '../app/Views/credenciais/index.php';
+        require_once __DIR__ . '/../Views/credenciais/index.php';
     }
 
     public function buscar()

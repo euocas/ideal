@@ -11,19 +11,6 @@ class ObrasController
     {
         Auth::verificar();
     }
-
-    //     public function index()
-//     {
-// <<<<<<< HEAD:app/controllers/ObrasController.php
-//         $obraModel = new Obra();
-//         $obras = $obraModel->listar();
-// =======
-//         require_once __DIR__ . '/../Views/obras/index.php';
-// >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/controller/obracontroller.php
-
-    //         require_once __DIR__ . '/../Views/obras/index.php';
-//     }
-
     public function index()
     {
         $obraModel = new Obra();
