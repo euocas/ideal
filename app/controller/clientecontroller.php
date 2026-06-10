@@ -23,12 +23,8 @@ class ClientesController
         require_once __DIR__ . '/../view/clientes/index.php';
     }
 
-    /**
-     * Executa a lógica de pesquisa de CPF/CNPJ no banco de dados
-     */
     private function buscar()
     {
-        // Pega o campo 'documento' do formulário de busca superior
         $documentoDigitado = (string) ($_POST['documento'] ?? '');
         $documentoLimpo = preg_replace('/[^0-9]/', '', $documentoDigitado);
 
@@ -45,19 +41,14 @@ class ClientesController
             header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $cliente->getIdCliente());
             exit;
         } else {
-            // Se não encontrou, redireciona para a criação passando o documento buscado na URL
             header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
             exit;
         }
     }
 
-    /**
-     * Valida o formato básico do Documento (Tamanho do CPF ou CNPJ limpos)
-     */
     private function validarDocumento(string $documento): bool
     {
         $tamanho = strlen($documento);
-        // CPF tem 11 números, CNPJ tem 14 números
         return $tamanho === 11 || $tamanho === 14;
     }
 
@@ -93,17 +84,32 @@ class ClientesController
         require_once __DIR__ . '/../view/clientes/index.php';
     }
 
-    /**
-     * Helper privado para preencher os dados do objeto Cliente
-     * Isso evita repetir código no Store e no Update
-     */
     private function popularObjeto(Cliente $cliente, array $dados): void
     {
-        $cliente->setNomeCliente($dados['nomeCliente'] ?? null);
-        
-        // Verifica se os campos vieram preenchidos do form inferior antes de popular
+        $cliente->setNomeCliente(!empty($dados['nomeCliente']) ? $dados['nomeCliente'] : '');
         $cliente->setCpf(!empty($dados['cpf']) ? $dados['cpf'] : null);
         $cliente->setCnpj(!empty($dados['cnpj']) ? $dados['cnpj'] : null);
+        $cliente->setEmail(!empty($dados['email']) ? $dados['email'] : '');
+        
+        $tipoForm = $dados['tipoCliente'] ?? '';
+        if ($tipoForm === 'PESSOA_FISICA') {
+            $cliente->setTipoCliente('Pessoa Física');
+        } elseif ($tipoForm === 'PESSOA_JURIDICA') {
+            $cliente->setTipoCliente('Pessoa Jurídica');
+        } else {
+            $cliente->setTipoCliente('Pessoa Física'); 
+        }
+
+        $cliente->setCidade(!empty($dados['cidade']) ? $dados['cidade'] : '');
+        $cliente->setCep(!empty($dados['cep']) ? $dados['cep'] : '');
+        $cliente->setEstado(!empty($dados['estado']) ? $dados['estado'] : '');
+        $cliente->setObservacoes(!empty($dados['observacoes']) ? $dados['observacoes'] : null);
+        $cliente->setTelefone(!empty($dados['telefone']) ? $dados['telefone'] : null);
+
+        $cliente->setTipoLogradouro(null);
+        $cliente->setNomeLogradouro(null);
+        $cliente->setNumero(null);
+        $cliente->setComplemento(null);
     }
 
     public function store()
@@ -111,10 +117,8 @@ class ClientesController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cliente = new Cliente();
             
-            // Popula o objeto com os dados do formulário inferior
             $this->popularObjeto($cliente, $_POST);
 
-            // Validação de segurança baseada no seu banco de dados
             if (empty($cliente->getCpf()) && empty($cliente->getCnpj())) {
                 if (session_status() === PHP_SESSION_NONE) { session_start(); }
                 $_SESSION['mensagem_erro'] = "É obrigatório preencher o CPF ou o CNPJ do cliente.";
@@ -122,13 +126,13 @@ class ClientesController
                 exit;
             }
 
-            // O objeto salva a si mesmo
             $salvou = $cliente->save();
 
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "O cliente foi cadastrado com sucesso!";
             } else {
-                $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados. Verifique se o CPF/CNPJ já existe.";
+                // AGORA EXIBIMOS O ERRO DIRETO DO BANCO DE DADOS
+                $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
             }
 
             header("Location: /ideal/public/index.php?url=clientes");
@@ -142,14 +146,11 @@ class ClientesController
             $id = $_GET['id'] ?? null;
 
             if ($id) {
-                // Primeiro, buscamos o cliente existente para garantir que ele existe
                 $cliente = (new Cliente())->findById((int) $id);
 
                 if ($cliente) {
-                    // Atualizamos o objeto com os novos dados
                     $this->popularObjeto($cliente, $_POST);
                     
-                    // Validação de segurança
                     if (empty($cliente->getCpf()) && empty($cliente->getCnpj())) {
                         if (session_status() === PHP_SESSION_NONE) { session_start(); }
                         $_SESSION['mensagem_erro'] = "É obrigatório manter o CPF ou o CNPJ preenchido.";
@@ -157,13 +158,13 @@ class ClientesController
                         exit;
                     }
 
-                    // O objeto atualiza a si mesmo
                     $atualizou = $cliente->update();
 
                     if ($atualizou) {
                          $_SESSION['mensagem_sucesso'] = "Cadastro do cliente atualizado com sucesso!";
                     } else {
-                         $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados do cliente. Verifique se o documento já está em uso.";
+                         // AGORA EXIBIMOS O ERRO DIRETO DO BANCO DE DADOS
+                         $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
                     }
                 }
             }
