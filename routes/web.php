@@ -49,7 +49,8 @@ return [
 
     'financeiros' => [FinanceirosController::class, 'index'],
     'relatorios' => [RelatoriosController::class, 'index'],
-  
+    
+    'credenciais' => [CredenciaisController::class, 'index'],
 
     // 'trocar-senha' => [trocarSenhacontroller::class, 'index'],
     // 'trocar-senha/salvar' => [trocaSenhacontroller::class, 'salvar'],

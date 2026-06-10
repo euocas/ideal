@@ -3,6 +3,8 @@
 $actionUrl ??= '/ideal/public/index.php?url=obras/store';
 // TÍTULO DA PÁGINA
 $titulo = 'Obras';
+$favicon = '/ideal/public/assets/icon/obra2.png';
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

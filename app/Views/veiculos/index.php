@@ -23,7 +23,8 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 // TÍTULO
-$titulo = 'Veículo';
+$titulo = 'Veículos';
+$favicon = '/ideal/public/assets/icon/veiculo.png';
 
 // HEADER
 require_once __DIR__ . '/../includes/header.php';

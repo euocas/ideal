@@ -1,6 +1,8 @@
 <?php 
 // TÍTULO DA PÁGINA
 $titulo = 'Home';
+$favicon = '/ideal/public/assets/icon/home.png';
+
 require_once __DIR__ . '/../includes/header.php'; 
 ?>
 

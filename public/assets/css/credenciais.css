@@ -1,0 +1,193 @@
+
+/* ==========================================
+   GRID BUSCA
+========================================== */
+ 
+.grid-busca {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    min-width: 0;
+    margin-bottom: 20px; /* espaço para o formulário abaixo */
+}
+ 
+/* ==========================================
+   CARDS
+========================================== */
+ 
+.card-busca,
+.card-dica,
+.card-formulario {
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-width: 0;
+    box-sizing: border-box;
+}
+ 
+/* ==========================================
+   CARD BUSCA - H3
+========================================== */
+ 
+.card-busca h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c3e50;
+    letter-spacing: 0.5px;
+}
+ 
+/* ==========================================
+   FORMULÁRIO DE BUSCA
+========================================== */
+ 
+.form-busca {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    align-items: end;
+    gap: 15px;
+}
+ 
+/* ==========================================
+   CARD DICA
+========================================== */
+ 
+.card-dica {
+    background: #eaf4ff;
+}
+ 
+.card-dica h4 {
+    margin: 0 0 10px 0;
+    color: #0d6efd;
+    font-size: 14px;
+    font-weight: 700;
+}
+ 
+.card-dica p {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+}
+ 
+/* ==========================================
+   CARD FORMULÁRIO
+========================================== */
+ 
+.card-formulario h2 {
+    margin: 0 0 20px 0;
+    color: #e8500a;
+    font-size: 18px;
+    font-weight: 600;
+}
+ 
+.card-formulario hr {
+    margin: 25px 0;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+}
+ 
+/* ==========================================
+   GRID DE CAMPOS
+========================================== */
+ 
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+ 
+/* ==========================================
+   CAMPOS
+========================================== */
+ 
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+ 
+.campo label {
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+ 
+.campo input,
+.campo select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #2c3e50;
+    background: #fafafa;
+    box-sizing: border-box;
+    transition: border-color 0.2s, background 0.2s;
+}
+ 
+.campo input:focus,
+.campo select:focus {
+    outline: none;
+    border-color: #e8500a;
+    background: #fff;
+}
+ 
+.campo input[readonly] {
+    background: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+    border-color: #e0e0e0;
+}
+ 
+/* ==========================================
+   BOTÕES
+========================================== */
+ 
+.btn-buscar,
+.btn-azul {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    background: #0d6efd;
+    color: #fff;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+ 
+.btn-buscar:hover,
+.btn-azul:hover {
+    background: #0b5ed7;
+}
+ 
+.btn-cinza {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    background: #6c757d;
+    color: #fff;
+    transition: background 0.2s;
+}
+ 
+.btn-cinza:hover {
+    background: #5c636a;
+}
+ 
+/* ==========================================
+   AÇÕES
+========================================== */
+ 
+.acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+ 

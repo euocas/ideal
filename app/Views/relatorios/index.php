@@ -7,7 +7,10 @@
 |--------------------------------------------------------------------------
 */
 
+// TÍTULO
 $titulo = 'Relatórios';
+$favicon = '/ideal/public/assets/icon/relatorio.png';
+
 require_once __DIR__ . '/../includes/header.php';
 
 /*

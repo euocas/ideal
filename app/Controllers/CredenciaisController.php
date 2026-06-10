@@ -2,23 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Models\Veiculo;
-use App\Core\Auth;
-require_once '../app/models/trocarSenha.php';
+use App\Models\Credencial;
 
 class CredenciaisController
-
 {
-    private $model;
+    private Credencial $model;
 
-    public function __construct($pdo)
+    public function __construct()
     {
-        $this->model = new trocarSenha($pdo);
+        $this->model = new Credencial();
     }
 
     public function index()
     {
-        require '../app/Views/trocarSenha.php';
+        require '../app/Views/credenciais/index.php';
     }
 
     public function buscar()
@@ -32,34 +29,23 @@ class CredenciaisController
 
     public function alterarSenha()
     {
-        $idUsuario = $_POST['idUsuario'];
-        $novaSenha = $_POST['novaSenha'];
+        $this->model->setId((int) $_POST['idUsuario']);
+        $this->model->setSenha($_POST['novaSenha']);
 
-        $this->model->alterarSenha(
-            $idUsuario,
-            $novaSenha
-        );
+        $this->model->alterarSenha();
 
-        header(
-            'Location: index.php?pagina=trocarSenha'
-        );
+        header('Location: index.php?url=credenciais');
+        exit;
     }
 
     public function alterarEmail()
     {
-        $idUsuario = $_POST['idUsuario'];
-        $novoEmail = $_POST['novoEmail'];
+        $this->model->setId((int) $_POST['idUsuario']);
+        $this->model->setEmail($_POST['novoEmail']);
 
-        $this->model->alterarEmail(
-            $idUsuario,
-            $novoEmail
-        );
+        $this->model->alterarEmail();
 
-        header(
-            'Location: index.php?pagina=trocarSenha'
-        );
+        header('Location: index.php?url=credenciais');
+        exit;
     }
-
-
 }
-?>

@@ -13,6 +13,7 @@ $cpfValue = $isEdit ? $funcionario->getCpf() : ($cpfBusca ?? '');
 
 // TÍTULO DA PÁGINA
 $titulo = 'Funcionários';
+$favicon = '/ideal/public/assets/icon/funcionario2.png';
 
 //HEADER
 require_once __DIR__ . '/../includes/header.php';

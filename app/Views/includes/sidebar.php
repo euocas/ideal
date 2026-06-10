@@ -7,8 +7,8 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
     <!-- LOGO -->
     <div class="logo">
         <a href="/ideal/public/index.php?url=dashboard">
-    <img src="/ideal/public/assets/img/logo.png" alt="Logo Ideal">
-</a>
+            <img src="/ideal/public/assets/img/logo.png" alt="Logo Ideal">
+        </a>
     </div>
 
     <!-- MENU -->
@@ -58,7 +58,7 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
 
         <li>
             <a href="index.php?url=relatorios">
-               <i class="fa-solid fa-chart-line"></i>
+                <i class="fa-solid fa-chart-line"></i>
                 Relatórios
             </a>
         </li>
@@ -69,10 +69,17 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
         </div>
 
 
-        <li>
+        <!-- <li>
             <a href="index.php?url=logs">
                 <i class="fa-solid fa-list-check"></i>
                 Troca Senha
+            </a>
+        </li> -->
+
+        <li>
+            <a href="index.php?url=credenciais">
+                <i class="fa-solid fa-key"></i>
+                Trocar Senha
             </a>
         </li>
 

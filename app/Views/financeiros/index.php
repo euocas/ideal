@@ -3,7 +3,10 @@
 /** @var \App\Models\FinanceiroObra|null $financeiroObra */
 /** @var \App\Models\FinanceiroAutomovel|null $financeiroAutomovel */
 
+// TÍTULO
 $titulo = 'Financeiro';
+$favicon = '/ideal/public/assets/icon/financeiro3.png';
+
 require_once __DIR__ . '/../includes/header.php';
 
 // Aba ativa (funcionario | obra | automovel)
@@ -32,11 +35,15 @@ $actionAutomovel = $isEditAutomovel
     : "/ideal/public/index.php?url=financeiros/storeAutomovel";
 ?>
 
+
+
 <link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/financeiro.css?v=<?= time() ?>">
+
+
 </head>
 
 <body>

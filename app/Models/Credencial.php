@@ -201,4 +201,31 @@ class Credencial
             return false;
         }
     }
+
+    public function buscarUsuario(string $login): ?array
+    {
+        $sql = "SELECT
+                id,
+                nome,
+                email
+            FROM usuario
+            WHERE nome LIKE :login
+            LIMIT 1";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->bindValue(
+            ':login',
+            '%' . $login . '%',
+            PDO::PARAM_STR
+        );
+
+        $stmt->execute();
+
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $dados ?: null;
+    }
+
+
 }
