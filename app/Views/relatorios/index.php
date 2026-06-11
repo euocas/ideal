@@ -349,7 +349,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                         <!-- CLIENTES -->
                         <a href="/ideal/public/index.php?url=relatorios&relatorio=clientes" class="card-relatorio">
 
-                            <img src="/ideal/public/assets/icons/clientes.png" alt="Clientes">
+                            <img src="/ideal/public/assets/icon/cliente.png" alt="Clientes">
 
                             <div>
 
@@ -366,7 +366,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                         <!-- FUNCIONÁRIOS -->
                         <a href="/ideal/public/index.php?url=relatorios&relatorio=funcionarios" class="card-relatorio">
 
-                            <img src="/ideal/public/assets/icons/funcionario2.png" alt="Funcionários">
+                            <img src="/ideal/public/assets/icon/funcionario2.png" alt="Funcionários">
 
                             <div>
 
@@ -383,7 +383,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                         <!-- OBRAS -->
                         <a href="/ideal/public/index.php?url=relatorios&relatorio=obras" class="card-relatorio">
 
-                            <img src="/ideal/public/assets/icons/obra2.png" alt="Obras">
+                            <img src="/ideal/public/assets/icon/obra2.png" alt="Obras">
 
                             <div>
 
@@ -400,7 +400,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                         <!-- VEÍCULOS -->
                         <a href="/ideal/public/index.php?url=relatorios&relatorio=veiculos" class="card-relatorio">
 
-                            <img src="/ideal/public/assets/icons/veiculo.png" alt="Veículos">
+                            <img src="/ideal/public/assets/icon/veiculo.png" alt="Veículos">
 
                             <div>
 
@@ -417,7 +417,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                         <!-- FINANCEIRO -->
                         <a href="/ideal/public/index.php?url=relatorios&relatorio=financeiro" class="card-relatorio">
 
-                            <img src="/ideal/public/assets/icons/financeiro3.png" alt="Financeiro">
+                            <img src="/ideal/public/assets/icon/financeiro3.png" alt="Financeiro">
 
                             <div>
 

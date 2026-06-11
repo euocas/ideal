@@ -28,8 +28,8 @@ class ClientesController
         $documentoDigitado = (string) ($_POST['documento'] ?? '');
         $documentoLimpo = preg_replace('/[^0-9]/', '', $documentoDigitado);
 
-        if (!$this->validarDocumento($documentoLimpo)) {
-            $mensagem = "O documento informado é inválido. Verifique a quantidade de números e tente novamente.";
+        if (empty($documentoLimpo)) {
+            $mensagem = "Por favor, digite um documento para realizar a busca.";
             require_once __DIR__ . '/../Views/clientes/index.php';
             return;
         }
@@ -44,12 +44,6 @@ class ClientesController
             header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
             exit;
         }
-    }
-
-    private function validarDocumento(string $documento): bool
-    {
-        $tamanho = strlen($documento);
-        return $tamanho === 11 || $tamanho === 14;
     }
 
     public function create()
@@ -84,6 +78,130 @@ class ClientesController
         require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
+    public function store()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $cliente = new Cliente();
+            
+            $this->popularObjeto($cliente, $_POST);
+
+            // 1. VALIDAÇÃO DE SEGURANÇA: Obrigatoriedade de ao menos um documento
+            if (empty($cliente->getCpf()) && empty($cliente->getCnpj())) {
+                $this->retornarComErro("É obrigatório preencher o CPF ou o CNPJ do cliente.", "clientes");
+            }
+
+            // 2. VALIDAÇÃO DE SEGURANÇA: Estrutura matemática do CPF (se preenchido)
+            if (!empty($cliente->getCpf()) && !$this->validarCPF($cliente->getCpf())) {
+                $this->retornarComErro("O CPF informado é inválido. Verifique os dígitos.", "clientes");
+            }
+
+            // 3. VALIDAÇÃO DE SEGURANÇA: Estrutura matemática do CNPJ (se preenchido)
+            if (!empty($cliente->getCnpj()) && !$this->validarCNPJ($cliente->getCnpj())) {
+                $this->retornarComErro("O CNPJ informado é inválido. Verifique os dígitos.", "clientes");
+            }
+
+            // 4. VALIDAÇÃO DE SEGURANÇA: Estrutura do E-mail
+            if (!empty($cliente->getEmail()) && !$this->validarEmail($cliente->getEmail())) {
+                $this->retornarComErro("O formato do e-mail informado é inválido.", "clientes");
+            }
+
+            // 5. VALIDAÇÃO DE SEGURANÇA: Estrutura do CEP
+            if (!empty($cliente->getCep()) && !$this->validarCEP($cliente->getCep())) {
+                $this->retornarComErro("O CEP informado deve conter exatamente 8 números.", "clientes");
+            }
+
+            $salvou = $cliente->save();
+
+            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+            if ($salvou) {
+                $_SESSION['mensagem_sucesso'] = "O cliente foi cadastrado com sucesso!";
+            } else {
+                $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
+            }
+
+            header("Location: /ideal/public/index.php?url=clientes");
+            exit;
+        }
+    }
+
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_GET['id'] ?? null;
+
+            if (!$id) {
+                $this->retornarComErro("Identificador do cliente não encontrado.", "clientes");
+            }
+
+            $cliente = (new Cliente())->findById((int) $id);
+
+            if ($cliente) {
+                $this->popularObjeto($cliente, $_POST);
+                
+                // 1. VALIDAÇÃO: Obrigatoriedade de ao menos um documento
+                if (empty($cliente->getCpf()) && empty($cliente->getCnpj())) {
+                    $this->retornarComErro("É obrigatório manter o CPF ou o CNPJ preenchido.", "clientes/edit&id=" . $id);
+                }
+
+                // 2. VALIDAÇÃO: Estrutura matemática do CPF
+                if (!empty($cliente->getCpf()) && !$this->validarCPF($cliente->getCpf())) {
+                    $this->retornarComErro("O CPF informado é inválido. Verifique os dígitos.", "clientes/edit&id=" . $id);
+                }
+
+                // 3. VALIDAÇÃO: Estrutura matemática do CNPJ
+                if (!empty($cliente->getCnpj()) && !$this->validarCNPJ($cliente->getCnpj())) {
+                    $this->retornarComErro("O CNPJ informado é inválido. Verifique os dígitos.", "clientes/edit&id=" . $id);
+                }
+
+                // 4. VALIDAÇÃO: Estrutura do E-mail
+                if (!empty($cliente->getEmail()) && !$this->validarEmail($cliente->getEmail())) {
+                    $this->retornarComErro("O formato do e-mail informado é inválido.", "clientes/edit&id=" . $id);
+                }
+
+                // 5. VALIDAÇÃO: Estrutura do CEP
+                if (!empty($cliente->getCep()) && !$this->validarCEP($cliente->getCep())) {
+                    $this->retornarComErro("O CEP informado deve conter exatamente 8 números.", "clientes/edit&id=" . $id);
+                }
+
+                $atualizou = $cliente->update();
+
+                if (session_status() === PHP_SESSION_NONE) { session_start(); }
+                if ($atualizou) {
+                     $_SESSION['mensagem_sucesso'] = "Cadastro do cliente atualizado com sucesso!";
+                } else {
+                     $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
+                }
+            }
+
+            header("Location: /ideal/public/index.php?url=clientes");
+            exit;
+        }
+    }
+
+    public function delete()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if ($id) {
+            $clienteModel = new Cliente();
+            $deletou = $clienteModel->delete((int) $id);
+
+            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+            if ($deletou) {
+                 $_SESSION['mensagem_sucesso'] = "Cliente excluído com sucesso!";
+            } else {
+                 $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o cliente. Verifique se ele não possui obras vinculadas.";
+            }
+        }
+
+        header("Location: /ideal/public/index.php?url=clientes");
+        exit;
+    }
+
+    // =====================================================
+    // METODOS AUXILIARES E ALGORITMOS DE VALIDAÇÃO
+    // =====================================================
+
     private function popularObjeto(Cliente $cliente, array $dados): void
     {
         $cliente->setNomeCliente(!empty($dados['nomeCliente']) ? $dados['nomeCliente'] : '');
@@ -112,85 +230,64 @@ class ClientesController
         $cliente->setComplemento(null);
     }
 
-    public function store()
+    private function retornarComErro(string $mensagem, string $rota): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $cliente = new Cliente();
-            
-            $this->popularObjeto($cliente, $_POST);
-
-            if (empty($cliente->getCpf()) && empty($cliente->getCnpj())) {
-                if (session_status() === PHP_SESSION_NONE) { session_start(); }
-                $_SESSION['mensagem_erro'] = "É obrigatório preencher o CPF ou o CNPJ do cliente.";
-                header("Location: /ideal/public/index.php?url=clientes");
-                exit;
-            }
-
-            $salvou = $cliente->save();
-
-            if ($salvou) {
-                $_SESSION['mensagem_sucesso'] = "O cliente foi cadastrado com sucesso!";
-            } else {
-                // AGORA EXIBIMOS O ERRO DIRETO DO BANCO DE DADOS
-                $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
-            }
-
-            header("Location: /ideal/public/index.php?url=clientes");
-            exit;
-        }
-    }
-
-    public function update()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = $_GET['id'] ?? null;
-
-            if ($id) {
-                $cliente = (new Cliente())->findById((int) $id);
-
-                if ($cliente) {
-                    $this->popularObjeto($cliente, $_POST);
-                    
-                    if (empty($cliente->getCpf()) && empty($cliente->getCnpj())) {
-                        if (session_status() === PHP_SESSION_NONE) { session_start(); }
-                        $_SESSION['mensagem_erro'] = "É obrigatório manter o CPF ou o CNPJ preenchido.";
-                        header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $id);
-                        exit;
-                    }
-
-                    $atualizou = $cliente->update();
-
-                    if ($atualizou) {
-                         $_SESSION['mensagem_sucesso'] = "Cadastro do cliente atualizado com sucesso!";
-                    } else {
-                         // AGORA EXIBIMOS O ERRO DIRETO DO BANCO DE DADOS
-                         $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
-                    }
-                }
-            }
-
-            header("Location: /ideal/public/index.php?url=clientes");
-            exit;
-        }
-    }
-
-    public function delete()
-    {
-        $id = $_GET['id'] ?? null;
-
-        if ($id) {
-            $clienteModel = new Cliente();
-            $deletou = $clienteModel->delete((int) $id);
-
-            if ($deletou) {
-                 $_SESSION['mensagem_sucesso'] = "Cliente excluído com sucesso!";
-            } else {
-                 $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o cliente. Verifique se ele não possui obras vinculadas.";
-            }
-        }
-
-        header("Location: /ideal/public/index.php?url=clientes");
+        if (session_status() === PHP_SESSION_NONE) { session_start(); }
+        $_SESSION['mensagem_erro'] = $mensagem;
+        header("Location: /ideal/public/index.php?url=" . $rota);
         exit;
     }
-}
 
+    private function validarEmail(string $email): bool
+    {
+        return (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    private function validarCEP(string $cep): bool
+    {
+        $cepLimpo = preg_replace('/[^0-9]/', '', $cep);
+        return strlen($cepLimpo) === 8;
+    }
+
+    private function validarCPF(string $cpf): bool
+    {
+        $cpf = preg_replace('/[^0-9]/', '', $cpf);
+        
+        if (strlen($cpf) !== 11) return false;
+        if (preg_match('/(\d)\1{10}/', $cpf)) return false; // Bloqueia sequências repetidas (11111111111...)
+
+        // Cálculo dos dígitos verificadores
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) return false;
+        }
+        return true;
+    }
+
+    private function validarCNPJ(string $cnpj): bool
+    {
+        $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
+
+        if (strlen($cnpj) !== 14) return false;
+        if (preg_match('/(\d)\1{13}/', $cnpj)) return false; // Bloqueia sequências repetidas
+
+        // Cálculo dos dígitos verificadores
+        $tamanhos = [12, 13];
+        foreach ($tamanhos as $tamanho) {
+            $numeros = substr($cnpj, 0, $tamanho);
+            $digitos = substr($cnpj, $tamanho);
+            $soma = 0;
+            $pos = $tamanho - 7;
+            for ($i = $tamanho; $i >= 1; $i--) {
+                $soma += $numeros[$tamanho - $i] * $pos--;
+                if ($pos < 2) $pos = 9;
+            }
+            $resultado = $soma % 11 < 2 ? 0 : 11 - ($soma % 11);
+            if ($resultado != $digitos[0]) return false;
+        }
+        return true;
+    }
+}
