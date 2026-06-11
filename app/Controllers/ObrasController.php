@@ -13,24 +13,40 @@ class ObrasController
     }
 
     //     public function index()
-//     {
-// <<<<<<< HEAD:app/controllers/ObrasController.php
-//         $obraModel = new Obra();
-//         $obras = $obraModel->listar();
-// =======
-//         require_once __DIR__ . '/../Views/obras/index.php';
-// >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/controller/obracontroller.php
+    //     {
+    // <<<<<<< HEAD:app/controllers/ObrasController.php
+    //         $obraModel = new Obra();
+    //         $obras = $obraModel->listar();
+    // =======
+    //         require_once __DIR__ . '/../Views/obras/index.php';
+    // >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/controller/obracontroller.php
 
     //         require_once __DIR__ . '/../Views/obras/index.php';
-//     }
+    //     }
 
     public function index()
-    {
-        $obraModel = new Obra();
-        $obras = $obraModel->listar();
+{
+    $obra = null;
+    $actionUrl = "/ideal/public/index.php?url=obras/store";
 
-        require_once __DIR__ . '/../Views/obras/index.php';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $contrato = trim($_POST['contratoBusca'] ?? '');
+
+        if ($contrato !== '') {
+
+            $obraModel = new Obra();
+
+            $obra = $obraModel->buscarPorContrato($contrato);
+
+            if ($obra) {
+                $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
+            }
+        }
     }
+
+    require_once __DIR__ . '/../Views/obras/index.php';
+}
 
     public function create()
     {
@@ -164,4 +180,3 @@ class ObrasController
         exit;
     }
 }
-

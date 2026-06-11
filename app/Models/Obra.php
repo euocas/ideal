@@ -99,7 +99,7 @@ class Obra
 
     public function setEstado(?string $estado): void
     {
-        $this->estado = strtoupper($estado);
+        $this->estado = $estado ? strtoupper($estado) : null;
     }
 
     public function getCidade(): ?string
@@ -172,32 +172,32 @@ class Obra
         $this->contrato = $contrato;
     }
 
-   private function hydrate(array $dados): self
-{
-    $obra = new self();
+    private function hydrate(array $dados): self
+    {
+        $obra = new self();
 
-    $obra->setIdObra($dados['idObra'] ?? null);
+        $obra->setIdObra($dados['idObra'] ?? null);
 
-    if (!empty($dados['dataInicio'])) {
-        $obra->setDataInicio(new \DateTime($dados['dataInicio']));
+        if (!empty($dados['dataInicio'])) {
+            $obra->setDataInicio(new DateTime($dados['dataInicio']));
+        }
+
+        if (!empty($dados['dataFim'])) {
+            $obra->setDataFim(new DateTime($dados['dataFim']));
+        }
+
+        $obra->setStatus($dados['status'] ?? null);
+        $obra->setEstado($dados['estado'] ?? null);
+        $obra->setCidade($dados['cidade'] ?? null);
+        $obra->setCep($dados['cep'] ?? null);
+        $obra->setLogradouro($dados['logradouro'] ?? null);
+        $obra->setEndereco($dados['endereco'] ?? null);
+        $obra->setNumero($dados['numero'] ?? null);
+        $obra->setComplemento($dados['complemento'] ?? null);
+        $obra->setContrato($dados['contrato'] ?? null);
+
+        return $obra;
     }
-
-    if (!empty($dados['dataFim'])) {
-        $obra->setDataFim(new \DateTime($dados['dataFim']));
-    }
-
-    $obra->setStatus($dados['status'] ?? null);
-    $obra->setEstado($dados['estado'] ?? null);
-    $obra->setCidade($dados['cidade'] ?? null);
-    $obra->setCep($dados['cep'] ?? null);
-    $obra->setLogradouro($dados['logradouro'] ?? null);
-    $obra->setEndereco($dados['endereco'] ?? null);
-    $obra->setNumero($dados['numero'] ?? null);
-    $obra->setComplemento($dados['complemento'] ?? null);
-    $obra->setContrato($dados['contrato'] ?? null);
-
-    return $obra;
-}   
 
     // =====================================================
     // CRUD
@@ -264,17 +264,17 @@ class Obra
     }
 
     public function buscarPorId(int $id): ?self
-{
-    $sql = "SELECT * FROM obra WHERE idObra = :id";
+    {
+        $sql = "SELECT * FROM obra WHERE idObra = :id";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-    $stmt->execute();
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
 
-    $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $dados ? $this->hydrate($dados) : null;
-}
+        return $dados ? $this->hydrate($dados) : null;
+    }
 
     public function atualizar(): bool
     {
@@ -321,122 +321,18 @@ class Obra
         ]);
     }
 
- 
+    public function buscarPorContrato(string $contrato): ?self
+    {
+        $sql = "SELECT * FROM obra WHERE contrato = :contrato LIMIT 1";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute([
+            ':contrato' => $contrato
+        ]);
+
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $dados ? $this->hydrate($dados) : null;
+    }
 }
-// <<<<<<< HEAD:app/models/Obra.php
-// =======
-
-// public function setDataInicio(?DateTime $dataInicio): void
-// {
-//     $this->dataInicio = $dataInicio;
-// }
-
-// public function getDataFim(): ?DateTime
-// {
-//     return $this->dataFim;
-// }
-
-// public function setDataFim(?DateTime $dataFim): void
-// {
-//     $this->dataFim = $dataFim;
-// }
-
-// //=============================================================
-// // VALIDAÇÃO DE VALORES PERMITIDOS (ENUMS DO BANCO)
-// // Garante que apenas dados tabelados sejam aceitos
-// //=============================================================
-// public function getStatus(): ?string
-// {
-//     return $this->status;
-// }
-
-// public function setStatus(?string $status): void
-// {
-//     $this->status = $status;
-// }
-// //=============================================================
-// //=============================================================
-
-// public function getEstado(): ?string
-// {
-//     return $this->estado;
-// }
-
-// public function setEstado(?string $estado): void
-// {
-//     $this->estado = $estado;
-// }
-
-// public function getCidade(): ?string
-// {
-//     return $this->cidade;
-// }
-
-// public function setCidade(?string $cidade): void
-// {
-//     $this->cidade = $cidade;
-// }
-
-// public function getCep(): ?string
-// {
-//     return $this->cep;
-// }
-
-// public function setCep(?string $cep): void
-// {
-//     $this->cep = $cep;
-// }
-
-// public function getLogradouro(): ?string
-// {
-//     return $this->logradouro;
-// }
-
-// public function setLogradouro(?string $logradouro): void
-// {
-//     $this->logradouro = $logradouro;
-// }
-
-// public function getEndereco(): ?string
-// {
-//     return $this->endereco;
-// }
-
-// public function setEndereco(?string $endereco): void
-// {
-//     $this->endereco = $endereco;
-// }
-
-// public function getNumero(): ?string
-// {
-//     return $this->numero;
-// }
-
-// public function setNumero(?string $numero): void
-// {
-//     $this->numero = $numero;
-// }
-
-// public function getComplemento(): ?string
-// {
-//     return $this->complemento;
-// }
-
-// public function setComplemento(?string $complemento): void
-// {
-//     $this->complemento = $complemento;
-// }
-
-// public function getContrato(): ?string
-// {
-//     return $this->contrato;
-// }
-
-// public function setContrato(?string $contrato): void
-// {
-//     $this->contrato = $contrato;
-// }
-
-// }
-
-// >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/model/obra.php
