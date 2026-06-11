@@ -1,9 +1,7 @@
 <?php
 
 // TÍTULO
-
 $titulo = 'Credenciais';
-
 $favicon = '/ideal/public/assets/icon/chave.png';
 
 

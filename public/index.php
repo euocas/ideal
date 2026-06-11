@@ -18,14 +18,8 @@ if (array_key_exists($url, $rotas)) {
 } else {
     http_response_code(404);
     echo "Página não encontrada";
-<<<<<<< HEAD
-// >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96
-
 
 }
-
 
 ?>
-=======
-}
->>>>>>> 80c5133353918af5de5d31c83433c9ed88e014d3
+
