@@ -1,8 +1,3 @@
-
-/* ==========================================
-   GRID BUSCA
-========================================== */
- 
 .grid-busca {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -10,11 +5,7 @@
     min-width: 0;
     margin-bottom: 20px; /* espaço para o formulário abaixo */
 }
- 
-/* ==========================================
-   CARDS
-========================================== */
- 
+
 .card-busca,
 .card-dica,
 .card-formulario {
@@ -26,10 +17,6 @@
     box-sizing: border-box;
 }
  
-/* ==========================================
-   CARD BUSCA - H3
-========================================== */
- 
 .card-busca h3 {
     margin: 0 0 20px 0;
     font-size: 16px;
@@ -38,10 +25,6 @@
     letter-spacing: 0.5px;
 }
  
-/* ==========================================
-   FORMULÁRIO DE BUSCA
-========================================== */
- 
 .form-busca {
     display: grid;
     grid-template-columns: 1fr 2fr auto;
@@ -49,14 +32,11 @@
     gap: 15px;
 }
  
-/* ==========================================
-   CARD DICA
-========================================== */
- 
 .card-dica {
     background: #eaf4ff;
+
 }
- 
+
 .card-dica h4 {
     margin: 0 0 10px 0;
     color: #0d6efd;
@@ -65,15 +45,27 @@
 }
  
 .card-dica p {
-    font-size: 14px;
+    font-size: 17px;
     color: #444;
     line-height: 1.6;
     margin: 0;
 }
- 
-/* ==========================================
-   CARD FORMULÁRIO
-========================================== */
+
+.card-dica {
+    background: #eaf4ff;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-dica::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 8px;
+    background: #0d6efd;
+}
  
 .card-formulario h2 {
     margin: 0 0 20px 0;
@@ -87,20 +79,11 @@
     border: 0;
     border-top: 1px solid #e0e0e0;
 }
- 
-/* ==========================================
-   GRID DE CAMPOS
-========================================== */
- 
 .grid-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
- 
-/* ==========================================
-   CAMPOS
-========================================== */
  
 .campo {
     display: flex;
@@ -142,10 +125,6 @@
     border-color: #e0e0e0;
 }
  
-/* ==========================================
-   BOTÕES
-========================================== */
- 
 .btn-buscar,
 .btn-azul {
     padding: 10px 20px;
@@ -180,10 +159,6 @@
 .btn-cinza:hover {
     background: #5c636a;
 }
- 
-/* ==========================================
-   AÇÕES
-========================================== */
  
 .acoes {
     display: flex;

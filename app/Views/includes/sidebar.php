@@ -68,14 +68,6 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
             CONFIGURAÇÕES
         </div>
 
-
-        <!-- <li>
-            <a href="index.php?url=logs">
-                <i class="fa-solid fa-list-check"></i>
-                Troca Senha
-            </a>
-        </li> -->
-
         <li>
             <a href="index.php?url=credenciais">
                 <i class="fa-solid fa-key"></i>

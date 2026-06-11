@@ -1,6 +1,7 @@
 <?php
 // TÍTULO DA PÁGINA
 $titulo = 'Clientes';
+$favicon = '/ideal/public/assets/icon/cliente.png';
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

@@ -67,9 +67,8 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
                 </div>
             </section>
-
-            <section class="card">
-
+            <!-- SEGUNDO FORM -->
+            <section class="card2">
                 <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
                     <div
                         style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
@@ -289,14 +288,9 @@ require_once __DIR__ . '/../includes/header.php';
                                 oninput="mascaraTelefone(this)"
                                 value="<?= htmlspecialchars($isEdit ? $funcionario->getWhatsapp() : '') ?>">
                         </div>
-                        <!--  
-                        <div class="form-group observacao">
-                            <label>Observações</label>
-                            <textarea
-                                name="observacoes"><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
-                        </div> -->
-                        <div class="secao-inferior">
-                            <!-- Dados de Contratação -->
+
+                        <!-- <div class="secao-inferior">
+                            Dados de Contratação
                             <div class="card-contratacao">
                                 <h2>Dados de Contratação</h2>
                                 <div class="form-group">
@@ -316,20 +310,50 @@ require_once __DIR__ . '/../includes/header.php';
                                 </div>
                             </div>
 
-                            <!-- Observações -->
+                            Observações
                             <div class="card-observacao">
                                 <h2>Observações</h2>
                                 <textarea
                                     name="observacoes" maxlength="500" placeholder="Digite alguma observação se for necessário" ><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
                             </div>
+                        </div> -->
+
+
+                        <!-- teste de layout -->
+                        <div class="card-contratacao">
+                            <h2>Dados de Contratação</h2>
+                            <div class="grupo-datas">
+                                <div class="form-group">
+                                    <label>Admissão</label>
+
+                                    <input type="date" name="dataAdmissao"
+                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataAdmissao() : '') ?>">
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Desligamento</label>
+                                    <input type="date" name="dataDesligamento"
+                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataDesligamento() : '') ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Férias Programadas</label>
+                                    <input type="date" name="feriasProgramadas"
+                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getFeriasProgramadas() : '') ?>">
+                                </div>
+                            </div>
+
                         </div>
-
-
+                        <div class="card-observacao">
+                            <h2>Observações</h2>
+                            <textarea name="observacoes" maxlength="500"
+                            placeholder="Digite alguma observação se for necessário"><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
+                        </div>
                     </div>
                 </form>
 
             </section>
-
             <div class="acoes">
                 <a href="/ideal/public/index.php?url=funcionarios" class="btn novo"
                     style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>

@@ -51,6 +51,8 @@ body {
 
   background: var(--bg-dark);
   color: #fff;
+
+ 
 }
 
 /* ==========================================
@@ -76,6 +78,8 @@ body {
 
 .menu {
   list-style: none;
+  flex: 1;
+
 }
 
 .menu li {
@@ -86,16 +90,12 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-
   width: 100%;
   padding: 15px 18px;
-
   background: transparent;
   border-radius: 14px;
-
   color: #fff;
   text-decoration: none;
-
   transition: 0.3s;
 }
 
@@ -132,6 +132,10 @@ body {
   padding-top: 20px;
 
   border-top: 1px solid #223550;
+
+
+
+
 }
 
 .avatar {
