@@ -18,8 +18,7 @@ class CredenciaisController
 
     public function index()
     {
-        // Ajustado o caminho de forma mais segura com __DIR__
-        require_once __DIR__ . '/../Views/credenciais/index.php';
+        require '../app/Views/credenciais/index.php';
     }
 
     public function buscar()
