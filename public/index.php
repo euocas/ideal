@@ -198,5 +198,9 @@ if (array_key_exists($url, $rotas)) {
     http_response_code(404);
     echo "Página não encontrada";
 // >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96
+
+
 }
+
+
 ?>

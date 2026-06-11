@@ -1,8 +1,6 @@
 <?php
 // TÍTULO DA PÁGINA
 $titulo = 'Clientes';
-$favicon = '/ideal/public/assets/icon/cliente.png';
-
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
@@ -195,17 +193,25 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>CEP</label>
 
+                            <?php 
+                                // Verifica e formata o CEP para exibição correta na tela
+                                $cepValue = '';
+                                if (isset($cliente) && !empty($cliente->getCep())) {
+                                    $c = preg_replace('/\D/', '', $cliente->getCep());
+                                    $cepValue = strlen($c) === 8 ? substr($c, 0, 5) . '-' . substr($c, 5) : $cliente->getCep();
+                                }
+                            ?>
                             <input type="text" name="cep" placeholder="00000-000" maxlength="9"
                                 oninput="mascaraCEP(this)"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCep() ?? '') : '' ?>">
+                                value="<?= htmlspecialchars($cepValue) ?>">
 
                         </div>
 
                         <div class="form-group">
-
+ 
                             <label>Cidade</label>
 
-                            <input type="text" name="cidade" placeholder="Digite a cidade"
+                            <input type="text" name="cidade" id="cidade" placeholder="Digite a cidade"
                                 value="<?= isset($cliente) ? htmlspecialchars($cliente->getCidade() ?? '') : '' ?>">
 
                         </div>
@@ -215,7 +221,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Estado</label>
 
                             <?php $estadoAtual = isset($cliente) ? $cliente->getEstado() : ''; ?>
-                            <select name="estado">
+                            <select name="estado" id="estado">
 
                                 <option value="">Selecione</option>
 
@@ -243,13 +249,7 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
 
-<!-- <<<<<<< HEAD:app/Views/clientes/index.php -->
             <div class="acoes">
-<!-- ======= -->
-            <!-- BOTÕES (Agora com rotas para o Controller) -->
-            <div class="acao">
-<!-- >>>>>>> 5a1e86830450ed3111bf0d5f5aa49be1bdc5ed96:app/Views/cliente/index.php -->
-
 
                 <button type="submit" form="form-dados" class="btn novo" 
                         formaction="/ideal/public/index.php?url=clientes/store">
@@ -290,17 +290,13 @@ require_once __DIR__ . '/../includes/header.php';
             input.value = '';
 
             if (tipo === 'cpf') {
-
                 label.innerText = 'CPF';
                 input.placeholder = '000.000.000-00';
                 input.maxLength = 14;
-
             } else {
-
                 label.innerText = 'CNPJ';
                 input.placeholder = '00.000.000/0000-00';
                 input.maxLength = 18;
-
             }
 
         }
@@ -310,13 +306,9 @@ require_once __DIR__ . '/../includes/header.php';
             const tipo = document.getElementById('tipoDocumento').value;
 
             if (tipo === 'cpf') {
-
                 mascaraCPF(input);
-
             } else {
-
                 mascaraCNPJ(input);
-
             }
 
         }
@@ -324,79 +316,59 @@ require_once __DIR__ . '/../includes/header.php';
     </script>
 
     <script>
-
         function mascaraCPF(input) {
-
             let valor = input.value.replace(/\D/g, '');
-
             valor = valor.substring(0, 11);
-
             valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-
             valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-
             valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-
             input.value = valor;
-
         }
-
     </script>
 
     <script>
-
         function mascaraCNPJ(input) {
-
             let valor = input.value.replace(/\D/g, '');
-
             valor = valor.substring(0, 14);
-
             valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
-
             valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-
             valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
-
             valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
-
             input.value = valor;
-
         }
-
     </script>
 
     <script>
-
         function mascaraTelefone(input) {
-
             let valor = input.value.replace(/\D/g, '');
-
             valor = valor.substring(0, 11);
-
             valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
-
             valor = valor.replace(/(\d)(\d{4})$/, '$1-$2');
-
             input.value = valor;
-
         }
-
     </script>
 
     <script>
-
         function mascaraCEP(input) {
-
             let valor = input.value.replace(/\D/g, '');
+            
+            // Busca os dados automaticamente ao digitar os 8 números do CEP
+            if (valor.length === 8) {
+                fetch(`https://viacep.com.br/ws/${valor}/json/`)
+                    .then(response => response.json())
+                    .then(dados => {
+                        if (!dados.erro) {
+                            document.getElementById('cidade').value = dados.localidade;
+                            document.getElementById('estado').value = dados.uf;
+                        }
+                    })
+                    .catch(error => console.error('Erro ao buscar o CEP:', error));
+            }
 
             valor = valor.substring(0, 8);
-
             valor = valor.replace(/^(\d{5})(\d)/, '$1-$2');
-
             input.value = valor;
-
         }
-
     </script>
 
 </body>
