@@ -4,6 +4,5 @@
 # Arquivos do Windows
 desktop.ini
 
-# Composer
-composer.phar
-/vendor/find . -name .DS_Store -print
+# Dependências do Composer
+/vendor/
