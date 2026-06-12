@@ -1,168 +1,175 @@
 .grid-busca {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-    min-width: 0;
-    margin-bottom: 20px; /* espaço para o formulário abaixo */
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  min-width: 0;
+  margin-bottom: 20px; /* espaço para o formulário abaixo */
 }
 
 .card-busca,
 .card-dica,
 .card-formulario {
-    background: #fff;
-    border-radius: 10px;
-    padding: 25px 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    min-width: 0;
-    box-sizing: border-box;
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-width: 0;
+  box-sizing: border-box;
 }
- 
-.card-busca h3 {
-    margin: 0 0 20px 0;
-    font-size: 16px;
-    font-weight: 700;
-    color: #2c3e50;
-    letter-spacing: 0.5px;
-}
- 
-.form-busca {
-    display: grid;
-    grid-template-columns: 1fr 2fr auto;
-    align-items: end;
-    gap: 15px;
-}
- 
-.card-dica {
-    background: #eaf4ff;
 
+.card-busca h3 {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+}
+
+.form-busca {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: end;
+  gap: 15px;
+}
+
+.card-dica {
+  background: #eaf4ff;
 }
 
 .card-dica h4 {
-    margin: 0 0 10px 0;
-    color: #0d6efd;
-    font-size: 14px;
-    font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #0d6efd;
+  font-size: 14px;
+  font-weight: 700;
 }
- 
+
 .card-dica p {
-    font-size: 17px;
-    color: #444;
-    line-height: 1.6;
-    margin: 0;
+  font-size: 17px;
+  color: #444;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .card-dica {
-    background: #eaf4ff;
-    position: relative;
-    overflow: hidden;
+  background: #eaf4ff;
+  position: relative;
+  overflow: hidden;
 }
 
 .card-dica::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 8px;
-    background: #0d6efd;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 8px;
+  background: #0d6efd;
 }
- 
+
 .card-formulario h2 {
-    margin: 0 0 20px 0;
-    color: #e8500a;
-    font-size: 18px;
-    font-weight: 600;
+  margin: 0 0 20px 0;
+  color: #e8500a;
+  font-size: 18px;
+  font-weight: 600;
 }
- 
+
 .card-formulario hr {
-    margin: 25px 0;
-    border: 0;
-    border-top: 1px solid #e0e0e0;
+  margin: 25px 0;
+  border: 0;
+  border-top: 1px solid #e0e0e0;
 }
 .grid-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
- 
+
 .campo {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
- 
+
 .campo label {
-    margin-bottom: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #555;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
- 
+
 .campo input,
 .campo select {
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #2c3e50;
-    background: #fafafa;
-    box-sizing: border-box;
-    transition: border-color 0.2s, background 0.2s;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #2c3e50;
+  background: #fafafa;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
- 
+
 .campo input:focus,
 .campo select:focus {
-    outline: none;
-    border-color: #e8500a;
-    background: #fff;
+  outline: none;
+  border-color: #e8500a;
+  background: #fff;
 }
- 
+
 .campo input[readonly] {
-    background: #f0f0f0;
-    color: #888;
-    cursor: not-allowed;
-    border-color: #e0e0e0;
+  background: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+  border-color: #e0e0e0;
 }
- 
-.btn-buscar,
-.btn-azul {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    background: #0d6efd;
-    color: #fff;
-    transition: background 0.2s;
-    white-space: nowrap;
+.btn-buscar {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 17px;
+  background: #0d6efd;
+  color: #fff;
+  transition: background 0.2s;
+  white-space: nowrap;
 }
- 
-.btn-buscar:hover,
-.btn-azul:hover {
-    background: #0b5ed7;
+
+.btn-buscar:hover {
+  background: #0b5ed7;
 }
- 
-.btn-cinza {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    background: #6c757d;
-    color: #fff;
-    transition: background 0.2s;
-}
- 
-.btn-cinza:hover {
-    background: #5c636a;
-}
- 
+
 .acoes {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
 }
- 
+.content button.btn-limpar {
+  /* padding: 10px 20px; */
+  padding: 16px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--btn-secondary);
+  color: #fff;
+  transition: background 0.2s;
+}
+.content button.btn-alterar {
+  /* padding: 10px 20px; */
+  padding: 16px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--btn-warning);
+  color: #fff;
+  transition: background 0.2s;
+}
