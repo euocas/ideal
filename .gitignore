@@ -1,1 +1,9 @@
-/vendor/
+# Arquivos do macOS
+.DS_Store
+
+# Arquivos do Windows
+desktop.ini
+
+# Composer
+composer.phar
+/vendor/find . -name .DS_Store -print
