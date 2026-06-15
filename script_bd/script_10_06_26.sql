@@ -421,6 +421,10 @@ select * FROM usuario;
 
 select * from cliente;
 
+select * from obra;
+
+select * from veiculo;
+
 select * from contatoCliente;
 
 select * FROM funcionario;
