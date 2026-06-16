@@ -1,6 +1,7 @@
 /* ==========================================
    RESET
 ========================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -11,9 +12,11 @@ body {
   background: var(--bg);
   font-family: Arial, sans-serif;
 }
+
 /* ==========================================
    LAYOUT
 ========================================== */
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -23,18 +26,24 @@ body {
   flex: 1;
   padding: 25px;
 }
+
 /* ==========================================
    CARD
 ========================================== */
+
 .card {
   padding: 25px;
   margin-bottom: 15px;
+
   background: var(--surface);
   border-radius: var(--radius-md);
+
   box-shadow: var(--shadow-sm);
 }
+
 .card h2 {
   margin-bottom: 10px;
+
   color: var(--text);
   font-size: 20px;
 }
@@ -51,8 +60,7 @@ body {
 }
 
 .busca-box {
-  /* padding: 20px; */
-   padding: 12px 16px;
+  padding: 20px;
   background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-default);
@@ -63,8 +71,8 @@ body {
   align-items: center;
   gap: 10px;
 
-  margin-bottom: 8px;
-  font-size: 17px;
+  margin-bottom: 15px;
+  font-size: 19px;
 }
 
 .form-busca {
@@ -126,13 +134,13 @@ body {
   height: 46px;
   padding: 0 14px;
 }
- 
+
 .form-group textarea {
-  height: 50px;
-  min-height: 50px;
-  padding: 10px;
-  resize: vertical;
+  min-height: 120px;
+  padding: 14px;
+  resize: none;
 }
+
 .input-group input:focus,
 .input-group select:focus,
 .form-group input:focus,
@@ -226,14 +234,18 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 28px 20px;
+
   width: 100%;
 }
 
 .subtitulo-form {
   grid-column: 1 / -1;
+
   margin-top: 4px;
   padding-top: 16px;
+
   border-top: 1px solid var(--border-light);
+
   color: var(--text);
   font-size: 19px;
   font-weight: bold;
@@ -244,159 +256,6 @@ body {
 }
 
 /* ==========================================
-  CARD FUNCIONÁRIOS  
-========================================== */
-.grid-funcionario{
-    display:grid;
-    grid-template-columns:
-        1.5fr
-        1fr
-        1fr
-        0.8fr
-        0.8fr
-        0.8fr
-        140px;
-
-    gap:16px;
-}
-
-.grid-funcionario .form-group:nth-child(5),
-.grid-funcionario .form-group:nth-child(6){
-    max-width:220px;
-}
-.grid-funcionario input,
-.grid-funcionario select{
-    height:42px;
-}
-.btn-adicionar{
-    height:42px;
-    max-width:220px;
-}
-
-.btn-area{
-    display:flex;
-    align-items:flex-end;
-}
-
-.btn-adicionar{
-    width:100%;
-    height:46px;
-
-    border:none;
-    border-radius:8px;
-
-    background:#16a34a;
-    color:#fff;
-
-    font-weight:600;
-
-    cursor:pointer;
-}
-
-.btn-area{
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-}
-
-.btn-adicionar{
-    height:46px;
-}
-
-/* ==========================================
-   tabela funcionário
-========================================== */
-
-.tabela-funcionarios{
-    margin-top:20px;
-
-    overflow-x:auto;
-
-    border:1px solid #e5e7eb;
-    border-radius:10px;
-}
-
-.tabela-funcionarios table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.tabela-funcionarios thead{
-    background:#f8fafc;
-}
-
-.tabela-funcionarios th{
-    padding:14px;
-
-    text-align:left;
-    font-size:14px;
-    font-weight:600;
-
-    border-bottom:1px solid #e5e7eb;
-}
-
-.tabela-funcionarios td{
-    padding:14px;
-    border-bottom:1px solid #e5e7eb;
-}
-
-.status{
-    padding:4px 12px;
-
-    border-radius:6px;
-
-    font-size:13px;
-    font-weight:600;
-}
-
-.status.ativo{
-    background:#dcfce7;
-    color:#15803d;
-}
-
-.acoes-tabela{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-}
-
-.btn-editar,
-.btn-excluir{
-    width:34px;
-    height:34px;
-
-    border:none;
-    border-radius:8px;
-
-    cursor:pointer;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    transition:0.2s;
-}
-
-.btn-editar{
-    background:#eff6ff;
-    color:#2563eb;
-}
-
-.btn-editar:hover{
-    background:#dbeafe;
-    transform:scale(1.05);
-}
-
-.btn-excluir{
-    background:#fef2f2;
-    color:#dc2626;
-}
-
-.btn-excluir:hover{
-    background:#fee2e2;
-    transform:scale(1.05);
-}
-/* ==========================================
    AÇÕES
 ========================================== */
 
@@ -405,10 +264,9 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
+
   margin-top: 10px;
 }
-
-
 
 .btn {
   min-width: 150px;
@@ -450,94 +308,6 @@ body {
   background: var(--btn-secondary);
   color: var(--text);
 }
-
-/* ==========================================
-   CARD CLIENTE
-========================================== */
-
-.cliente-area {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 49.4% 50%;
-  gap: 20px;
-  align-items: start;
-}
-.cliente-card {
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  border-radius: 10px;
-  padding: 18px 22px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  flex: 0 0 calc(60% - 20px);
-  
-}
-.cliente-area .form-group{
-    width: 100% !important;
-    max-width: none !important;
-}
-
-.cliente-area .form-group input{
-    width: 100% !important;
-}
-
-
-.cliente-area .form-group {
-  width: 280px;
-  flex-shrink: 0;
-}
-
-.cliente-card h3 {
-  margin-bottom: 15px;
-  color: #f97316;
-  font-size: 16px;
-}
-
-.cliente-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-}
-
-.cliente-info {
-  flex: 1;
-}
-
-.cliente-info:not(:last-child) {
-  border-right: 1px solid #e5e7eb;
-  padding-right: 20px;
-}
-.cliente-info span {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.cliente-info strong {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-}
-.grid-form {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px 20px;
-}
-
-.titulo-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.titulo-card i {
-  color: #f97316;
-}
-.fa-whatsapp{
-    color:#25D366;
-}
-
-
 
 /* ==========================================
    RESPONSIVO

@@ -3,7 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Obra;
+use App\Models\Cliente;
 use App\Core\Auth;
+use App\Config\Conexao;
+use PDO;
 
 class ObrasController
 {
@@ -12,9 +15,12 @@ class ObrasController
         Auth::verificar();
     }
 
-    public function index()
+
+public function index()
 {
     $obra = null;
+    $cliente = null;
+
     $actionUrl = "/ideal/public/index.php?url=obras/store";
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

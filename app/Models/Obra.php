@@ -167,26 +167,26 @@ class Obra
         return $this->contrato;
     }
 
-   public function setContrato(?string $contrato): void
-{
-    if ($contrato === null) {
-        $this->contrato = null;
-        return;
+    public function setContrato(?string $contrato): void
+    {
+        if ($contrato === null) {
+            $this->contrato = null;
+            return;
+        }
+
+        // Remove espaços extras
+        $contrato = trim($contrato);
+
+        // Converte para minúsculo
+        $contrato = mb_strtolower($contrato, 'UTF-8');
+
+        // Verifica se ficou vazio
+        if ($contrato === '') {
+            throw new InvalidArgumentException('Contrato não pode estar vazio.');
+        }
+
+        $this->contrato = $contrato;
     }
-
-    // Remove espaços extras
-    $contrato = trim($contrato);
-
-    // Converte para minúsculo
-    $contrato = mb_strtolower($contrato, 'UTF-8');
-
-    // Verifica se ficou vazio
-    if ($contrato === '') {
-        throw new InvalidArgumentException('Contrato não pode estar vazio.');
-    }
-
-    $this->contrato = $contrato;
-}
     private function hydrate(array $dados): self
     {
         $obra = new self();
@@ -263,7 +263,7 @@ class Obra
         ]);
 
         if ($sucesso) {
-            $this->idObra = (int)$this->pdo->lastInsertId();
+            $this->idObra = (int) $this->pdo->lastInsertId();
         }
 
         return $sucesso;
@@ -292,8 +292,8 @@ class Obra
     }
 
     public function atualizar(): bool
-{
-    $sql = "UPDATE obra SET
+    {
+        $sql = "UPDATE obra SET
                 dataInicio = :dataInicio,
                 dataFim = :dataFim,
                 status = :status,
@@ -307,32 +307,32 @@ class Obra
                 contrato = :contrato
             WHERE idObra = :idObra";
 
-    $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
 
 
-    $sucesso = $stmt->execute([
-        ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
-        ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
-        ':status' => $this->status,
-        ':estado' => $this->estado,
-        ':cidade' => $this->cidade,
-        ':cep' => $this->cep,
-        ':logradouro' => $this->logradouro,
-        ':endereco' => $this->endereco,
-        ':numero' => $this->numero,
-        ':complemento' => $this->complemento,
-        ':contrato' => $this->contrato,
-        ':idObra' => $this->idObra
-    ]);
+        $sucesso = $stmt->execute([
+            ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
+            ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
+            ':status' => $this->status,
+            ':estado' => $this->estado,
+            ':cidade' => $this->cidade,
+            ':cep' => $this->cep,
+            ':logradouro' => $this->logradouro,
+            ':endereco' => $this->endereco,
+            ':numero' => $this->numero,
+            ':complemento' => $this->complemento,
+            ':contrato' => $this->contrato,
+            ':idObra' => $this->idObra
+        ]);
 
-    if (!$sucesso) {
-    echo '<pre>';
-    print_r($stmt->errorInfo());
-    exit;
-}
+        if (!$sucesso) {
+            echo '<pre>';
+            print_r($stmt->errorInfo());
+            exit;
+        }
 
-return true;
-}
+        return true;
+    }
 
     public function excluir(int $id): bool
     {
@@ -359,4 +359,37 @@ return true;
 
         return $dados ? $this->hydrate($dados) : null;
     }
+
+    // public function buscarCliente(): ?Cliente
+    // {
+    //     if (!$this->idObra) {
+    //         return null;
+    //     }
+
+    //     $sql = "
+    //     SELECT c.*
+    //     FROM cliente c
+    //     INNER JOIN obraCliente oc
+    //         ON oc.idCliente = c.idCliente
+    //     WHERE oc.idObra = :idObra
+    //     LIMIT 1
+    // ";
+
+    //     $stmt = $this->pdo->prepare($sql);
+    //     $stmt->execute([
+    //         ':idObra' => $this->idObra
+    //     ]);
+
+    //     $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    //     if (!$dados) {
+    //         return null;
+    //     }
+
+    //     $clienteModel = new Cliente();
+
+    //     return $clienteModel->findById(
+    //         (int) $dados['idCliente']
+    //     );
+    // }
 }
