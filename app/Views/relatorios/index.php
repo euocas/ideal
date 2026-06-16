@@ -46,6 +46,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
 ?>
 
 <link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/relatorios.css?v=<?= time() ?>">
@@ -216,14 +217,17 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                             <div class="acoes-filtros">
 
                                 <button type="reset" class="btn-limpar">
+                                    <i class="bi bi-eraser"></i>
                                     LIMPAR
                                 </button>
 
                                 <button type="submit" name="acao" value="filtrar" class="btn-filtrar">
+                                    <i class="bi bi-funnel"></i> 
                                     FILTRAR
                                 </button>
 
                                 <button type="submit" name="acao" value="todos" class="btn-todos">
+                                    <i class="bi bi-list-ul"></i>
                                     GERAR TODOS
                                 </button>
                             </div>
@@ -328,10 +332,12 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                     <div class="acoes-exportar">
 
                                         <button class="btn-excel">
+                                            <i class="bi bi-filetype-xlsx"></i> 
                                             EXPORTAR EXCEL
                                         </button>
 
                                         <button class="btn-pdf">
+                                            <i class="bi bi-filetype-pdf"></i>
                                             GERAR PDF
                                         </button>
 

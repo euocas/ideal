@@ -10,6 +10,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 <link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/credenciais.css?v=<?= time() ?>">
@@ -50,6 +51,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
 
                         <button type="button" class="btn-buscar">
+                            <i class="bi bi-search"></i>
                             Buscar
                         </button>
 
@@ -142,10 +144,12 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="acoes">
 
                 <button type="submit" class="btn-alterar">
+                    <i class="bi bi-pencil-square"></i> 
                     Alterar
                 </button>
 
                 <button type="reset" class="btn-limpar">
+                    <i class="bi bi-eraser"></i>
                     Limpar
                 </button>
 

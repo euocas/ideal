@@ -11,6 +11,7 @@ require_once __DIR__ . '/../includes/header.php';
 <link rel="stylesheet" href="/ideal/public/assets/css/components.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
 <link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/clientes.css?v=<?= time() ?>">
 </head>
 
@@ -23,18 +24,23 @@ require_once __DIR__ . '/../includes/header.php';
         <main class="main-content">
 
             <?php if (isset($mensagem) && $mensagem): ?>
-                <div class="alert alert-warning" style="background: #fff3cd; color: #856404; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                <div class="alert alert-warning"
+                    style="background: #fff3cd; color: #856404; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
                     <?= $mensagem ?>
                 </div>
             <?php endif; ?>
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="alert alert-success" style="background: #d4edda; color: #155724; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-                    <?= $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
+                <div class="alert alert-success"
+                    style="background: #d4edda; color: #155724; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <?= $_SESSION['mensagem_sucesso'];
+                    unset($_SESSION['mensagem_sucesso']); ?>
                 </div>
             <?php endif; ?>
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-                    <?= $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
+                <div class="alert alert-danger"
+                    style="background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <?= $_SESSION['mensagem_erro'];
+                    unset($_SESSION['mensagem_erro']); ?>
                 </div>
             <?php endif; ?>
 
@@ -77,6 +83,7 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
 
                             <button type="submit" class="btn-buscar">
+                                <i class="bi bi-search"></i> 
                                 BUSCAR
                             </button>
 
@@ -109,7 +116,8 @@ require_once __DIR__ . '/../includes/header.php';
 
                 <form id="form-dados" method="POST">
 
-                    <input type="hidden" name="idCliente" value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
+                    <input type="hidden" name="idCliente"
+                        value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
 
                     <div class="grid-form">
 
@@ -194,22 +202,21 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>CEP</label>
 
-                            <?php 
-                                // Verifica e formata o CEP para exibição correta na tela
-                                $cepValue = '';
-                                if (isset($cliente) && !empty($cliente->getCep())) {
-                                    $c = preg_replace('/\D/', '', $cliente->getCep());
-                                    $cepValue = strlen($c) === 8 ? substr($c, 0, 5) . '-' . substr($c, 5) : $cliente->getCep();
-                                }
+                            <?php
+                            // Verifica e formata o CEP para exibição correta na tela
+                            $cepValue = '';
+                            if (isset($cliente) && !empty($cliente->getCep())) {
+                                $c = preg_replace('/\D/', '', $cliente->getCep());
+                                $cepValue = strlen($c) === 8 ? substr($c, 0, 5) . '-' . substr($c, 5) : $cliente->getCep();
+                            }
                             ?>
                             <input type="text" name="cep" placeholder="00000-000" maxlength="9"
-                                oninput="mascaraCEP(this)"
-                                value="<?= htmlspecialchars($cepValue) ?>">
+                                oninput="mascaraCEP(this)" value="<?= htmlspecialchars($cepValue) ?>">
 
                         </div>
 
                         <div class="form-group">
- 
+
                             <label>Cidade</label>
 
                             <input type="text" name="cidade" id="cidade" placeholder="Digite a cidade"
@@ -240,7 +247,8 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <label>Observações</label>
 
-                            <textarea name="observacoes"><?= isset($cliente) ? htmlspecialchars($cliente->getObservacoes() ?? '') : '' ?></textarea>
+                            <textarea
+                                name="observacoes"><?= isset($cliente) ? htmlspecialchars($cliente->getObservacoes() ?? '') : '' ?></textarea>
 
                         </div>
 
@@ -252,25 +260,29 @@ require_once __DIR__ . '/../includes/header.php';
 
             <div class="acoes">
 
-                <button type="submit" form="form-dados" class="btn novo" 
-                        formaction="/ideal/public/index.php?url=clientes/store">
+                <button type="submit" form="form-dados" class="btn novo"
+                    formaction="/ideal/public/index.php?url=clientes/store">
+                    <i class="bi bi-plus-lg"></i>
                     Novo
                 </button>
 
-                <button type="submit" form="form-dados" class="btn alterar" 
-                        formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
-                        <?= isset($cliente) ? '' : 'disabled' ?>>
+                <button type="submit" form="form-dados" class="btn alterar"
+                    formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                    <?= isset($cliente) ? '' : 'disabled' ?>>
+                    <i class="bi bi-pencil-square"></i> 
                     Alterar
                 </button>
 
-                <button type="submit" form="form-dados" class="btn excluir" 
-                        formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
-                        onclick="return confirm('Tem certeza que deseja excluir este cliente?');"
-                        <?= isset($cliente) ? '' : 'disabled' ?>>
+                <button type="submit" form="form-dados" class="btn excluir"
+                    formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                    onclick="return confirm('Tem certeza que deseja excluir este cliente?');" <?= isset($cliente) ? '' : 'disabled' ?>>
+                    <i class="bi bi-trash"></i>
                     Excluir
                 </button>
 
-                <button type="button" class="btn limpar" onclick="window.location.href='/ideal/public/index.php?url=clientes'">
+                <button type="button" class="btn limpar"
+                    onclick="window.location.href='/ideal/public/index.php?url=clientes'">
+                    <i class="bi bi-eraser"></i>
                     Limpar
                 </button>
 
@@ -352,7 +364,7 @@ require_once __DIR__ . '/../includes/header.php';
     <script>
         function mascaraCEP(input) {
             let valor = input.value.replace(/\D/g, '');
-            
+
             // Busca os dados automaticamente ao digitar os 8 números do CEP
             if (valor.length === 8) {
                 fetch(`https://viacep.com.br/ws/${valor}/json/`)

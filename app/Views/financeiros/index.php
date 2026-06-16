@@ -44,6 +44,7 @@ $actionAutomovel = $isEditAutomovel
 
 <link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/financeiro.css?v=<?= time() ?>">
@@ -178,17 +179,18 @@ $actionAutomovel = $isEditAutomovel
 
         <div class="acao">
             <a href="/ideal/public/index.php?url=financeiros&aba=funcionario" class="btn novo"
-               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">Novo</a>
+               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">
+               <i class="bi bi-plus-lg"></i>Novo</a>
             <?php if (!$isEditFuncionario): ?>
-                <button type="submit" form="form-funcionario" class="btn salvar">Salvar</button>
+                <button type="submit" form="form-funcionario" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
             <?php else: ?>
-                <button type="submit" form="form-funcionario" class="btn alterar">Alterar</button>
+                <button type="submit" form="form-funcionario" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
                 <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>"
                    class="btn excluir"
                    style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
-                   onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>
+                   onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
             <?php endif; ?>
-            <button type="reset" form="form-funcionario" class="btn limpar">Limpar</button>
+            <button type="reset" form="form-funcionario" class="btn limpar"><i class="bi bi-eraser"></i>Limpar</button>
         </div>
 
         <!-- ============================================================
@@ -287,17 +289,17 @@ $actionAutomovel = $isEditAutomovel
 
         <div class="acao">
             <a href="/ideal/public/index.php?url=financeiros&aba=obra" class="btn novo"
-               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">Novo</a>
+               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"> <i class="bi bi-plus-lg"></i>Novo</a>
             <?php if (!$isEditObra): ?>
-                <button type="submit" form="form-obra" class="btn salvar">Salvar</button>
+                <button type="submit" form="form-obra" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
             <?php else: ?>
-                <button type="submit" form="form-obra" class="btn alterar">Alterar</button>
+                <button type="submit" form="form-obra" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
                 <a href="/ideal/public/index.php?url=financeiros/deleteObra&id=<?= $financeiroObra->getIdFinanceiroObra() ?>"
                    class="btn excluir"
                    style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
-                   onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>
+                   onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
             <?php endif; ?>
-            <button type="reset" form="form-obra" class="btn limpar">Limpar</button>
+            <button type="reset" form="form-obra" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
         </div>
 
         <!-- ============================================================
@@ -376,17 +378,17 @@ $actionAutomovel = $isEditAutomovel
 
         <div class="acoes">
             <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo"
-               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">Novo</a>
+               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"><i class="bi bi-plus-lg"></i> Novo</a>
             <?php if (!$isEditAutomovel): ?>
-                <button type="submit" form="form-automovel" class="btn salvar">Salvar</button>
+                <button type="submit" form="form-automovel" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
             <?php else: ?>
-                <button type="submit" form="form-automovel" class="btn alterar">Alterar</button>
+                <button type="submit" form="form-automovel" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
                 <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
                    class="btn excluir"
                    style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
-                   onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</a>
+                   onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
             <?php endif; ?>
-            <button type="reset" form="form-automovel" class="btn limpar">Limpar</button>
+            <button type="reset" form="form-automovel" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
         </div>
 
         <?php endif; ?>

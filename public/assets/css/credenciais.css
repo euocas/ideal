@@ -97,6 +97,9 @@
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
+.acoes button {
+    text-transform: none !important;
+}
 
 .campo input,
 .campo select {
@@ -132,7 +135,7 @@
   cursor: pointer;
   font-weight: 600;
   font-size: 17px;
-  background: #0d6efd;
+  background: var(--btn-dark);
   color: #fff;
   transition: background 0.2s;
   white-space: nowrap;

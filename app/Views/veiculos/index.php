@@ -34,6 +34,7 @@ require_once __DIR__ . '/../includes/header.php';
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="shortcut icon" href="/ideal/public/assets/icons/veiculo.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/veiculos.css?v=<?= time() ?>">
 
 </head>
@@ -59,7 +60,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <input type="text" name="placa" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
                                     placeholder="ABC1D23" required maxlength="7" style="text-transform: uppercase;">
                             </div>
-                            <button type="submit" class="btn-buscar">BUSCAR</button>
+                            <button type="submit" class="btn-buscar"><i class="bi bi-search"></i> BUSCAR</button>
                         </form>
                     </div>
                     <div class="dica-box">
@@ -212,19 +213,26 @@ require_once __DIR__ . '/../includes/header.php';
 
                 <div class="acoes">
                     <a href="/ideal/public/index.php?url=veiculos" class="btn novo"
-                        style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>
+                        style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">
+                        <i class="bi bi-plus-lg"></i>
+                        Novo</a>
 
                     <?php if (!$isEdit): ?>
-                        <button type="submit" class="btn salvar">Salvar</button>
+                        <button type="submit" class="btn salvar">
+                           <i class="bi bi-floppy"></i>  Salvar
+                        </button>
                     <?php else: ?>
-                        <button type="submit" class="btn alterar">Alterar</button>
+                        <button type="submit" class="btn alterar">
+                            <i class="bi bi-pencil-square"></i>
+                            Alterar</button>
                         <a href="/ideal/public/index.php?url=veiculos/delete&id=<?= $veiculo->getIdVeiculo() ?>"
                             class="btn excluir"
                             style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;"
-                            onclick="return confirm('Excluir este veículo?')">Excluir</a>
+                            onclick="return confirm('Excluir este veículo?')">
+                            <i class="bi bi-trash"></i> Excluir</a>
                     <?php endif; ?>
 
-                    <button type="reset" class="btn limpar">Limpar</button>
+                    <button type="reset" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
                 </div>
             </form>
         </main>

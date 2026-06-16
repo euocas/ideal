@@ -21,6 +21,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 <link rel="shortcut icon" href="/ideal/public/assets/icons/funcionario2.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css?v=<?= time() ?>">
@@ -53,7 +54,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <input type="text" name="cpf" oninput="mascaraCPF(this)" placeholder="000.000.000-00"
                                     required maxlength="14">
                             </div>
-                            <button type="submit" class="btn-buscar">BUSCAR</button>
+                            <button type="submit" class="btn-buscar"><i class="bi bi-search"></i>  BUSCAR</button>
                         </form>
                     </div>
 
@@ -289,37 +290,9 @@ require_once __DIR__ . '/../includes/header.php';
                                 value="<?= htmlspecialchars($isEdit ? $funcionario->getWhatsapp() : '') ?>">
                         </div>
 
-                        <!-- <div class="secao-inferior">
-                            Dados de Contratação
-                            <div class="card-contratacao">
-                                <h2>Dados de Contratação</h2>
-                                <div class="form-group">
-                                    <label>Data de Admissão</label>
-                                    <input type="date" name="dataAdmissao"
-                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataAdmissao() : '') ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label>Data de Desligamento</label>
-                                    <input type="date" name="dataDesligamento"
-                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataDesligamento() : '') ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label>Férias Programadas</label>
-                                    <input type="date" name="feriasProgramadas"
-                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getFeriasProgramadas() : '') ?>">
-                                </div>
-                            </div>
-
-                            Observações
-                            <div class="card-observacao">
-                                <h2>Observações</h2>
-                                <textarea
-                                    name="observacoes" maxlength="500" placeholder="Digite alguma observação se for necessário" ><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
-                            </div>
-                        </div> -->
 
 
-                        <!-- teste de layout -->
+                        
                         <div class="card-contratacao">
                             <h2>Dados de Contratação</h2>
                             <div class="grupo-datas">
@@ -356,19 +329,20 @@ require_once __DIR__ . '/../includes/header.php';
             </section>
             <div class="acoes">
                 <a href="/ideal/public/index.php?url=funcionarios" class="btn novo"
-                    style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">Novo</a>
+                    style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">
+                    <i class="bi bi-plus-lg"></i> Novo</a>
 
                 <?php if (!$isEdit): ?>
-                    <button type="submit" form="form-dados" class="btn salvar">Salvar</button>
+                    <button type="submit" form="form-dados" class="btn salvar"> <i class="bi bi-floppy"></i> Salvar</button>
                 <?php else: ?>
-                    <button type="submit" form="form-dados" class="btn alterar">Alterar</button>
+                    <button type="submit" form="form-dados" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
                     <a href="/ideal/public/index.php?url=funcionarios/delete&id=<?= $funcionario->getIdFuncionario() ?>"
                         class="btn excluir"
                         style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;"
-                        onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">Excluir</a>
+                        onclick="return confirm('Tem certeza que deseja excluir este funcionário?')"><i class="bi bi-trash"></i> Excluir</a>
                 <?php endif; ?>
 
-                <button type="reset" form="form-dados" class="btn limpar">Limpar</button>
+                <button type="reset" form="form-dados" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
             </div>
 
         </main>
