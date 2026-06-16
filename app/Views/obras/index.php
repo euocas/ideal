@@ -69,6 +69,26 @@ require_once __DIR__ . '/../includes/header.php';
                                 BUSCAR
                             </button>
 
+                            <div class="acao">
+
+                                <button type="submit" form="form-dados" class="btn novo">
+                                    Novo
+                                </button>
+
+                                <button type="submit" form="form-dados" class="btn alterar">
+                                    Alterar
+                                </button>
+
+                                <button type="submit" form="form-dados" class="btn excluir">
+                                    Excluir
+                                </button>
+
+                                <button type="reset" form="form-dados" class="btn limpar">
+                                    Limpar
+                                </button>
+
+                            </div>
+
                         </form>
 
                     </div>

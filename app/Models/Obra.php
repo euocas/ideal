@@ -167,11 +167,26 @@ class Obra
         return $this->contrato;
     }
 
-    public function setContrato(?string $contrato): void
-    {
-        $this->contrato = $contrato;
+   public function setContrato(?string $contrato): void
+{
+    if ($contrato === null) {
+        $this->contrato = null;
+        return;
     }
 
+    // Remove espaços extras
+    $contrato = trim($contrato);
+
+    // Converte para minúsculo
+    $contrato = mb_strtolower($contrato, 'UTF-8');
+
+    // Verifica se ficou vazio
+    if ($contrato === '') {
+        throw new InvalidArgumentException('Contrato não pode estar vazio.');
+    }
+
+    $this->contrato = $contrato;
+}
     private function hydrate(array $dados): self
     {
         $obra = new self();
@@ -277,38 +292,47 @@ class Obra
     }
 
     public function atualizar(): bool
-    {
-        $sql = "UPDATE obra SET
-                    dataInicio = :dataInicio,
-                    dataFim = :dataFim,
-                    status = :status,
-                    estado = :estado,
-                    cidade = :cidade,
-                    cep = :cep,
-                    logradouro = :logradouro,
-                    endereco = :endereco,
-                    numero = :numero,
-                    complemento = :complemento,
-                    contrato = :contrato
-                WHERE idObra = :idObra";
+{
+    $sql = "UPDATE obra SET
+                dataInicio = :dataInicio,
+                dataFim = :dataFim,
+                status = :status,
+                estado = :estado,
+                cidade = :cidade,
+                cep = :cep,
+                logradouro = :logradouro,
+                endereco = :endereco,
+                numero = :numero,
+                complemento = :complemento,
+                contrato = :contrato
+            WHERE idObra = :idObra";
 
-        $stmt = $this->pdo->prepare($sql);
+    $stmt = $this->pdo->prepare($sql);
 
-        return $stmt->execute([
-            ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
-            ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
-            ':status' => $this->status,
-            ':estado' => $this->estado,
-            ':cidade' => $this->cidade,
-            ':cep' => $this->cep,
-            ':logradouro' => $this->logradouro,
-            ':endereco' => $this->endereco,
-            ':numero' => $this->numero,
-            ':complemento' => $this->complemento,
-            ':contrato' => $this->contrato,
-            ':idObra' => $this->idObra
-        ]);
-    }
+
+    $sucesso = $stmt->execute([
+        ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
+        ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
+        ':status' => $this->status,
+        ':estado' => $this->estado,
+        ':cidade' => $this->cidade,
+        ':cep' => $this->cep,
+        ':logradouro' => $this->logradouro,
+        ':endereco' => $this->endereco,
+        ':numero' => $this->numero,
+        ':complemento' => $this->complemento,
+        ':contrato' => $this->contrato,
+        ':idObra' => $this->idObra
+    ]);
+
+    if (!$sucesso) {
+    echo '<pre>';
+    print_r($stmt->errorInfo());
+    exit;
+}
+
+return true;
+}
 
     public function excluir(int $id): bool
     {

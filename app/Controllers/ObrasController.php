@@ -112,36 +112,37 @@ class ObrasController
     }
 
     public function update()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $id = $_GET['id'] ?? null;
+        $id = $_GET['id'] ?? null;
 
-            if ($id) {
 
-                $obra = new Obra();
+        if ($id) {
 
-                $obra->setIdObra($id);
+            $obra = new Obra();
 
-                $this->popularObjeto($obra, $_POST);
+            $obra->setIdObra($id);
 
-                $atualizou = $obra->atualizar();
+            $this->popularObjeto($obra, $_POST);
 
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
+            $atualizou = $obra->atualizar();
 
-                if ($atualizou) {
-                    $_SESSION['mensagem_sucesso'] = "Obra atualizada com sucesso!";
-                } else {
-                    $_SESSION['mensagem_erro'] = "Erro ao atualizar a obra.";
-                }
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
             }
 
-            header("Location: /ideal/public/index.php?url=obras");
-            exit;
+            if ($atualizou) {
+                $_SESSION['mensagem_sucesso'] = "Obra atualizada com sucesso!";
+            } else {
+                $_SESSION['mensagem_erro'] = "Erro ao atualizar a obra.";
+            }
         }
+
+        header("Location: /ideal/public/index.php?url=obras");
+        exit;
     }
+}
 
     public function delete()
     {
