@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 /** @var \App\Models\FinanceiroFuncionario|null $financeiroFuncionario */
 /** @var \App\Models\FinanceiroObra|null $financeiroObra */
 /** @var \App\Models\FinanceiroAutomovel|null $financeiroAutomovel */
