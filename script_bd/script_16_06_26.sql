@@ -499,7 +499,9 @@ Select * from contatoFuncionario;
 
 select * from contatoCliente;
 
-SELECT * FROM obraFuncionario;
+select * FROM  obraFuncionario;
+
+select * from obraCliente;
  
 select CONSTRAINT_NAME, TABLE_NAME
 
