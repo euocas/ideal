@@ -113,27 +113,7 @@ CREATE TABLE contatoCliente (
 );
 
 -- =====================================================
--- OBRA
--- =====================================================
-
-CREATE TABLE obra (
-    idObra INT AUTO_INCREMENT PRIMARY KEY,
-    dataInicio DATETIME NOT NULL,
-    dataFim DATETIME,
-    status ENUM('Em andamento', 'Concluída', 'Cancelada') NOT NULL,
-    estado CHAR(2) NOT NULL,
-    cidade VARCHAR(45) NOT NULL,
-    cep CHAR(8) NOT NULL,
-    logradouro VARCHAR(80) NOT NULL,
-    endereco VARCHAR(50) NOT NULL,
-    numero CHAR(4) NOT NULL,
-    complemento VARCHAR(45),
-    contrato VARCHAR(45)
-
-);
-
--- =====================================================
--- Veiculo - COMPLETA
+-- Veiculo 
 -- =====================================================
 
 CREATE TABLE veiculo (
@@ -164,6 +144,27 @@ CREATE TABLE veiculo (
 );
 
 -- =====================================================
+-- OBRA
+-- =====================================================
+
+CREATE TABLE obra (
+    idObra INT AUTO_INCREMENT PRIMARY KEY,
+    dataInicio DATETIME NOT NULL,
+    dataFim DATETIME,
+    status ENUM('Em andamento', 'Concluída', 'Cancelada') NOT NULL,
+    estado CHAR(2) NOT NULL,
+    cidade VARCHAR(45) NOT NULL,
+    cep CHAR(8) NOT NULL,
+    logradouro VARCHAR(80) NOT NULL,
+    endereco VARCHAR(50) NOT NULL,
+    numero CHAR(4) NOT NULL,
+    complemento VARCHAR(45),
+    contrato VARCHAR(45),
+    observacoes TEXT
+
+);
+
+-- =====================================================
 -- OBRA FUNCIONARIO
 -- =====================================================
 
@@ -181,7 +182,21 @@ CREATE TABLE obraFuncionario (
         UNIQUE (idFuncionario, idObra)
 
 );
+-- =====================================================
+-- OBRA FUNCIONARIO VEÍCULO
+-- =====================================================
 
+CREATE TABLE obraFuncionarioVeiculo (
+    idObraFuncionarioVeiculo INT AUTO_INCREMENT PRIMARY KEY,
+    idObraFuncionario INT NOT NULL,
+    idVeiculo INT NOT NULL,
+
+    FOREIGN KEY (idObraFuncionario)
+        REFERENCES obraFuncionario(idObraFuncionario),
+
+    FOREIGN KEY (idVeiculo)
+        REFERENCES veiculo(idVeiculo)
+);
 
 -- =====================================================
 -- OBRA CLIENTE
@@ -383,6 +398,24 @@ INSERT INTO veiculo (
 (5, '30497929190', 'AFC1D28', '9BWZZZ377VT004252',
 'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
 15000, '2025-01-15', '2026-01-15', 'Empresa WKY', 'João Silva', 1,
+'Veículo utilizado para visitas externas.'),
+
+ 
+(3, '30497829222', 'ADC1K28', '9BWZZZ377VT004932',
+'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
+15000, '2025-01-15', '2026-01-15', 'Empresa Meca', 'João Silva', 1,
+'Veículo utilizado para visitas externas.'),
+
+ 
+(4, '31197922190', 'AFJ1D28', '9KWZZZ377VT004252',
+'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
+15000, '2025-01-15', '2026-01-15', 'Empresa WKY', 'João Silva', 1,
+'Veículo utilizado para visitas externas.'),
+
+ 
+(2, '20497929190', 'LFD1D28', '0BWZZZ377VT004252',
+'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
+15000, '2025-01-15', '2026-01-15', 'Empresa WKY', 'João Silva', 1,
 'Veículo utilizado para visitas externas.');
  
 
@@ -392,26 +425,59 @@ INSERT INTO veiculo (
 INSERT INTO obra (
     dataInicio,dataFim,status,
     estado,cidade,cep,logradouro,
-    endereco,numero,complemento, contrato
+    endereco,numero,complemento, contrato, observacoes
 ) VALUES
 (
     '2026-01-15 08:00:00', NULL,
     'Em andamento', 'SP','Santos','11045000','Avenida Ana Costa',
-    'Edifício Comercial Atlântico','120','Sala 05','Obra 1'
+    'Edifício Comercial Atlântico','120','Sala 05','Obra 1', 'Terreno Privado'
  ),
  (
     '2025-09-10 07:30:00','2026-03-20 17:00:00','Concluída',
     'RJ','Niterói','24020000','Rua da Conceição',
-    'Condomínio Empresarial Centro','450',NULL,'Obra 2'
+    'Condomínio Empresarial Centro','450',NULL,'Obra 2','Terreno Privado'
 
 ),(
 
     '2026-05-01 09:00:00',NULL,'Em andamento',
     'MG','Belo Horizonte','30130010','Avenida Afonso Pena',
-    'Torre Corporativa Horizonte','850','Bloco B','Obra 3'
+    'Torre Corporativa Horizonte','850','Bloco B','Obra 3','Terreno Privado'
 
 );
+-- =====================================================
+-- INSERÇAO DE DADOS DE OBRA FUNCIONÁRIO
+-- =====================================================
 
+INSERT INTO obraFuncionario (
+    idObra,
+    idFuncionario
+)
+VALUES
+-- Obra 1
+(1, 1), -- João Pedro Silva
+(1, 3), -- Carlos Henrique Lima
+
+-- Obra 2
+(2, 2), -- Maria Oliveira Souza
+(2, 4), -- Fernanda Alves Costa
+
+-- Obra 3
+(3, 5); -- Lucas Martins Pereira
+
+-- =====================================================
+-- INSERÇAO DE DADOS DE OBRA FUNCIONÁRIO VEÍCULO
+-- =====================================================
+
+INSERT INTO obraFuncionarioVeiculo (
+    idObraFuncionario,
+    idVeiculo
+)
+VALUES
+(1, 1), 
+(2, 2), 
+(3, 3), 
+(4, 4), 
+(5, 5); 
 
 -- =====================================================
 -- CONSULTAS
@@ -432,6 +498,8 @@ select * FROM funcionario;
 Select * from contatoFuncionario;
 
 select * from contatoCliente;
+
+SELECT * FROM obraFuncionario;
  
 select CONSTRAINT_NAME, TABLE_NAME
 
