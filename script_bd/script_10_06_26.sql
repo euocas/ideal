@@ -450,4 +450,6 @@ describe contatoFuncionario;
 describe contatoCliente;
 
 SHOW COLUMNS FROM funcionario;
+
+SELECT*FROM financeiroFuncionario
  

@@ -21,186 +21,185 @@ require_once __DIR__ . '/../includes/header.php';
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
         <div class="content">
+            
+            <?php if(isset($_SESSION['mensagem_erro'])): ?>
+                <div class="alert error"><?= $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?></div>
+            <?php endif; ?>
+            <?php if(isset($_SESSION['mensagem_sucesso'])): ?>
+                <div class="alert success"><?= $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?></div>
+            <?php endif; ?>
 
-            <!-- BUSCA -->
-            <div class="grid-busca">
+            <form action="/ideal/public/index.php?url=credenciais/alterar" method="POST" id="formCredenciais">
+                
+                <input type="hidden" name="idUsuario" id="idUsuario" value="">
 
-                <div class="card-busca">
+                <div class="grid-busca">
+                    <div class="card-busca">
+                        <h3>
+                            <i class="fas fa-lock"></i> ALTERAR ACESSO
+                        </h3>
 
-                    <h3>
-                        <i class="fas fa-lock"></i>
-                        ALTERAR ACESSO
-                    </h3>
+                        <div class="form-busca">
+                            <div class="campo">
+                                <label>Tipo de Alteração</label>
+                                <select name="tipoAlteracao" id="tipoAlteracao">
+                                    <option value="senha">Senha</option>
+                                    <option value="email">E-mail</option>
+                                    <option value="ambos">E-mail e Senha</option>
+                                </select>
+                            </div>
 
-                    <div class="form-busca">
+                            <div class="campo">
+                                <label>Usuário</label>
+                                <input type="text" id="inputBuscaUsuario" placeholder="Digite o usuário">
+                            </div>
 
-                        <div class="campo">
-                            <label>Tipo de Alteração</label>
-
-                            <select name="tipoAlteracao" id="tipoAlteracao">
-                                <option value="senha">Senha</option>
-                                <option value="email">E-mail</option>
-                                <option value="ambos">E-mail e Senha</option>
-                            </select>
-
+                            <button type="button" class="btn-buscar" id="btnBuscar">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
                         </div>
-
-                        <div class="campo">
-                            <label>Usuário</label>
-                            <input type="text" name="usuario" placeholder="Digite o usuário">
-                        </div>
-
-                        <button type="button" class="btn-buscar">
-                            <i class="bi bi-search"></i>
-                            Buscar
-                        </button>
-
                     </div>
 
+                    <div class="card-dica">
+                        <h4>
+                            <i class="fas fa-info-circle"></i> DICA
+                        </h4>
+                        <p>Selecione o tipo de alteração, localize o usuário e preencha os campos necessários para concluir a operação.</p>
+                    </div>
                 </div>
 
-                <div class="card-dica">
-
-                    <h4>
-                        <i class="fas fa-info-circle"></i>
-                        DICA
-                    </h4>
-
-                    <p>
-                        Selecione o tipo de alteração,
-                        localize o usuário e preencha os
-                        campos necessários para concluir
-                        a operação.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <!-- FORMULÁRIO -->
-            <div class="card-formulario">
-
-                <h2>Dados de Acesso</h2>
-
-                <div class="grid-form">
-
-                    <div class="campo">
-                        <label>Nome do Usuário</label>
-                        <input type="text" name="nomeUsuario" readonly>
-                    </div>
-
-                    <div class="campo">
-                        <label>Login</label>
-                        <input type="text" name="login" readonly>
-                    </div>
-
-                    <div class="campo">
-                        <label>E-mail Atual</label>
-                        <input type="email" name="emailAtual" readonly>
-                    </div>
-
-                </div>
-
-                <hr>
-
-                <!-- SENHA -->
-                <div id="blocoSenha">
-                    <h2>Alteração de Senha</h2>
+                <div class="card-formulario">
+                    <h2>Dados de Acesso</h2>
                     <div class="grid-form">
                         <div class="campo">
-                            <label>Senha Atual</label>
-                            <input type="password" name="senhaAtual">
+                            <label>Nome do Usuário</label>
+                            <input type="text" name="nomeUsuario" id="nomeUsuario" readonly>
                         </div>
                         <div class="campo">
-                            <label>Nova Senha</label>
-                            <input type="password" name="novaSenha">
+                            <label>Login</label>
+                            <input type="text" name="login" id="loginUsuario" readonly>
                         </div>
                         <div class="campo">
-                            <label>Confirmar Nova Senha</label>
-                            <input type="password" name="confirmarSenha">
+                            <label>E-mail Atual</label>
+                            <input type="email" name="emailAtual" id="emailAtual" readonly>
                         </div>
                     </div>
+
                     <hr>
-                </div>
 
-                <!-- EMAIL -->
-                <div id="blocoEmail">
-                    <h2>Alteração de E-mail</h2>
-                    <div class="grid-form">
-                        <div class="campo">
-                            <label>Novo E-mail</label>
-                            <input type="email" name="novoEmail">
+                    <div id="blocoSenha">
+                        <h2>Alteração de Senha</h2>
+                        <div class="grid-form">
+                            <div class="campo">
+                                <label>Senha Atual</label>
+                                <input type="password" name="senhaAtual">
+                            </div>
+                            <div class="campo">
+                                <label>Nova Senha</label>
+                                <input type="password" name="novaSenha">
+                            </div>
+                            <div class="campo">
+                                <label>Confirmar Nova Senha</label>
+                                <input type="password" name="confirmarSenha">
+                            </div>
                         </div>
-                        <div class="campo">
-                            <label>Confirmar Novo E-mail</label>
-                            <input type="email" name="confirmarEmail">
+                        <hr>
+                    </div>
+
+                    <div id="blocoEmail">
+                        <h2>Alteração de E-mail</h2>
+                        <div class="grid-form">
+                            <div class="campo">
+                                <label>Novo E-mail</label>
+                                <input type="email" name="novoEmail">
+                            </div>
+                            <div class="campo">
+                                <label>Confirmar Novo E-mail</label>
+                                <input type="email" name="confirmarEmail">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-            <!-- BOTÕES -->
-            <div class="acoes">
-
-                <button type="submit" class="btn-alterar">
-                    <i class="bi bi-pencil-square"></i> 
-                    Alterar
-                </button>
-
-                <button type="reset" class="btn-limpar">
-                    <i class="bi bi-eraser"></i>
-                    Limpar
-                </button>
-
-            </div>
-
+                <div class="acoes">
+                    <button type="submit" class="btn-alterar">
+                        <i class="bi bi-pencil-square"></i> Alterar
+                    </button>
+                    <button type="reset" class="btn-limpar">
+                        <i class="bi bi-eraser"></i> Limpar
+                    </button>
+                </div>
+            </form>
         </div>
-
     </div>
 
-
-    <!-- USO DE JS PARA QUE AO SELECIONAR EMAIL VENHA SÓ OS CAMPOS DO E-MAIL, SE FOR SENHA, SÓ OS CAMPOS DA SENHA -->
     <script>
-
-        // document.getElementById() é uma função do JavaScript usada para encontrar um elemento HTML pelo seu ID.
+        // ==========================================
+        // 1. LÓGICA DE EXIBIÇÃO DA TELA (INTACTO)
+        // ==========================================
         const tipoAlteracao = document.getElementById('tipoAlteracao');
         const blocoSenha = document.getElementById('blocoSenha');
         const blocoEmail = document.getElementById('blocoEmail');
 
         function atualizarCampos() {
-
             if (tipoAlteracao.value === 'senha') {
-
                 blocoSenha.style.display = 'block';
                 blocoEmail.style.display = 'none';
-                // blocoSenha.style.display = 'block' =  exibir o elemento como um bloco.
-                // Esconda a área do email e mostre a área da senha.
-
-            }
-
-            else if (tipoAlteracao.value === 'email') {
-
+            } else if (tipoAlteracao.value === 'email') {
                 blocoSenha.style.display = 'none';
                 blocoEmail.style.display = 'block';
-                // blocoSenha.style.display = 'block' =  exibir o elemento como um bloco.
-                // Esconda a área de senha e mostre a área de e-mail.
-
-            }
-            else {
-
+            } else {
                 blocoSenha.style.display = 'block';
                 blocoEmail.style.display = 'block';
-                // blocoSenha.style.display = 'block' =  exibir o elemento como um bloco.
-
             }
         }
 
         tipoAlteracao.addEventListener('change', atualizarCampos);
+        atualizarCampos(); // Estado inicial
 
-        // Estado inicial
-        atualizarCampos();
+        // ==========================================
+        // 2. LÓGICA DE BUSCA DO USUÁRIO (AJAX/FETCH)
+        // ==========================================
+        document.getElementById('btnBuscar').addEventListener('click', function() {
+            const usuarioDigitado = document.getElementById('inputBuscaUsuario').value;
 
+            if(usuarioDigitado.trim() === '') {
+                alert('Por favor, digite o nome do usuário para buscar.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('login', usuarioDigitado);
+
+            // Requisição para o back-end
+            fetch('/ideal/public/index.php?url=credenciais/buscar', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data && data.id) {
+                    // Preenche os campos caso encontre o usuário
+                    document.getElementById('idUsuario').value = data.id;
+                    document.getElementById('nomeUsuario').value = data.nome;
+                    document.getElementById('loginUsuario').value = data.nome; // Se você tiver campo específico de login no BD, substitua aqui
+                    document.getElementById('emailAtual').value = data.email;
+                    
+                    alert('Usuário encontrado e carregado.');
+                } else {
+                    // Limpa os campos caso não encontre
+                    document.getElementById('idUsuario').value = '';
+                    document.getElementById('nomeUsuario').value = '';
+                    document.getElementById('loginUsuario').value = '';
+                    document.getElementById('emailAtual').value = '';
+                    
+                    alert('Usuário não encontrado no sistema.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro na requisição:', error);
+                alert('Ocorreu um erro ao buscar o usuário.');
+            });
+        });
     </script>
-
 </body>
