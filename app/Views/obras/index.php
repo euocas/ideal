@@ -147,8 +147,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Data de Início</label>
 
                             <input type="datetime-local" name="dataInicio" value="<?= isset($obra) && $obra->getDataInicio()
-                                ? $obra->getDataInicio()->format('Y-m-d\TH:i')
-                                : '' ?>" required>
+                                                                                        ? $obra->getDataInicio()->format('Y-m-d\TH:i')
+                                                                                        : '' ?>" required>
 
                         </div>
 
@@ -157,8 +157,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Data de Finalização</label>
 
                             <input type="datetime-local" name="dataFim" value="<?= isset($obra) && $obra->getDataFim()
-                                ? $obra->getDataFim()->format('Y-m-d\TH:i')
-                                : '' ?>">
+                                                                                    ? $obra->getDataFim()->format('Y-m-d\TH:i')
+                                                                                    : '' ?>">
 
                         </div>
 
@@ -222,47 +222,96 @@ require_once __DIR__ . '/../includes/header.php';
 
                     <div class="form-group">
                         <label>CEP</label>
-                        <input type="text" name="cep" placeholder="00000-000">
+                        <input
+                            type="text"
+                            name="cep"
+                            value="<?= isset($obra) ? $obra->getCep() : '' ?>"
+                            placeholder="00000-000"
+                            maxlength="9"
+                            oninput="mascaraCEP(this)"
+                            required>
                     </div>
 
                     <div class="form-group">
+
                         <label>Estado</label>
 
-                        <select name="estado">
-                            <option>Selecione</option>
-                        </select>
+                        <input
+                            type="text"
+                            name="estado"
+                            placeholder="UF"
+                            value="<?= isset($obra) ? $obra->getEstado() : '' ?>">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Cidade</label>
-                        <input type="text" name="cidade" placeholder="Digite a cidade">
+
+                        <input
+                            type="text"
+                            name="cidade"
+                            placeholder="Digite a cidade"
+                            value="<?= isset($obra) ? $obra->getCidade() : '' ?>">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Logradouro</label>
-                        <input type="text" name="logradouro" placeholder="Rua, Avenida, Alameda...">
+
+                        <input
+                            type="text"
+                            name="logradouro"
+                            placeholder="Rua, Avenida, Alameda..."
+                            value="<?= isset($obra) ? $obra->getLogradouro() : '' ?>">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Endereço</label>
-                        <input type="text" name="endereco" placeholder="Digite o endereço">
+
+                        <input
+                            type="text"
+                            name="endereco"
+                            placeholder="Digite o endereço"
+                            value="<?= isset($obra) ? $obra->getEndereco() : '' ?>">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Número</label>
-                        <input type="text" name="numero" placeholder="1234">
+
+                        <input
+                            type="text"
+                            name="numero"
+                            placeholder="1234"
+                            value="<?= isset($obra) ? $obra->getNumero() : '' ?>">
+
                     </div>
 
                     <div class="form-group">
+
                         <label>Complemento</label>
-                        <input type="text" name="complemento" placeholder="Apartamento, bloco, sala...">
+
+                        <input
+                            type="text"
+                            name="complemento"
+                            placeholder="Apartamento, bloco, sala..."
+                            value="<?= isset($obra) ? $obra->getComplemento() : '' ?>">
+
                     </div>
 
                     <div class="form-group observacoes">
+
                         <label>Observações</label>
 
-                        <textarea name="observacoes" placeholder="Digite as observações (opcional)">
-            </textarea>
+                        <textarea
+                            name="observacoes"
+                            placeholder="Digite as observações (opcional)"></textarea>
+
                     </div>
 
                 </div>
@@ -416,12 +465,12 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="acao">
 
                 <button type="submit" form="form-dados" class="btn novo">
-                     <i class="bi bi-plus-lg"></i> 
+                    <i class="bi bi-plus-lg"></i>
                     Novo
                 </button>
 
                 <button type="submit" form="form-dados" class="btn alterar">
-                    <i class="bi bi-pencil-square"></i> 
+                    <i class="bi bi-pencil-square"></i>
                     Alterar
                 </button>
 

@@ -24,6 +24,7 @@ class Obra
     private ?string $endereco = null;
     private ?string $numero = null;
     private ?string $complemento = null;
+    private ?string $observacoes = null;
     private ?string $contrato = null;
 
     private PDO $pdo;
@@ -162,6 +163,16 @@ class Obra
         $this->complemento = $complemento;
     }
 
+public function getObservacoes(): ?string
+{
+    return $this->observacoes;
+}
+
+public function setObservacoes(?string $observacoes): void
+{
+    $this->observacoes = $observacoes;
+}
+
     public function getContrato(): ?string
     {
         return $this->contrato;
@@ -209,6 +220,7 @@ class Obra
         $obra->setEndereco($dados['endereco'] ?? null);
         $obra->setNumero($dados['numero'] ?? null);
         $obra->setComplemento($dados['complemento'] ?? null);
+        $obra->setObservacoes($dados['observacoes'] ?? null);
         $obra->setContrato($dados['contrato'] ?? null);
 
         return $obra;
@@ -219,55 +231,62 @@ class Obra
     // =====================================================
 
     public function cadastrar(): bool
-    {
-        $sql = "INSERT INTO obra (
-                    dataInicio,
-                    dataFim,
-                    status,
-                    estado,
-                    cidade,
-                    cep,
-                    logradouro,
-                    endereco,
-                    numero,
-                    complemento,
-                    contrato
-                ) VALUES (
-                    :dataInicio,
-                    :dataFim,
-                    :status,
-                    :estado,
-                    :cidade,
-                    :cep,
-                    :logradouro,
-                    :endereco,
-                    :numero,
-                    :complemento,
-                    :contrato
-                )";
+{
+    $sql = "INSERT INTO obra (
+                dataInicio,
+                dataFim,
+                status,
+                estado,
+                cidade,
+                cep,
+                logradouro,
+                endereco,
+                numero,
+                complemento,
+                observacoes,
+                contrato
+            ) VALUES (
+                :dataInicio,
+                :dataFim,
+                :status,
+                :estado,
+                :cidade,
+                :cep,
+                :logradouro,
+                :endereco,
+                :numero,
+                :complemento,
+                :observacoes,
+                :contrato
+            )";
 
-        $stmt = $this->pdo->prepare($sql);
+    $stmt = $this->pdo->prepare($sql);
 
-        $sucesso = $stmt->execute([
-            ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
-            ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
-            ':status' => $this->status,
-            ':estado' => $this->estado,
-            ':cidade' => $this->cidade,
-            ':cep' => $this->cep,
-            ':logradouro' => $this->logradouro,
-            ':endereco' => $this->endereco,
-            ':numero' => $this->numero,
-            ':complemento' => $this->complemento,
-            ':contrato' => $this->contrato
-        ]);
+    $sucesso = $stmt->execute([
+        ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
+        ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
+        ':status' => $this->status,
+        ':estado' => $this->estado,
+        ':cidade' => $this->cidade,
+        ':cep' => $this->cep,
+        ':logradouro' => $this->logradouro,
+        ':endereco' => $this->endereco,
+        ':numero' => $this->numero,
+        ':complemento' => $this->complemento,
+        ':observacoes' => $this->observacoes,
+        ':contrato' => $this->contrato
+    ]);
 
-        if ($sucesso) {
-            $this->idObra = (int) $this->pdo->lastInsertId();
-        }
-
-        return $sucesso;
+    if ($sucesso) {
+        $this->idObra = (int) $this->pdo->lastInsertId();
+        return true;
     }
+
+    // ajuda MUITO no debug quando der erro
+    error_log(print_r($stmt->errorInfo(), true));
+
+    return false;
+}
 
     public function listar(): array
     {
@@ -291,9 +310,9 @@ class Obra
         return $dados ? $this->hydrate($dados) : null;
     }
 
-    public function atualizar(): bool
-    {
-        $sql = "UPDATE obra SET
+public function atualizar(): bool
+{
+    $sql = "UPDATE obra SET
                 dataInicio = :dataInicio,
                 dataFim = :dataFim,
                 status = :status,
@@ -304,35 +323,35 @@ class Obra
                 endereco = :endereco,
                 numero = :numero,
                 complemento = :complemento,
+                observacoes = :observacoes,
                 contrato = :contrato
             WHERE idObra = :idObra";
 
-        $stmt = $this->pdo->prepare($sql);
+    $stmt = $this->pdo->prepare($sql);
 
+    $sucesso = $stmt->execute([
+        ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
+        ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
+        ':status' => $this->status,
+        ':estado' => $this->estado,
+        ':cidade' => $this->cidade,
+        ':cep' => $this->cep,
+        ':logradouro' => $this->logradouro,
+        ':endereco' => $this->endereco,
+        ':numero' => $this->numero,
+        ':complemento' => $this->complemento,
+        ':observacoes' => $this->observacoes,
+        ':contrato' => $this->contrato,
+        ':idObra' => $this->idObra
+    ]);
 
-        $sucesso = $stmt->execute([
-            ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
-            ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
-            ':status' => $this->status,
-            ':estado' => $this->estado,
-            ':cidade' => $this->cidade,
-            ':cep' => $this->cep,
-            ':logradouro' => $this->logradouro,
-            ':endereco' => $this->endereco,
-            ':numero' => $this->numero,
-            ':complemento' => $this->complemento,
-            ':contrato' => $this->contrato,
-            ':idObra' => $this->idObra
-        ]);
-
-        if (!$sucesso) {
-            echo '<pre>';
-            print_r($stmt->errorInfo());
-            exit;
-        }
-
-        return true;
+    if (!$sucesso) {
+        error_log(print_r($stmt->errorInfo(), true));
+        return false;
     }
+
+    return true;
+}
 
     public function excluir(int $id): bool
     {

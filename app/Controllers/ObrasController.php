@@ -89,6 +89,7 @@ public function index()
         $obra->setEndereco($dados['endereco'] ?? null);
         $obra->setNumero($dados['numero'] ?? null);
         $obra->setComplemento($dados['complemento'] ?? null);
+        $obra->setObservacoes($dados['observacoes'] ?? null);
         $obra->setContrato($dados['contrato'] ?? null);
     }
 
@@ -117,37 +118,54 @@ public function index()
         }
     }
 
-    public function update()
+   public function update()
 {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        $id = $_GET['id'] ?? null;
-
-
-        if ($id) {
-
-            $obra = new Obra();
-
-            $obra->setIdObra($id);
-
-            $this->popularObjeto($obra, $_POST);
-
-            $atualizou = $obra->atualizar();
-
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-
-            if ($atualizou) {
-                $_SESSION['mensagem_sucesso'] = "Obra atualizada com sucesso!";
-            } else {
-                $_SESSION['mensagem_erro'] = "Erro ao atualizar a obra.";
-            }
-        }
-
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         header("Location: /ideal/public/index.php?url=obras");
         exit;
     }
+
+    $id = $_GET['id'] ?? null;
+
+    if (!$id) {
+        $_SESSION['mensagem_erro'] = "ID da obra não informado.";
+        header("Location: /ideal/public/index.php?url=obras");
+        exit;
+    }
+
+    try {
+
+        $obra = new Obra();
+
+        $obra->setIdObra($id);
+
+        $this->popularObjeto($obra, $_POST);
+
+        $atualizou = $obra->atualizar();
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if ($atualizou) {
+            $_SESSION['mensagem_sucesso'] = "Obra atualizada com sucesso!";
+        } else {
+            $_SESSION['mensagem_erro'] = "Erro ao atualizar a obra.";
+        }
+
+    } catch (\Throwable $e) {
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $_SESSION['mensagem_erro'] = $e->getMessage();
+
+        error_log($e->getMessage());
+    }
+
+    header("Location: /ideal/public/index.php?url=obras");
+    exit;
 }
 
     public function delete()
@@ -174,4 +192,5 @@ public function index()
         header("Location: /ideal/public/index.php?url=obras");
         exit;
     }
+
 }
