@@ -462,7 +462,7 @@ require_once __DIR__ . '/../includes/header.php';
             </section>
 
             <!-- BOTÕES -->
-            <div class="acao">
+            <div class="acoes">
 
                 <button type="submit" form="form-dados" class="btn novo">
                      <i class="bi bi-plus-lg"></i> 

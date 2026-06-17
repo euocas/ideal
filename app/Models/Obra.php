@@ -287,7 +287,7 @@ public function setObservacoes(?string $observacoes): void
 
     return false;
 }
-
+ 
     public function listar(): array
     {
         $sql = "SELECT * FROM obra ORDER BY idObra DESC";
