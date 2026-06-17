@@ -330,7 +330,7 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="acoes">
                 <a href="/ideal/public/index.php?url=funcionarios" class="btn novo"
                     style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">
-                    <i class="bi bi-plus-lg"></i> Novo</a>
+                    <i class="bi bi-plus-lg"></i> Cadastrar</a>
 
                 <?php if (!$isEdit): ?>
                     <button type="submit" form="form-dados" class="btn salvar"> <i class="bi bi-floppy"></i> Salvar</button>

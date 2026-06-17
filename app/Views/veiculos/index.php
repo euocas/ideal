@@ -215,7 +215,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <a href="/ideal/public/index.php?url=veiculos" class="btn novo"
                         style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">
                         <i class="bi bi-plus-lg"></i>
-                        Novo</a>
+                        Cadastrar</a>
 
                     <?php if (!$isEdit): ?>
                         <button type="submit" class="btn salvar">
