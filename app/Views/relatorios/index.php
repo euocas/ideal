@@ -1,51 +1,13 @@
-<!-- HEADER PHP -->
+<!--HEADER PHP-->
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| TÍTULO
-|--------------------------------------------------------------------------
-*/
-
-// TÍTULO
 $titulo = 'Relatórios';
 $favicon = '/ideal/public/assets/icon/relatorio.png';
 
 require_once __DIR__ . '/../includes/header.php';
 
-/*
-|--------------------------------------------------------------------------
-| RELATÓRIO SELECIONADO
-|--------------------------------------------------------------------------
-*/
-$relatorio = $_GET['relatorio'] ?? 'funcionarios';
-
-$tiposRelatorios = [
-
-    'clientes' => 'Clientes',
-    'funcionarios' => 'Funcionários',
-    'obras' => 'Obras',
-    'veiculos' => 'Veículos',
-    'financeiro' => 'Financeiro'
-
-];
-
-/*
-|--------------------------------------------------------------------------
-| VALIDA RELATÓRIO
-|--------------------------------------------------------------------------
-*/
-
-if (!array_key_exists($relatorio, $tiposRelatorios)) {
-
-    $relatorio = 'funcionarios';
-}
-
-$tipoSelecionado = $tiposRelatorios[$relatorio];
-
 ?>
 
-<link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
@@ -56,11 +18,25 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
 
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
-        <!-- CONTEÚDO -->
         <main class="main-content">
+
+            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                <div class="alert alert-success"
+                    style="background: #d4edda; color: #155724; padding: 15px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #c3e6cb;">
+                    ✅ <?= $_SESSION['mensagem_sucesso'];
+                    unset($_SESSION['mensagem_sucesso']); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                <div class="alert alert-danger"
+                    style="background: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #f5c6cb;">
+                    ❌ <?= $_SESSION['mensagem_erro'];
+                    unset($_SESSION['mensagem_erro']); ?>
+                </div>
+            <?php endif; ?>
 
             <div class="relatorios-container">
 
@@ -85,34 +61,36 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                 <span><?= $tipoSelecionado ?></span>
                             </h2>
 
-                            <!-- FORM DINÂMICO -->
-                            <div class="filtros-grid">
+                            <form method="POST" action="/ideal/public/index.php?url=relatorios&relatorio=<?= $relatorio ?>">
+
+                                <!-- FORM DINÂMICO -->
+                                <div class="filtros-grid">
 
                                 <?php if ($relatorio == 'clientes'): ?>
 
                                     <!-- CLIENTES -->
                                     <div class="campo">
                                         <label>Nome do Cliente</label>
-                                        <input type="text" placeholder="Digite o nome">
+                                        <input type="text" name="nomeCliente" placeholder="Digite o nome">
                                     </div>
 
                                     <div class="campo">
                                         <label>CPF</label>
-                                        <input type="text" placeholder="000.000.000-00">
+                                        <input type="text" name="cpf" placeholder="000.000.000-00">
                                     </div>
 
                                     <div class="campo">
                                         <label>CNPJ</label>
-                                        <input type="text" placeholder="00.000.000/0000-00">
+                                        <input type=\"text\" name=\"cnpj\" placeholder=\"00.000.000/0000-00\">
                                     </div>
 
-                                    <div class="campo">
+                                    <div class=\"campo\">
                                         <label>Status</label>
 
-                                        <select>
-                                            <option>Selecione</option>
-                                            <option>Ativo</option>
-                                            <option>Inativo</option>
+                                        <select name=\"status\">
+                                            <option value=\"\">Selecione</option>
+                                            <option value=\"Ativo\">Ativo</option>
+                                            <option value=\"Inativo\">Inativo</option>
                                         </select>
                                     </div>
 
@@ -121,21 +99,21 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                     <!-- FUNCIONÁRIOS -->
                                     <div class="campo">
                                         <label>Nome</label>
-                                        <input type="text" placeholder="Digite o nome">
+                                        <input type="text" name="nome" placeholder="Digite o nome">
                                     </div>
 
                                     <div class="campo">
                                         <label>CPF</label>
-                                        <input type="text" placeholder="000.000.000-00">
+                                        <input type="text" name="cpf" placeholder="000.000.000-00">
                                     </div>
 
                                     <div class="campo">
                                         <label>Status</label>
 
-                                        <select>
-                                            <option>Selecione</option>
-                                            <option>Ativo</option>
-                                            <option>Inativo</option>
+                                        <select name="status">
+                                            <option value="">Selecione</option>
+                                            <option value="Ativo">Ativo</option>
+                                            <option value="Inativo">Inativo</option>
                                         </select>
                                     </div>
 
@@ -144,22 +122,22 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                     <!-- VEÍCULOS -->
                                     <div class="campo">
                                         <label>Placa</label>
-                                        <input type="text" placeholder="ABC-1234">
+                                        <input type="text" name="placa" placeholder="ABC-1234">
                                     </div>
 
                                     <div class="campo">
                                         <label>Renavam</label>
-                                        <input type="text" placeholder="Digite o renavam">
+                                        <input type="text" name="renavam" placeholder="Digite o renavam">
                                     </div>
 
                                     <div class="campo">
                                         <label>Status</label>
 
-                                        <select>
-                                            <option>Selecione</option>
-                                            <option>Disponível</option>
-                                            <option>Em uso</option>
-                                            <option>Manutenção</option>
+                                        <select name="statusVeiculo">
+                                            <option value="">Selecione</option>
+                                            <option value="Disponível">Disponível</option>
+                                            <option value="Em uso">Em uso</option>
+                                            <option value="Manutenção">Manutenção</option>
                                         </select>
                                     </div>
 
@@ -168,21 +146,21 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
 
                                     <div class="campo">
                                         <label>Nome da Obra</label>
-                                        <input type="text" placeholder="Digite o nome da obra">
+                                        <input type="text" name="nomeObra" placeholder="Digite o nome da obra">
                                     </div>
 
                                     <div class="campo">
                                         <label>Cidade</label>
-                                        <input type="text" placeholder="Digite a cidade">
+                                        <input type="text" name="cidade" placeholder="Digite a cidade">
                                     </div>
 
                                     <div class="campo">
                                         <label>Status</label>
 
-                                        <select>
-                                            <option>Selecione</option>
-                                            <option>Em andamento</option>
-                                            <option>Finalizada</option>
+                                        <select name="statusObra">
+                                            <option value="">Selecione</option>
+                                            <option value="Em andamento">Em andamento</option>
+                                            <option value="Finalizada">Finalizada</option>
                                         </select>
                                     </div>
 
@@ -191,21 +169,21 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                     <!-- FINANCEIRO -->
                                     <div class="campo">
                                         <label>Data Inicial</label>
-                                        <input type="date">
+                                        <input type="date" name="dataInicio">
                                     </div>
 
                                     <div class="campo">
                                         <label>Data Final</label>
-                                        <input type="date">
+                                        <input type="date" name="dataFim">
                                     </div>
 
                                     <div class="campo">
                                         <label>Tipo</label>
 
-                                        <select>
-                                            <option>Selecione</option>
-                                            <option>Entrada</option>
-                                            <option>Saída</option>
+                                        <select name="tipoFinanceiro">
+                                            <option value="">Selecione</option>
+                                            <option value="entrada">Entrada</option>
+                                            <option value="saida">Saída</option>
                                         </select>
                                     </div>
 
@@ -231,7 +209,7 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                     GERAR TODOS
                                 </button>
                             </div>
-
+                            </form>
                             <!-- PRÉ-VISUALIZAÇÃO -->
                             <div class="card card-preview">
 
@@ -303,19 +281,45 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                         </thead>
 
                                         <tbody>
-
-                                            <tr>
-
-                                                <td>1</td>
-
-                                                <td>Exemplo</td>
-
-                                                <td>Informação</td>
-
-                                                <td>Ativo</td>
-
-                                            </tr>
-
+                                            <?php if (!empty($dados['dados'])): ?>
+                                                <?php foreach ($dados['dados'] as $linha): ?>
+                                                    <tr>
+                                                        <?php if ($relatorio == 'clientes'): ?>
+                                                            <td><?= htmlspecialchars($linha['idCliente'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['cpf'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['cnpj'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['status'] ?? '') ?></td>
+                                                        <?php elseif ($relatorio == 'funcionarios'): ?>
+                                                            <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['cpf'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['status'] ?? '') ?></td>
+                                                        <?php elseif ($relatorio == 'veiculos'): ?>
+                                                            <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['renavam'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['statusVeiculo'] ?? '') ?></td>
+                                                        <?php elseif ($relatorio == 'obras'): ?>
+                                                            <td><?= htmlspecialchars($linha['idObra'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['nomeObra'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['cidade'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['status'] ?? '') ?></td>
+                                                        <?php elseif ($relatorio == 'financeiro'): ?>
+                                                            <td><?= htmlspecialchars($linha['id'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['tipo'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['valor'] ?? '') ?></td>
+                                                            <td><?= htmlspecialchars($linha['data'] ?? '') ?></td>
+                                                        <?php endif; ?>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan=\"5\" style=\"text-align:center; padding: 20px;\">
+                                                        Clique em \"GERAR TODOS\" para carregar os dados.
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
                                         </tbody>
 
                                     </table>
@@ -326,17 +330,21 @@ $tipoSelecionado = $tiposRelatorios[$relatorio];
                                 <div class="footer-preview">
 
                                     <p>
-                                        Exibindo registros do relatório de <?= $tipoSelecionado ?>
+                                        <?php if (!empty($dados['total'])): ?>
+                                            Exibindo <?= $dados['total'] ?> registro(s) do relatório de <?= $tipoSelecionado ?>
+                                        <?php else: ?>
+                                            Exibindo registros do relatório de <?= $tipoSelecionado ?>
+                                        <?php endif; ?>
                                     </p>
 
-                                    <div class="acoes-exportar">
+                                    <div class=\"acoes-exportar\">
 
-                                        <button class="btn-excel">
+                                        <button class="btn-excel" onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>'">
                                             <i class="bi bi-filetype-xlsx"></i> 
                                             EXPORTAR EXCEL
                                         </button>
 
-                                        <button class="btn-pdf">
+                                        <button class="btn-pdf" onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>'">
                                             <i class="bi bi-filetype-pdf"></i>
                                             GERAR PDF
                                         </button>
