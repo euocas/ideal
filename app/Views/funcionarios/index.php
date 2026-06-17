@@ -16,7 +16,6 @@ $titulo = 'Funcionários';
 $favicon = '/ideal/public/assets/icon/funcionario2.png';
 
 
-
 //  ARRAY PARA OS CARGOS 
 $cargos = [
     'Almoxarife',
@@ -36,12 +35,12 @@ $cargos = [
     'Instalador Elétrico',
     'Mestre de Obras',
     'Montador de Painéis Elétricos',
-    'Oficial Eletricista'
+    'Oficial Eletricista',
+    'Social Midia'
 ];
-
 sort($cargos);
-//  ARRAY PARA OS ESTADOS
 
+//  ARRAY PARA OS ESTADOS
 $estados = [
     'AC' => 'Acre',
     'AL' => 'Alagoas',
@@ -232,8 +231,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label>Complemento</label>
                             <input type="text" name="complemento"
-                                value="<?= htmlspecialchars($isEdit ? $funcionario->getComplemento() : '') ?>"
-                                placeholder="Números e letras">
+                                value="<?= htmlspecialchars($isEdit ? ($funcionario->getComplemento() ?? '') : '') ?>"  placeholder="Números e letras">
                         </div>
 
                         <div class="form-group">
@@ -335,7 +333,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                         </div>
                         <div class="card-observacao">
-                            <h2>Observações</h2>
+                            <h2><i class="bi bi-journal-text icone-titulo"></i> Observações</h2>
                             <textarea name="observacoes" maxlength="500"
                                 placeholder="Digite alguma observação se for necessário"><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
                         </div>

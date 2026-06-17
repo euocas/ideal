@@ -201,12 +201,12 @@ body {
 .alerta-preview {
   margin-bottom: 20px;
   padding: 14px;
-
   background: var(--surface-alt);
   border-radius: var(--radius-default);
-
   color: var(--primary);
-  font-size: 14px;
+  font-size: 16px;
+  text-align: center;
+  
 }
 
 /* ==========================================
@@ -220,6 +220,7 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
+  
 }
 
 table th {
@@ -228,7 +229,7 @@ table th {
   background: var(--surface-alt);
 
   color: var(--text);
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
 }
 
@@ -236,13 +237,13 @@ table td {
   padding: 14px;
   border-top: 1px solid #eee;
 
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .status {
   padding: 6px 12px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
 }
 
@@ -255,15 +256,21 @@ table td {
   background: #fee2e2;
   color: #dc2626;
 }
+tbody tr:hover {
+
+    background: #f8fafc;
+
+}
+
 /* ==========================================
    STATUS
 ========================================== */
 
 .status {
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: 2px;
 
-  font-size: 12px;
+  font-size: 15px;
   font-weight: bold;
 }
 

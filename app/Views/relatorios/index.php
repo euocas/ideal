@@ -294,8 +294,9 @@ require_once __DIR__ . '/../includes/header.php';
                                                         <?php elseif ($relatorio == 'funcionarios'): ?>
                                                             <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['cpf'] ?? '') ?></td>
-
+                    
+                                                            <td><?= preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/','$1.$2.$3-$4',
+                                                                    $linha['cpf'] ?? '') ?></td>
                                                             <td>
                                                                 <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
                                                                 <span class="status <?= $status ?>">
@@ -348,7 +349,7 @@ require_once __DIR__ . '/../includes/header.php';
                                         <?php endif; ?>
                                     </p>
 
-                                    <div class=\"acoes-exportar\">
+                                    <div class="acoes-exportar">
 
                                         <button class="btn-excel"
                                             onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>'">
