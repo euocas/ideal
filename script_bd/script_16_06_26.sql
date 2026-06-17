@@ -293,13 +293,14 @@ CREATE TABLE automovelFuncionario (
 INSERT INTO usuario (nome, email, senha) VALUES
 
 ('Administrador','emailteste@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Juliana','jujusantista23@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Juliana','emaildajuju@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Douglas','emaildodouglas@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Matheus','emaildomatheus@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Camila', 'emaildacamila@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Francielly','emaildafrancielly@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Danilo', 'emaildodanilo@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Alexandre', 'emaildoalexandre@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
+('Alexandre', 'emaildoalexandre@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Senac', 'senacsantos@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
  
 -- =====================================================
 -- INSERÇAO DE DADOS DE FUNCIONÁRIOS
@@ -478,6 +479,17 @@ VALUES
 (3, 3), 
 (4, 4), 
 (5, 5); 
+
+-- =====================================================
+-- INSERÇAO DE DADOS DE OBRA CLIENTE
+-- =====================================================
+INSERT INTO obraCliente  (
+    idObra,
+    idCliente
+)
+VALUES
+(1, 1), 
+(2, 2);
 
 -- =====================================================
 -- CONSULTAS

@@ -61,154 +61,155 @@ require_once __DIR__ . '/../includes/header.php';
                                 <span><?= $tipoSelecionado ?></span>
                             </h2>
 
-                            <form method="POST" action="/ideal/public/index.php?url=relatorios&relatorio=<?= $relatorio ?>">
+                            <form method="POST"
+                                action="/ideal/public/index.php?url=relatorios&relatorio=<?= $relatorio ?>">
 
                                 <!-- FORM DINÂMICO -->
                                 <div class="filtros-grid">
 
-                                <?php if ($relatorio == 'clientes'): ?>
+                                    <?php if ($relatorio == 'clientes'): ?>
 
-                                    <!-- CLIENTES -->
-                                    <div class="campo">
-                                        <label>Nome do Cliente</label>
-                                        <input type="text" name="nomeCliente" placeholder="Digite o nome">
-                                    </div>
+                                        <!-- CLIENTES -->
+                                        <div class="campo">
+                                            <label>Nome do Cliente</label>
+                                            <input type="text" name="nomeCliente" placeholder="Digite o nome">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>CPF</label>
-                                        <input type="text" name="cpf" placeholder="000.000.000-00">
-                                    </div>
+                                        <div class="campo">
+                                            <label>CPF</label>
+                                            <input type="text" name="cpf" placeholder="000.000.000-00">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>CNPJ</label>
-                                        <input type=\"text\" name=\"cnpj\" placeholder=\"00.000.000/0000-00\">
-                                    </div>
+                                        <div class="campo">
+                                            <label>CNPJ</label>
+                                            <input type=\"text\" name=\"cnpj\" placeholder=\"00.000.000/0000-00\">
+                                        </div>
 
-                                    <div class=\"campo\">
-                                        <label>Status</label>
+                                        <div class=\"campo\">
+                                            <label>Status</label>
 
-                                        <select name=\"status\">
-                                            <option value=\"\">Selecione</option>
-                                            <option value=\"Ativo\">Ativo</option>
-                                            <option value=\"Inativo\">Inativo</option>
-                                        </select>
-                                    </div>
+                                            <select name=\"status\">
+                                                <option value=\"\">Selecione</option>
+                                                <option value=\"Ativo\">Ativo</option>
+                                                <option value=\"Inativo\">Inativo</option>
+                                            </select>
+                                        </div>
 
-                                <?php elseif ($relatorio == 'funcionarios'): ?>
+                                    <?php elseif ($relatorio == 'funcionarios'): ?>
 
-                                    <!-- FUNCIONÁRIOS -->
-                                    <div class="campo">
-                                        <label>Nome</label>
-                                        <input type="text" name="nome" placeholder="Digite o nome">
-                                    </div>
+                                        <!-- FUNCIONÁRIOS -->
+                                        <div class="campo">
+                                            <label>Nome</label>
+                                            <input type="text" name="nome" placeholder="Digite o nome">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>CPF</label>
-                                        <input type="text" name="cpf" placeholder="000.000.000-00">
-                                    </div>
+                                        <div class="campo">
+                                            <label>CPF</label>
+                                            <input type="text" name="cpf" placeholder="000.000.000-00">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>Status</label>
+                                        <div class="campo">
+                                            <label>Status</label>
 
-                                        <select name="status">
-                                            <option value="">Selecione</option>
-                                            <option value="Ativo">Ativo</option>
-                                            <option value="Inativo">Inativo</option>
-                                        </select>
-                                    </div>
+                                            <select name="status">
+                                                <option value="">Selecione</option>
+                                                <option value="Ativo">Ativo</option>
+                                                <option value="Inativo">Inativo</option>
+                                            </select>
+                                        </div>
 
-                                <?php elseif ($relatorio == 'veiculos'): ?>
+                                    <?php elseif ($relatorio == 'veiculos'): ?>
 
-                                    <!-- VEÍCULOS -->
-                                    <div class="campo">
-                                        <label>Placa</label>
-                                        <input type="text" name="placa" placeholder="ABC-1234">
-                                    </div>
+                                        <!-- VEÍCULOS -->
+                                        <div class="campo">
+                                            <label>Placa</label>
+                                            <input type="text" name="placa" placeholder="ABC-1234">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>Renavam</label>
-                                        <input type="text" name="renavam" placeholder="Digite o renavam">
-                                    </div>
+                                        <div class="campo">
+                                            <label>Renavam</label>
+                                            <input type="text" name="renavam" placeholder="Digite o renavam">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>Status</label>
+                                        <div class="campo">
+                                            <label>Status</label>
 
-                                        <select name="statusVeiculo">
-                                            <option value="">Selecione</option>
-                                            <option value="Disponível">Disponível</option>
-                                            <option value="Em uso">Em uso</option>
-                                            <option value="Manutenção">Manutenção</option>
-                                        </select>
-                                    </div>
+                                            <select name="statusVeiculo">
+                                                <option value="">Selecione</option>
+                                                <option value="Disponível">Disponível</option>
+                                                <option value="Em uso">Em uso</option>
+                                                <option value="Manutenção">Manutenção</option>
+                                            </select>
+                                        </div>
 
-                                <?php elseif ($relatorio == 'obras'): ?>
-                                    <!-- OBRAS -->
+                                    <?php elseif ($relatorio == 'obras'): ?>
+                                        <!-- OBRAS -->
 
-                                    <div class="campo">
-                                        <label>Nome da Obra</label>
-                                        <input type="text" name="nomeObra" placeholder="Digite o nome da obra">
-                                    </div>
+                                        <div class="campo">
+                                            <label>Nome da Obra</label>
+                                            <input type="text" name="nomeObra" placeholder="Digite o nome da obra">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>Cidade</label>
-                                        <input type="text" name="cidade" placeholder="Digite a cidade">
-                                    </div>
+                                        <div class="campo">
+                                            <label>Cidade</label>
+                                            <input type="text" name="cidade" placeholder="Digite a cidade">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>Status</label>
+                                        <div class="campo">
+                                            <label>Status</label>
 
-                                        <select name="statusObra">
-                                            <option value="">Selecione</option>
-                                            <option value="Em andamento">Em andamento</option>
-                                            <option value="Finalizada">Finalizada</option>
-                                        </select>
-                                    </div>
+                                            <select name="statusObra">
+                                                <option value="">Selecione</option>
+                                                <option value="Em andamento">Em andamento</option>
+                                                <option value="Finalizada">Finalizada</option>
+                                            </select>
+                                        </div>
 
-                                <?php elseif ($relatorio == 'financeiro'): ?>
+                                    <?php elseif ($relatorio == 'financeiro'): ?>
 
-                                    <!-- FINANCEIRO -->
-                                    <div class="campo">
-                                        <label>Data Inicial</label>
-                                        <input type="date" name="dataInicio">
-                                    </div>
+                                        <!-- FINANCEIRO -->
+                                        <div class="campo">
+                                            <label>Data Inicial</label>
+                                            <input type="date" name="dataInicio">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>Data Final</label>
-                                        <input type="date" name="dataFim">
-                                    </div>
+                                        <div class="campo">
+                                            <label>Data Final</label>
+                                            <input type="date" name="dataFim">
+                                        </div>
 
-                                    <div class="campo">
-                                        <label>Tipo</label>
+                                        <div class="campo">
+                                            <label>Tipo</label>
 
-                                        <select name="tipoFinanceiro">
-                                            <option value="">Selecione</option>
-                                            <option value="entrada">Entrada</option>
-                                            <option value="saida">Saída</option>
-                                        </select>
-                                    </div>
+                                            <select name="tipoFinanceiro">
+                                                <option value="">Selecione</option>
+                                                <option value="entrada">Entrada</option>
+                                                <option value="saida">Saída</option>
+                                            </select>
+                                        </div>
 
-                                <?php endif; ?>
+                                    <?php endif; ?>
 
-                            </div>
+                                </div>
 
-                            <!-- BOTÕES -->
-                            <div class="acoes-filtros">
+                                <!-- BOTÕES -->
+                                <div class="acoes-filtros">
 
-                                <button type="reset" class="btn-limpar">
-                                    <i class="bi bi-eraser"></i>
-                                    LIMPAR
-                                </button>
+                                    <button type="reset" class="btn-limpar">
+                                        <i class="bi bi-eraser"></i>
+                                        LIMPAR
+                                    </button>
 
-                                <button type="submit" name="acao" value="filtrar" class="btn-filtrar">
-                                    <i class="bi bi-funnel"></i> 
-                                    FILTRAR
-                                </button>
+                                    <button type="submit" name="acao" value="filtrar" class="btn-filtrar">
+                                        <i class="bi bi-funnel"></i>
+                                        FILTRAR
+                                    </button>
 
-                                <button type="submit" name="acao" value="todos" class="btn-todos">
-                                    <i class="bi bi-list-ul"></i>
-                                    GERAR TODOS
-                                </button>
-                            </div>
+                                    <button type="submit" name="acao" value="todos" class="btn-todos">
+                                        <i class="bi bi-list-ul"></i>
+                                        GERAR TODOS
+                                    </button>
+                                </div>
                             </form>
                             <!-- PRÉ-VISUALIZAÇÃO -->
                             <div class="card card-preview">
@@ -294,7 +295,15 @@ require_once __DIR__ . '/../includes/header.php';
                                                             <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['cpf'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['status'] ?? '') ?></td>
+
+                                                            <td>
+                                                                <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
+                                                                <span class="status <?= $status ?>">
+                                                                    <?= ucfirst($status) ?>
+                                                                </span>
+                                                            </td>
+
+
                                                         <?php elseif ($relatorio == 'veiculos'): ?>
                                                             <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
@@ -305,6 +314,7 @@ require_once __DIR__ . '/../includes/header.php';
                                                             <td><?= htmlspecialchars($linha['nomeObra'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['cidade'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['status'] ?? '') ?></td>
+
                                                         <?php elseif ($relatorio == 'financeiro'): ?>
                                                             <td><?= htmlspecialchars($linha['id'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['tipo'] ?? '') ?></td>
@@ -331,7 +341,8 @@ require_once __DIR__ . '/../includes/header.php';
 
                                     <p>
                                         <?php if (!empty($dados['total'])): ?>
-                                            Exibindo <?= $dados['total'] ?> registro(s) do relatório de <?= $tipoSelecionado ?>
+                                            Exibindo <?= $dados['total'] ?> registro(s) do relatório de
+                                            <?= $tipoSelecionado ?>
                                         <?php else: ?>
                                             Exibindo registros do relatório de <?= $tipoSelecionado ?>
                                         <?php endif; ?>
@@ -339,12 +350,14 @@ require_once __DIR__ . '/../includes/header.php';
 
                                     <div class=\"acoes-exportar\">
 
-                                        <button class="btn-excel" onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>'">
-                                            <i class="bi bi-filetype-xlsx"></i> 
+                                        <button class="btn-excel"
+                                            onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>'">
+                                            <i class="bi bi-filetype-xlsx"></i>
                                             EXPORTAR EXCEL
                                         </button>
 
-                                        <button class="btn-pdf" onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>'">
+                                        <button class="btn-pdf"
+                                            onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>'">
                                             <i class="bi bi-filetype-pdf"></i>
                                             GERAR PDF
                                         </button>

@@ -180,7 +180,7 @@ $actionAutomovel = $isEditAutomovel
         <div class="acao">
             <a href="/ideal/public/index.php?url=financeiros&aba=funcionario" class="btn novo"
                style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">
-               <i class="bi bi-plus-lg"></i>Salvar</a>
+               <i class="bi bi-plus-lg"></i> Cadastrar</a>
             <?php if (!$isEditFuncionario): ?>
                 <button type="submit" form="form-funcionario" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
             <?php else: ?>
@@ -378,7 +378,7 @@ $actionAutomovel = $isEditAutomovel
 
         <div class="acoes">
             <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo"
-               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"><i class="bi bi-plus-lg"></i> Novo</a>
+               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"><i class="bi bi-plus-lg"></i> Cadastrar</a>
             <?php if (!$isEditAutomovel): ?>
                 <button type="submit" form="form-automovel" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
             <?php else: ?>
