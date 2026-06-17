@@ -79,7 +79,11 @@ return [
  'financeiro-obra/update' => [FinanceiroObraController::class, 'update'],
  'financeiro-obra/delete' => [FinanceiroObraController::class, 'delete'],
  
+
  'credenciais' => [CredenciaisController::class, 'index'],
+ 'credenciais/buscar' => [CredenciaisController::class, 'buscar'],
+ 'credenciais/alterar' => [CredenciaisController::class, 'alterar'],
+
  
  // 'trocar-senha' => [trocarSenhacontroller::class, 'index'],
  // 'trocar-senha/salvar' => [trocaSenhacontroller::class, 'salvar'],
