@@ -278,4 +278,45 @@ class Cliente
         }
         return $clientes;
     }
+
+    /**
+     * Retorna todos os clientes como array associativo
+     */
+    public function listar(): array
+    {
+        $sql = "SELECT * FROM cliente";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Busca clientes com filtros
+     */
+    public function buscarComFiltros(string $nome = '', string $documento = ''): array
+    {
+        $sql = "SELECT * FROM cliente WHERE 1=1";
+        
+        if (!empty($nome)) {
+            $sql .= " AND nomeCliente LIKE :nome";
+        }
+        
+        if (!empty($documento)) {
+            $docLimpo = preg_replace('/[^0-9]/', '', $documento);
+            $sql .= " AND (cpf = :doc OR cnpj = :doc)";
+        }
+        
+        $stmt = $this->pdo->prepare($sql);
+        
+        if (!empty($nome)) {
+            $stmt->bindValue(':nome', '%' . $nome . '%', PDO::PARAM_STR);
+        }
+        
+        if (!empty($documento)) {
+            $stmt->bindValue(':doc', $docLimpo, PDO::PARAM_STR);
+        }
+        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
