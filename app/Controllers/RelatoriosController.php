@@ -26,17 +26,16 @@ class RelatoriosController
             'financeiro' => 'Financeiro'
         ];
 
-        $relatorioSelecionado = $_GET['relatorio'] ?? 'funcionarios';
+        $relatorio = $_GET['relatorio'] ?? 'funcionarios';
         
-        if (!array_key_exists($relatorioSelecionado, $tiposRelatorios)) {
-            $relatorioSelecionado = 'funcionarios';
+        if (!array_key_exists($relatorio, $tiposRelatorios)) {
+            $relatorio = 'funcionarios';
         }
 
-        $dados = [];
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dados = $this->buscarRelatorio($relatorioSelecionado);
-        }
+        $tipoSelecionado = $tiposRelatorios[$relatorio];
+        
+        // Busca dados sempre (não apenas em POST)
+        $dados = $this->buscarRelatorio($relatorio);
 
         require_once __DIR__ . '/../Views/relatorios/index.php';
     }

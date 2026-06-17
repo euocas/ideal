@@ -379,6 +379,37 @@ public function atualizar(): bool
         return $dados ? $this->hydrate($dados) : null;
     }
 
+    /**
+     * Busca obras com filtros
+     */
+    public function buscarComFiltros(string $nomeObra = '', string $statusObra = ''): array
+    {
+        $sql = "SELECT * FROM obra WHERE 1=1";
+        
+        if (!empty($nomeObra)) {
+            $sql .= " AND cidade LIKE :nomeObra";
+        }
+        
+        if (!empty($statusObra)) {
+            $sql .= " AND status = :statusObra";
+        }
+        
+        $sql .= " ORDER BY idObra DESC";
+        
+        $stmt = $this->pdo->prepare($sql);
+        
+        if (!empty($nomeObra)) {
+            $stmt->bindValue(':nomeObra', '%' . $nomeObra . '%', PDO::PARAM_STR);
+        }
+        
+        if (!empty($statusObra)) {
+            $stmt->bindValue(':statusObra', $statusObra, PDO::PARAM_STR);
+        }
+        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // public function buscarCliente(): ?Cliente
     // {
     //     if (!$this->idObra) {

@@ -520,4 +520,6 @@ describe contatoFuncionario;
 describe contatoCliente;
 
 SHOW COLUMNS FROM funcionario;
+
+USE empreiteira
  

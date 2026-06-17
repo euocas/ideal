@@ -492,4 +492,52 @@ class Funcionario
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    /**
+     * Retorna todos os funcionários como array associativo
+     */
+    public function listar(): array
+    {
+        $sql = "SELECT * FROM funcionario";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Busca funcionários com filtros
+     */
+    public function buscarComFiltros(string $nome = '', string $cargoFuncao = '', string $status = ''): array
+    {
+        $sql = "SELECT * FROM funcionario WHERE 1=1";
+        
+        if (!empty($nome)) {
+            $sql .= " AND nome LIKE :nome";
+        }
+        
+        if (!empty($cargoFuncao)) {
+            $sql .= " AND cargoFuncao LIKE :cargoFuncao";
+        }
+        
+        if (!empty($status)) {
+            $sql .= " AND status = :status";
+        }
+        
+        $stmt = $this->pdo->prepare($sql);
+        
+        if (!empty($nome)) {
+            $stmt->bindValue(':nome', '%' . $nome . '%', PDO::PARAM_STR);
+        }
+        
+        if (!empty($cargoFuncao)) {
+            $stmt->bindValue(':cargoFuncao', '%' . $cargoFuncao . '%', PDO::PARAM_STR);
+        }
+        
+        if (!empty($status)) {
+            $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        }
+        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

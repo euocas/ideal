@@ -327,4 +327,44 @@ class Veiculo
         
         return $veiculos;
     }
+
+    /**
+     * Retorna todos os veículos como array associativo
+     */
+    public function listar(): array
+    {
+        $sql = "SELECT * FROM veiculo";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Busca veículos com filtros
+     */
+    public function buscarComFiltros(string $placa = '', string $statusVeiculo = ''): array
+    {
+        $sql = "SELECT * FROM veiculo WHERE 1=1";
+        
+        if (!empty($placa)) {
+            $sql .= " AND placa LIKE :placa";
+        }
+        
+        if (!empty($statusVeiculo)) {
+            $sql .= " AND statusVeiculo = :statusVeiculo";
+        }
+        
+        $stmt = $this->pdo->prepare($sql);
+        
+        if (!empty($placa)) {
+            $stmt->bindValue(':placa', '%' . $placa . '%', PDO::PARAM_STR);
+        }
+        
+        if (!empty($statusVeiculo)) {
+            $stmt->bindValue(':statusVeiculo', $statusVeiculo, PDO::PARAM_STR);
+        }
+        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

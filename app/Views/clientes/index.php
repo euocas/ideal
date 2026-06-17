@@ -263,7 +263,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <button type="submit" form="form-dados" class="btn novo"
                     formaction="/ideal/public/index.php?url=clientes/store">
                     <i class="bi bi-plus-lg"></i>
-                    Novo
+                    Cadastrar
                 </button>
 
                 <button type="submit" form="form-dados" class="btn alterar"

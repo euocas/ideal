@@ -465,8 +465,13 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="acao">
 
                 <button type="submit" form="form-dados" class="btn novo">
+<<<<<<< HEAD
                     <i class="bi bi-plus-lg"></i>
                     Novo
+=======
+                     <i class="bi bi-plus-lg"></i> 
+                    Cadastrar
+>>>>>>> 26724174a012350127d13b06a2c5a1fe67db1f3d
                 </button>
 
                 <button type="submit" form="form-dados" class="btn alterar">

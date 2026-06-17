@@ -11,7 +11,6 @@ class CredenciaisController
 
     public function __construct()
     {
-        // Adicionado para proteger a rota de credenciais também
         Auth::verificar();
         $this->model = new Credencial();
     }
@@ -29,71 +28,72 @@ class CredenciaisController
         // Define o cabeçalho como JSON para o JavaScript entender corretamente
         header('Content-Type: application/json');
         echo json_encode($usuario);
-        exit; // CRÍTICO: Impede que o restante do HTML da página seja impresso junto com os dados!
-    }
-
-    public function alterarSenha()
-    {
-        $idUsuario = $_POST['idUsuario'] ?? null;
-        $novaSenha = $_POST['novaSenha'] ?? '';
-        $confirmar = $_POST['confirmarSenha'] ?? '';
-
-        if (session_status() === PHP_SESSION_NONE) { session_start(); }
-
-        // Validação de Segurança
-        if (!$idUsuario) {
-            $_SESSION['mensagem_erro'] = "Selecione um usuário primeiro clicando em 'Buscar'.";
-            header('Location: /ideal/public/index.php?url=credenciais');
-            exit;
-        }
-
-        if (empty($novaSenha) || $novaSenha !== $confirmar) {
-            $_SESSION['mensagem_erro'] = "As senhas informadas não coincidem ou estão em branco.";
-            header('Location: /ideal/public/index.php?url=credenciais');
-            exit;
-        }
-
-        $this->model->setId((int) $idUsuario);
-        $this->model->setSenha($novaSenha);
-
-        if ($this->model->alterarSenha()) {
-            $_SESSION['mensagem_sucesso'] = "A senha foi alterada com sucesso!";
-        } else {
-            $_SESSION['mensagem_erro'] = "Ocorreu um erro interno ao tentar alterar a senha.";
-        }
-
-        header('Location: /ideal/public/index.php?url=credenciais');
         exit;
     }
 
-    public function alterarEmail()
+    public function alterar()
     {
-        $idUsuario = $_POST['idUsuario'] ?? null;
-        $novoEmail = $_POST['novoEmail'] ?? '';
-        $confirmar = $_POST['confirmarEmail'] ?? '';
-
         if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
-        // Validação de Segurança
+        $idUsuario = $_POST['idUsuario'] ?? null;
+        $tipoAlteracao = $_POST['tipoAlteracao'] ?? '';
+
+        // Validação básica
         if (!$idUsuario) {
             $_SESSION['mensagem_erro'] = "Selecione um usuário primeiro clicando em 'Buscar'.";
             header('Location: /ideal/public/index.php?url=credenciais');
             exit;
         }
 
-        if (empty($novoEmail) || $novoEmail !== $confirmar || !filter_var($novoEmail, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['mensagem_erro'] = "Os e-mails informados não coincidem ou o formato é inválido.";
-            header('Location: /ideal/public/index.php?url=credenciais');
-            exit;
+        $this->model->setId((int) $idUsuario);
+        
+        $sucesso = false;
+        $erro = false;
+        $msgErro = "";
+
+        // LÓGICA PARA ALTERAR SENHA
+        if ($tipoAlteracao === 'senha' || $tipoAlteracao === 'ambos') {
+            $novaSenha = $_POST['novaSenha'] ?? '';
+            $confirmar = $_POST['confirmarSenha'] ?? '';
+
+            if (empty($novaSenha) || $novaSenha !== $confirmar) {
+                $erro = true;
+                $msgErro .= "As senhas não coincidem ou estão vazias. ";
+            } else {
+                $this->model->setSenha($novaSenha);
+                if ($this->model->alterarSenha()) {
+                    $sucesso = true;
+                } else {
+                    $erro = true;
+                    $msgErro .= "Erro ao alterar a senha. ";
+                }
+            }
         }
 
-        $this->model->setId((int) $idUsuario);
-        $this->model->setEmail($novoEmail);
+        // LÓGICA PARA ALTERAR E-MAIL
+        if ($tipoAlteracao === 'email' || $tipoAlteracao === 'ambos') {
+            $novoEmail = $_POST['novoEmail'] ?? '';
+            $confirmar = $_POST['confirmarEmail'] ?? '';
 
-        if ($this->model->alterarEmail()) {
-            $_SESSION['mensagem_sucesso'] = "O E-mail foi atualizado com sucesso!";
-        } else {
-            $_SESSION['mensagem_erro'] = "Ocorreu um erro interno ao tentar alterar o e-mail.";
+            if (empty($novoEmail) || $novoEmail !== $confirmar || !filter_var($novoEmail, FILTER_VALIDATE_EMAIL)) {
+                $erro = true;
+                $msgErro .= "Os e-mails não coincidem ou formato é inválido. ";
+            } else {
+                $this->model->setEmail($novoEmail);
+                if ($this->model->alterarEmail()) {
+                    $sucesso = true;
+                } else {
+                    $erro = true;
+                    $msgErro .= "Erro ao alterar e-mail. ";
+                }
+            }
+        }
+
+        // FEEDBACK FINAL
+        if ($erro) {
+            $_SESSION['mensagem_erro'] = trim($msgErro);
+        } else if ($sucesso) {
+            $_SESSION['mensagem_sucesso'] = "Dados atualizados com sucesso!";
         }
 
         header('Location: /ideal/public/index.php?url=credenciais');
