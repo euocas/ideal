@@ -176,3 +176,46 @@
   color: #fff;
   transition: background 0.2s;
 }
+.card-formulario {
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 100%;
+}
+.form-horizontal {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.bloco-formulario {
+    display: flex;
+    flex-direction: column;
+}
+
+.bloco-formulario hr {
+    margin: 25px 0;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.grid-form {
+    display: grid;
+    gap: 20px;
+}
+
+.card-formulario h2 {
+    margin: 0 0 20px 0;
+    color: #e8500a;
+    font-size: 18px;
+    font-weight: 600;
+}
+#blocoEmail h2,
+#blocoSenha h2 {
+    margin-top: 40px;
+}
+
+.card-formulario hr {
+    display: none;
+  }
