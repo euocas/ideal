@@ -82,7 +82,7 @@ class Obra
     {
         $permitidos = [
             'Em andamento',
-            'Concluída',
+            'Concluida',
             'Cancelada'
         ];
 

@@ -82,18 +82,10 @@ require_once __DIR__ . '/../includes/header.php';
 
                                         <div class="campo">
                                             <label>CNPJ</label>
-                                            <input type=\"text\" name=\"cnpj\" placeholder=\"00.000.000/0000-00\">
+                                            <input type="text" name="cnpj" placeholder="00.000.000/0000-00">
                                         </div>
 
-                                        <div class=\"campo\">
-                                            <label>Status</label>
 
-                                            <select name=\"status\">
-                                                <option value=\"\">Selecione</option>
-                                                <option value=\"Ativo\">Ativo</option>
-                                                <option value=\"Inativo\">Inativo</option>
-                                            </select>
-                                        </div>
 
                                     <?php elseif ($relatorio == 'funcionarios'): ?>
 
@@ -238,7 +230,6 @@ require_once __DIR__ . '/../includes/header.php';
                                                     <th>Nome</th>
                                                     <th>CPF</th>
                                                     <th>CNPJ</th>
-                                                    <th>Status</th>
                                                 </tr>
 
                                             <?php elseif ($relatorio == 'funcionarios'): ?>
@@ -288,15 +279,30 @@ require_once __DIR__ . '/../includes/header.php';
                                                         <?php if ($relatorio == 'clientes'): ?>
                                                             <td><?= htmlspecialchars($linha['idCliente'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['cpf'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['cnpj'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['status'] ?? '') ?></td>
+                                                            <td><?= preg_replace(
+                                                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                '$1.$2.$3-$4',
+                                                                $linha['cpf'] ?? ''
+                                                            ) ?></td>
+
+                                                            <td><?= preg_replace(
+                                                                '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                                                '$1.$2.$3/$4-$5',
+                                                                $linha['cnpj'] ?? ''
+                                                            ) ?>
+                                                            </td>
+
+                                
+
+
                                                         <?php elseif ($relatorio == 'funcionarios'): ?>
                                                             <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
-                    
-                                                            <td><?= preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/','$1.$2.$3-$4',
-                                                                    $linha['cpf'] ?? '') ?></td>
+                                                            <td><?= preg_replace(
+                                                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                '$1.$2.$3-$4',
+                                                                $linha['cpf'] ?? ''
+                                                            ) ?></td>
                                                             <td>
                                                                 <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
                                                                 <span class="status <?= $status ?>">
@@ -305,16 +311,55 @@ require_once __DIR__ . '/../includes/header.php';
                                                             </td>
 
 
+
                                                         <?php elseif ($relatorio == 'veiculos'): ?>
                                                             <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['renavam'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['statusVeiculo'] ?? '') ?></td>
+                                                            <td><?= preg_replace(
+                                                                '/(\d{4})(\d{6})(\d{1})/',
+                                                                '$1.$2-$3',
+                                                                $linha['renavam'] ?? ''
+                                                            ) ?>
+                                                            </td>
+
+                                                            <td>
+                                                                <?php $status = strtolower(trim($linha['statusVeiculo'] ?? ''));
+                                                                $classeStatus = str_replace(' ', '-', $status);
+                                                                ?>
+                                                                <span class="status <?= $classeStatus ?>">
+                                                                    <?= ucfirst($status) ?>
+                                                                </span>
+                                                            </td>
+
+
                                                         <?php elseif ($relatorio == 'obras'): ?>
                                                             <td><?= htmlspecialchars($linha['idObra'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['nomeObra'] ?? '') ?></td>
                                                             <td><?= htmlspecialchars($linha['cidade'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['status'] ?? '') ?></td>
+
+                                                            <!-- <td>
+
+                                                                <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
+                                                                <span class="status <?= $status ?>">
+                                                                    <?= ucfirst($status) ?>
+
+                                                                </span>
+
+                                                            </td> -->
+
+                                                                                                                        <td>
+                                                                <?php $status = strtolower(trim($linha['status'] ?? ''));
+                                                                $classeStatus = str_replace(' ', '-', $status);
+                                                                ?>
+                                                                <span class="status <?= $classeStatus ?>">
+                                                                    <?= ucfirst($status) ?>
+                                                                </span>
+                                                            </td>
+
+
+
+
+                                                            <!-- <td><?= htmlspecialchars($linha['status'] ?? '') ?></td> -->
 
                                                         <?php elseif ($relatorio == 'financeiro'): ?>
                                                             <td><?= htmlspecialchars($linha['id'] ?? '') ?></td>

@@ -152,7 +152,7 @@ CREATE TABLE obra (
     idCliente INT NOT NULL,
     dataInicio DATETIME NOT NULL,
     dataFim DATETIME,
-    status ENUM('Em andamento', 'Concluída', 'Cancelada') NOT NULL,
+    status ENUM('Em andamento', 'Concluida', 'Cancelada') NOT NULL,
     estado CHAR(2) NOT NULL,
     cidade VARCHAR(45) NOT NULL,
     cep CHAR(8) NOT NULL,

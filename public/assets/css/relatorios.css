@@ -240,28 +240,6 @@ table td {
   font-size: 16px;
 }
 
-.status {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.status.ativo {
-  background: #dcfce7;
-  color: #16a34a;
-}
-
-.status.inativo {
-  background: #fee2e2;
-  color: #dc2626;
-}
-tbody tr:hover {
-
-    background: #f8fafc;
-
-}
-
 /* ==========================================
    STATUS
 ========================================== */
@@ -269,7 +247,6 @@ tbody tr:hover {
 .status {
   padding: 6px 12px;
   border-radius: 2px;
-
   font-size: 15px;
   font-weight: bold;
 }
@@ -283,6 +260,30 @@ tbody tr:hover {
   background: #fee2e2;
   color: #dc2626;
 }
+
+.status.em-manutencao{
+    background: #fff3cd;
+    color: #856404;
+}
+.status.vendido{
+    background: #fff3cd;
+    color: #856404; 
+}
+.status.em-andamento {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.status.concluida {
+  background: #fee2e2;
+  color: #dc2626;
+}
+tbody tr:hover {
+
+    background: #f8fafc;
+
+}
+
 
 /* ==========================================
    FOOTER

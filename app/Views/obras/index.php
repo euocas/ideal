@@ -130,7 +130,7 @@ require_once __DIR__ . '/../includes/header.php';
                                     Em andamento
                                 </option>
 
-                                <option value="Concluída" <?= isset($obra) && $obra->getStatus() === 'Concluída' ? 'selected' : '' ?>>
+                                <option value="Concluida" <?= isset($obra) && $obra->getStatus() === 'Concluida' ? 'selected' : '' ?>>
                                     Concluída
                                 </option>
 
