@@ -52,8 +52,8 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
 
                             <div class="campo">
-                                <label>Usuário</label>
-                                <input type="text" id="inputBuscaUsuario" placeholder="Digite o usuário">
+                                <label>Digie o e-mail</label>
+                                <input type="text" id="inputBuscaUsuario" placeholder="Digite o e-mail">
                             </div>
 
                             <button type="button" class="btn-buscar" id="btnBuscar">
@@ -66,8 +66,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <h4>
                             <i class="fas fa-info-circle"></i> DICA
                         </h4>
-                        <p>Selecione o tipo de alteração, localize o usuário e preencha os campos necessários para
-                            concluir a operação.</p>
+                        <p>Selecione o tipo de Alteração, digite o e-mail e clique em <strong>BUSCAR</strong>.</p>
                     </div>
                 </div>
 
@@ -79,7 +78,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="grid-form">
                             <div class="campo">
-                                <label>Nome do Usuário</label>
+                                <label>Nome no Sistema</label>
                                 <input type="text" name="nomeUsuario" id="nomeUsuario" readonly>
                             </div>
 
