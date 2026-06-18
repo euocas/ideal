@@ -27,13 +27,13 @@ class RelatoriosController
         ];
 
         $relatorio = $_GET['relatorio'] ?? 'funcionarios';
-        
+
         if (!array_key_exists($relatorio, $tiposRelatorios)) {
             $relatorio = 'funcionarios';
         }
 
         $tipoSelecionado = $tiposRelatorios[$relatorio];
-        
+
         // Busca dados sempre (não apenas em POST)
         $dados = $this->buscarRelatorio($relatorio);
 
@@ -100,10 +100,11 @@ class RelatoriosController
         $nomeFiltro = $_POST['nome'] ?? '';
         $cargoFiltro = $_POST['cargoFuncao'] ?? '';
         $statusFiltro = $_POST['status'] ?? '';
+        $cpfFiltro = $_POST['cpf'] ?? '';
 
         // Se houver filtros, aplica; caso contrário, lista todos
-        if (!empty($nomeFiltro) || !empty($cargoFiltro) || !empty($statusFiltro)) {
-            $funcionarios = $funcionarioModel->buscarComFiltros($nomeFiltro, $cargoFiltro, $statusFiltro);
+        if (!empty($nomeFiltro) || !empty($cargoFiltro) || !empty($statusFiltro) || !empty($cpfFiltro)) {
+            $funcionarios = $funcionarioModel->buscarComFiltros($nomeFiltro, $cargoFiltro, $statusFiltro, $cpfFiltro);
         } else {
             $funcionarios = $funcionarioModel->listar();
         }

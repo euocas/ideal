@@ -507,37 +507,46 @@ class Funcionario
     /**
      * Busca funcionários com filtros
      */
-    public function buscarComFiltros(string $nome = '', string $cargoFuncao = '', string $status = ''): array
-    {
-        $sql = "SELECT * FROM funcionario WHERE 1=1";
-        
-        if (!empty($nome)) {
-            $sql .= " AND nome LIKE :nome";
-        }
-        
-        if (!empty($cargoFuncao)) {
-            $sql .= " AND cargoFuncao LIKE :cargoFuncao";
-        }
-        
-        if (!empty($status)) {
-            $sql .= " AND status = :status";
-        }
-        
-        $stmt = $this->pdo->prepare($sql);
-        
-        if (!empty($nome)) {
-            $stmt->bindValue(':nome', '%' . $nome . '%', PDO::PARAM_STR);
-        }
-        
-        if (!empty($cargoFuncao)) {
-            $stmt->bindValue(':cargoFuncao', '%' . $cargoFuncao . '%', PDO::PARAM_STR);
-        }
-        
-        if (!empty($status)) {
-            $stmt->bindValue(':status', $status, PDO::PARAM_STR);
-        }
-        
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function buscarComFiltros(string $nome = '', string $cargoFuncao = '', string $status = '', string $cpf = ''): array
+{
+    $sql = "SELECT * FROM funcionario WHERE 1=1";
+
+    if (!empty($nome)) {
+        $sql .= " AND nome LIKE :nome";
     }
+
+    if (!empty($cargoFuncao)) {
+        $sql .= " AND cargoFuncao LIKE :cargoFuncao";
+    }
+
+    if (!empty($status)) {
+        $sql .= " AND status = :status";
+    }
+
+    if (!empty($cpf)) {
+        $sql .= " AND cpf LIKE :cpf";
+    }
+
+    $stmt = $this->pdo->prepare($sql);
+
+    if (!empty($nome)) {
+        $stmt->bindValue(':nome', '%' . $nome . '%', PDO::PARAM_STR);
+    }
+
+    if (!empty($cargoFuncao)) {
+        $stmt->bindValue(':cargoFuncao', '%' . $cargoFuncao . '%', PDO::PARAM_STR);
+    }
+
+    if (!empty($status)) {
+        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+    }
+
+    if (!empty($cpf)) {
+        $cpfLimpo = preg_replace('/[^0-9]/', '', $cpf);
+        $stmt->bindValue(':cpf', '%' . $cpfLimpo . '%', PDO::PARAM_STR);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
