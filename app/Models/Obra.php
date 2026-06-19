@@ -14,6 +14,7 @@ class Obra
     // =====================================================
 
     private ?int $idObra = null;
+    private ?int $idCliente = null; // ✅ ADICIONADO
     private ?DateTime $dataInicio = null;
     private ?DateTime $dataFim = null;
     private ?string $status = null;
@@ -51,6 +52,18 @@ class Obra
     public function setIdObra(?int $idObra): void
     {
         $this->idObra = $idObra;
+    }
+
+    // ✅ ADICIONADO
+    public function getIdCliente(): ?int
+    {
+        return $this->idCliente;
+    }
+
+    // ✅ ADICIONADO
+    public function setIdCliente(?int $idCliente): void
+    {
+        $this->idCliente = $idCliente;
     }
 
     public function getDataInicio(): ?DateTime
@@ -163,15 +176,15 @@ class Obra
         $this->complemento = $complemento;
     }
 
-public function getObservacoes(): ?string
-{
-    return $this->observacoes;
-}
+    public function getObservacoes(): ?string
+    {
+        return $this->observacoes;
+    }
 
-public function setObservacoes(?string $observacoes): void
-{
-    $this->observacoes = $observacoes;
-}
+    public function setObservacoes(?string $observacoes): void
+    {
+        $this->observacoes = $observacoes;
+    }
 
     public function getContrato(): ?string
     {
@@ -185,24 +198,26 @@ public function setObservacoes(?string $observacoes): void
             return;
         }
 
-        // Remove espaços extras
         $contrato = trim($contrato);
-
-        // Converte para minúsculo
         $contrato = mb_strtolower($contrato, 'UTF-8');
 
-        // Verifica se ficou vazio
         if ($contrato === '') {
             throw new InvalidArgumentException('Contrato não pode estar vazio.');
         }
 
         $this->contrato = $contrato;
     }
+
+    // =====================================================
+    // HYDRATE
+    // =====================================================
+
     private function hydrate(array $dados): self
     {
         $obra = new self();
 
         $obra->setIdObra($dados['idObra'] ?? null);
+        $obra->setIdCliente(isset($dados['idCliente']) ? (int)$dados['idCliente'] : null); // ✅ ADICIONADO
 
         if (!empty($dados['dataInicio'])) {
             $obra->setDataInicio(new DateTime($dados['dataInicio']));
@@ -231,215 +246,167 @@ public function setObservacoes(?string $observacoes): void
     // =====================================================
 
     public function cadastrar(): bool
-{
-    $sql = "INSERT INTO obra (
-                dataInicio,
-                dataFim,
-                status,
-                estado,
-                cidade,
-                cep,
-                logradouro,
-                endereco,
-                numero,
-                complemento,
-                observacoes,
-                contrato
-            ) VALUES (
-                :dataInicio,
-                :dataFim,
-                :status,
-                :estado,
-                :cidade,
-                :cep,
-                :logradouro,
-                :endereco,
-                :numero,
-                :complemento,
-                :observacoes,
-                :contrato
-            )";
+    {
+        $sql = "INSERT INTO obra (
+                    idCliente,
+                    dataInicio,
+                    dataFim,
+                    status,
+                    estado,
+                    cidade,
+                    cep,
+                    logradouro,
+                    endereco,
+                    numero,
+                    complemento,
+                    observacoes,
+                    contrato
+                ) VALUES (
+                    :idCliente,
+                    :dataInicio,
+                    :dataFim,
+                    :status,
+                    :estado,
+                    :cidade,
+                    :cep,
+                    :logradouro,
+                    :endereco,
+                    :numero,
+                    :complemento,
+                    :observacoes,
+                    :contrato
+                )";
 
-    $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
 
-    $sucesso = $stmt->execute([
-        ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
-        ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
-        ':status' => $this->status,
-        ':estado' => $this->estado,
-        ':cidade' => $this->cidade,
-        ':cep' => $this->cep,
-        ':logradouro' => $this->logradouro,
-        ':endereco' => $this->endereco,
-        ':numero' => $this->numero,
-        ':complemento' => $this->complemento,
-        ':observacoes' => $this->observacoes,
-        ':contrato' => $this->contrato
-    ]);
+        $sucesso = $stmt->execute([
+            ':idCliente'   => $this->idCliente,   // ✅ ADICIONADO
+            ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
+            ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
+            ':status'      => $this->status,
+            ':estado'      => $this->estado,
+            ':cidade'      => $this->cidade,
+            ':cep'         => $this->cep,
+            ':logradouro'  => $this->logradouro,
+            ':endereco'    => $this->endereco,
+            ':numero'      => $this->numero,
+            ':complemento' => $this->complemento,
+            ':observacoes' => $this->observacoes,
+            ':contrato'    => $this->contrato
+        ]);
 
-    if ($sucesso) {
-        $this->idObra = (int) $this->pdo->lastInsertId();
-        return true;
+        if ($sucesso) {
+            $this->idObra = (int) $this->pdo->lastInsertId();
+            return true;
+        }
+
+        error_log(print_r($stmt->errorInfo(), true));
+        return false;
     }
 
-    // ajuda MUITO no debug quando der erro
-    error_log(print_r($stmt->errorInfo(), true));
-
-    return false;
-}
- 
     public function listar(): array
     {
         $sql = "SELECT * FROM obra ORDER BY idObra DESC";
-
         $stmt = $this->pdo->query($sql);
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function buscarPorId(int $id): ?self
     {
         $sql = "SELECT * FROM obra WHERE idObra = :id";
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-
         return $dados ? $this->hydrate($dados) : null;
     }
 
-public function atualizar(): bool
-{
-    $sql = "UPDATE obra SET
-                dataInicio = :dataInicio,
-                dataFim = :dataFim,
-                status = :status,
-                estado = :estado,
-                cidade = :cidade,
-                cep = :cep,
-                logradouro = :logradouro,
-                endereco = :endereco,
-                numero = :numero,
-                complemento = :complemento,
-                observacoes = :observacoes,
-                contrato = :contrato
-            WHERE idObra = :idObra";
+    public function atualizar(): bool
+    {
+        $sql = "UPDATE obra SET
+                    idCliente     = :idCliente,
+                    dataInicio    = :dataInicio,
+                    dataFim       = :dataFim,
+                    status        = :status,
+                    estado        = :estado,
+                    cidade        = :cidade,
+                    cep           = :cep,
+                    logradouro    = :logradouro,
+                    endereco      = :endereco,
+                    numero        = :numero,
+                    complemento   = :complemento,
+                    observacoes   = :observacoes,
+                    contrato      = :contrato
+                WHERE idObra = :idObra";
 
-    $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
 
-    $sucesso = $stmt->execute([
-        ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
-        ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
-        ':status' => $this->status,
-        ':estado' => $this->estado,
-        ':cidade' => $this->cidade,
-        ':cep' => $this->cep,
-        ':logradouro' => $this->logradouro,
-        ':endereco' => $this->endereco,
-        ':numero' => $this->numero,
-        ':complemento' => $this->complemento,
-        ':observacoes' => $this->observacoes,
-        ':contrato' => $this->contrato,
-        ':idObra' => $this->idObra
-    ]);
+        $sucesso = $stmt->execute([
+            ':idCliente'   => $this->idCliente,   // ✅ ADICIONADO
+            ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
+            ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
+            ':status'      => $this->status,
+            ':estado'      => $this->estado,
+            ':cidade'      => $this->cidade,
+            ':cep'         => $this->cep,
+            ':logradouro'  => $this->logradouro,
+            ':endereco'    => $this->endereco,
+            ':numero'      => $this->numero,
+            ':complemento' => $this->complemento,
+            ':observacoes' => $this->observacoes,
+            ':contrato'    => $this->contrato,
+            ':idObra'      => $this->idObra
+        ]);
 
-    if (!$sucesso) {
-        error_log(print_r($stmt->errorInfo(), true));
-        return false;
+        if (!$sucesso) {
+            error_log(print_r($stmt->errorInfo(), true));
+            return false;
+        }
+
+        return true;
     }
-
-    return true;
-}
 
     public function excluir(int $id): bool
     {
         $sql = "DELETE FROM obra WHERE idObra = :id";
-
         $stmt = $this->pdo->prepare($sql);
-
-        return $stmt->execute([
-            ':id' => $id
-        ]);
+        return $stmt->execute([':id' => $id]);
     }
 
     public function buscarPorContrato(string $contrato): ?self
     {
         $sql = "SELECT * FROM obra WHERE contrato = :contrato LIMIT 1";
-
         $stmt = $this->pdo->prepare($sql);
-
-        $stmt->execute([
-            ':contrato' => $contrato
-        ]);
-
+        $stmt->execute([':contrato' => $contrato]);
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-
         return $dados ? $this->hydrate($dados) : null;
     }
 
-    /**
-     * Busca obras com filtros
-     */
     public function buscarComFiltros(string $nomeObra = '', string $statusObra = ''): array
     {
         $sql = "SELECT * FROM obra WHERE 1=1";
-        
+
         if (!empty($nomeObra)) {
             $sql .= " AND cidade LIKE :nomeObra";
         }
-        
+
         if (!empty($statusObra)) {
             $sql .= " AND status = :statusObra";
         }
-        
+
         $sql .= " ORDER BY idObra DESC";
-        
+
         $stmt = $this->pdo->prepare($sql);
-        
+
         if (!empty($nomeObra)) {
             $stmt->bindValue(':nomeObra', '%' . $nomeObra . '%', PDO::PARAM_STR);
         }
-        
+
         if (!empty($statusObra)) {
             $stmt->bindValue(':statusObra', $statusObra, PDO::PARAM_STR);
         }
-        
+
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // public function buscarCliente(): ?Cliente
-    // {
-    //     if (!$this->idObra) {
-    //         return null;
-    //     }
-
-    //     $sql = "
-    //     SELECT c.*
-    //     FROM cliente c
-    //     INNER JOIN obraCliente oc
-    //         ON oc.idCliente = c.idCliente
-    //     WHERE oc.idObra = :idObra
-    //     LIMIT 1
-    // ";
-
-    //     $stmt = $this->pdo->prepare($sql);
-    //     $stmt->execute([
-    //         ':idObra' => $this->idObra
-    //     ]);
-
-    //     $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    //     if (!$dados) {
-    //         return null;
-    //     }
-
-    //     $clienteModel = new Cliente();
-
-    //     return $clienteModel->findById(
-    //         (int) $dados['idCliente']
-    //     );
-    // }
 }

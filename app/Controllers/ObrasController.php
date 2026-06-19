@@ -15,37 +15,34 @@ class ObrasController
         Auth::verificar();
     }
 
+    public function index()
+    {
+        $obra = null;
+        $cliente = null;
 
-public function index()
-{
-    $obra = null;
-    $cliente = null;
+        $actionUrl = "/ideal/public/index.php?url=obras/store";
 
-    $actionUrl = "/ideal/public/index.php?url=obras/store";
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $contrato = trim($_POST['contratoBusca'] ?? '');
 
-        $contrato = trim($_POST['contratoBusca'] ?? '');
+            if ($contrato !== '') {
 
-        if ($contrato !== '') {
+                $obraModel = new Obra();
+                $obra = $obraModel->buscarPorContrato($contrato);
 
-            $obraModel = new Obra();
-
-            $obra = $obraModel->buscarPorContrato($contrato);
-
-            if ($obra) {
-                $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
+                if ($obra) {
+                    $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
+                }
             }
         }
-    }
 
-    require_once __DIR__ . '/../Views/obras/index.php';
-}
+        require_once __DIR__ . '/../Views/obras/index.php';
+    }
 
     public function create()
     {
         $actionUrl = "/ideal/public/index.php?url=obras/store";
-
         require_once __DIR__ . '/../Views/obras/index.php';
     }
 
@@ -71,8 +68,11 @@ public function index()
         require_once __DIR__ . '/../Views/obras/index.php';
     }
 
+    // ✅ ADICIONADO setIdCliente
     private function popularObjeto(Obra $obra, array $dados): void
     {
+        $obra->setIdCliente(!empty($dados['idCliente']) ? (int)$dados['idCliente'] : null);
+
         if (!empty($dados['dataInicio'])) {
             $obra->setDataInicio(new \DateTime($dados['dataInicio']));
         }
@@ -97,15 +97,21 @@ public function index()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $obra = new Obra();
-
-            $this->popularObjeto($obra, $_POST);
-
-            $salvou = $obra->cadastrar();
-
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
+
+            // ✅ Valida se o cliente foi selecionado
+            if (empty($_POST['idCliente'])) {
+                $_SESSION['mensagem_erro'] = "Selecione um cliente válido antes de cadastrar a obra.";
+                header("Location: /ideal/public/index.php?url=obras");
+                exit;
+            }
+
+            $obra = new Obra();
+            $this->popularObjeto($obra, $_POST);
+
+            $salvou = $obra->cadastrar();
 
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "Obra cadastrada com sucesso!";
@@ -118,55 +124,54 @@ public function index()
         }
     }
 
-   public function update()
-{
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header("Location: /ideal/public/index.php?url=obras");
-        exit;
-    }
-
-    $id = $_GET['id'] ?? null;
-
-    if (!$id) {
-        $_SESSION['mensagem_erro'] = "ID da obra não informado.";
-        header("Location: /ideal/public/index.php?url=obras");
-        exit;
-    }
-
-    try {
-
-        $obra = new Obra();
-
-        $obra->setIdObra($id);
-
-        $this->popularObjeto($obra, $_POST);
-
-        $atualizou = $obra->atualizar();
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: /ideal/public/index.php?url=obras");
+            exit;
+        }
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        if ($atualizou) {
-            $_SESSION['mensagem_sucesso'] = "Obra atualizada com sucesso!";
-        } else {
-            $_SESSION['mensagem_erro'] = "Erro ao atualizar a obra.";
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            $_SESSION['mensagem_erro'] = "ID da obra não informado.";
+            header("Location: /ideal/public/index.php?url=obras");
+            exit;
         }
 
-    } catch (\Throwable $e) {
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+        // ✅ Valida se o cliente foi selecionado
+        if (empty($_POST['idCliente'])) {
+            $_SESSION['mensagem_erro'] = "Selecione um cliente válido antes de atualizar a obra.";
+            header("Location: /ideal/public/index.php?url=obras");
+            exit;
         }
 
-        $_SESSION['mensagem_erro'] = $e->getMessage();
+        try {
 
-        error_log($e->getMessage());
+            $obra = new Obra();
+            $obra->setIdObra($id);
+            $this->popularObjeto($obra, $_POST);
+
+            $atualizou = $obra->atualizar();
+
+            if ($atualizou) {
+                $_SESSION['mensagem_sucesso'] = "Obra atualizada com sucesso!";
+            } else {
+                $_SESSION['mensagem_erro'] = "Erro ao atualizar a obra.";
+            }
+
+        } catch (\Throwable $e) {
+            $_SESSION['mensagem_erro'] = $e->getMessage();
+            error_log($e->getMessage());
+        }
+
+        header("Location: /ideal/public/index.php?url=obras");
+        exit;
     }
-
-    header("Location: /ideal/public/index.php?url=obras");
-    exit;
-}
 
     public function delete()
     {
@@ -175,7 +180,6 @@ public function index()
         if ($id) {
 
             $obraModel = new Obra();
-
             $deletou = $obraModel->excluir($id);
 
             if (session_status() === PHP_SESSION_NONE) {
@@ -192,5 +196,4 @@ public function index()
         header("Location: /ideal/public/index.php?url=obras");
         exit;
     }
-
 }

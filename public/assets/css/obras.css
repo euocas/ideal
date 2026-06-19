@@ -51,8 +51,7 @@ body {
 }
 
 .busca-box {
-  /* padding: 20px; */
-   padding: 12px 16px;
+  padding: 12px 16px;
   background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-default);
@@ -62,7 +61,6 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-
   margin-bottom: 8px;
   font-size: 17px;
 }
@@ -91,10 +89,10 @@ body {
 .input-group label,
 .form-group label {
   margin-bottom: 6px;
-
   color: var(--text-secondary);
   font-size: 15px;
   font-weight: 600;
+  pointer-events: none; /* ✅ CORRIGIDO: label não intercepta cliques */
 }
 
 /* ==========================================
@@ -107,14 +105,11 @@ body {
 .form-group select,
 .form-group textarea {
   width: 100%;
-
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
-
   color: var(--text);
   font-size: 15px;
-
   outline: none;
   transition: 0.2s;
 }
@@ -133,6 +128,7 @@ body {
   padding: 10px;
   resize: vertical;
 }
+
 .input-group input:focus,
 .input-group select:focus,
 .form-group input:focus,
@@ -149,15 +145,11 @@ body {
 .btn-buscar {
   width: 190px;
   height: 46px;
-
   border: none;
   border-radius: var(--radius-sm);
-
   background: var(--btn-dark);
-
   color: #fff;
   font-weight: 600;
-
   cursor: pointer;
   transition: 0.2s;
 }
@@ -172,16 +164,12 @@ body {
 
 .dica-box {
   position: relative;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   height: 100%;
   padding: 20px 22px 20px 30px;
-
   overflow: hidden;
-
   background: var(--surface-alt);
   border: 1px solid var(--primary-light);
   border-radius: var(--radius-md);
@@ -189,14 +177,11 @@ body {
 
 .dica-box::before {
   content: "";
-
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-
   width: 10px;
-
   background: var(--primary);
   border-radius: var(--radius-md) 0 0 var(--radius-md);
 }
@@ -205,9 +190,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-
   margin-bottom: 12px;
-
   color: var(--primary);
   font-size: 17px;
 }
@@ -246,156 +229,136 @@ body {
 /* ==========================================
   CARD FUNCIONÁRIOS  
 ========================================== */
-.grid-funcionario{
-    display:grid;
-    grid-template-columns:
-        1.5fr
-        1fr
-        1fr
-        0.8fr
-        0.8fr
-        0.8fr
-        140px;
-
-    gap:16px;
+.grid-funcionario {
+  display: grid;
+  grid-template-columns:
+    1.5fr
+    1fr
+    1fr
+    0.8fr
+    0.8fr
+    0.8fr
+    140px;
+  gap: 16px;
 }
 
 .grid-funcionario .form-group:nth-child(5),
-.grid-funcionario .form-group:nth-child(6){
-    max-width:220px;
+.grid-funcionario .form-group:nth-child(6) {
+  max-width: 220px;
 }
+
 .grid-funcionario input,
-.grid-funcionario select{
-    height:42px;
-}
-.btn-adicionar{
-    height:42px;
-    max-width:220px;
+.grid-funcionario select {
+  height: 42px;
 }
 
-.btn-area{
-    display:flex;
-    align-items:flex-end;
+.btn-adicionar {
+  height: 42px;
+  max-width: 220px;
 }
 
-.btn-adicionar{
-    width:100%;
-    height:46px;
-
-    border:none;
-    border-radius:8px;
-
-    background:#16a34a;
-    color:#fff;
-
-    font-weight:600;
-
-    cursor:pointer;
+.btn-area {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.btn-area{
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-}
-
-.btn-adicionar{
-    height:46px;
+.btn-adicionar {
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 8px;
+  background: #16a34a;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 /* ==========================================
-   tabela funcionário
+   TABELA FUNCIONÁRIO
 ========================================== */
 
-.tabela-funcionarios{
-    margin-top:20px;
-
-    overflow-x:auto;
-
-    border:1px solid #e5e7eb;
-    border-radius:10px;
+.tabela-funcionarios {
+  margin-top: 20px;
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
 }
 
-.tabela-funcionarios table{
-    width:100%;
-    border-collapse:collapse;
+.tabela-funcionarios table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.tabela-funcionarios thead{
-    background:#f8fafc;
+.tabela-funcionarios thead {
+  background: #f8fafc;
 }
 
-.tabela-funcionarios th{
-    padding:14px;
-
-    text-align:left;
-    font-size:14px;
-    font-weight:600;
-
-    border-bottom:1px solid #e5e7eb;
+.tabela-funcionarios th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.tabela-funcionarios td{
-    padding:14px;
-    border-bottom:1px solid #e5e7eb;
+.tabela-funcionarios td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.status{
-    padding:4px 12px;
-
-    border-radius:6px;
-
-    font-size:13px;
-    font-weight:600;
+.status {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.status.ativo{
-    background:#dcfce7;
-    color:#15803d;
+.status.ativo {
+  background: #dcfce7;
+  color: #15803d;
 }
 
-.acoes-tabela{
-    display:flex;
-    justify-content:center;
-    gap:10px;
+.acoes-tabela {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 .btn-editar,
-.btn-excluir{
-    width:34px;
-    height:34px;
-
-    border:none;
-    border-radius:8px;
-
-    cursor:pointer;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    transition:0.2s;
+.btn-excluir {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
 }
 
-.btn-editar{
-    background:#eff6ff;
-    color:#2563eb;
+.btn-editar {
+  background: #eff6ff;
+  color: #2563eb;
 }
 
-.btn-editar:hover{
-    background:#dbeafe;
-    transform:scale(1.05);
+.btn-editar:hover {
+  background: #dbeafe;
+  transform: scale(1.05);
 }
 
-.btn-excluir{
-    background:#fef2f2;
-    color:#dc2626;
+.btn-excluir {
+  background: #fef2f2;
+  color: #dc2626;
 }
 
-.btn-excluir:hover{
-    background:#fee2e2;
-    transform:scale(1.05);
+.btn-excluir:hover {
+  background: #fee2e2;
+  transform: scale(1.05);
 }
+
 /* ==========================================
    AÇÕES
 ========================================== */
@@ -408,20 +371,15 @@ body {
   margin-top: 10px;
 }
 
-
-
 .btn {
   min-width: 150px;
   min-height: 52px;
   padding: 12px 22px;
-
   border: none;
   border-radius: var(--radius-sm);
-
   color: #fff;
   font-weight: bold;
   text-align: center;
-
   cursor: pointer;
   transition: 0.2s;
 }
@@ -462,28 +420,24 @@ body {
   gap: 20px;
   align-items: start;
 }
+
 .cliente-card {
   background: #fff7ed;
   border: 1px solid #fed7aa;
   border-radius: 10px;
   padding: 18px 22px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  flex: 0 0 calc(60% - 20px);
-  
-}
-.cliente-area .form-group{
-    width: 100% !important;
-    max-width: none !important;
 }
 
-.cliente-area .form-group input{
-    width: 100% !important;
-}
-
-
+/* ✅ CORRIGIDO: removido o width: 280px que conflitava */
 .cliente-area .form-group {
-  width: 280px;
+  width: 100%;
+  max-width: none;
   flex-shrink: 0;
+}
+
+.cliente-area .form-group input {
+  width: 100%;
 }
 
 .cliente-card h3 {
@@ -505,6 +459,7 @@ body {
   border-right: 1px solid #e5e7eb;
   padding-right: 20px;
 }
+
 .cliente-info span {
   font-size: 13px;
   color: #6b7280;
@@ -515,29 +470,32 @@ body {
   font-weight: 600;
   color: #111827;
 }
-.grid-form {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px 20px;
-}
 
 .titulo-card {
   display: flex;
   align-items: center;
   gap: 12px;
-
   font-size: 22px;
   font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .titulo-card i {
   color: #f97316;
 }
-.fa-whatsapp{
-    color:#25D366;
+
+.fa-whatsapp {
+  color: #25D366;
 }
 
-
+.info-tabela {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
 /* ==========================================
    RESPONSIVO
@@ -588,4 +546,16 @@ body {
   .btn {
     width: 100%;
   }
+}
+
+.cliente-area .form-group label {
+    display: block;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.cliente-area .form-group input {
+    flex: 1;
+    min-height: 46px;
+    height: 46px;
 }
