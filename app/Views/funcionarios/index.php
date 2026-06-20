@@ -1,4 +1,5 @@
 <?php
+
 /** @var \App\Models\Funcionario|null $funcionario */ //
 
 // Valores padrão para evitar notices de variáveis indefinidas
@@ -101,7 +102,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </h2>
 
                         <?php if (!empty($mensagem)): ?>
-                            <div class="alerta-cadastro">
+                            <div class="alert alert-warning">
                                 <?= $mensagem ?>
                             </div>
                         <?php endif; ?>
@@ -231,7 +232,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label>Complemento</label>
                             <input type="text" name="complemento"
-                                value="<?= htmlspecialchars($isEdit ? ($funcionario->getComplemento() ?? '') : '') ?>"  placeholder="Números e letras">
+                                value="<?= htmlspecialchars($isEdit ? ($funcionario->getComplemento() ?? '') : '') ?>" placeholder="Números e letras">
                         </div>
 
                         <div class="form-group">

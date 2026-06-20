@@ -69,16 +69,16 @@ $actionAutomovel = $isEditAutomovel
 
         <!-- ALERTAS DE SESSÃO -->
         <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-            <div class="alerta alerta-sucesso">
-                ✅ <?= $_SESSION['mensagem_sucesso'] ?>
-            </div>
+            <div class="alert alert-success">
+    <?= $_SESSION['mensagem_sucesso'] ?>
+</div>
             <?php unset($_SESSION['mensagem_sucesso']); ?>
         <?php endif; ?>
 
         <?php if (isset($_SESSION['mensagem_erro'])): ?>
-            <div class="alerta alerta-erro">
-                ❌ <?= $_SESSION['mensagem_erro'] ?>
-            </div>
+            <div class="alert alert-error">
+    <?= $_SESSION['mensagem_erro'] ?>
+</div>
             <?php unset($_SESSION['mensagem_erro']); ?>
         <?php endif; ?>
 

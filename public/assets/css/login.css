@@ -252,37 +252,6 @@ body {
 }
 
 /* ==========================================
-   ALERTAS
-========================================== */
-
-.alerta-erro,
-.alerta-sucesso {
-  padding: 12px 16px;
-  margin-bottom: 16px;
-
-  border-radius: 2px;
-
-  font-size: 13px;
-}
-
-.alerta-erro {
-  background: #3a1a1a;
-  border: 1px solid #a03030;
-  color: #f09090;
-}
-
-.alerta-sucesso {
-  background: #1a3a1a;
-  border: 1px solid #307a30;
-  color: #90d090;
-}
-
-.alerta-sucesso a {
-  color: #90d090;
-  font-weight: bold;
-}
-
-/* ==========================================
    LINK ESQUECI SENHA
 ========================================== */
 

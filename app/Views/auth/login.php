@@ -7,195 +7,189 @@
 
     <title>Login</title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon"
-          href="assets/icons/empreiteira.png"
-          type="image/x-icon">
-
-    <!-- Variaveis Globais -->
-    <link rel="stylesheet"
-          href="assets/css/variables.css">
-
-    <!-- CSS -->
-    <link rel="stylesheet"
-          href="assets/css/login.css">
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/forms.css">
+    <link rel="stylesheet" href="assets/css/alerts.css">
+    <link rel="stylesheet" href="assets/css/login.css">
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <!-- LEFT -->
-    <div class="left">
+        <!-- LEFT -->
+        <div class="left">
 
-        <div class="conteudo">
+            <div class="conteudo">
 
-            <span class="tag">
-                • CONSTRUINDO DESDE 2000 •
-            </span>
+                <span class="tag">
+                    • CONSTRUINDO DESDE 2000 •
+                </span>
 
-            <h1>
-                OBRAS QUE
-                <br>
-                RESISTEM AO
-                <br>
-                <span>TEMPO.</span>
-            </h1>
+                <h1>
+                    OBRAS QUE
+                    <br>
+                    RESISTEM AO
+                    <br>
+                    <span>TEMPO.</span>
+                </h1>
 
-            <p>
-                Materiais de alta performance para projetos
-                que exigem precisão, durabilidade e confiança.
-            </p>
-
-        </div>
-
-    </div>
-
-    <!-- RIGHT -->
-    <div class="right">
-
-        <div class="login-box">
-
-            <!-- LOGO -->
-            <div class="logo">
-
-                <img src="assets/img/logo.png"
-                     alt="Logo">
+                <p>
+                    Materiais de alta performance para projetos
+                    que exigem precisão, durabilidade e confiança.
+                </p>
 
             </div>
 
-            <!-- TITLE -->
-            <h2>
+        </div>
 
-                ACESSE SUA
-                <br>
+        <!-- RIGHT -->
+        <div class="right">
 
-                <span>
-                    ÁREA EXCLUSIVA
-                </span>
+            <div class="login-box">
 
-            </h2>
+                <!-- LOGO -->
+                <div class="logo">
 
-            <p class="p_login">
-                Acompanhe obras, contratos e documentações.
-            </p>
+                    <img src="assets/img/logo.png"
+                        alt="Logo">
 
-            <!-- ALERTA ERRO -->
-            <?php if (!empty($_GET['erro'])): ?>
+                </div>
 
-                <div class="alerta-erro">
+                <!-- TITLE -->
+                <h2>
 
-                    <?php
+                    ACESSE SUA
+                    <br>
 
-                    $erros = [
+                    <span>
+                        ÁREA EXCLUSIVA
+                    </span>
 
-                        'credenciais' =>
+                </h2>
+
+                <p class="p_login">
+                    Acompanhe obras, contratos e documentações.
+                </p>
+
+                <!-- ALERTA ERRO -->
+                <?php if (!empty($_GET['erro'])): ?>
+
+                    <div class="alert alert-error">
+
+                        <?php
+
+                        $erros = [
+
+                            'credenciais' =>
                             'E-mail ou senha incorretos.',
 
-                        'campos' =>
+                            'campos' =>
                             'Preencha todos os campos.',
 
-                        'bloqueado' =>
+                            'bloqueado' =>
                             'Muitas tentativas. Tente novamente em ' . (int)($_GET['min'] ?? 15) . ' minuto(s).'
 
-                    ];
+                        ];
 
-                    echo htmlspecialchars(
-                        $erros[$_GET['erro']]
-                        ?? 'Erro ao fazer login.'
-                    );
+                        echo htmlspecialchars(
+                            $erros[$_GET['erro']]
+                                ?? 'Erro ao fazer login.'
+                        );
 
-                    ?>
+                        ?>
 
-                </div>
+                    </div>
 
-            <?php endif; ?>
+                <?php endif; ?>
 
 
-            <!-- ALERTA SUCESSO -->
-            <?php if (!empty($_GET['sucesso'])): ?>
+                <!-- ALERTA SUCESSO -->
+                <?php if (!empty($_GET['sucesso'])): ?>
 
-                <div class="alerta-sucesso">
+                    <div class="alert alert-success">
 
-                    <?php
+                        <?php
 
-                    $sucessos = [
+                        $sucessos = [
 
-                        'senha' =>
+                            'senha' =>
                             'Senha alterada com sucesso!'
 
-                    ];
+                        ];
 
-                    echo htmlspecialchars(
-                        $sucessos[$_GET['sucesso']]
-                        ?? 'Operação realizada com sucesso.'
-                    );
+                        echo htmlspecialchars(
+                            $sucessos[$_GET['sucesso']]
+                                ?? 'Operação realizada com sucesso.'
+                        );
 
-                    ?>
+                        ?>
 
-                </div>
+                    </div>
 
-            <?php endif; ?>
+                <?php endif; ?>
 
 
-            <!-- FORM -->
-            <form action="/ideal/public/index.php?url=logar"
-                  method="POST"
-                  id="loginForm">
+                <!-- FORM -->
+                <form action="/ideal/public/index.php?url=logar"
+                    method="POST"
+                    id="loginForm">
 
-                <!-- EMAIL -->
-                <label>E-MAIL</label>
+                    <!-- EMAIL -->
+                    <label>E-MAIL</label>
 
-                <input type="email"
-                       name="email"
-                       placeholder="seu@email.com"
-                       value="<?= htmlspecialchars($_GET['email'] ?? '') ?>"
-                       required>
+                    <input type="email"
+                        name="email"
+                        placeholder="seu@email.com"
+                        value="<?= htmlspecialchars($_GET['email'] ?? '') ?>"
+                        required>
 
-                <!-- SENHA -->
-                <label>SENHA</label>
+                    <!-- SENHA -->
+                    <label>SENHA</label>
 
-                <input type="password"
-                       name="senha"
-                       required>
+                    <input type="password"
+                        name="senha"
+                        required>
 
-                <!-- OPCOES -->
-                <div class="opcoes-login">
+                    <!-- OPCOES -->
+                    <div class="opcoes-login">
 
-                    <label class="manter-conectado">
+                        <label class="manter-conectado">
 
-                        <input type="checkbox"
-                               name="manter_conectado"
-                               value="1">
+                            <input type="checkbox"
+                                name="manter_conectado"
+                                value="1">
 
-                        Manter conectado
+                            Manter conectado
 
-                    </label>
+                        </label>
 
-                    <a href="/ideal/public/index.php?url=esqueci-senha"
-                       class="forgot-password">
+                        <a href="/ideal/public/index.php?url=esqueci-senha"
+                            class="forgot-password">
 
-                        Esqueceu a senha?
+                            Esqueceu a senha?
 
-                    </a>
+                        </a>
 
-                </div>
+                    </div>
 
-                <!-- BUTTON -->
-                <button type="submit">
+                    <!-- BUTTON -->
+                    <button type="submit">
 
-                    ENTRAR NO PORTAL
+                        ENTRAR NO PORTAL
 
-                </button>
+                    </button>
 
-            </form>
+                </form>
+
+            </div>
 
         </div>
 
     </div>
-
-</div>
 
 </body>
 
