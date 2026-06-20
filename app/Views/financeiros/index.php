@@ -42,378 +42,413 @@ $actionAutomovel = $isEditAutomovel
 
 
 
-<link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+
 <link rel="stylesheet" href="/ideal/public/assets/css/financeiro.css?v=<?= time() ?>">
 
 
 </head>
 
 <body>
-<div class="dashboard-container">
+    <div class="dashboard-container">
 
-    <?php include __DIR__ . '/../includes/sidebar.php'; ?>
+        <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
-    <main class="main-content">
+        <main class="main-content">
 
-        <!-- TÍTULO -->
-        <div class="fin-header">
-            <div>
-                <h1><i class="fa-solid fa-dollar-sign"></i> Financeiro</h1>
-                <p>Gerencie as informações financeiras de funcionários, obras e automóveis.</p>
+            <!-- TÍTULO -->
+            <div class="fin-header">
+                <div>
+                    <h1><i class="fa-solid fa-dollar-sign"></i> Financeiro</h1>
+                    <p>Gerencie as informações financeiras de funcionários, obras e automóveis.</p>
+                </div>
             </div>
-        </div>
 
-        <!-- ALERTAS DE SESSÃO -->
-        <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-            <div class="alert alert-success">
-    <?= $_SESSION['mensagem_sucesso'] ?>
-</div>
-            <?php unset($_SESSION['mensagem_sucesso']); ?>
-        <?php endif; ?>
+            <!-- ALERTAS DE SESSÃO -->
+            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                <div class="alert alert-success">
+                    <?= $_SESSION['mensagem_sucesso'] ?>
+                </div>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <?php endif; ?>
 
-        <?php if (isset($_SESSION['mensagem_erro'])): ?>
-            <div class="alert alert-error">
-    <?= $_SESSION['mensagem_erro'] ?>
-</div>
-            <?php unset($_SESSION['mensagem_erro']); ?>
-        <?php endif; ?>
+            <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                <div class="alert alert-error">
+                    <?= $_SESSION['mensagem_erro'] ?>
+                </div>
+                <?php unset($_SESSION['mensagem_erro']); ?>
+            <?php endif; ?>
 
-        <!-- ABAS -->
-        <div class="abas-container">
-            <a href="?url=financeiros&aba=funcionario"
-               class="aba <?= $aba === 'funcionario' ? 'ativa' : '' ?>">
-                <i class="fa-solid fa-user-tie"></i>
-                Funcionário
-            </a>
-            <a href="?url=financeiros&aba=obra"
-               class="aba <?= $aba === 'obra' ? 'ativa' : '' ?>">
-                <i class="fa-solid fa-hard-hat"></i>
-                Obra
-            </a>
-            <a href="?url=financeiros&aba=automovel"
-               class="aba <?= $aba === 'automovel' ? 'ativa' : '' ?>">
-                <i class="fa-solid fa-car"></i>
-                Automóvel
-            </a>
-        </div>
+            <!-- ABAS -->
+            <div class="abas-container">
+                <a href="?url=financeiros&aba=funcionario"
+                    class="aba <?= $aba === 'funcionario' ? 'ativa' : '' ?>">
+                    <i class="fa-solid fa-user-tie"></i>
+                    Funcionário
+                </a>
+                <a href="?url=financeiros&aba=obra"
+                    class="aba <?= $aba === 'obra' ? 'ativa' : '' ?>">
+                    <i class="fa-solid fa-hard-hat"></i>
+                    Obra
+                </a>
+                <a href="?url=financeiros&aba=automovel"
+                    class="aba <?= $aba === 'automovel' ? 'ativa' : '' ?>">
+                    <i class="fa-solid fa-car"></i>
+                    Automóvel
+                </a>
+            </div>
 
-        <!-- ============================================================
+            <!-- ============================================================
              ABA: FINANCEIRO FUNCIONÁRIO
         ============================================================ -->
-        <?php if ($aba === 'funcionario'): ?>
+            <?php if ($aba === 'funcionario'): ?>
 
-        <section class="card">
+                <section class="card">
 
-            <div class="card-titulo">
-                <i class="fa-solid fa-user-tie icone-aba"></i>
-                <div>
-                    <h2>Financeiro do Funcionário</h2>
-                    <p>Cadastre salário, férias, INSS e 13º salário.</p>
+                    <div class="card-titulo">
+                        <i class="fa-solid fa-user-tie icone-aba"></i>
+                        <div>
+                            <h2>Financeiro do Funcionário</h2>
+                            <p>Cadastre salário, férias, INSS e 13º salário.</p>
+                        </div>
+                    </div>
+
+                    <form id="form-funcionario" action="<?= $actionFuncionario ?>" method="POST">
+
+                        <div class="grid-form">
+
+                            <!-- ID FUNCIONÁRIO -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-id-card"></i> ID do Funcionário</label>
+                                <input type="number" name="idFuncionario"
+                                    value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getIdFuncionario() : '') ?>"
+                                    placeholder="Ex: 1" required min="1">
+                            </div>
+
+                            <!-- SALÁRIO -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-money-bill-wave"></i> Salário <span class="obrigatorio">*</span></label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="salario" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getSalario() : '') ?>"
+                                        placeholder="0,00" required>
+                                </div>
+                            </div>
+
+                            <!-- FÉRIAS -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-umbrella-beach"></i> Férias <span class="obrigatorio">*</span></label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="ferias" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getFerias() : '') ?>"
+                                        placeholder="0,00" required>
+                                </div>
+                            </div>
+
+                            <!-- INSS -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-shield-halved"></i> INSS <span class="obrigatorio">*</span></label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="inss" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getInss() : '') ?>"
+                                        placeholder="0,00" required>
+                                </div>
+                            </div>
+
+                            <!-- 13º SALÁRIO -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-gift"></i> 13º Salário</label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="decimoTerceiro" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getDecimoTerceiro() : '') ?>"
+                                        placeholder="0,00">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </section>
+
+                <div class="acoes">
+                    <a href="/ideal/public/index.php?url=financeiros&aba=funcionario"
+                        class="btn novo">
+                        <i class="bi bi-plus-lg"></i> Cadastrar</a>
+                    <?php if (!$isEditFuncionario): ?>
+                        <button type="submit" form="form-funcionario" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
+                    <?php else: ?>
+                        <button type="submit" form="form-funcionario" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
+                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>"
+                            class="btn excluir"
+                            onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                        <?php endif; ?>
+                        <button type="reset" form="form-funcionario" class="btn limpar"><i class="bi bi-eraser"></i>Limpar</button>
                 </div>
-            </div>
 
-            <form id="form-funcionario" action="<?= $actionFuncionario ?>" method="POST">
-
-                <div class="grid-form">
-
-                    <!-- ID FUNCIONÁRIO -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-id-card"></i> ID do Funcionário</label>
-                        <input type="number" name="idFuncionario"
-                               value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getIdFuncionario() : '') ?>"
-                               placeholder="Ex: 1" required min="1">
-                    </div>
-
-                    <!-- SALÁRIO -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-money-bill-wave"></i> Salário <span class="obrigatorio">*</span></label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="salario" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getSalario() : '') ?>"
-                                   placeholder="0,00" required>
-                        </div>
-                    </div>
-
-                    <!-- FÉRIAS -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-umbrella-beach"></i> Férias <span class="obrigatorio">*</span></label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="ferias" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getFerias() : '') ?>"
-                                   placeholder="0,00" required>
-                        </div>
-                    </div>
-
-                    <!-- INSS -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-shield-halved"></i> INSS <span class="obrigatorio">*</span></label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="inss" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getInss() : '') ?>"
-                                   placeholder="0,00" required>
-                        </div>
-                    </div>
-
-                    <!-- 13º SALÁRIO -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-gift"></i> 13º Salário</label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="decimoTerceiro" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditFuncionario ? $financeiroFuncionario->getDecimoTerceiro() : '') ?>"
-                                   placeholder="0,00">
-                        </div>
-                    </div>
-
-                </div>
-
-            </form>
-        </section>
-
-        <div class="acao">
-            <a href="/ideal/public/index.php?url=financeiros&aba=funcionario" class="btn novo"
-               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;">
-               <i class="bi bi-plus-lg"></i> Cadastrar</a>
-            <?php if (!$isEditFuncionario): ?>
-                <button type="submit" form="form-funcionario" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
-            <?php else: ?>
-                <button type="submit" form="form-funcionario" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
-                <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>"
-                   class="btn excluir"
-                   style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
-                   onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
-            <?php endif; ?>
-            <button type="reset" form="form-funcionario" class="btn limpar"><i class="bi bi-eraser"></i>Limpar</button>
-        </div>
-
-        <!-- ============================================================
+                <!-- ============================================================
              ABA: FINANCEIRO OBRA
         ============================================================ -->
-        <?php elseif ($aba === 'obra'): ?>
+            <?php elseif ($aba === 'obra'): ?>
 
-        <section class="card">
+                <section class="card">
 
-            <div class="card-titulo">
-                <i class="fa-solid fa-hard-hat icone-aba"></i>
-                <div>
-                    <h2>Financeiro da Obra</h2>
-                    <p>Registre gastos, categorias e pagamentos vinculados a obras.</p>
-                </div>
-            </div>
-
-            <form id="form-obra" action="<?= $actionObra ?>" method="POST">
-
-                <div class="grid-form">
-
-                    <!-- ID OBRA -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-building"></i> ID da Obra</label>
-                        <input type="number" name="idObra"
-                               value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getIdObra() : '') ?>"
-                               placeholder="Ex: 1" required min="1">
-                    </div>
-
-                    <!-- DESCRIÇÃO -->
-                    <div class="form-group span-2">
-                        <label><i class="fa-solid fa-file-lines"></i> Descrição <span class="obrigatorio">*</span></label>
-                        <input type="text" name="descricao" maxlength="100"
-                               value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDescricao() : '') ?>"
-                               placeholder="Descreva o gasto" required>
-                    </div>
-
-                    <!-- CATEGORIA -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-tags"></i> Categoria</label>
-                        <select name="categoria">
-                            <option value="">Selecione</option>
-                            <?php
-                            $categorias = ['Material', 'Mão de Obra', 'Equipamento', 'Transporte', 'Serviço Terceirizado', 'Outros'];
-                            $catAtual = $isEditObra ? $financeiroObra->getCategoria() : '';
-                            foreach ($categorias as $c): ?>
-                                <option value="<?= $c ?>" <?= $catAtual === $c ? 'selected' : '' ?>><?= $c ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <!-- VALOR -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-money-bill-wave"></i> Valor <span class="obrigatorio">*</span></label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="valor" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getValor() : '') ?>"
-                                   placeholder="0,00" required>
+                    <div class="card-titulo">
+                        <i class="fa-solid fa-hard-hat icone-aba"></i>
+                        <div>
+                            <h2>Financeiro da Obra</h2>
+                            <p>Registre gastos, categorias e pagamentos vinculados a obras.</p>
                         </div>
                     </div>
 
-                    <!-- DATA DO GASTO -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-calendar-day"></i> Data do Gasto <span class="obrigatorio">*</span></label>
-                        <input type="date" name="dataGasto"
-                               value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDataGasto() : '') ?>"
-                               required>
-                    </div>
+                    <form id="form-obra" action="<?= $actionObra ?>" method="POST">
 
-                    <!-- FORMA DE PAGAMENTO -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</label>
-                        <select name="formaPagamento">
-                            <option value="">Selecione</option>
-                            <?php
-                            $formas = ['Dinheiro', 'PIX', 'Cartão de Débito', 'Cartão de Crédito', 'Boleto', 'Transferência'];
-                            $formaAtual = $isEditObra ? $financeiroObra->getFormaPagamento() : '';
-                            foreach ($formas as $f): ?>
-                                <option value="<?= $f ?>" <?= $formaAtual === $f ? 'selected' : '' ?>><?= $f ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                        <div class="grid-form">
 
-                    <!-- OBSERVAÇÃO -->
-                    <div class="form-group span-3">
-                        <label><i class="fa-solid fa-note-sticky"></i> Observação</label>
-                        <textarea name="observacao" maxlength="200"
-                                  placeholder="Informações adicionais sobre o gasto..."><?= htmlspecialchars($isEditObra ? $financeiroObra->getObservacao() : '') ?></textarea>
-                    </div>
+                            <!-- ID OBRA -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-building"></i> ID da Obra</label>
+                                <input type="number" name="idObra"
+                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getIdObra() : '') ?>"
+                                    placeholder="Ex: 1" required min="1">
+                            </div>
 
+                            <!-- DESCRIÇÃO -->
+                            <div class="form-group span-2">
+                                <label><i class="fa-solid fa-file-lines"></i> Descrição <span class="obrigatorio">*</span></label>
+                                <input type="text" name="descricao" maxlength="100"
+                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDescricao() : '') ?>"
+                                    placeholder="Descreva o gasto" required>
+                            </div>
+
+                            <!-- CATEGORIA -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-tags"></i> Categoria</label>
+                                <select name="categoria">
+                                    <option value="">Selecione</option>
+                                    <?php
+                                    $categorias = ['Material', 'Mão de Obra', 'Equipamento', 'Transporte', 'Serviço Terceirizado', 'Outros'];
+                                    $catAtual = $isEditObra ? $financeiroObra->getCategoria() : '';
+                                    foreach ($categorias as $c): ?>
+                                        <option value="<?= $c ?>" <?= $catAtual === $c ? 'selected' : '' ?>><?= $c ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- VALOR -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-money-bill-wave"></i> Valor <span class="obrigatorio">*</span></label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="valor" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getValor() : '') ?>"
+                                        placeholder="0,00" required>
+                                </div>
+                            </div>
+
+                            <!-- DATA DO GASTO -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-calendar-day"></i> Data do Gasto <span class="obrigatorio">*</span></label>
+                                <input type="date" name="dataGasto"
+                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDataGasto() : '') ?>"
+                                    required>
+                            </div>
+
+                            <!-- FORMA DE PAGAMENTO -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</label>
+                                <select name="formaPagamento">
+                                    <option value="">Selecione</option>
+                                    <?php
+                                    $formas = ['Dinheiro', 'PIX', 'Cartão de Débito', 'Cartão de Crédito', 'Boleto', 'Transferência'];
+                                    $formaAtual = $isEditObra ? $financeiroObra->getFormaPagamento() : '';
+                                    foreach ($formas as $f): ?>
+                                        <option value="<?= $f ?>" <?= $formaAtual === $f ? 'selected' : '' ?>><?= $f ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- OBSERVAÇÃO -->
+                            <div class="form-group span-3">
+                                <label><i class="fa-solid fa-note-sticky"></i> Observação</label>
+                                <textarea name="observacao" maxlength="200"
+                                    placeholder="Informações adicionais sobre o gasto..."><?= htmlspecialchars($isEditObra ? $financeiroObra->getObservacao() : '') ?></textarea>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </section>
+
+                <div class="acoes">
+                    <a href="/ideal/public/index.php?url=financeiros&aba=funcionario"
+                        class="btn novo"> <i class="bi bi-plus-lg"></i>Cadastrar</a>
+                    <?php if (!$isEditObra): ?>
+                        <button type="submit" form="form-obra" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
+                    <?php else: ?>
+                        <button type="submit" form="form-obra" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
+                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>"
+                            class="btn excluir"
+                            onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                        <?php endif; ?>
+                        <button type="reset" form="form-funcionario" class="btn limpar">
+                            <i class="bi bi-eraser"></i>
+                            Limpar
+                        </button>
                 </div>
 
-            </form>
-        </section>
-
-        <div class="acao">
-            <a href="/ideal/public/index.php?url=financeiros&aba=obra" class="btn novo"
-               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"> <i class="bi bi-plus-lg"></i>Cadastrar</a>
-            <?php if (!$isEditObra): ?>
-                <button type="submit" form="form-obra" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
-            <?php else: ?>
-                <button type="submit" form="form-obra" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
-                <a href="/ideal/public/index.php?url=financeiros/deleteObra&id=<?= $financeiroObra->getIdFinanceiroObra() ?>"
-                   class="btn excluir"
-                   style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
-                   onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
-            <?php endif; ?>
-            <button type="reset" form="form-obra" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
-        </div>
-
-        <!-- ============================================================
+                <!-- ============================================================
              ABA: FINANCEIRO AUTOMÓVEL
         ============================================================ -->
-        <?php elseif ($aba === 'automovel'): ?>
+            <?php elseif ($aba === 'automovel'): ?>
 
-        <section class="card">
+                <section class="card">
 
-            <div class="card-titulo">
-                <i class="fa-solid fa-car icone-aba"></i>
-                <div>
-                    <h2>Financeiro do Automóvel</h2>
-                    <p>Registre gastos com combustível, manutenção e IPVA.</p>
+                    <div class="card-titulo">
+                        <i class="fa-solid fa-car icone-aba"></i>
+                        <div>
+                            <h2>Financeiro do Automóvel</h2>
+                            <p>Registre gastos com combustível, manutenção e IPVA.</p>
+                        </div>
+                    </div>
+
+                    <form id="form-automovel" action="<?= $actionAutomovel ?>" method="POST">
+
+                        <div class="grid-form">
+
+                            <!-- ID VEÍCULO -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-car-side"></i> ID do Veículo</label>
+                                <input type="number" name="idVeiculo"
+                                    value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIdVeiculo() : '') ?>"
+                                    placeholder="Ex: 1" required min="1">
+                            </div>
+
+                            <!-- COMBUSTÍVEL -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-gas-pump"></i> Combustível</label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="combustivel" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getCombustivel() : '') ?>"
+                                        placeholder="0,00">
+                                </div>
+                            </div>
+
+                            <!-- MANUTENÇÃO -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-screwdriver-wrench"></i> Manutenção</label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="manutencao" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getManutencao() : '') ?>"
+                                        placeholder="0,00">
+                                </div>
+                            </div>
+
+                            <!-- IPVA -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-file-invoice-dollar"></i> IPVA</label>
+                                <div class="input-prefixo">
+                                    <span class="prefixo">R$</span>
+                                    <input type="number" name="ipva" step="0.01" min="0"
+                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIpva() : '') ?>"
+                                        placeholder="0,00">
+                                </div>
+                            </div>
+
+                            <!-- CARD RESUMO TOTAL -->
+                            <div class="form-group span-3">
+                                <div class="resumo-total">
+                                    <i class="fa-solid fa-calculator"></i>
+                                    <span>Total estimado: </span>
+                                    <strong id="total-automovel">R$ 0,00</strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </section>
+
+                <div class="acoes">
+
+                    <a href="/ideal/public/index.php?url=financeiros&aba=automovel"
+                        class="btn novo">
+                        <i class="bi bi-plus-lg"></i>
+                        Cadastrar
+                    </a>
+
+                    <?php if (!$isEditAutomovel): ?>
+
+                        <button type="submit"
+                            form="form-automovel"
+                            class="btn salvar">
+                            <i class="bi bi-floppy"></i>
+                            Salvar
+                        </button>
+
+                    <?php else: ?>
+
+                        <button type="submit"
+                            form="form-automovel"
+                            class="btn alterar">
+                            <i class="bi bi-pencil-square"></i>
+                            Alterar
+                        </button>
+
+                        <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
+                            class="btn excluir"
+                            onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                            <i class="bi bi-trash"></i>
+                            Excluir
+                        </a>
+
+                    <?php endif; ?>
+
+                    <button type="reset"
+                        form="form-automovel"
+                        class="btn limpar">
+                        <i class="bi bi-eraser"></i>
+                        Limpar
+                    </button>
+
                 </div>
-            </div>
 
-            <form id="form-automovel" action="<?= $actionAutomovel ?>" method="POST">
-
-                <div class="grid-form">
-
-                    <!-- ID VEÍCULO -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-car-side"></i> ID do Veículo</label>
-                        <input type="number" name="idVeiculo"
-                               value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIdVeiculo() : '') ?>"
-                               placeholder="Ex: 1" required min="1">
-                    </div>
-
-                    <!-- COMBUSTÍVEL -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-gas-pump"></i> Combustível</label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="combustivel" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getCombustivel() : '') ?>"
-                                   placeholder="0,00">
-                        </div>
-                    </div>
-
-                    <!-- MANUTENÇÃO -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-screwdriver-wrench"></i> Manutenção</label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="manutencao" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getManutencao() : '') ?>"
-                                   placeholder="0,00">
-                        </div>
-                    </div>
-
-                    <!-- IPVA -->
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-file-invoice-dollar"></i> IPVA</label>
-                        <div class="input-prefixo">
-                            <span class="prefixo">R$</span>
-                            <input type="number" name="ipva" step="0.01" min="0"
-                                   value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIpva() : '') ?>"
-                                   placeholder="0,00">
-                        </div>
-                    </div>
-
-                    <!-- CARD RESUMO TOTAL -->
-                    <div class="form-group span-3">
-                        <div class="resumo-total">
-                            <i class="fa-solid fa-calculator"></i>
-                            <span>Total estimado: </span>
-                            <strong id="total-automovel">R$ 0,00</strong>
-                        </div>
-                    </div>
-
-                </div>
-
-            </form>
-        </section>
-
-        <div class="acoes">
-            <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo"
-               style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"><i class="bi bi-plus-lg"></i> Cadastrar</a>
-            <?php if (!$isEditAutomovel): ?>
-                <button type="submit" form="form-automovel" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
-            <?php else: ?>
-                <button type="submit" form="form-automovel" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
-                <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
-                   class="btn excluir"
-                   style="text-decoration:none; text-align:center; display:inline-block; line-height:40px;"
-                   onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
             <?php endif; ?>
-            <button type="reset" form="form-automovel" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
-        </div>
 
-        <?php endif; ?>
+        </main>
+    </div>
 
-    </main>
-</div>
+    <script>
+        // Calcula total em tempo real na aba automóvel
+        function calcularTotalAutomovel() {
+            const campos = ['combustivel', 'manutencao', 'ipva'];
+            let total = 0;
+            campos.forEach(campo => {
+                const el = document.querySelector(`[name="${campo}"]`);
+                if (el) total += parseFloat(el.value) || 0;
+            });
+            const el = document.getElementById('total-automovel');
+            if (el) el.textContent = 'R$ ' + total.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
 
-<script>
-    // Calcula total em tempo real na aba automóvel
-    function calcularTotalAutomovel() {
-        const campos = ['combustivel', 'manutencao', 'ipva'];
-        let total = 0;
-        campos.forEach(campo => {
-            const el = document.querySelector(`[name="${campo}"]`);
-            if (el) total += parseFloat(el.value) || 0;
-        });
-        const el = document.getElementById('total-automovel');
-        if (el) el.textContent = 'R$ ' + total.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
+        document.querySelectorAll('[name="combustivel"], [name="manutencao"], [name="ipva"]')
+            .forEach(el => el.addEventListener('input', calcularTotalAutomovel));
 
-    document.querySelectorAll('[name="combustivel"], [name="manutencao"], [name="ipva"]')
-        .forEach(el => el.addEventListener('input', calcularTotalAutomovel));
-
-    calcularTotalAutomovel();
-</script>
+        calcularTotalAutomovel();
+    </script>
 
 </body>
+
 </html>

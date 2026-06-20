@@ -78,14 +78,14 @@ $estados = [
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/components.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 
 <link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css?v=<?= time() ?>">
 </head>
@@ -99,36 +99,62 @@ require_once __DIR__ . '/../includes/header.php';
 
             <section class="card">
                 <div class="grid-busca">
-                    <div class="busca-box">
-                        <h2>
-                            <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
-                            BUSCAR FUNCIONÁRIO
-                        </h2>
+                    <div class="busca-container">
 
-                        <?php if (!empty($mensagem)): ?>
-                            <div class="alert alert-warning">
-                                <?= $mensagem ?>
-                            </div>
-                        <?php endif; ?>
+    <div class="busca-box">
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=funcionarios" method="POST">
-                            <div class="input-group">
-                                <label>CPF</label>
-                                <input type="text" name="cpf" oninput="mascaraCPF(this)" placeholder="000.000.000-00"
-                                    required maxlength="14">
-                            </div>
-                            <button type="submit" class="btn-buscar"><i class="bi bi-search"></i> BUSCAR</button>
-                        </form>
-                    </div>
+        <h2>
+            <i class="fa-solid fa-users"></i>
+            BUSCAR FUNCIONÁRIO
+        </h2>
 
-                    <div class="dica-box">
-                        <h3>
-                            <i class="fa-solid fa-circle-info"></i>
-                            DICA
-                        </h3>
-                        <p>Digite o CPF do funcionário e clique em <strong>BUSCAR</strong>. Se não existir, você poderá
-                            cadastrar um novo funcionário.</p>
-                    </div>
+        <?php if (!empty($mensagem)): ?>
+            <div class="alert alert-warning">
+                <?= $mensagem ?>
+            </div>
+        <?php endif; ?>
+
+        <form class="form-busca"
+            action="/ideal/public/index.php?url=funcionarios"
+            method="POST">
+
+            <div class="input-group">
+                <label>CPF</label>
+
+                <input
+                    type="text"
+                    name="cpf"
+                    placeholder="000.000.000-00"
+                    maxlength="14"
+                    oninput="mascaraCPF(this)"
+                    required>
+            </div>
+
+            <button type="submit" class="btn-buscar">
+                <i class="bi bi-search"></i>
+                BUSCAR
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="dica-box">
+
+        <h3>
+            <i class="fa-solid fa-circle-info"></i>
+            DICA
+        </h3>
+
+        <p>
+            Digite o CPF do funcionário e clique em
+            <strong>BUSCAR</strong>.
+            Se não existir, você poderá cadastrar um novo funcionário.
+        </p>
+
+    </div>
+
+</div>
                 </div>
             </section>
             <!-- SEGUNDO FORM -->
@@ -345,23 +371,38 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
             <div class="acoes">
-                <a href="/ideal/public/index.php?url=funcionarios" class="btn novo"
-                    style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">
-                    <i class="bi bi-plus-lg"></i> Cadastrar</a>
+                <a href="/ideal/public/index.php?url=funcionarios"
+                    class="btn novo">
+                    <i class="bi bi-plus-lg"></i>
+                    Cadastrar
+                </a>
 
                 <?php if (!$isEdit): ?>
-                    <button type="submit" form="form-dados" class="btn salvar"> <i class="bi bi-floppy"></i> Salvar</button>
+
+                    <button type="submit" form="form-dados" class="btn salvar">
+                        <i class="bi bi-floppy"></i>
+                        Salvar
+                    </button>
                 <?php else: ?>
-                    <button type="submit" form="form-dados" class="btn alterar"><i class="bi bi-pencil-square"></i>
-                        Alterar</button>
+
+                    <button type="submit" form="form-dados" class="btn alterar">
+                        <i class="bi bi-pencil-square"></i>
+                        Alterar
+                    </button>
+
                     <a href="/ideal/public/index.php?url=funcionarios/delete&id=<?= $funcionario->getIdFuncionario() ?>"
                         class="btn excluir"
-                        style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;"
-                        onclick="return confirm('Tem certeza que deseja excluir este funcionário?')"><i
-                            class="bi bi-trash"></i> Excluir</a>
+                        onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">
+                        <i class="bi bi-trash"></i>
+                        Excluir
+                    </a>
+
                 <?php endif; ?>
 
-                <button type="reset" form="form-dados" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
+                <button type="reset" form="form-dados" class="btn limpar">
+                    <i class="bi bi-eraser"></i>
+                    Limpar
+                </button>
             </div>
 
         </main>

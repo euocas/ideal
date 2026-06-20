@@ -1,33 +1,4 @@
 /* ==========================================
-   RESET
-========================================== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: var(--bg);
-  font-family: Arial, sans-serif;
-}
-
-/* ==========================================
-   LAYOUT
-========================================== */
-
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  padding: 25px;
-}
-
-/* ==========================================
    CABEÇALHO
 ========================================== */
 
@@ -37,23 +8,6 @@ body {
   color: var(--text);
 }
 
-/* ==========================================
-   CARD
-========================================== */
-
-.card {
-  background: var(--surface);
-  border-radius: var(--radius-md);
-  padding: 25px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow-sm);
-}
-
-.card h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: var(--text);
-}
 
 /* ==========================================
    ÁREA DE BUSCA
@@ -84,37 +38,7 @@ body {
   align-items: flex-end;
 }
 
-/* ==========================================
-   INPUT GROUP
-========================================== */
 
-.input-group {
-  flex: 1;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.input-group input {
-  width: 100%;
-  height: 46px;
-  padding: 0 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  outline: none;
-  transition: 0.2s;
-}
-
-.input-group input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-}
 
 /* ==========================================
    BOTÃO BUSCAR
@@ -208,52 +132,7 @@ body {
   width: 100%;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
 
-.form-group label {
-  margin-bottom: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-/* Campos */
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--text);
-  font-size: 15px;
-  outline: none;
-  transition: 0.2s;
-}
-
-.form-group input,
-.form-group select {
-  height: 46px;
-  padding: 0 14px;
-}
-
-.form-group textarea {
-  min-height: 120px;
-  padding: 14px;
-  resize: none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-}
 
 /* ==========================================
    SUBTÍTULOS
@@ -279,62 +158,7 @@ body {
   grid-column: span 2;
 }
 
-/* ==========================================
-   AÇÕES
-========================================== */
 
-.acoes {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-/* ==========================================
-   BOTÕES
-========================================== */
-
-.btn {
-  min-width: 150px;
-  min-height: 60px;
-  padding: 12px 22px;
-
-  border: none;
-  border-radius: var(--radius-sm);
-
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-.novo {
-  background: var(--btn-primary);
-}
-
-.salvar {
-  background: var(--btn-success);
-}
-
-.alterar {
-  background: var(--btn-warning);
-}
-
-.excluir {
-  background: var(--btn-danger);
-}
-
-.limpar {
-  background: var(--btn-secondary);
-  color: var(--text);
-}
 
 /* ==========================================
    RESPONSIVO

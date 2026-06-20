@@ -9,10 +9,16 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 
-<link rel="shortcut icon" href="/ideal/public/assets/icons/obra2.png" type="image/x-icon">
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/obras.css?v=<?= time() ?>">
+<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+
+<link rel="stylesheet" href="/ideal/public/assets/css/financeiro.css?v=<?= time() ?>">
 </head>
 
 <body>

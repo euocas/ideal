@@ -13,19 +13,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* ==========================================
-   LAYOUT
-========================================== */
-
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  padding: 25px;
-}
 
 /* ==========================================
    CARD
@@ -174,57 +161,6 @@ body {
   background: var(--btn-dark-hover);
 }
 
-/* ==========================================
-   DICA
-========================================== */
-
-.dica-box {
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  height: 100%;
-  padding: 20px 22px 20px 30px;
-
-  overflow: hidden;
-
-  background: var(--surface-alt);
-  border: 1px solid var(--primary-light);
-  border-radius: var(--radius-md);
-}
-
-.dica-box::before {
-  content: "";
-
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-
-  width: 10px;
-
-  background: var(--primary);
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
-}
-
-.dica-box h3 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  margin-bottom: 12px;
-
-  color: var(--primary);
-  font-size: 17px;
-}
-
-.dica-box p {
-  color: var(--text-muted);
-  font-size: 16px;
-  line-height: 1.5;
-}
 
 /* ==========================================
    FORMULÁRIO

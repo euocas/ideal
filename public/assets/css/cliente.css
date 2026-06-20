@@ -57,49 +57,6 @@
 }
 
 /* ==========================================
-   DICA
-========================================== */
-
-.dica-box {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  padding: 20px 22px 20px 30px;
-  overflow: hidden;
-  background: var(--surface-alt);
-  border: 1px solid var(--primary-light);
-  border-radius: var(--radius-md);
-}
-
-.dica-box::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 10px;
-  background: var(--primary);
-  border-radius: 12px 0 0 12px;
-}
-
-.dica-box h3 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  color: var(--primary);
-  font-size: 17px;
-}
-
-.dica-box p {
-  color: var(--text-muted);
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-/* ==========================================
    FORMULÁRIO
 ========================================== */
 
@@ -124,98 +81,6 @@
   grid-column: span 3;
 }
 
-/* ==========================================
-   BOTÕES DE AÇÃO
-========================================== */
-
-.acoes {
-  display: flex;
-  gap: 12px;
-  margin-top: 25px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  min-width: 120px;
-  height: 44px;
-  padding: 0 18px;
-
-  border: none;
-  border-radius: 8px;
-
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.btn i {
-  font-size: 15px;
-}
-
-.btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* ==========================================
-   CORES DOS BOTÕES
-========================================== */
-
-.novo {
-  background: #0d6efd;
-}
-
-.novo:hover:not(:disabled) {
-  background: #0b5ed7;
-}
-
-.alterar {
-  background: #f59e0b;
-}
-
-.alterar:hover:not(:disabled) {
-  background: #d97706;
-}
-
-.excluir {
-  background: #dc3545;
-}
-
-.excluir:hover:not(:disabled) {
-  background: #bb2d3b;
-}
-
-.limpar {
-  background: #6c757d;
-}
-
-.limpar:hover:not(:disabled) {
-  background: #5c636a;
-}
-
-.salvar {
-  background: #198754;
-}
-
-.salvar:hover:not(:disabled) {
-  background: #157347;
-}
 
 /* ==========================================
    RESPONSIVO
@@ -259,11 +124,4 @@
     grid-column: span 1;
   }
 
-  .acoes {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-  }
 }

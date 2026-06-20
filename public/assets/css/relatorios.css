@@ -13,19 +13,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* ==========================================
-   LAYOUT
-========================================== */
-
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-}
 
 .relatorios-container {
   width: 100%;

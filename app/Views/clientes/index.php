@@ -8,11 +8,11 @@ require_once __DIR__ . '/../includes/header.php';
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/components.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
 <link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/clientes.css?v=<?= time() ?>">
+<link rel="stylesheet" href="/ideal/public/assets/css/cliente.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -25,264 +25,263 @@ require_once __DIR__ . '/../includes/header.php';
 
             <?php if (isset($mensagem) && $mensagem): ?>
                 <div class="alert alert-warning">
-            <?php endif; ?>
-            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="alert alert-success">
-            <?php endif; ?>
-            <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="alert alert-error">
-            <?php endif; ?>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                    <div class="alert alert-success">
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                        <div class="alert alert-error">
+                        <?php endif; ?>
 
-            <section class="card">
+                        <section class="card">
 
-                <div class="grid-busca">
+                            <div class="grid-busca">
 
-                    <div class="busca-box">
+                                <div class="busca-box">
 
-                        <h2>
-                            <i class="fa-solid fa-users"></i>
-                            BUSCAR CLIENTE
-                        </h2>
+                                    <h2>
+                                        <i class="fa-solid fa-users"></i>
+                                        BUSCAR CLIENTE
+                                    </h2>
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
+                                    <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
 
-                            <div class="input-group">
+                                        <div class="input-group">
 
-                                <label>Tipo</label>
+                                            <label>Tipo</label>
 
-                                <select name="tipoDocumento" id="tipoDocumento" onchange="alterarMascaraDocumento()">
+                                            <select name="tipoDocumento" id="tipoDocumento" onchange="alterarMascaraDocumento()">
 
-                                    <option value="cpf">CPF</option>
-                                    <option value="cnpj">CNPJ</option>
+                                                <option value="cpf">CPF</option>
+                                                <option value="cnpj">CNPJ</option>
 
-                                </select>
+                                            </select>
+
+                                        </div>
+
+                                        <div class="input-group">
+
+                                            <label id="labelDocumento">
+                                                CPF
+                                            </label>
+
+                                            <input type="text" id="documento" name="documento" placeholder="000.000.000-00"
+                                                maxlength="14" oninput="mascaraDocumento(this)"
+                                                value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>">
+
+                                        </div>
+
+                                        <button type="submit" class="btn-buscar">
+                                            <i class="bi bi-search"></i>
+                                            BUSCAR
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                                <div class="dica-box">
+
+                                    <h3>
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        DICA
+                                    </h3>
+
+                                    <p>
+                                        Selecione CPF ou CNPJ, digite o documento do cliente e clique em
+                                        <strong>BUSCAR</strong>.
+                                        Se não existir, você poderá cadastrar um novo cliente.
+                                    </p>
+
+                                </div>
 
                             </div>
 
-                            <div class="input-group">
+                        </section>
 
-                                <label id="labelDocumento">
-                                    CPF
-                                </label>
+                        <section class="card">
 
-                                <input type="text" id="documento" name="documento" placeholder="000.000.000-00"
-                                    maxlength="14" oninput="mascaraDocumento(this)"
-                                    value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>">
+                            <h2>Dados do Cliente</h2>
 
-                            </div>
+                            <form id="form-dados" method="POST">
 
-                            <button type="submit" class="btn-buscar">
-                                <i class="bi bi-search"></i> 
-                                BUSCAR
+                                <input type="hidden" name="idCliente"
+                                    value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
+
+                                <div class="grid-form">
+
+                                    <div class="form-group">
+
+                                        <label>Nome do Cliente</label>
+
+                                        <input type="text" name="nomeCliente" minlength="3" maxlength="45"
+                                            placeholder="Digite o nome do cliente" required
+                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getNomeCliente() ?? '') : '' ?>">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label>CPF</label>
+
+                                        <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
+                                            oninput="mascaraCPF(this)"
+                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getCpf() ?? '') : '' ?>">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label>CNPJ</label>
+
+                                        <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
+                                            oninput="mascaraCNPJ(this)"
+                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getCnpj() ?? '') : '' ?>">
+
+                                    </div>
+
+                                    <h2 class="subtitulo-form">
+                                        Contato
+                                    </h2>
+
+                                    <div class="form-group">
+
+                                        <label>Telefone</label>
+
+                                        <input type="text" name="telefone" placeholder="(00) 00000-0000" maxlength="15"
+                                            oninput="mascaraTelefone(this)"
+                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getTelefone() ?? '') : '' ?>">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label>E-mail</label>
+
+                                        <input type="email" name="email" placeholder="cliente@email.com"
+                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getEmail() ?? '') : '' ?>">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label>Tipo de Cliente</label>
+
+                                        <select name="tipoCliente">
+
+                                            <option value="">Selecione</option>
+
+                                            <option value="PESSOA_FISICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Física' || $cliente->getTipoCliente() === 'PESSOA_FISICA')) ? 'selected' : '' ?>>
+                                                Pessoa Física
+                                            </option>
+
+                                            <option value="PESSOA_JURIDICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Jurídica' || $cliente->getTipoCliente() === 'PESSOA_JURIDICA')) ? 'selected' : '' ?>>
+                                                Pessoa Jurídica
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <h2 class="subtitulo-form">
+                                        Endereço
+                                    </h2>
+
+                                    <div class="form-group">
+
+                                        <label>CEP</label>
+
+                                        <?php
+                                        // Verifica e formata o CEP para exibição correta na tela
+                                        $cepValue = '';
+                                        if (isset($cliente) && !empty($cliente->getCep())) {
+                                            $c = preg_replace('/\D/', '', $cliente->getCep());
+                                            $cepValue = strlen($c) === 8 ? substr($c, 0, 5) . '-' . substr($c, 5) : $cliente->getCep();
+                                        }
+                                        ?>
+                                        <input type="text" name="cep" placeholder="00000-000" maxlength="9"
+                                            oninput="mascaraCEP(this)" value="<?= htmlspecialchars($cepValue) ?>">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label>Cidade</label>
+
+                                        <input type="text" name="cidade" id="cidade" placeholder="Digite a cidade"
+                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getCidade() ?? '') : '' ?>">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label>Estado</label>
+
+                                        <?php $estadoAtual = isset($cliente) ? $cliente->getEstado() : ''; ?>
+                                        <select name="estado" id="estado">
+
+                                            <option value="">Selecione</option>
+
+                                            <option value="SP" <?= $estadoAtual === 'SP' ? 'selected' : '' ?>>SP</option>
+                                            <option value="RJ" <?= $estadoAtual === 'RJ' ? 'selected' : '' ?>>RJ</option>
+                                            <option value="MG" <?= $estadoAtual === 'MG' ? 'selected' : '' ?>>MG</option>
+                                            <option value="PR" <?= $estadoAtual === 'PR' ? 'selected' : '' ?>>PR</option>
+                                            <option value="SC" <?= $estadoAtual === 'SC' ? 'selected' : '' ?>>SC</option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group observacao">
+
+                                        <label>Observações</label>
+
+                                        <textarea
+                                            name="observacoes"><?= isset($cliente) ? htmlspecialchars($cliente->getObservacoes() ?? '') : '' ?></textarea>
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </section>
+
+                        <div class="acoes">
+
+                            <button type="submit" form="form-dados" class="btn novo"
+                                formaction="/ideal/public/index.php?url=clientes/store">
+
+                                Cadastrar
                             </button>
 
-                        </form>
+                            <button type="submit" form="form-dados" class="btn alterar"
+                                formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                                <?= isset($cliente) ? '' : 'disabled' ?>>
 
-                    </div>
+                                Alterar
+                            </button>
 
-                    <div class="dica-box">
+                            <button type="submit" form="form-dados" class="btn excluir"
+                                formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                                onclick="return confirm('Tem certeza que deseja excluir este cliente?');" <?= isset($cliente) ? '' : 'disabled' ?>>
 
-                        <h3>
-                            <i class="fa-solid fa-circle-info"></i>
-                            DICA
-                        </h3>
+                                Excluir
+                            </button>
 
-                        <p>
-                            Selecione CPF ou CNPJ, digite o documento do cliente e clique em
-                            <strong>BUSCAR</strong>.
-                            Se não existir, você poderá cadastrar um novo cliente.
-                        </p>
+                            <button type="button" class="btn limpar"
+                                onclick="window.location.href='/ideal/public/index.php?url=clientes'">
 
-                    </div>
-
-                </div>
-
-            </section>
-
-            <section class="card">
-
-                <h2>Dados do Cliente</h2>
-
-                <form id="form-dados" method="POST">
-
-                    <input type="hidden" name="idCliente"
-                        value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
-
-                    <div class="grid-form">
-
-                        <div class="form-group">
-
-                            <label>Nome do Cliente</label>
-
-                            <input type="text" name="nomeCliente" minlength="3" maxlength="45"
-                                placeholder="Digite o nome do cliente" required
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getNomeCliente() ?? '') : '' ?>">
+                                Limpar
+                            </button>
 
                         </div>
-
-                        <div class="form-group">
-
-                            <label>CPF</label>
-
-                            <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
-                                oninput="mascaraCPF(this)"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCpf() ?? '') : '' ?>">
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label>CNPJ</label>
-
-                            <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
-                                oninput="mascaraCNPJ(this)"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCnpj() ?? '') : '' ?>">
-
-                        </div>
-
-                        <h2 class="subtitulo-form">
-                            Contato
-                        </h2>
-
-                        <div class="form-group">
-
-                            <label>Telefone</label>
-
-                            <input type="text" name="telefone" placeholder="(00) 00000-0000" maxlength="15"
-                                oninput="mascaraTelefone(this)"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getTelefone() ?? '') : '' ?>">
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label>E-mail</label>
-
-                            <input type="email" name="email" placeholder="cliente@email.com"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getEmail() ?? '') : '' ?>">
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label>Tipo de Cliente</label>
-
-                            <select name="tipoCliente">
-
-                                <option value="">Selecione</option>
-
-                                <option value="PESSOA_FISICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Física' || $cliente->getTipoCliente() === 'PESSOA_FISICA')) ? 'selected' : '' ?>>
-                                    Pessoa Física
-                                </option>
-
-                                <option value="PESSOA_JURIDICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Jurídica' || $cliente->getTipoCliente() === 'PESSOA_JURIDICA')) ? 'selected' : '' ?>>
-                                    Pessoa Jurídica
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <h2 class="subtitulo-form">
-                            Endereço
-                        </h2>
-
-                        <div class="form-group">
-
-                            <label>CEP</label>
-
-                            <?php
-                            // Verifica e formata o CEP para exibição correta na tela
-                            $cepValue = '';
-                            if (isset($cliente) && !empty($cliente->getCep())) {
-                                $c = preg_replace('/\D/', '', $cliente->getCep());
-                                $cepValue = strlen($c) === 8 ? substr($c, 0, 5) . '-' . substr($c, 5) : $cliente->getCep();
-                            }
-                            ?>
-                            <input type="text" name="cep" placeholder="00000-000" maxlength="9"
-                                oninput="mascaraCEP(this)" value="<?= htmlspecialchars($cepValue) ?>">
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label>Cidade</label>
-
-                            <input type="text" name="cidade" id="cidade" placeholder="Digite a cidade"
-                                value="<?= isset($cliente) ? htmlspecialchars($cliente->getCidade() ?? '') : '' ?>">
-
-                        </div>
-
-                        <div class="form-group">
-
-                            <label>Estado</label>
-
-                            <?php $estadoAtual = isset($cliente) ? $cliente->getEstado() : ''; ?>
-                            <select name="estado" id="estado">
-
-                                <option value="">Selecione</option>
-
-                                <option value="SP" <?= $estadoAtual === 'SP' ? 'selected' : '' ?>>SP</option>
-                                <option value="RJ" <?= $estadoAtual === 'RJ' ? 'selected' : '' ?>>RJ</option>
-                                <option value="MG" <?= $estadoAtual === 'MG' ? 'selected' : '' ?>>MG</option>
-                                <option value="PR" <?= $estadoAtual === 'PR' ? 'selected' : '' ?>>PR</option>
-                                <option value="SC" <?= $estadoAtual === 'SC' ? 'selected' : '' ?>>SC</option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="form-group observacao">
-
-                            <label>Observações</label>
-
-                            <textarea
-                                name="observacoes"><?= isset($cliente) ? htmlspecialchars($cliente->getObservacoes() ?? '') : '' ?></textarea>
-
-                        </div>
-
-                    </div>
-
-                </form>
-
-            </section>
-
-            <div class="acoes">
-
-                <button type="submit" form="form-dados" class="btn novo"
-                    formaction="/ideal/public/index.php?url=clientes/store">
-                    <i class="bi bi-plus-lg"></i>
-                    Cadastrar
-                </button>
-
-                <button type="submit" form="form-dados" class="btn alterar"
-                    formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
-                    <?= isset($cliente) ? '' : 'disabled' ?>>
-                    <i class="bi bi-pencil-square"></i> 
-                    Alterar
-                </button>
-
-                <button type="submit" form="form-dados" class="btn excluir"
-                    formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
-                    onclick="return confirm('Tem certeza que deseja excluir este cliente?');" <?= isset($cliente) ? '' : 'disabled' ?>>
-                    <i class="bi bi-trash"></i>
-                    Excluir
-                </button>
-
-                <button type="button" class="btn limpar"
-                    onclick="window.location.href='/ideal/public/index.php?url=clientes'">
-                    <i class="bi bi-eraser"></i>
-                    Limpar
-                </button>
-
-            </div>
 
         </main>
 
     </div>
 
     <script>
-
         function alterarMascaraDocumento() {
 
             const tipo = document.getElementById('tipoDocumento').value;
@@ -314,7 +313,6 @@ require_once __DIR__ . '/../includes/header.php';
             }
 
         }
-
     </script>
 
     <script>

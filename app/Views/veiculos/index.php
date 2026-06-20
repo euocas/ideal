@@ -31,10 +31,15 @@ require_once __DIR__ . '/../includes/header.php';
 
 ?>
 
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="shortcut icon" href="/ideal/public/assets/icons/veiculo.png" type="image/x-icon">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+
+<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+
 <link rel="stylesheet" href="/ideal/public/assets/css/veiculos.css?v=<?= time() ?>">
 
 </head>
@@ -159,7 +164,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <option value="Cinza" <?= ($isEdit && $veiculo->getCor() === 'Cinza') ? 'selected' : '' ?>>Cinza</option>
                             </select>
                         </div>
-                        <h2 class="subtitulo-form" style="grid-column: 1 / -1;">Situação do Veículo</h2>
+                        <h2 class="subtitulo-form">Situação do Veículo</h2>
                         <div class="form-group">
                             <!-- CORRIGIDO: name="statusVeiculo" -->
                             <label>Status</label>
@@ -216,8 +221,8 @@ require_once __DIR__ . '/../includes/header.php';
                 </section>
 
                 <div class="acoes">
-                    <a href="/ideal/public/index.php?url=veiculos" class="btn novo"
-                        style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;">
+                    <a href="/ideal/public/index.php?url=veiculos"
+   class="btn novo">
                         <i class="bi bi-plus-lg"></i>
                         Cadastrar</a>
 
@@ -230,10 +235,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <i class="bi bi-pencil-square"></i>
                             Alterar</button>
                         <a href="/ideal/public/index.php?url=veiculos/delete&id=<?= $veiculo->getIdVeiculo() ?>"
-                            class="btn excluir"
-                            style="text-decoration:none; text-align:center; display:inline-block; line-height: 40px;"
-                            onclick="return confirm('Excluir este veículo?')">
-                            <i class="bi bi-trash"></i> Excluir</a>
+   class="btn excluir"
+   onclick="return confirm('Excluir este veículo?')">
                     <?php endif; ?>
 
                     <button type="reset" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
