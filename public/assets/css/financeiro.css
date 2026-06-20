@@ -30,7 +30,6 @@
   font-size: 14px;
 }
 
-
 /* ==========================================
    ABAS
 ========================================== */
@@ -75,7 +74,7 @@
 
 .aba.ativa {
   background: #fff;
-  border-color: #e5e7eb;
+  border-color: var(--border-light);
   border-bottom-color: #fff;
   color: #f97316;
 }
@@ -83,7 +82,6 @@
 .aba i {
   font-size: 15px;
 }
-
 
 /* ==========================================
    CABEÇALHO DO CARD
@@ -318,7 +316,6 @@
   .acoes {
     flex-direction: column;
   }
-
 
   .fin-header h1 {
     font-size: 22px;

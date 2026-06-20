@@ -8,11 +8,13 @@ require_once __DIR__ . '/../includes/header.php';
 
 ?>
 
-<link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
+<link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/credenciais.css?v=<?= time() ?>">
 
 <body>

@@ -84,9 +84,6 @@ body {
   pointer-events: none; /* ✅ CORRIGIDO: label não intercepta cliques */
 }
 
-
-
-
 /* ==========================================
    FORMULÁRIO
 ========================================== */
@@ -168,7 +165,7 @@ body {
 .tabela-funcionarios {
   margin-top: 20px;
   overflow-x: auto;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-light);
   border-radius: 10px;
 }
 
@@ -178,7 +175,7 @@ body {
 }
 
 .tabela-funcionarios thead {
-  background: #f8fafc;
+  background: var(--surface-alt);
 }
 
 .tabela-funcionarios th {
@@ -186,12 +183,12 @@ body {
   text-align: left;
   font-size: 14px;
   font-weight: 600;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .tabela-funcionarios td {
   padding: 14px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .status {
@@ -226,12 +223,12 @@ body {
 }
 
 .btn-editar {
-  background: #eff6ff;
-  color: #2563eb;
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
 .btn-editar:hover {
-  background: #dbeafe;
+  filter: brightness(0.97);
   transform: scale(1.05);
 }
 
@@ -243,7 +240,6 @@ body {
 .btn-excluir:hover {
   opacity: 0.9;
 }
-
 
 /* ==========================================
    CARD CLIENTE
@@ -292,7 +288,7 @@ body {
 }
 
 .cliente-info:not(:last-child) {
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid var(--border-light);
   padding-right: 20px;
 }
 
@@ -321,7 +317,7 @@ body {
 }
 
 .fa-whatsapp {
-  color: #25D366;
+  color: #25d366;
 }
 
 .info-tabela {
@@ -385,13 +381,13 @@ body {
 }
 
 .cliente-area .form-group label {
-    display: block;
-    height: auto;
-    flex-shrink: 0;
+  display: block;
+  height: auto;
+  flex-shrink: 0;
 }
 
 .cliente-area .form-group input {
-    flex: 1;
-    min-height: 46px;
-    height: 46px;
+  flex: 1;
+  min-height: 46px;
+  height: 46px;
 }

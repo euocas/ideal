@@ -98,65 +98,64 @@ require_once __DIR__ . '/../includes/header.php';
         <main class="main-content">
 
             <section class="card">
-                <div class="grid-busca">
-                    <div class="busca-container">
 
-    <div class="busca-box">
+    <div class="grid-busca">
+            <div class="busca-box">
 
-        <h2>
-            <i class="fa-solid fa-users"></i>
-            BUSCAR FUNCIONÁRIO
-        </h2>
+                <h2>
+                    <i class="fa-solid fa-users"></i>
+                    BUSCAR FUNCIONÁRIO
+                </h2>
 
-        <?php if (!empty($mensagem)): ?>
-            <div class="alert alert-warning">
-                <?= $mensagem ?>
+                <?php if (!empty($mensagem)): ?>
+                    <div class="alert alert-warning">
+                        <?= $mensagem ?>
+                    </div>
+                <?php endif; ?>
+
+                <form class="form-busca"
+                    action="/ideal/public/index.php?url=funcionarios"
+                    method="POST">
+
+                    <div class="input-group">
+                        <label>CPF</label>
+
+                        <input
+                            type="text"
+                            name="cpf"
+                            placeholder="000.000.000-00"
+                            maxlength="14"
+                            oninput="mascaraCPF(this)"
+                            required>
+                    </div>
+
+                    <button type="submit" class="btn-buscar">
+                        <i class="bi bi-search"></i>
+                        BUSCAR
+                    </button>
+
+                </form>
+
             </div>
-        <?php endif; ?>
 
-        <form class="form-busca"
-            action="/ideal/public/index.php?url=funcionarios"
-            method="POST">
+        <div class="dica-box">
 
-            <div class="input-group">
-                <label>CPF</label>
+            <h3>
+                <i class="fa-solid fa-circle-info"></i>
+                DICA
+            </h3>
 
-                <input
-                    type="text"
-                    name="cpf"
-                    placeholder="000.000.000-00"
-                    maxlength="14"
-                    oninput="mascaraCPF(this)"
-                    required>
-            </div>
+            <p>
+                Digite o CPF do funcionário e clique em
+                <strong>BUSCAR</strong>.
+                Se não existir, você poderá cadastrar um novo funcionário.
+            </p>
 
-            <button type="submit" class="btn-buscar">
-                <i class="bi bi-search"></i>
-                BUSCAR
-            </button>
+        </div>
 
-        </form>
+    </div> <!-- FECHA grid-busca -->
 
-    </div>
-
-    <div class="dica-box">
-
-        <h3>
-            <i class="fa-solid fa-circle-info"></i>
-            DICA
-        </h3>
-
-        <p>
-            Digite o CPF do funcionário e clique em
-            <strong>BUSCAR</strong>.
-            Se não existir, você poderá cadastrar um novo funcionário.
-        </p>
-
-    </div>
-
-</div>
-                </div>
-            </section>
+</section>
             <!-- SEGUNDO FORM -->
             <section class="card2">
                 <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
