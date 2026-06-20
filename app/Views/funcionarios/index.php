@@ -157,7 +157,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 </section>
             <!-- SEGUNDO FORM -->
-            <section class="card2">
+            <section class="card card-funcionario">
                 <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
                     <div class="alert alert-success">
                         ✅ <?= $_SESSION['mensagem_sucesso']; ?>

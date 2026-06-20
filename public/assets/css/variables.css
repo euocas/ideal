@@ -64,4 +64,8 @@
 --warning-light: #fff3cd;
 --warning-dark: #856404;
 
+/* SOMBRAS */
+--shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.05);
+--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+
 }

@@ -7,59 +7,6 @@
   margin-bottom: 20px;
   color: var(--text);
 }
-
-
-/* ==========================================
-   ÁREA DE BUSCA
-========================================== */
-
-.grid-busca {
-  display: grid;
-  grid-template-columns: 57% 43%;
-  gap: 20px;
-  align-items: stretch;
-}
-
-.busca-box {
-  background: var(--surface);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-default);
-  padding: 20px;
-}
-
-.busca-box h2 {
-  font-size: 19px;
-  margin-bottom: 15px;
-}
-
-.form-busca {
-  display: flex;
-  gap: 15px;
-  align-items: flex-end;
-}
-
-
-
-/* ==========================================
-   BOTÃO BUSCAR
-========================================== */
-
-.btn-buscar {
-  width: 190px;
-  height: 46px;
-  border: none;
-  border-radius: var(--radius-sm);
-  background: var(--btn-dark);
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-buscar:hover {
-  background: var(--btn-dark-hover);
-}
-
 /* ==========================================
    DICA
 ========================================== */
