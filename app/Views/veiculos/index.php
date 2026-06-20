@@ -64,7 +64,11 @@ require_once __DIR__ . '/../includes/header.php';
                         </form>
                     </div>
                     <div class="dica-box">
-                        <h3>DICA</h3>
+
+                        <h3>
+                            <i class="fa-solid fa-circle-info"></i>
+                            DICA
+                        </h3>
                         <p>Digite a placa do veículo (padrão antigo ou Mercosul) e clique em <strong>BUSCAR</strong>. Se não existir, você poderá cadastrar um novo veículo.</p>
                     </div>
                 </div>

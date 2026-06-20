@@ -175,7 +175,6 @@ body {
 }
 
 .dica-box h3::before {
-  content: "i";
   display: flex;
   align-items: center;
   justify-content: center;
