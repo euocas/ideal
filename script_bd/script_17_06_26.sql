@@ -587,6 +587,8 @@ FROM obra o
 INNER JOIN cliente c
     ON o.idCliente = c.idCliente;
 
+select * from funcionario where cpf='58058711063'; 
+
 -- =====================================================
 -- DESCRIÇÃO DAS TABELAS
 -- =====================================================
