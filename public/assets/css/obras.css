@@ -316,8 +316,8 @@ body {
 }
 
 .status.ativo {
-  background: #dcfce7;
-  color: #15803d;
+  background: var(--success-light);
+  color: var(--success-dark);
 }
 
 .acoes-tabela {
@@ -350,13 +350,12 @@ body {
 }
 
 .btn-excluir {
-  background: #fef2f2;
-  color: #dc2626;
+  background: var(--danger-light);
+  color: var(--danger-dark);
 }
 
 .btn-excluir:hover {
-  background: #fee2e2;
-  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 /* ==========================================

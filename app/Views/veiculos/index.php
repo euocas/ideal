@@ -44,7 +44,7 @@ require_once __DIR__ . '/../includes/header.php';
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
         <main class="main-content">
-            
+
             <section class="card">
                 <div class="grid-busca">
                     <div class="busca-box">
@@ -75,14 +75,14 @@ require_once __DIR__ . '/../includes/header.php';
                 <section class="card">
                     <!-- AVISOS DE SUCESSO OU ERRO DO BANCO DE DADOS -->
                     <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                        <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
+                        <div class="alert alert-success">
                             ✅ <?= htmlspecialchars($_SESSION['mensagem_sucesso']); ?>
                         </div>
                         <?php unset($_SESSION['mensagem_sucesso']); ?>
                     <?php endif; ?>
 
                     <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                        <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
+                        <div class="alert alert-error">
                             ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
                         </div>
                         <?php unset($_SESSION['mensagem_erro']); ?>
@@ -219,7 +219,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                     <?php if (!$isEdit): ?>
                         <button type="submit" class="btn salvar">
-                           <i class="bi bi-floppy"></i>  Salvar
+                            <i class="bi bi-floppy"></i> Salvar
                         </button>
                     <?php else: ?>
                         <button type="submit" class="btn alterar">
@@ -246,6 +246,7 @@ require_once __DIR__ . '/../includes/header.php';
             valor = valor.replace(/^(\d{4})\.(\d{6})(\d)/, '$1.$2-$3');
             input.value = valor;
         }
+
         function mascaraChassi(input) {
             let valor = input.value.toUpperCase();
             valor = valor.replace(/[^A-Z0-9]/g, '');

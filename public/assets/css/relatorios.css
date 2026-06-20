@@ -209,79 +209,28 @@ body {
   
 }
 
-/* ==========================================
-   TABELA
-========================================== */
 
-.tabela-container {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  
-}
-
-table th {
-  padding: 14px;
-
-  background: var(--surface-alt);
-
-  color: var(--text);
-  font-size: 16px;
-  text-align: left;
-}
-
-table td {
-  padding: 14px;
-  border-top: 1px solid #eee;
-
-  font-size: 16px;
-}
 
 /* ==========================================
    STATUS
 ========================================== */
 
-.status {
-  padding: 6px 12px;
-  border-radius: 2px;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.status.ativo {
-  background: #dcfce7;
-  color: #16a34a;
-}
-
-.status.inativo {
-  background: #fee2e2;
-  color: #dc2626;
-}
-
-.status.em-manutencao{
-    background: #fff3cd;
-    color: #856404;
-}
-.status.vendido{
-    background: #fff3cd;
-    color: #856404; 
-}
+.status.ativo,
 .status.em-andamento {
-  background: #dcfce7;
-  color: #16a34a;
+  background: var(--success-light);
+  color: var(--success-dark);
 }
 
+.status.inativo,
 .status.concluida {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--danger-light);
+  color: var(--danger-dark);
 }
-tbody tr:hover {
 
-    background: #f8fafc;
-
+.status.em-manutencao,
+.status.vendido {
+  background: var(--warning-light);
+  color: var(--warning-dark);
 }
 
 

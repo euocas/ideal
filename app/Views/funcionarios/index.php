@@ -78,11 +78,15 @@ $estados = [
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<link rel="shortcut icon" href="/ideal/public/assets/icons/funcionario2.png" type="image/x-icon">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/components.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+
 <link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css?v=<?= time() ?>">
 </head>
 
@@ -130,16 +134,14 @@ require_once __DIR__ . '/../includes/header.php';
             <!-- SEGUNDO FORM -->
             <section class="card2">
                 <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                    <div
-                        style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
+                    <div class="alert alert-success">
                         ✅ <?= $_SESSION['mensagem_sucesso']; ?>
                     </div>
                     <?php unset($_SESSION['mensagem_sucesso']); ?>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                    <div
-                        style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
+                    <div class="alert alert-error">
                         ❌ <?= $_SESSION['mensagem_erro']; ?>
                     </div>
                     <?php unset($_SESSION['mensagem_erro']); ?>

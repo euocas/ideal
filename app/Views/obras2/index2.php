@@ -26,17 +26,15 @@ require_once __DIR__ . '/../includes/header.php';
         <main class="main-content">
 
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div
-                    style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
-                    ✅ <?= $_SESSION['mensagem_sucesso']; ?>
+                <div class="alert alert-success">
+                    <?= $_SESSION['mensagem_sucesso']; ?>
                 </div>
                 <?php unset($_SESSION['mensagem_sucesso']); ?>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div
-                    style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
-                    ❌ <?= $_SESSION['mensagem_erro']; ?>
+                <div class="alert alert-error">
+                    <?= $_SESSION['mensagem_erro']; ?>
                 </div>
                 <?php unset($_SESSION['mensagem_erro']); ?>
             <?php endif; ?>

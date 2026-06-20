@@ -24,24 +24,13 @@ require_once __DIR__ . '/../includes/header.php';
         <main class="main-content">
 
             <?php if (isset($mensagem) && $mensagem): ?>
-                <div class="alert alert-warning"
-                    style="background: #fff3cd; color: #856404; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-                    <?= $mensagem ?>
-                </div>
+                <div class="alert alert-warning">
             <?php endif; ?>
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="alert alert-success"
-                    style="background: #d4edda; color: #155724; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-                    <?= $_SESSION['mensagem_sucesso'];
-                    unset($_SESSION['mensagem_sucesso']); ?>
-                </div>
+                <div class="alert alert-success">
             <?php endif; ?>
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="alert alert-danger"
-                    style="background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-                    <?= $_SESSION['mensagem_erro'];
-                    unset($_SESSION['mensagem_erro']); ?>
-                </div>
+                <div class="alert alert-error">
             <?php endif; ?>
 
             <section class="card">

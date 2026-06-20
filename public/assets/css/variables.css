@@ -53,4 +53,15 @@
   /* TRANSIÇÕES */
   --transition: all .2s ease;
 
+  /* STATUS */
+
+--success-light: #dcfce7;
+--success-dark: #16a34a;
+
+--danger-light: #fee2e2;
+--danger-dark: #dc2626;
+
+--warning-light: #fff3cd;
+--warning-dark: #856404;
+
 }

@@ -22,14 +22,14 @@ require_once __DIR__ . '/../includes/header.php';
         <main class="main-content">
 
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb; font-weight: bold;">
+                <div class="alert alert-success">
                     ✅ <?= $_SESSION['mensagem_sucesso']; ?>
                 </div>
                 <?php unset($_SESSION['mensagem_sucesso']); ?>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb; font-weight: bold;">
+                <div class="alert alert-error">
                     ❌ <?= $_SESSION['mensagem_erro']; ?>
                 </div>
                 <?php unset($_SESSION['mensagem_erro']); ?>
@@ -87,8 +87,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <select name="status" required>
                                 <option value="">Selecione</option>
                                 <option value="Em andamento" <?= isset($obra) && $obra->getStatus() === 'Em andamento' ? 'selected' : '' ?>>Em andamento</option>
-                                <option value="Concluida"    <?= isset($obra) && $obra->getStatus() === 'Concluida'    ? 'selected' : '' ?>>Concluída</option>
-                                <option value="Cancelada"    <?= isset($obra) && $obra->getStatus() === 'Cancelada'    ? 'selected' : '' ?>>Cancelada</option>
+                                <option value="Concluida" <?= isset($obra) && $obra->getStatus() === 'Concluida'    ? 'selected' : '' ?>>Concluída</option>
+                                <option value="Cancelada" <?= isset($obra) && $obra->getStatus() === 'Cancelada'    ? 'selected' : '' ?>>Cancelada</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -138,10 +138,19 @@ require_once __DIR__ . '/../includes/header.php';
                 <section class="card">
                     <h2 class="titulo-card"><i class="fa-solid fa-users"></i> Funcionários Vinculados à Obra</h2>
                     <div class="grid-funcionario">
-                        <div class="form-group"><label>Funcionário</label><select name="idFuncionario"><option>Selecione</option></select></div>
-                        <div class="form-group"><label>Função</label><select name="funcao"><option>Selecione</option></select></div>
-                        <div class="form-group"><label>Veículo</label><select name="idVeiculo"><option>Selecione</option></select></div>
-                        <div class="form-group"><label>Status</label><select name="statusFuncionario"><option>Ativo</option><option>Inativo</option></select></div>
+                        <div class="form-group"><label>Funcionário</label><select name="idFuncionario">
+                                <option>Selecione</option>
+                            </select></div>
+                        <div class="form-group"><label>Função</label><select name="funcao">
+                                <option>Selecione</option>
+                            </select></div>
+                        <div class="form-group"><label>Veículo</label><select name="idVeiculo">
+                                <option>Selecione</option>
+                            </select></div>
+                        <div class="form-group"><label>Status</label><select name="statusFuncionario">
+                                <option>Ativo</option>
+                                <option>Inativo</option>
+                            </select></div>
                         <div class="form-group"><label>Data Início</label><input type="date" name="dataInicioFuncionario"></div>
                         <div class="form-group"><label>Data Saída</label><input type="date" name="dataSaidaFuncionario"></div>
                         <div class="form-group btn-area"><button type="button" class="btn-adicionar"><i class="fa-solid fa-plus"></i> Adicionar</button></div>
@@ -150,12 +159,26 @@ require_once __DIR__ . '/../includes/header.php';
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Funcionário</th><th>Função / Cargo</th><th>Veículo</th><th>Placa</th><th>Tipo</th><th>Data de Início</th><th>Data de Saída</th><th>Status</th><th>Ações</th>
+                                    <th>Funcionário</th>
+                                    <th>Função / Cargo</th>
+                                    <th>Veículo</th>
+                                    <th>Placa</th>
+                                    <th>Tipo</th>
+                                    <th>Data de Início</th>
+                                    <th>Data de Saída</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>João Silva</td><td>Pedreiro</td><td>Fiat Strada</td><td>ABC1D23</td><td>Utilitário</td><td>01/01/2026</td><td>—</td>
+                                    <td>João Silva</td>
+                                    <td>Pedreiro</td>
+                                    <td>Fiat Strada</td>
+                                    <td>ABC1D23</td>
+                                    <td>Utilitário</td>
+                                    <td>01/01/2026</td>
+                                    <td>—</td>
                                     <td><span class="status ativo">Ativo</span></td>
                                     <td class="acoes-tabela">
                                         <button type="button" class="btn-editar"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -167,17 +190,17 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
                     <div class="info-tabela"><i class="fa-solid fa-circle-info"></i> Informe o veículo utilizado pelo funcionário para deslocamento até a obra.</div>
                 </section>
-          
 
-            <div class="acoes">
-                <button type="submit" form="form-dados" class="btn novo"><i class="bi bi-plus-lg"></i> Cadastrar</button>
-                <button type="submit" form="form-dados" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
-                <button type="submit" form="form-dados" class="btn excluir"><i class="bi bi-trash"></i> Excluir</button>
-                <button type="reset" form="form-dados" class="btn limpar" onclick="limparCliente()"><i class="bi bi-eraser"></i> Limpar</button>
-            </div>
+
+                <div class="acoes">
+                    <button type="submit" form="form-dados" class="btn novo"><i class="bi bi-plus-lg"></i> Cadastrar</button>
+                    <button type="submit" form="form-dados" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
+                    <button type="submit" form="form-dados" class="btn excluir"><i class="bi bi-trash"></i> Excluir</button>
+                    <button type="reset" form="form-dados" class="btn limpar" onclick="limparCliente()"><i class="bi bi-eraser"></i> Limpar</button>
+                </div>
         </main>
     </div>
-  </form>
+    </form>
     <script>
         function mascaraCEP(input) {
             let valor = input.value.replace(/\D/g, '');
@@ -189,7 +212,7 @@ require_once __DIR__ . '/../includes/header.php';
         function mascaraCNPJ(input) {
             let valor = input.value.replace(/\D/g, '');
             valor = valor.substring(0, 14);
-            
+
             // Aplica máscara de CNPJ
             valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
             valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
@@ -235,4 +258,5 @@ require_once __DIR__ . '/../includes/header.php';
         }
     </script>
 </body>
+
 </html>

@@ -8,9 +8,15 @@ require_once __DIR__ . '/../includes/header.php';
 
 ?>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/components.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
+<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+
 <link rel="stylesheet" href="/ideal/public/assets/css/relatorios.css?v=<?= time() ?>">
 </head>
 
@@ -23,18 +29,16 @@ require_once __DIR__ . '/../includes/header.php';
         <main class="main-content">
 
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="alert alert-success"
-                    style="background: #d4edda; color: #155724; padding: 15px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #c3e6cb;">
+                <div class="alert alert-success">
                     ✅ <?= $_SESSION['mensagem_sucesso'];
-                    unset($_SESSION['mensagem_sucesso']); ?>
+                        unset($_SESSION['mensagem_sucesso']); ?>
                 </div>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="alert alert-danger"
-                    style="background: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #f5c6cb;">
+                <div class="alert alert-error">
                     ❌ <?= $_SESSION['mensagem_erro'];
-                    unset($_SESSION['mensagem_erro']); ?>
+                        unset($_SESSION['mensagem_erro']); ?>
                 </div>
             <?php endif; ?>
 
@@ -219,125 +223,126 @@ require_once __DIR__ . '/../includes/header.php';
                                 <!-- TABELA DINÂMICA -->
                                 <div class="tabela-container">
 
-                                    <table>
+                                    <div class="table-container">
+                                        <table class="table">
 
-                                        <thead>
+                                            <thead>
 
-                                            <?php if ($relatorio == 'clientes'): ?>
+                                                <?php if ($relatorio == 'clientes'): ?>
 
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Nome</th>
-                                                    <th>CPF</th>
-                                                    <th>CNPJ</th>
-                                                </tr>
-
-                                            <?php elseif ($relatorio == 'funcionarios'): ?>
-
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Nome</th>
-                                                    <th>CPF</th>
-                                                    <th>Status</th>
-                                                </tr>
-
-                                            <?php elseif ($relatorio == 'veiculos'): ?>
-
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Placa</th>
-                                                    <th>Renavam</th>
-                                                    <th>Status</th>
-                                                </tr>
-
-                                            <?php elseif ($relatorio == 'obras'): ?>
-
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Nome da Obra</th>
-                                                    <th>Cidade</th>
-                                                    <th>Status</th>
-                                                </tr>
-
-                                            <?php elseif ($relatorio == 'financeiro'): ?>
-
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Tipo</th>
-                                                    <th>Valor</th>
-                                                    <th>Data</th>
-                                                </tr>
-
-                                            <?php endif; ?>
-
-                                        </thead>
-
-                                        <tbody>
-                                            <?php if (!empty($dados['dados'])): ?>
-                                                <?php foreach ($dados['dados'] as $linha): ?>
                                                     <tr>
-                                                        <?php if ($relatorio == 'clientes'): ?>
-                                                            <td><?= htmlspecialchars($linha['idCliente'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
-                                                            <td><?= preg_replace(
-                                                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                '$1.$2.$3-$4',
-                                                                $linha['cpf'] ?? ''
-                                                            ) ?></td>
+                                                        <th>ID</th>
+                                                        <th>Nome</th>
+                                                        <th>CPF</th>
+                                                        <th>CNPJ</th>
+                                                    </tr>
 
-                                                            <td><?= preg_replace(
-                                                                '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-                                                                '$1.$2.$3/$4-$5',
-                                                                $linha['cnpj'] ?? ''
-                                                            ) ?>
-                                                            </td>
+                                                <?php elseif ($relatorio == 'funcionarios'): ?>
 
-                                
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Nome</th>
+                                                        <th>CPF</th>
+                                                        <th>Status</th>
+                                                    </tr>
+
+                                                <?php elseif ($relatorio == 'veiculos'): ?>
+
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Placa</th>
+                                                        <th>Renavam</th>
+                                                        <th>Status</th>
+                                                    </tr>
+
+                                                <?php elseif ($relatorio == 'obras'): ?>
+
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Nome da Obra</th>
+                                                        <th>Cidade</th>
+                                                        <th>Status</th>
+                                                    </tr>
+
+                                                <?php elseif ($relatorio == 'financeiro'): ?>
+
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Tipo</th>
+                                                        <th>Valor</th>
+                                                        <th>Data</th>
+                                                    </tr>
+
+                                                <?php endif; ?>
+
+                                            </thead>
+
+                                            <tbody>
+                                                <?php if (!empty($dados['dados'])): ?>
+                                                    <?php foreach ($dados['dados'] as $linha): ?>
+                                                        <tr>
+                                                            <?php if ($relatorio == 'clientes'): ?>
+                                                                <td><?= htmlspecialchars($linha['idCliente'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
+                                                                <td><?= preg_replace(
+                                                                        '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                        '$1.$2.$3-$4',
+                                                                        $linha['cpf'] ?? ''
+                                                                    ) ?></td>
+
+                                                                <td><?= preg_replace(
+                                                                        '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                                                        '$1.$2.$3/$4-$5',
+                                                                        $linha['cnpj'] ?? ''
+                                                                    ) ?>
+                                                                </td>
 
 
-                                                        <?php elseif ($relatorio == 'funcionarios'): ?>
-                                                            <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
-                                                            <td><?= preg_replace(
-                                                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                '$1.$2.$3-$4',
-                                                                $linha['cpf'] ?? ''
-                                                            ) ?></td>
-                                                            <td>
-                                                                <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
-                                                                <span class="status <?= $status ?>">
-                                                                    <?= ucfirst($status) ?>
-                                                                </span>
-                                                            </td>
+
+
+                                                            <?php elseif ($relatorio == 'funcionarios'): ?>
+                                                                <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
+                                                                <td><?= preg_replace(
+                                                                        '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                        '$1.$2.$3-$4',
+                                                                        $linha['cpf'] ?? ''
+                                                                    ) ?></td>
+                                                                <td>
+                                                                    <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
+                                                                    <span class="status <?= $status ?>">
+                                                                        <?= ucfirst($status) ?>
+                                                                    </span>
+                                                                </td>
 
 
 
-                                                        <?php elseif ($relatorio == 'veiculos'): ?>
-                                                            <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
-                                                            <td><?= preg_replace(
-                                                                '/(\d{4})(\d{6})(\d{1})/',
-                                                                '$1.$2-$3',
-                                                                $linha['renavam'] ?? ''
-                                                            ) ?>
-                                                            </td>
+                                                            <?php elseif ($relatorio == 'veiculos'): ?>
+                                                                <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
+                                                                <td><?= preg_replace(
+                                                                        '/(\d{4})(\d{6})(\d{1})/',
+                                                                        '$1.$2-$3',
+                                                                        $linha['renavam'] ?? ''
+                                                                    ) ?>
+                                                                </td>
 
-                                                            <td>
-                                                                <?php $status = strtolower(trim($linha['statusVeiculo'] ?? ''));
-                                                                $classeStatus = str_replace(' ', '-', $status);
-                                                                ?>
-                                                                <span class="status <?= $classeStatus ?>">
-                                                                    <?= ucfirst($status) ?>
-                                                                </span>
-                                                            </td>
+                                                                <td>
+                                                                    <?php $status = strtolower(trim($linha['statusVeiculo'] ?? ''));
+                                                                    $classeStatus = str_replace(' ', '-', $status);
+                                                                    ?>
+                                                                    <span class="status <?= $classeStatus ?>">
+                                                                        <?= ucfirst($status) ?>
+                                                                    </span>
+                                                                </td>
 
 
-                                                        <?php elseif ($relatorio == 'obras'): ?>
-                                                            <td><?= htmlspecialchars($linha['idObra'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['nomeObra'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['cidade'] ?? '') ?></td>
+                                                            <?php elseif ($relatorio == 'obras'): ?>
+                                                                <td><?= htmlspecialchars($linha['idObra'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['nomeObra'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['cidade'] ?? '') ?></td>
 
-                                                            <!-- <td>
+                                                                <!-- <td>
 
                                                                 <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
                                                                 <span class="status <?= $status ?>">
@@ -347,72 +352,72 @@ require_once __DIR__ . '/../includes/header.php';
 
                                                             </td> -->
 
-                                                                                                                        <td>
-                                                                <?php $status = strtolower(trim($linha['status'] ?? ''));
-                                                                $classeStatus = str_replace(' ', '-', $status);
-                                                                ?>
-                                                                <span class="status <?= $classeStatus ?>">
-                                                                    <?= ucfirst($status) ?>
-                                                                </span>
-                                                            </td>
+                                                                <td>
+                                                                    <?php $status = strtolower(trim($linha['status'] ?? ''));
+                                                                    $classeStatus = str_replace(' ', '-', $status);
+                                                                    ?>
+                                                                    <span class="status <?= $classeStatus ?>">
+                                                                        <?= ucfirst($status) ?>
+                                                                    </span>
+                                                                </td>
 
 
 
 
-                                                            <!-- <td><?= htmlspecialchars($linha['status'] ?? '') ?></td> -->
+                                                                <!-- <td><?= htmlspecialchars($linha['status'] ?? '') ?></td> -->
 
-                                                        <?php elseif ($relatorio == 'financeiro'): ?>
-                                                            <td><?= htmlspecialchars($linha['id'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['tipo'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['valor'] ?? '') ?></td>
-                                                            <td><?= htmlspecialchars($linha['data'] ?? '') ?></td>
-                                                        <?php endif; ?>
+                                                            <?php elseif ($relatorio == 'financeiro'): ?>
+                                                                <td><?= htmlspecialchars($linha['id'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['tipo'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['valor'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['data'] ?? '') ?></td>
+                                                            <?php endif; ?>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan=\"5\" style=\"text-align:center; padding: 20px;\">
+                                                            Clique em \"GERAR TODOS\" para carregar os dados.
+                                                        </td>
                                                     </tr>
-                                                <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+
+                                    <!-- FOOTER -->
+                                    <div class="footer-preview">
+
+                                        <p>
+                                            <?php if (!empty($dados['total'])): ?>
+                                                Exibindo <?= $dados['total'] ?> registro(s) do relatório de
+                                                <?= $tipoSelecionado ?>
                                             <?php else: ?>
-                                                <tr>
-                                                    <td colspan=\"5\" style=\"text-align:center; padding: 20px;\">
-                                                        Clique em \"GERAR TODOS\" para carregar os dados.
-                                                    </td>
-                                                </tr>
+                                                Exibindo registros do relatório de <?= $tipoSelecionado ?>
                                             <?php endif; ?>
-                                        </tbody>
+                                        </p>
 
-                                    </table>
+                                        <div class="acoes-exportar">
 
-                                </div>
+                                            <button class="btn-excel"
+                                                onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>'">
+                                                <i class="bi bi-filetype-xlsx"></i>
+                                                EXPORTAR EXCEL
+                                            </button>
 
-                                <!-- FOOTER -->
-                                <div class="footer-preview">
+                                            <button class="btn-pdf"
+                                                onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>'">
+                                                <i class="bi bi-filetype-pdf"></i>
+                                                GERAR PDF
+                                            </button>
 
-                                    <p>
-                                        <?php if (!empty($dados['total'])): ?>
-                                            Exibindo <?= $dados['total'] ?> registro(s) do relatório de
-                                            <?= $tipoSelecionado ?>
-                                        <?php else: ?>
-                                            Exibindo registros do relatório de <?= $tipoSelecionado ?>
-                                        <?php endif; ?>
-                                    </p>
-
-                                    <div class="acoes-exportar">
-
-                                        <button class="btn-excel"
-                                            onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>'">
-                                            <i class="bi bi-filetype-xlsx"></i>
-                                            EXPORTAR EXCEL
-                                        </button>
-
-                                        <button class="btn-pdf"
-                                            onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>'">
-                                            <i class="bi bi-filetype-pdf"></i>
-                                            GERAR PDF
-                                        </button>
+                                        </div>
 
                                     </div>
 
                                 </div>
-
-                            </div>
 
                     </section>
 
