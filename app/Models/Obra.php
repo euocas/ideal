@@ -27,6 +27,7 @@ class Obra
     private ?string $complemento = null;
     private ?string $observacoes = null;
     private ?string $contrato = null;
+private array $funcionariosVinculados = []; // ✅ ADICIONADO
 
     private PDO $pdo;
 
@@ -43,6 +44,18 @@ class Obra
     // =====================================================
     // GETTERS E SETTERS
     // =====================================================
+public function getFuncionariosVinculados(): array 
+{
+     return $this->funcionariosVinculados; 
+}
+
+public function setFuncionariosVinculados(array $funcionarios): void
+
+{ 
+    $this->funcionariosVinculados = $funcionarios; 
+    
+    }
+
 
     public function getIdObra(): ?int
     {
@@ -198,6 +211,9 @@ class Obra
             return;
         }
 
+
+
+        
         $contrato = trim($contrato);
         $contrato = mb_strtolower($contrato, 'UTF-8');
 
@@ -247,63 +263,89 @@ class Obra
 
     public function cadastrar(): bool
     {
-        $sql = "INSERT INTO obra (
-                    idCliente,
-                    dataInicio,
-                    dataFim,
-                    status,
-                    estado,
-                    cidade,
-                    cep,
-                    logradouro,
-                    endereco,
-                    numero,
-                    complemento,
-                    observacoes,
-                    contrato
-                ) VALUES (
-                    :idCliente,
-                    :dataInicio,
-                    :dataFim,
-                    :status,
-                    :estado,
-                    :cidade,
-                    :cep,
-                    :logradouro,
-                    :endereco,
-                    :numero,
-                    :complemento,
-                    :observacoes,
-                    :contrato
-                )";
+        try {
+            // Inicia a transação com o banco de dados
+            $this->pdo->beginTransaction();
 
-        $stmt = $this->pdo->prepare($sql);
+            // 1. SALVA A OBRA
+            $sql = "INSERT INTO obra (
+                        idCliente, dataInicio, dataFim, status, estado, cidade, cep, 
+                        logradouro, endereco, numero, complemento, observacoes, contrato
+                    ) VALUES (
+                        :idCliente, :dataInicio, :dataFim, :status, :estado, :cidade, :cep, 
+                        :logradouro, :endereco, :numero, :complemento, :observacoes, :contrato
+                    )";
 
-        $sucesso = $stmt->execute([
-            ':idCliente'   => $this->idCliente,   // ✅ ADICIONADO
-            ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
-            ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
-            ':status'      => $this->status,
-            ':estado'      => $this->estado,
-            ':cidade'      => $this->cidade,
-            ':cep'         => $this->cep,
-            ':logradouro'  => $this->logradouro,
-            ':endereco'    => $this->endereco,
-            ':numero'      => $this->numero,
-            ':complemento' => $this->complemento,
-            ':observacoes' => $this->observacoes,
-            ':contrato'    => $this->contrato
-        ]);
+            $stmt = $this->pdo->prepare($sql);
 
-        if ($sucesso) {
+            $sucesso = $stmt->execute([
+                ':idCliente'   => $this->idCliente,
+                ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
+                ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
+                ':status'      => $this->status,
+                ':estado'      => $this->estado,
+                ':cidade'      => $this->cidade,
+                ':cep'         => $this->cep,
+                ':logradouro'  => $this->logradouro,
+                ':endereco'    => $this->endereco,
+                ':numero'      => $this->numero,
+                ':complemento' => $this->complemento,
+                ':observacoes' => $this->observacoes,
+                ':contrato'    => $this->contrato
+            ]);
+
+            if (!$sucesso) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            // Pega o ID da obra recém criada
             $this->idObra = (int) $this->pdo->lastInsertId();
+
+            // 2. SALVA OS FUNCIONÁRIOS VINCULADOS
+            if (!empty($this->funcionariosVinculados)) {
+                
+                $sqlFunc = "INSERT INTO obraFuncionario (idObra, idFuncionario) VALUES (:idObra, :idFuncionario)";
+                $stmtFunc = $this->pdo->prepare($sqlFunc);
+
+                $sqlVeic = "INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES (:idObraFuncionario, :idVeiculo)";
+                $stmtVeic = $this->pdo->prepare($sqlVeic);
+
+                foreach ($this->funcionariosVinculados as $func) {
+                    if (empty($func['idFuncionario'])) continue;
+
+                    // Salva na tabela obraFuncionario
+                    $stmtFunc->execute([
+                        ':idObra' => $this->idObra,
+                        ':idFuncionario' => $func['idFuncionario']
+                    ]);
+
+                    // Pega o ID do vínculo Obra-Funcionario gerado
+                    $idObraFunc = (int) $this->pdo->lastInsertId();
+
+                    // Se houver veículo selecionado, salva na tabela obraFuncionarioVeiculo
+                    if (!empty($func['idVeiculo'])) {
+                        $stmtVeic->execute([
+                            ':idObraFuncionario' => $idObraFunc,
+                            ':idVeiculo' => $func['idVeiculo']
+                        ]);
+                    }
+                }
+            }
+
+            // Confirma a gravação de tudo no banco
+            $this->pdo->commit();
             return true;
+
+        } catch (\Exception $e) {
+            // Se algo der errado, desfaz tudo
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            error_log("Erro ao cadastrar obra: " . $e->getMessage());
+            return false;
         }
-
-        error_log(print_r($stmt->errorInfo(), true));
-        return false;
     }
-
     public function listar(): array
     {
         $sql = "SELECT * FROM obra ORDER BY idObra DESC";

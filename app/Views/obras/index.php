@@ -3,6 +3,24 @@ $actionUrl ??= '/ideal/public/index.php?url=obras/store';
 $titulo = 'Obras';
 $favicon = '/ideal/public/assets/icon/obra2.png';
 
+// Instanciando os Models diretamente para contornar a alteração do Controller
+$modelFuncionario = new \App\Models\Funcionario();
+$funcionarios = $modelFuncionario->listar();
+
+$modelVeiculo = new \App\Models\Veiculo();
+$veiculos = $modelVeiculo->listar();
+
+// Array de cargos (mesmo padrão utilizado em funcionários)
+$cargos = [
+    'Almoxarife', 'Analista Financeiro', 'Assistente Administrativo', 'Assistente de RH',
+    'Auxiliar Administrativo', 'Auxiliar de Eletricista', 'Cabista', 'Comprador',
+    'Designer Gráfico', 'Eletricista de Manutenção', 'Eletricista Industrial',
+    'Eletricista Montador', 'Eletricista Predial', 'Encarregado de Obras Elétricas',
+    'Instalador Elétrico', 'Mestre de Obras', 'Montador de Painéis Elétricos',
+    'Oficial Eletricista', 'Social Midia'
+];
+sort($cargos);
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
@@ -142,23 +160,50 @@ require_once __DIR__ . '/../includes/header.php';
                 <section class="card">
                     <h2 class="titulo-card"><i class="fa-solid fa-users"></i> Funcionários Vinculados à Obra</h2>
                     <div class="grid-funcionario">
-                        <div class="form-group"><label>Funcionário</label><select name="idFuncionario">
-                                <option>Selecione</option>
-                            </select></div>
-                        <div class="form-group"><label>Função</label><select name="funcao">
-                                <option>Selecione</option>
-                            </select></div>
-                        <div class="form-group"><label>Veículo</label><select name="idVeiculo">
-                                <option>Selecione</option>
-                            </select></div>
-                        <div class="form-group"><label>Status</label><select name="statusFuncionario">
-                                <option>Ativo</option>
-                                <option>Inativo</option>
-                            </select></div>
-                        <div class="form-group"><label>Data Início</label><input type="date" name="dataInicioFuncionario"></div>
-                        <div class="form-group"><label>Data Saída</label><input type="date" name="dataSaidaFuncionario"></div>
-                        <div class="form-group btn-area"><button type="button" class="btn-adicionar"><i class="fa-solid fa-plus"></i> Adicionar</button></div>
+                        <div class="form-group">
+                            <label>Funcionário</label>
+                            <select name="idFuncionario" id="idFuncionarioSelect">
+                                <option value="">Selecione</option>
+                                <?php foreach ($funcionarios as $f): ?>
+                                    <?php if ($f['status'] === 'ativo'): ?>
+                                        <option value="<?= $f['idFuncionario'] ?>"><?= htmlspecialchars($f['nome']) ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Função</label>
+                            <select name="funcao" id="funcaoSelect">
+                                <option value="">Selecione</option>
+                                <?php foreach ($cargos as $cargo): ?>
+                                    <option value="<?= htmlspecialchars($cargo) ?>"><?= htmlspecialchars($cargo) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Veículo</label>
+                            <select name="idVeiculo" id="idVeiculoSelect">
+                                <option value="">Selecione</option>
+                                <?php foreach ($veiculos as $v): ?>
+                                    <?php if ($v['statusVeiculo'] === 'ATIVO'): ?>
+                                        <option value="<?= $v['idVeiculo'] ?>"><?= htmlspecialchars($v['modelo'] . ' - ' . $v['placa']) ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="statusFuncionario" id="statusFuncionarioSelect">
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Data Início</label><input type="date" name="dataInicioFuncionario" id="dataInicioFuncionario"></div>
+                        <div class="form-group"><label>Data Saída</label><input type="date" name="dataSaidaFuncionario" id="dataSaidaFuncionario"></div>
+                        
+                        <div class="form-group btn-area"><button type="button" class="btn-adicionar" onclick="adicionarFuncionarioNaTabela()"><i class="fa-solid fa-plus"></i> Adicionar</button></div>
                     </div>
+                    
                     <div class="tabela-funcionarios">
                         <table>
                             <thead>
@@ -167,34 +212,18 @@ require_once __DIR__ . '/../includes/header.php';
                                     <th>Função / Cargo</th>
                                     <th>Veículo</th>
                                     <th>Placa</th>
-                                    <th>Tipo</th>
                                     <th>Data de Início</th>
                                     <th>Data de Saída</th>
                                     <th>Status</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>João Silva</td>
-                                    <td>Pedreiro</td>
-                                    <td>Fiat Strada</td>
-                                    <td>ABC1D23</td>
-                                    <td>Utilitário</td>
-                                    <td>01/01/2026</td>
-                                    <td>—</td>
-                                    <td><span class="status ativo">Ativo</span></td>
-                                    <td class="acoes-tabela">
-                                        <button type="button" class="btn-editar"><i class="fa-solid fa-pen-to-square"></i></button>
-                                        <button type="button" class="btn-excluir"><i class="fa-solid fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                            <tbody id="tabela-funcionarios-body">
                             </tbody>
                         </table>
                     </div>
                     <div class="info-tabela"><i class="fa-solid fa-circle-info"></i> Informe o veículo utilizado pelo funcionário para deslocamento até a obra.</div>
                 </section>
-
 
                 <div class="acoes">
                     <button type="submit" form="form-dados" class="btn novo"><i class="bi bi-plus-lg"></i> Cadastrar</button>
@@ -202,10 +231,82 @@ require_once __DIR__ . '/../includes/header.php';
                     <button type="submit" form="form-dados" class="btn excluir"><i class="bi bi-trash"></i> Excluir</button>
                     <button type="reset" form="form-dados" class="btn limpar" onclick="limparCliente()"><i class="bi bi-eraser"></i> Limpar</button>
                 </div>
+                
+            </form>
         </main>
     </div>
-    </form>
+
     <script>
+        // Lógica de Funcionários e Tabela
+        let indiceFuncionario = 0;
+
+        function adicionarFuncionarioNaTabela() {
+            const selectFuncionario = document.getElementById('idFuncionarioSelect');
+            const selectFuncao = document.getElementById('funcaoSelect');
+            const selectVeiculo = document.getElementById('idVeiculoSelect');
+            const selectStatus = document.getElementById('statusFuncionarioSelect');
+            const inputInicio = document.getElementById('dataInicioFuncionario');
+            const inputSaida = document.getElementById('dataSaidaFuncionario');
+
+            const idFunc = selectFuncionario.value;
+            
+            if (!idFunc) {
+                alert('Por favor, selecione um funcionário.');
+                return;
+            }
+
+            const nomeFunc = selectFuncionario.options[selectFuncionario.selectedIndex].text;
+            const funcao = selectFuncao.value || '—';
+            const idVeic = selectVeiculo.value;
+            const textoVeiculo = idVeic ? selectVeiculo.options[selectVeiculo.selectedIndex].text : '—';
+            const status = selectStatus.value;
+            
+            let modeloVeic = '—';
+            let placaVeic = '—';
+            if (idVeic) {
+                const partes = textoVeiculo.split(' - ');
+                modeloVeic = partes[0];
+                placaVeic = partes[1] || '—';
+            }
+
+            const formataData = (dataStr) => dataStr ? dataStr.split('-').reverse().join('/') : '—';
+
+            const tbody = document.getElementById('tabela-funcionarios-body');
+            const tr = document.createElement('tr');
+
+            tr.innerHTML = `
+                <td>
+                    ${nomeFunc}
+                    <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idFuncionario]" value="${idFunc}">
+                    <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idVeiculo]" value="${idVeic}">
+                </td>
+                <td>${funcao}</td>
+                <td>${modeloVeic}</td>
+                <td>${placaVeic}</td>
+                <td>${formataData(inputInicio.value)}</td>
+                <td>${formataData(inputSaida.value)}</td>
+                <td><span class="status ${status.toLowerCase() === 'ativo' ? 'ativo' : 'inativo'}">${status}</span></td>
+                <td class="acoes-tabela">
+                    <button type="button" class="btn-excluir" onclick="removerFuncionarioDaTabela(this)"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+            indiceFuncionario++;
+
+            selectFuncionario.value = '';
+            selectFuncao.value = '';
+            selectVeiculo.value = '';
+            selectStatus.value = 'Ativo';
+            inputInicio.value = '';
+            inputSaida.value = '';
+        }
+
+        function removerFuncionarioDaTabela(botao) {
+            botao.closest('tr').remove();
+        }
+
+        // Lógica de Máscaras e Busca de Clientes
         function mascaraCEP(input) {
             let valor = input.value.replace(/\D/g, '');
             valor = valor.substring(0, 8);
@@ -216,8 +317,6 @@ require_once __DIR__ . '/../includes/header.php';
         function mascaraCNPJ(input) {
             let valor = input.value.replace(/\D/g, '');
             valor = valor.substring(0, 14);
-
-            // Aplica máscara de CNPJ
             valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
             valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
             valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
@@ -240,7 +339,6 @@ require_once __DIR__ . '/../includes/header.php';
                         document.getElementById('clienteCnpj').textContent = data.cnpj ?? data.cpf ?? '-';
                         document.getElementById('clienteWhatsapp').textContent = data.whatsapp ?? '-';
                     } else {
-                        // Apenas limpa a exibição, não apaga o input
                         document.getElementById('idCliente').value = '';
                         document.getElementById('clienteNome').textContent = '-';
                         document.getElementById('clienteCnpj').textContent = '-';

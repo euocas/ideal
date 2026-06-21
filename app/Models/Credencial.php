@@ -82,7 +82,8 @@ class Credencial
     {
         $usuario = new self();
 
-        $usuario->setId($dados['id'] ?? null);
+        // CORREÇÃO: O banco retorna 'idUsuario' no SELECT *
+        $usuario->setId($dados['idUsuario'] ?? $dados['id'] ?? null);
         $usuario->setNome($dados['nome'] ?? null);
         $usuario->setEmail($dados['email'] ?? null);
         $usuario->setSenha($dados['senha'] ?? null);
@@ -96,8 +97,7 @@ class Credencial
 
     public function findByEmail(string $email): ?self
     {
-        $sql = "SELECT * 
-                FROM usuario
+        $sql = "SELECT * FROM usuario
                 WHERE email = :email";
 
         $stmt = $this->pdo->prepare($sql);
@@ -111,9 +111,10 @@ class Credencial
 
     public function findById(int $id): ?self
     {
+        // CORREÇÃO: WHERE idUsuario
         $sql = "SELECT *
                 FROM usuario
-                WHERE id = :id";
+                WHERE idUsuario = :id";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
@@ -135,10 +136,10 @@ class Credencial
         }
 
         try {
-
+            // CORREÇÃO: WHERE idUsuario
             $sql = "UPDATE usuario
                     SET senha = :senha
-                    WHERE id = :id";
+                    WHERE idUsuario = :id";
 
             $stmt = $this->pdo->prepare($sql);
 
@@ -174,10 +175,10 @@ class Credencial
         }
 
         try {
-
+            // CORREÇÃO: WHERE idUsuario
             $sql = "UPDATE usuario
                     SET email = :email
-                    WHERE id = :id";
+                    WHERE idUsuario = :id";
 
             $stmt = $this->pdo->prepare($sql);
 
@@ -201,31 +202,38 @@ class Credencial
             return false;
         }
     }
-
-    public function buscarUsuario(string $login): ?array
+public function buscarUsuario(string $login): ?array
     {
-        $sql = "SELECT
-                id,
-                nome,
-                email
-            FROM usuario
-            WHERE nome LIKE :login
-            LIMIT 1";
+        // Verifica se o que foi digitado é um número (ID) ou texto (Nome)
+        if (is_numeric($login)) {
+            $sql = "SELECT
+                    idUsuario AS id,
+                    nome,
+                    email
+                FROM usuario
+                WHERE idUsuario = :login
+                LIMIT 1";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':login', (int)$login, PDO::PARAM_INT);
 
-        $stmt = $this->pdo->prepare($sql);
-
-        $stmt->bindValue(
-            ':login',
-            '%' . $login . '%',
-            PDO::PARAM_STR
-        );
+        } else {
+            $sql = "SELECT
+                    idUsuario AS id,
+                    nome,
+                    email
+                FROM usuario
+                WHERE nome LIKE :login
+                LIMIT 1";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':login', '%' . $login . '%', PDO::PARAM_STR);
+        }
 
         $stmt->execute();
-
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $dados ?: null;
     }
 
-////
-}
+    }

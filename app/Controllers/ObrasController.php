@@ -70,29 +70,31 @@ class ObrasController
 
     // ✅ ADICIONADO setIdCliente
     private function popularObjeto(Obra $obra, array $dados): void
-    {
-        $obra->setIdCliente(!empty($dados['idCliente']) ? (int)$dados['idCliente'] : null);
+{
+    $obra->setIdCliente(!empty($dados['idCliente']) ? (int)$dados['idCliente'] : null);
 
-        if (!empty($dados['dataInicio'])) {
-            $obra->setDataInicio(new \DateTime($dados['dataInicio']));
-        }
-
-        if (!empty($dados['dataFim'])) {
-            $obra->setDataFim(new \DateTime($dados['dataFim']));
-        }
-
-        $obra->setStatus($dados['status'] ?? null);
-        $obra->setEstado($dados['estado'] ?? null);
-        $obra->setCidade($dados['cidade'] ?? null);
-        $obra->setCep($dados['cep'] ?? null);
-        $obra->setLogradouro($dados['logradouro'] ?? null);
-        $obra->setEndereco($dados['endereco'] ?? null);
-        $obra->setNumero($dados['numero'] ?? null);
-        $obra->setComplemento($dados['complemento'] ?? null);
-        $obra->setObservacoes($dados['observacoes'] ?? null);
-        $obra->setContrato($dados['contrato'] ?? null);
+    if (!empty($dados['dataInicio'])) {
+        $obra->setDataInicio(new \DateTime($dados['dataInicio']));
     }
 
+    if (!empty($dados['dataFim'])) {
+        $obra->setDataFim(new \DateTime($dados['dataFim']));
+    }
+
+    $obra->setStatus($dados['status'] ?? null);
+    $obra->setEstado($dados['estado'] ?? null);
+    $obra->setCidade($dados['cidade'] ?? null);
+    $obra->setCep($dados['cep'] ?? null);
+    $obra->setLogradouro($dados['logradouro'] ?? null);
+    $obra->setEndereco($dados['endereco'] ?? null);
+    $obra->setNumero($dados['numero'] ?? null);
+    $obra->setComplemento($dados['complemento'] ?? null);
+    $obra->setObservacoes($dados['observacoes'] ?? null);
+    $obra->setContrato($dados['contrato'] ?? null);
+
+    // ✅ ADICIONADO: Pega a array que o JavaScript mandou via inputs hidden
+$obra->setFuncionariosVinculados($dados['funcionariosObra'] ?? []);
+}
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

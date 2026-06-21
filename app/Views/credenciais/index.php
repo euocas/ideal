@@ -8,13 +8,11 @@ require_once __DIR__ . '/../includes/header.php';
 
 ?>
 
+<link rel="shortcut icon" href="/ideal/public/assets/icons/financeiro3.png" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-<link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/credenciais.css?v=<?= time() ?>">
 
 <body>
@@ -54,8 +52,8 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
 
                             <div class="campo">
-                                <label>Digie o e-mail</label>
-                                <input type="text" id="inputBuscaUsuario" placeholder="Digite o e-mail">
+                                <label>Usuário</label>
+                                <input type="text" id="inputBuscaUsuario" placeholder="Digite o usuário">
                             </div>
 
                             <button type="button" class="btn-buscar" id="btnBuscar">
@@ -68,7 +66,8 @@ require_once __DIR__ . '/../includes/header.php';
                         <h4>
                             <i class="fas fa-info-circle"></i> DICA
                         </h4>
-                        <p>Selecione o tipo de Alteração, digite o e-mail e clique em <strong>BUSCAR</strong>.</p>
+                        <p>Selecione o tipo de alteração, localize o usuário e preencha os campos necessários para
+                            concluir a operação.</p>
                     </div>
                 </div>
 
@@ -80,7 +79,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="grid-form">
                             <div class="campo">
-                                <label>Nome no Sistema</label>
+                                <label>Nome do Usuário</label>
                                 <input type="text" name="nomeUsuario" id="nomeUsuario" readonly>
                             </div>
 

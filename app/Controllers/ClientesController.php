@@ -290,4 +290,55 @@ class ClientesController
         }
         return true;
     }
+
+// ✅ ADICIONE ESTE MÉTODO DENTRO DA CLASSE ClientesController
+    public function buscarPorCnpj()
+    {
+        // Define que a resposta será em JSON para o Javascript ler corretamente
+        header('Content-Type: application/json');
+        
+        $cnpj = $_GET['cnpj'] ?? '';
+        $cnpjLimpo = preg_replace('/[^0-9]/', '', $cnpj);
+
+        if (empty($cnpjLimpo)) {
+            echo json_encode(['erro' => 'CNPJ/CPF inválido']);
+            exit;
+        }
+
+        try {
+            // Conecta ao banco de dados diretamente para a busca rápida
+            $banco = new \App\Config\Conexao();
+            $pdo = $banco->getConnection();
+
+            // Busca os dados do cliente (serve tanto para CPF quanto CNPJ devido à máscara da view)
+            $sql = "SELECT idCliente, nomeCliente, cpf, cnpj FROM cliente WHERE cnpj = :cnpj OR cpf = :cpf LIMIT 1";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':cnpj', $cnpjLimpo, \PDO::PARAM_STR);
+            $stmt->bindValue(':cpf', $cnpjLimpo, \PDO::PARAM_STR);
+            $stmt->execute();
+
+            $cliente = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if ($cliente) {
+                // Se achou o cliente, busca o WhatsApp na tabela de contato
+                $sqlContato = "SELECT whatsapp FROM contatoCliente WHERE idCliente = :idCliente LIMIT 1";
+                $stmtContato = $pdo->prepare($sqlContato);
+                $stmtContato->bindValue(':idCliente', $cliente['idCliente'], \PDO::PARAM_INT);
+                $stmtContato->execute();
+                $contato = $stmtContato->fetch(\PDO::FETCH_ASSOC);
+                
+                $cliente['whatsapp'] = $contato['whatsapp'] ?? '-';
+
+                // Retorna os dados para a tela
+                echo json_encode($cliente);
+            } else {
+                echo json_encode(['erro' => 'Cliente não encontrado']);
+            }
+        } catch (\Exception $e) {
+            echo json_encode(['erro' => 'Erro no banco de dados: ' . $e->getMessage()]);
+        }
+        
+        exit;
+    }
+
 }
