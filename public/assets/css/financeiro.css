@@ -75,7 +75,7 @@
 .aba.ativa {
   background: #fff;
   border-color: var(--border-light);
-  border-bottom-color: #fff;
+  border-bottom-color: color: var(--text-white);
   color: #f97316;
 }
 

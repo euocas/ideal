@@ -54,7 +54,7 @@
   border: none;
   border-radius: 8px;
   background: var(--success-dark);
-  color: #fff;
+  color: var(--text-white);
   font-weight: 600;
   cursor: pointer;
 }

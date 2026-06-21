@@ -6,9 +6,11 @@ $favicon = '/ideal/public/assets/icon/home.png';
 require_once __DIR__ . '/../includes/header.php'; 
 ?>
 
-<link rel="shortcut icon" href="assets/icons/home.png" type="image/x-icon">
-<link rel="stylesheet" href="assets/css/dashboard.css?v=<?= time() ?>">
 <link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/forms.css">
+<link rel="stylesheet" href="assets/css/dashboard.css?v=<?= time() ?>">
 
 
 </head>

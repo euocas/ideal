@@ -1,19 +1,4 @@
 /* ==========================================
-   RESET
-========================================== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-  background: var(--bg);
-}
-
-/* ==========================================
    LAYOUT
 ========================================== */
 
@@ -50,9 +35,7 @@ body {
   padding: 20px;
 
   background: var(--bg-dark);
-  color: #fff;
-
- 
+  color: var(--text-white);
 }
 
 /* ==========================================
@@ -79,7 +62,6 @@ body {
 .menu {
   list-style: none;
   flex: 1;
-
 }
 
 .menu li {
@@ -93,21 +75,21 @@ body {
   width: 100%;
   padding: 15px 18px;
   background: transparent;
-  border-radius: 14px;
-  color: #fff;
+  border-radius: var(--radius-md);
+  color: var(--text-white);
   text-decoration: none;
-  transition: 0.3s;
+  transition: var(--transition);
 }
 
 .menu li a:hover,
 .menu li a.active:hover {
   background: var(--orange-dark) !important;
-  color: #fff !important;
+  color: var(--text-white) !important;
 }
 
 .menu li a.active {
   background: var(--btn-dark);
-  color: #fff;
+  color: var(--text-white);
 }
 
 .menu-title {
@@ -127,15 +109,9 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
-
   margin-top: 40px;
   padding-top: 20px;
-
-  border-top: 1px solid #223550;
-
-
-
-
+  border-top: 1px solid var(--border-sidebar);
 }
 
 .avatar {
@@ -151,7 +127,7 @@ body {
   background: var(--orange-dark);
   border-radius: 50%;
 
-  color: #fff;
+  color: var(--text-white);
   font-size: 20px;
   font-weight: bold;
 }
@@ -162,7 +138,7 @@ body {
 }
 
 .user-info h3 {
-  color: #fff;
+  color: var(--text-white);
   font-size: 16px;
 }
 
@@ -214,18 +190,15 @@ body {
 
 .content button[type="submit"] {
   padding: 10px 25px;
-
   background: var(--btn-dark);
   border: none;
   border-radius: var(--radius-sm);
-
-  color: #fff;
+  color: var(--text-white);
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-
   cursor: pointer;
-  transition: background 0.3s;
+  transition: var(--transition);
 }
 
 .content button[type="submit"]:hover {
@@ -234,7 +207,6 @@ body {
 
 .titulo-pagina {
   color: var(--text);
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 24px;
   font-weight: 700;
 }
@@ -312,26 +284,21 @@ body {
   align-items: center;
   justify-content: center;
   gap: 18px;
-
   padding: 25px;
-
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-
   color: inherit;
   text-align: center;
   text-decoration: none;
-
-  transition: 0.3s ease;
-
+  transition: var(--transition);
   box-shadow: var(--shadow-sm);
 }
 
 .card-dashboard:hover {
   transform: translateY(-5px);
   border-color: var(--orange-dark);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 /* ==========================================

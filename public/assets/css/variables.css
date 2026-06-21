@@ -35,20 +35,19 @@
   --text-secondary: #444444;
   --text-muted: #555555;
   --text-light: #666666;
+  --text-white: #ffffff;
 
   /* BORDAS */
   --border: #dcdfe4;
   --border-light: #e5e7eb;
   --border-soft: #dcdcdc;
+  --border-sidebar: #223550;
 
   /* RADIUS */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-default: 10px;
   --radius-lg: 18px;
-
-  /* SOMBRAS */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
 
   /* TRANSIÇÕES */
   --transition: all .2s ease;
@@ -67,5 +66,9 @@
 /* SOMBRAS */
 --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.05);
 --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+--shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+/* TIPOGRAFIA */
+--font-primary: Arial, Helvetica, sans-serif;
 
 }

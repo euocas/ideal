@@ -144,7 +144,7 @@
   font-weight: 600;
   font-size: 14px;
   background: var(--btn-secondary);
-  color: #fff;
+  color: var(--text-white);
   transition: background 0.2s;
 }
 .content button.btn-alterar {
@@ -156,7 +156,7 @@
   font-weight: 600;
   font-size: 14px;
   background: var(--btn-warning);
-  color: #fff;
+  color: var(--text-white);
   transition: background 0.2s;
 }
 .card-formulario {

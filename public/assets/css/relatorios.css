@@ -119,17 +119,17 @@
 
 .btn-filtrar {
   background: var(--primary);
-  color: #fff;
+  color: var(--text-white);
 }
 
 .btn-todos {
   background: var(--orange);
-  color: #fff;
+  color: var(--text-white);
 }
 
 .btn-gerar {
   background: var(--primary);
-  color: #fff;
+  color: var(--text-white);
 }
 
 .btn-limpar {
@@ -144,7 +144,7 @@
 
 .btn-pdf {
   background: var(--surface-dark);
-  color: #fff;
+  color: var(--text-white);
 }
 
 .btn-limpar:hover,
