@@ -275,6 +275,7 @@
   }
 }
 
+@media (max-width: 768px) {
   .grid-form {
     grid-template-columns: 1fr;
   }
@@ -292,3 +293,4 @@
     font-size: 22px;
   }
 }
+
