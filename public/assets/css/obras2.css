@@ -70,16 +70,13 @@ body {
 .form-group select,
 .form-group textarea {
   width: 100%;
-
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
-
   color: var(--text);
   font-size: 15px;
-
   outline: none;
-  transition: 0.2s;
+  transition: var(--transition);
 }
 
 .input-group input,
@@ -102,7 +99,7 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  box-shadow: var(--shadow-focus-primary);
 }
 
 /* ==========================================
@@ -140,7 +137,7 @@ body {
   font-weight: bold;
   text-align: center;
   cursor: pointer;
-  transition: 0.2s;
+  transition: var(--transition);
 }
 
 .btn:hover {

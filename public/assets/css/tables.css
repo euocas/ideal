@@ -28,7 +28,7 @@
 }
 
 .table tbody tr {
-  transition: var(--transition-default);
+  transition: var(--transition);
 }
 
 .table tbody tr:hover {

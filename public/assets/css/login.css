@@ -234,7 +234,7 @@ body {
   font-weight: bold;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: var(--transition);
 }
 
 .login-box button[type="submit"]:hover {

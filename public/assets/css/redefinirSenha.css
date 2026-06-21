@@ -152,9 +152,8 @@ button {
   background: var(--accent);
   color: var(--text-white);;
   font-weight: bold;
-
   cursor: pointer;
-  transition: 0.3s;
+  transition: var(--transition);
 }
 
 button:hover {
@@ -171,8 +170,7 @@ button:hover {
   font-weight: bold;
   text-align: center;
   text-decoration: none;
-
-  transition: 0.3s;
+  transition: var(--transition);
 }
 
 .btn-voltar-login:hover {

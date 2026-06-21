@@ -13,6 +13,7 @@
   --warning: #f59e0b;
   --danger: #ef4444;
   --orange: #f97316;
+  --orange-strong: #c2410c;
   --orange-dark: #e04a10;
   --orange-light: #f2b08f;
   --purple: #7c3aed;
@@ -36,12 +37,15 @@
   --text-muted: #555555;
   --text-light: #666666;
   --text-white: #ffffff;
+  --text-heading: #2c3e50;
+  --text-disabled: #888888;
 
   /* BORDAS */
   --border: #dcdfe4;
   --border-light: #e5e7eb;
   --border-soft: #dcdcdc;
   --border-sidebar: #223550;
+  --border-orange-light: #fed7aa;
 
   /* RADIUS */
   --radius-sm: 8px;
@@ -67,6 +71,9 @@
 --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.05);
 --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
 --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.08);
+--shadow-focus-primary: 0 0 0 3px rgba(37, 99, 235, 0.12);
+--shadow-focus-orange: 0 0 0 3px rgba(249, 115, 22, 0.12);
+
 
 /* TIPOGRAFIA */
 --font-primary: Arial, Helvetica, sans-serif;

@@ -67,7 +67,7 @@
   margin-top: 20px;
   overflow-x: auto;
   border: 1px solid var(--border-light);
-  border-radius: 10px;
+  border-radius: var(--radius-default);
 }
 
 .tabela-funcionarios table {
@@ -94,7 +94,7 @@
 
 .status {
   padding: 4px 12px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
   font-weight: 600;
 }
@@ -120,7 +120,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.2s;
+  transition: var(--transition);
 }
 
 .btn-editar {
@@ -155,11 +155,11 @@
 }
 
 .cliente-card {
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
+  background: var(--surface);
+  border: 1px solid var(--border-orange-light);
   border-radius: var(--radius-default);
   padding: 18px 22px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-xs);
 }
 
 /* ✅ CORRIGIDO: removido o width: 280px que conflitava */
@@ -218,7 +218,7 @@
 }
 
 .fa-whatsapp {
-  color: #25d366;
+  color: var(--success);
 }
 
 .info-tabela {

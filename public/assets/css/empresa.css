@@ -14,7 +14,7 @@
 }
 
 .card-construcao h1 {
-  color: #f97316;
+  color: var(--orange);
   font-size: 70px;
   font-weight: bold;
 }

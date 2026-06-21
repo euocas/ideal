@@ -63,20 +63,19 @@
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-
-  transition: 0.2s;
+  transition: var(--transition);
 }
 
 .aba:hover {
-  background: #fff7f0;
-  color: #f97316;
+  background: var(--surface);
+  color: var(--orange);
 }
 
 .aba.ativa {
-  background: #fff;
+  background: var(--surface);
   border-color: var(--border-light);
-  border-bottom-color: color: var(--text-white);
-  color: #f97316;
+  border-bottom-color: var(--text-white);
+  color: var(--orange);
 }
 
 .aba i {
@@ -91,17 +90,14 @@
   display: flex;
   align-items: flex-start;
   gap: 16px;
-
   margin-bottom: 28px;
   padding-bottom: 18px;
-
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .icone-aba {
   margin-top: 2px;
-
-  color: #f97316;
+  color: var(--orange);
   font-size: 30px;
 }
 
@@ -113,7 +109,7 @@
 }
 
 .card-titulo p {
-  color: #777;
+  color: var(--text-light);
   font-size: 13px;
 }
 
@@ -142,10 +138,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-
   margin-bottom: 8px;
-
-  color: #444;
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 600;
 }
@@ -168,16 +162,13 @@
 .form-group select,
 .form-group textarea {
   width: 100%;
-
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
-
   color: var(--text);
   font-size: 14px;
-
   outline: none;
-  transition: 0.2s;
+  transition: var(--transition);
 }
 
 .form-group input,
@@ -196,7 +187,7 @@
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+  box-shadow: var(--shadow-focus-orange);
 }
 
 /* ==========================================
@@ -206,18 +197,15 @@
 .input-prefixo {
   display: flex;
   align-items: center;
-
   overflow: hidden;
-
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-
-  transition: 0.2s;
+  transition: var(--transition);
 }
 
 .input-prefixo:focus-within {
-  border-color: #f97316;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+  border-color: var(--orange);
+  box-shadow: var(--shadow-focus-orange);
 }
 
 .prefixo {
@@ -253,13 +241,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-
   padding: 16px 20px;
-
   background: var(--surface-alt);
-  border: 1px solid #fed7aa;
+  border: 1px solid var(--border-orange-light);
   border-radius: var(--radius-default);
-
   color: var(--text-muted);
   font-size: 15px;
 }
@@ -271,8 +256,7 @@
 
 .resumo-total strong {
   margin-left: auto;
-
-  color: #c2410c;
+  color: var(--orange-strong);
   font-size: 18px;
 }
 
