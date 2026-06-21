@@ -21,25 +21,7 @@
 ========================================== */
 
 .grid-form {
-  display: grid;
-  /* grid-template-columns: repeat(3, 1fr); */
-  grid-template-columns: repeat(4, 1fr);
-  /* gap: 28px 20px; */
-  width: 100%;
-  gap: 15px;
-}
-
-.subtitulo-form {
-  grid-column: 1 / -1;
-
-  margin-top: 4px;
-  padding-top: 16px;
-
-  border-top: 1px solid var(--border-light);
-
-  color: var(--text);
-  font-size: 19px;
-  font-weight: bold;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .observacao {
@@ -126,26 +108,6 @@
   }
 }
 
-@media (max-width: 900px) {
-  .grid-busca {
-    grid-template-columns: 1fr;
-  }
-
-  .form-busca {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-buscar {
-    width: 100%;
-  }
-}
-
-@media (max-width: 700px) {
-  .main-content {
-    padding: 15px;
-  }
-
   .grid-form,
   .secao-inferior {
     grid-template-columns: 1fr;
@@ -158,4 +120,4 @@
   .btn {
     width: 100%;
   }
-}
+

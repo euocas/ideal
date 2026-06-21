@@ -73,28 +73,7 @@
 ========================================== */
 
 .grid-form {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px 20px;
-  width: 100%;
-}
-
-
-
-/* ==========================================
-   SUBTÍTULOS
-========================================== */
-
-.subtitulo-form {
-  grid-column: 1 / -1;
-  margin-top: 2px;
-  padding-top: 14px;
-
-  border-top: 1px solid var(--border-light);
-
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--text);
+  grid-template-columns: repeat(3, 1fr);
 }
 
 /* ==========================================
@@ -106,29 +85,3 @@
 }
 
 
-
-/* ==========================================
-   RESPONSIVO
-========================================== */
-
-/*
-@media (max-width: 900px) {
-
-  .grid-busca {
-    grid-template-columns: 1fr;
-  }
-
-  .form-busca {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-buscar {
-    width: 100%;
-  }
-
-  .observacoes {
-    grid-column: span 1;
-  }
-}
-*/

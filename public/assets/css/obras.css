@@ -1,50 +1,9 @@
-
-
-
-
-/* ==========================================
-   INPUT GROUP
-========================================== */
-
-.input-group,
-.form-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.input-group {
-  flex: 1;
-}
-
-.input-group label,
-.form-group label {
-  margin-bottom: 6px;
-  color: var(--text-secondary);
-  font-size: 15px;
-  font-weight: 600;
-  pointer-events: none; /* ✅ CORRIGIDO: label não intercepta cliques */
-}
-
 /* ==========================================
    FORMULÁRIO
 ========================================== */
 
 .grid-form {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px 20px;
-  width: 100%;
-}
-
-.subtitulo-form {
-  grid-column: 1 / -1;
-  margin-top: 4px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-light);
-  color: var(--text);
-  font-size: 19px;
-  font-weight: bold;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .observacoes {
@@ -285,12 +244,6 @@
   }
 }
 
-
-@media (max-width: 700px) {
-  .main-content {
-    padding: 15px;
-  }
-
   .grid-form {
     grid-template-columns: 1fr;
   }
@@ -299,13 +252,6 @@
     grid-column: span 1;
   }
 
-  .acoes {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-  }
 }
 
 .cliente-area .form-group label {

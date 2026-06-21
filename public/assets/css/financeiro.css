@@ -122,9 +122,7 @@
 ========================================== */
 
 .grid-form {
-  display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px 20px;
 }
 
 .span-2 {
@@ -292,17 +290,6 @@
     grid-column: span 2;
   }
 }
-
-@media (max-width: 900px) {
-  .abas-container {
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 700px) {
-  .main-content {
-    padding: 15px;
-  }
 
   .grid-form {
     grid-template-columns: 1fr;

@@ -124,6 +124,22 @@
   line-height: 1.5;
 }
 
-.busca-container {
-    border: 3px solid red;
+
+/* ==========================================
+   FORMULÁRIO
+========================================== */
+.grid-form {
+  display: grid;
+  gap: 28px 20px;
+  width: 100%;
+}
+
+.subtitulo-form {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-light);
+  color: var(--text);
+  font-size: 19px;
+  font-weight: bold;
 }
