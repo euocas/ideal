@@ -95,63 +95,56 @@ require_once __DIR__ . '/../includes/header.php';
 
             <section class="card">
 
-    <div class="grid-busca">
-            <div class="busca-box">
+                <div class="grid-busca">
+                    <div class="busca-box">
 
-                <h2>
-                    <i class="fa-solid fa-users"></i>
-                    BUSCAR FUNCIONÁRIO
-                </h2>
+                        <h2>
+                            <i class="fa-solid fa-users"></i>
+                            BUSCAR FUNCIONÁRIO
+                        </h2>
 
-                <?php if (!empty($mensagem)): ?>
-                    <div class="alert alert-warning">
-                        <?= $mensagem ?>
+                        <?php if (!empty($mensagem)): ?>
+                            <div class="alert alert-warning">
+                                <?= $mensagem ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <form class="form-busca" action="/ideal/public/index.php?url=funcionarios" method="POST">
+
+                            <div class="input-group">
+                                <label>CPF</label>
+
+                                <input type="text" name="cpf" placeholder="000.000.000-00" maxlength="14"
+                                    oninput="mascaraCPF(this)" required>
+                            </div>
+
+                            <button type="submit" class="btn-buscar">
+                                <i class="bi bi-search"></i>
+                                BUSCAR
+                            </button>
+
+                        </form>
+
                     </div>
-                <?php endif; ?>
 
-                <form class="form-busca"
-                    action="/ideal/public/index.php?url=funcionarios"
-                    method="POST">
+                    <div class="dica-box">
 
-                    <div class="input-group">
-                        <label>CPF</label>
+                        <h3>
+                            <i class="fa-solid fa-circle-info"></i>
+                            DICA
+                        </h3>
 
-                        <input
-                            type="text"
-                            name="cpf"
-                            placeholder="000.000.000-00"
-                            maxlength="14"
-                            oninput="mascaraCPF(this)"
-                            required>
+                        <p>
+                            Digite o CPF do funcionário e clique em
+                            <strong>BUSCAR</strong>.
+                            Se não existir, você poderá cadastrar um novo funcionário.
+                        </p>
+
                     </div>
 
-                    <button type="submit" class="btn-buscar">
-                        <i class="bi bi-search"></i>
-                        BUSCAR
-                    </button>
+                </div> <!-- FECHA grid-busca -->
 
-                </form>
-
-            </div>
-
-        <div class="dica-box">
-
-            <h3>
-                <i class="fa-solid fa-circle-info"></i>
-                DICA
-            </h3>
-
-            <p>
-                Digite o CPF do funcionário e clique em
-                <strong>BUSCAR</strong>.
-                Se não existir, você poderá cadastrar um novo funcionário.
-            </p>
-
-        </div>
-
-    </div> <!-- FECHA grid-busca -->
-
-</section>
+            </section>
             <!-- SEGUNDO FORM -->
             <section class="card card-funcionario">
                 <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
@@ -219,8 +212,19 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>CPF</label>
-                            <input type="text" name="cpf" value="<?= htmlspecialchars($cpfValue) ?>" maxlength="14"
+                            <!--  mascara para exibir para o usuário cpf com pontuação -->
+                            <?php
+                            $cpfFormatado = !empty($cpfValue)
+                                ? preg_replace(
+                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                    '$1.$2.$3-$4',
+                                    preg_replace('/\D/', '', $cpfValue)
+                                )
+                                : '';
+                            ?>
+                            <input type="text" name="cpf" value="<?= htmlspecialchars($cpfFormatado) ?>" maxlength="14"
                                 inputmode="numeric" placeholder="000.000.000-00" oninput="mascaraCPF(this)" <?= $isEdit ? 'readonly style="background-color: #eee;"' : 'required' ?>>
+
                         </div>
 
                         <div class="form-group">
@@ -255,7 +259,8 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label>Complemento</label>
                             <input type="text" name="complemento"
-                                value="<?= htmlspecialchars($isEdit ? ($funcionario->getComplemento() ?? '') : '') ?>" placeholder="Números e letras">
+                                value="<?= htmlspecialchars($isEdit ? ($funcionario->getComplemento() ?? '') : '') ?>"
+                                placeholder="Números e letras">
                         </div>
 
                         <div class="form-group">
@@ -366,8 +371,7 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
             <div class="acoes">
-                <a href="/ideal/public/index.php?url=funcionarios"
-                    class="btn novo">
+                <a href="/ideal/public/index.php?url=funcionarios" class="btn novo">
                     <i class="bi bi-plus-lg"></i>
                     Cadastrar
                 </a>
@@ -386,8 +390,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </button>
 
                     <a href="/ideal/public/index.php?url=funcionarios/delete&id=<?= $funcionario->getIdFuncionario() ?>"
-                        class="btn excluir"
-                        onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">
+                        class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">
                         <i class="bi bi-trash"></i>
                         Excluir
                     </a>
