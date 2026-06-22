@@ -21,13 +21,9 @@ $favicon = '/ideal/public/assets/icon/funcionario2.png';
 $cargos = [
     'Almoxarife',
     'Analista Financeiro',
-    'Assistente Administrativo',
-    'Assistente de RH',
     'Auxiliar Administrativo',
     'Auxiliar de Eletricista',
     'Cabista',
-    'Comprador',
-    'Designer Gráfico',
     'Eletricista de Manutenção',
     'Eletricista Industrial',
     'Eletricista Montador',

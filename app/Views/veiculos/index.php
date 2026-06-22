@@ -99,7 +99,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <?php unset($_SESSION['mensagem_erro']); ?>
                     <?php endif; ?>
 
-                    <h2>Dados do Veículo</h2>
+                    <h2><i class="fa-regular fa-clipboard icone-titulo"> </i> Dados do Veículo</h2>
                     <div class="grid-form">
                         <div class="form-group">
                             <label>Renavam</label>

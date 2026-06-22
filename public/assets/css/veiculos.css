@@ -66,21 +66,36 @@
   font-size: 16px;
   line-height: 1.5;
 }
+.grid-form {
 
+    margin-top: 10px;
+
+}
+.icone-titulo {
+  color: var(--orange-dark);
+}
+
+input[type="date"] {
+  font-family: var(--font-primary);
+}
 /* ==========================================
    FORMULÁRIO
 ========================================== */
 
 .grid-form {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 /* ==========================================
    OBSERVAÇÕES
 ========================================== */
 
-.observacoes {
+.observacao {
   grid-column: span 2;
 }
 
+.observacao textarea {
 
+    height: 150px;
+
+}

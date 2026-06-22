@@ -101,7 +101,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <section class="card">
 
-                            <h2>Dados do Cliente</h2>
+                            <h2><i class="fa-regular fa-clipboard icone-titulo"> </i> Dados do Cliente</h2>
 
                             <form id="form-dados" method="POST">
 
