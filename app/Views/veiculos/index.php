@@ -10,11 +10,11 @@ $placaValue = $isEdit ? $veiculo->getPlaca() : $placaBusca;
 // Formatação inteligente dos anos (transforma YYYY em YYYY-01-01 para o input date ler)
 $anoFabValue = '';
 if ($isEdit && !empty($veiculo->getAnoFabricacao())) {
-    $anoFabValue = strlen((string)$veiculo->getAnoFabricacao()) === 4 ? $veiculo->getAnoFabricacao() . '-01-01' : $veiculo->getAnoFabricacao();
+    $anoFabValue = strlen((string) $veiculo->getAnoFabricacao()) === 4 ? $veiculo->getAnoFabricacao() . '-01-01' : $veiculo->getAnoFabricacao();
 }
 $anoModValue = '';
 if ($isEdit && !empty($veiculo->getAnoModelo())) {
-    $anoModValue = strlen((string)$veiculo->getAnoModelo()) === 4 ? $veiculo->getAnoModelo() . '-01-01' : $veiculo->getAnoModelo();
+    $anoModValue = strlen((string) $veiculo->getAnoModelo()) === 4 ? $veiculo->getAnoModelo() . '-01-01' : $veiculo->getAnoModelo();
 }
 
 // HEADERS ANTI CACHE
@@ -62,7 +62,8 @@ require_once __DIR__ . '/../includes/header.php';
                         <form class="form-busca" action="/ideal/public/index.php?url=veiculos" method="POST">
                             <div class="input-group">
                                 <label>PLACA</label>
-                                <input type="text" name="placa" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
+                                <input type="text" name="placa"
+                                    oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
                                     placeholder="ABC1D23" required maxlength="7" style="text-transform: uppercase;">
                             </div>
                             <button type="submit" class="btn-buscar"><i class="bi bi-search"></i> BUSCAR</button>
@@ -74,7 +75,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <i class="fa-solid fa-circle-info"></i>
                             DICA
                         </h3>
-                        <p>Digite a placa do veículo (padrão antigo ou Mercosul) e clique em <strong>BUSCAR</strong>. Se não existir, você poderá cadastrar um novo veículo.</p>
+                        <p>Digite a placa do veículo (padrão antigo ou Mercosul) e clique em <strong>BUSCAR</strong>. Se
+                            não existir, você poderá cadastrar um novo veículo.</p>
                     </div>
                 </div>
             </section>
@@ -107,11 +109,13 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label>Placa</label>
                             <input type="text" name="placa" value="<?= htmlspecialchars($placaValue ?? '') ?>"
-                                placeholder="ABC1D23" maxlength="7" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')">
+                                placeholder="ABC1D23" maxlength="7"
+                                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')">
                         </div>
                         <div class="form-group">
                             <label>Chassi</label>
-                            <input type="text" name="chassi" value="<?= htmlspecialchars($isEdit ? ($veiculo->getChassi() ?? '') : '') ?>"
+                            <input type="text" name="chassi"
+                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getChassi() ?? '') : '') ?>"
                                 oninput="mascaraChassi(this)" maxlength="17" placeholder="9BWZZZ377VT004251">
                         </div>
                         <div class="form-group">
@@ -136,7 +140,8 @@ require_once __DIR__ . '/../includes/header.php';
                                 <option value="">Selecione o modelo</option>
                                 <optgroup label="Utilitários leves">
                                     <option value="Fiat Strada" <?= ($isEdit && $veiculo->getModelo() === 'Fiat Strada') ? 'selected' : '' ?>>Fiat Strada</option>
-                                    <option value="Volkswagen Saveiro" <?= ($isEdit && $veiculo->getModelo() === 'Volkswagen Saveiro') ? 'selected' : '' ?>>Volkswagen Saveiro</option>
+                                    <option value="Volkswagen Saveiro" <?= ($isEdit && $veiculo->getModelo() === 'Volkswagen Saveiro') ? 'selected' : '' ?>>Volkswagen
+                                        Saveiro</option>
                                     <option value="Chevrolet Montana" <?= ($isEdit && $veiculo->getModelo() === 'Chevrolet Montana') ? 'selected' : '' ?>>Chevrolet Montana</option>
                                     <option value="Fiat Fiorino" <?= ($isEdit && $veiculo->getModelo() === 'Fiat Fiorino') ? 'selected' : '' ?>>Fiat Fiorino</option>
                                 </optgroup>
@@ -159,9 +164,12 @@ require_once __DIR__ . '/../includes/header.php';
                             <select name="cor">
                                 <option value="">Selecione</option>
                                 <option value="Branco" <?= ($isEdit && $veiculo->getCor() === 'Branco') ? 'selected' : '' ?>>Branco</option>
-                                <option value="Preto" <?= ($isEdit && $veiculo->getCor() === 'Preto') ? 'selected' : '' ?>>Preto</option>
-                                <option value="Prata" <?= ($isEdit && $veiculo->getCor() === 'Prata') ? 'selected' : '' ?>>Prata</option>
-                                <option value="Cinza" <?= ($isEdit && $veiculo->getCor() === 'Cinza') ? 'selected' : '' ?>>Cinza</option>
+                                <option value="Preto" <?= ($isEdit && $veiculo->getCor() === 'Preto') ? 'selected' : '' ?>>
+                                    Preto</option>
+                                <option value="Prata" <?= ($isEdit && $veiculo->getCor() === 'Prata') ? 'selected' : '' ?>>
+                                    Prata</option>
+                                <option value="Cinza" <?= ($isEdit && $veiculo->getCor() === 'Cinza') ? 'selected' : '' ?>>
+                                    Cinza</option>
                             </select>
                         </div>
                         <h2 class="subtitulo-form">Situação do Veículo</h2>
@@ -179,8 +187,8 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label>Quilometragem</label>
                             <input type="text" name="quilometragem"
-                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getQuilometragem() ?? '') : '') ?>" maxlength="9"
-                                pattern="\d{1,7}" inputmode="numeric" placeholder="Ex: 125000">
+                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getQuilometragem() ?? '') : '') ?>"
+                                maxlength="9" pattern="\d{1,7}" inputmode="numeric" placeholder="Ex: 125000">
                         </div>
                         <div class="form-group">
                             <!-- CORRIGIDO: name="dataUltimaRevisao" -->
@@ -209,8 +217,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <!-- CORRIGIDO: name="responsavelVeiculo" -->
                             <label>Responsável pelo veículo</label>
                             <input type="text" name="responsavelVeiculo"
-                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getResponsavelVeiculo() ?? '') : '') ?>" minlength="3"
-                                pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo">
+                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getResponsavelVeiculo() ?? '') : '') ?>"
+                                minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo">
                         </div>
                         <div class="form-group observacao">
                             <label>Observações</label>
@@ -221,8 +229,7 @@ require_once __DIR__ . '/../includes/header.php';
                 </section>
 
                 <div class="acoes">
-                    <a href="/ideal/public/index.php?url=veiculos"
-   class="btn novo">
+                    <a href="/ideal/public/index.php?url=veiculos" class="btn novo">
                         <i class="bi bi-plus-lg"></i>
                         Cadastrar</a>
 
@@ -235,9 +242,10 @@ require_once __DIR__ . '/../includes/header.php';
                             <i class="bi bi-pencil-square"></i>
                             Alterar</button>
                         <a href="/ideal/public/index.php?url=veiculos/delete&id=<?= $veiculo->getIdVeiculo() ?>"
-   class="btn excluir"
-   onclick="return confirm('Excluir este veículo?')">
+                            class="btn excluir" onclick="return confirm('Excluir este veículo?')">
+                        </a>
                     <?php endif; ?>
+
 
                     <button type="reset" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
                 </div>
