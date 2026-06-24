@@ -424,12 +424,12 @@ public function setFuncionariosVinculados(array $funcionarios): void
         return $dados ? $this->hydrate($dados) : null;
     }
 
-    public function buscarComFiltros(string $nomeObra = '', string $statusObra = ''): array
+    public function buscarComFiltros(string $contrato = '', string $statusObra = ''): array
     {
         $sql = "SELECT * FROM obra WHERE 1=1";
 
-        if (!empty($nomeObra)) {
-            $sql .= " AND cidade LIKE :nomeObra";
+        if (!empty($contrato)) {
+            $sql .= " AND contrato LIKE :contrato";
         }
 
         if (!empty($statusObra)) {
@@ -440,8 +440,8 @@ public function setFuncionariosVinculados(array $funcionarios): void
 
         $stmt = $this->pdo->prepare($sql);
 
-        if (!empty($nomeObra)) {
-            $stmt->bindValue(':nomeObra', '%' . $nomeObra . '%', PDO::PARAM_STR);
+        if (!empty($contrato)) {
+            $stmt->bindValue(':contrato', '%' . $contrato . '%', PDO::PARAM_STR);
         }
 
         if (!empty($statusObra)) {

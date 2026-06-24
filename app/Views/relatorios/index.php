@@ -157,7 +157,7 @@ require_once __DIR__ . '/../includes/header.php';
                                             <select name="statusObra">
                                                 <option value="">Selecione</option>
                                                 <option value="Em andamento">Em andamento</option>
-                                                <option value="Finalizada">Finalizada</option>
+                                                <option value="Concluida">Concluida</option>
                                             </select>
                                         </div>
 
@@ -259,7 +259,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                                                     <tr>
                                                         <th>ID</th>
-                                                        <th>Nome da Obra</th>
+                                                        <th>Contrato</th>
                                                         <th>Cidade</th>
                                                         <th>Status</th>
                                                     </tr>
@@ -339,7 +339,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                                                             <?php elseif ($relatorio == 'obras'): ?>
                                                                 <td><?= htmlspecialchars($linha['idObra'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($linha['nomeObra'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['contrato'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['cidade'] ?? '') ?></td>
 
                                                                 <!-- <td>
