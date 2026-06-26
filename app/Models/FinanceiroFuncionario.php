@@ -86,26 +86,26 @@ class FinanceiroFuncionario
  }
  
  public function save(): bool
- {
- try {
- $sql = "INSERT INTO financeiroFuncionario (idFuncionario, salario, ferias, inss, decimoTerceiro)
- VALUES (:idFuncionario, :salario, :ferias, :inss, :decimoTerceiro)";
- 
- $stmt = $this->pdo->prepare($sql);
- $stmt->bindValue(':idFuncionario', $this->getIdFuncionario(), PDO::PARAM_INT);
- $stmt->bindValue(':salario', $this->getSalario(), PDO::PARAM_STR);
- $stmt->bindValue(':ferias', $this->getFerias(), PDO::PARAM_STR);
- $stmt->bindValue(':inss', $this->getInss(), PDO::PARAM_STR);
- $stmt->bindValue(':decimoTerceiro', $this->getDecimoTerceiro(), PDO::PARAM_STR);
- $stmt->execute();
- 
- $this->idFinanceiroFuncionario = (int) $this->pdo->lastInsertId();
- return true;
- 
- } catch (\Exception $e) {
- return false;
- }
- }
+{
+    try {
+        $sql = "INSERT INTO financeiroFuncionario (idFuncionario, salario, ferias, inss, decimoTerceiro, dataRegistro)
+                VALUES (:idFuncionario, :salario, :ferias, :inss, :decimoTerceiro, CURDATE())";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':idFuncionario', $this->getIdFuncionario(), PDO::PARAM_INT);
+        $stmt->bindValue(':salario', $this->getSalario(), PDO::PARAM_STR);
+        $stmt->bindValue(':ferias', $this->getFerias(), PDO::PARAM_STR);
+        $stmt->bindValue(':inss', $this->getInss(), PDO::PARAM_STR);
+        $stmt->bindValue(':decimoTerceiro', $this->getDecimoTerceiro(), PDO::PARAM_STR);
+        $stmt->execute();
+
+        $this->idFinanceiroFuncionario = (int) $this->pdo->lastInsertId();
+        return true;
+
+    } catch (\Exception $e) {
+        return false;
+    }
+}
  
  public function update(): bool
  {

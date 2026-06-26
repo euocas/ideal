@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Config\Conexao; 
+use App\Config\Conexao;
 use PDO;
 
 class Relatorio
@@ -21,31 +21,39 @@ class Relatorio
     public function listarFinanceiro(): array
     {
         $resultados = [];
-        
+
         try {
-            // Buscar em financeiroObra
-            $sqlObra = "SELECT idFinanceiroObra as id, 'obra' as tipo, valor, data FROM financeiroObra ORDER BY data DESC";
+            // financeiroObra: valor = valor do gasto, data = dataGasto
+            $sqlObra = "SELECT idFinanceiroObra as id, 'obra' as tipo, descricao, valor, dataGasto as data
+                        FROM financeiroObra ORDER BY dataGasto DESC";
             $stmtObra = $this->pdo->prepare($sqlObra);
             $stmtObra->execute();
             $resultados = array_merge($resultados, $stmtObra->fetchAll(PDO::FETCH_ASSOC));
-            
-            // Buscar em financeiroFuncionario
-            $sqlFunc = "SELECT idFinanceiroFuncionario as id, 'funcionario' as tipo, valor, data FROM financeiroFuncionario ORDER BY data DESC";
+
+            // financeiroFuncionario: soma salario + ferias + inss + decimoTerceiro como "valor"
+            $sqlFunc = "SELECT idFinanceiroFuncionario as id, 'funcionario' as tipo,
+                        'Despesas com funcionário' as descricao,
+                        (COALESCE(salario,0) + COALESCE(ferias,0) + COALESCE(inss,0) + COALESCE(decimoTerceiro,0)) as valor,
+                        dataRegistro as data
+                        FROM financeiroFuncionario";
             $stmtFunc = $this->pdo->prepare($sqlFunc);
             $stmtFunc->execute();
             $resultados = array_merge($resultados, $stmtFunc->fetchAll(PDO::FETCH_ASSOC));
-            
-            // Buscar em financeiroAutomovel
-            $sqlAuto = "SELECT idFinanceiroAutomovel as id, 'automovel' as tipo, valor, data FROM financeiroAutomovel ORDER BY data DESC";
+
+            // financeiroAutomovel: soma combustivel + manutencao + ipva como "valor"
+            $sqlAuto = "SELECT idFinanceiroAutomovel as id, 'automovel' as tipo,
+                        'Despesas com veículo' as descricao,
+                        (COALESCE(combustivel,0) + COALESCE(manutencao,0) + COALESCE(ipva,0)) as valor,
+                        dataRegistro as data
+                        FROM financeiroAutomovel";
             $stmtAuto = $this->pdo->prepare($sqlAuto);
             $stmtAuto->execute();
             $resultados = array_merge($resultados, $stmtAuto->fetchAll(PDO::FETCH_ASSOC));
-            
-            // Ordenar todos por data DESC
-            usort($resultados, function($a, $b) {
+
+            usort($resultados, function ($a, $b) {
                 return strtotime($b['data'] ?? '1970-01-01') - strtotime($a['data'] ?? '1970-01-01');
             });
-            
+
             return $resultados;
         } catch (\Exception $e) {
             error_log('Erro ao listar financeiro: ' . $e->getMessage());
@@ -58,86 +66,26 @@ class Relatorio
      */
     public function buscarFinanceiroComFiltros(string $tipoFinanceiro = '', string $dataInicio = '', string $dataFim = ''): array
     {
-        $resultados = [];
-        
-        try {
-            // Buscar em financeiroObra
-            $sqlObra = "SELECT idFinanceiroObra as id, 'obra' as tipo, valor, data FROM financeiroObra WHERE 1=1";
-            if (!empty($dataInicio)) {
-                $sqlObra .= " AND data >= :dataInicio";
-            }
-            if (!empty($dataFim)) {
-                $sqlObra .= " AND data <= :dataFim";
-            }
-            $sqlObra .= " ORDER BY data DESC";
-            
-            $stmtObra = $this->pdo->prepare($sqlObra);
-            if (!empty($dataInicio)) {
-                $stmtObra->bindValue(':dataInicio', $dataInicio, PDO::PARAM_STR);
-            }
-            if (!empty($dataFim)) {
-                $stmtObra->bindValue(':dataFim', $dataFim, PDO::PARAM_STR);
-            }
-            $stmtObra->execute();
-            $resultados = array_merge($resultados, $stmtObra->fetchAll(PDO::FETCH_ASSOC));
-            
-            // Buscar em financeiroFuncionario
-            $sqlFunc = "SELECT idFinanceiroFuncionario as id, 'funcionario' as tipo, valor, data FROM financeiroFuncionario WHERE 1=1";
-            if (!empty($dataInicio)) {
-                $sqlFunc .= " AND data >= :dataInicio";
-            }
-            if (!empty($dataFim)) {
-                $sqlFunc .= " AND data <= :dataFim";
-            }
-            $sqlFunc .= " ORDER BY data DESC";
-            
-            $stmtFunc = $this->pdo->prepare($sqlFunc);
-            if (!empty($dataInicio)) {
-                $stmtFunc->bindValue(':dataInicio', $dataInicio, PDO::PARAM_STR);
-            }
-            if (!empty($dataFim)) {
-                $stmtFunc->bindValue(':dataFim', $dataFim, PDO::PARAM_STR);
-            }
-            $stmtFunc->execute();
-            $resultados = array_merge($resultados, $stmtFunc->fetchAll(PDO::FETCH_ASSOC));
-            
-            // Buscar em financeiroAutomovel
-            $sqlAuto = "SELECT idFinanceiroAutomovel as id, 'automovel' as tipo, valor, data FROM financeiroAutomovel WHERE 1=1";
-            if (!empty($dataInicio)) {
-                $sqlAuto .= " AND data >= :dataInicio";
-            }
-            if (!empty($dataFim)) {
-                $sqlAuto .= " AND data <= :dataFim";
-            }
-            $sqlAuto .= " ORDER BY data DESC";
-            
-            $stmtAuto = $this->pdo->prepare($sqlAuto);
-            if (!empty($dataInicio)) {
-                $stmtAuto->bindValue(':dataInicio', $dataInicio, PDO::PARAM_STR);
-            }
-            if (!empty($dataFim)) {
-                $stmtAuto->bindValue(':dataFim', $dataFim, PDO::PARAM_STR);
-            }
-            $stmtAuto->execute();
-            $resultados = array_merge($resultados, $stmtAuto->fetchAll(PDO::FETCH_ASSOC));
-            
-            // Filtrar por tipo se especificado
-            if (!empty($tipoFinanceiro)) {
-                $resultados = array_filter($resultados, function($item) use ($tipoFinanceiro) {
-                    return $item['tipo'] === $tipoFinanceiro;
-                });
-            }
-            
-            // Ordenar por data DESC
-            usort($resultados, function($a, $b) {
-                return strtotime($b['data'] ?? '1970-01-01') - strtotime($a['data'] ?? '1970-01-01');
+        $resultados = $this->listarFinanceiro();
+
+        if (!empty($tipoFinanceiro)) {
+            $resultados = array_filter($resultados, function ($item) use ($tipoFinanceiro) {
+                return $item['tipo'] === $tipoFinanceiro;
             });
-            
-            return $resultados;
-        } catch (\Exception $e) {
-            error_log('Erro ao buscar financeiro com filtros: ' . $e->getMessage());
-            return [];
         }
+
+        if (!empty($dataInicio)) {
+            $resultados = array_filter($resultados, function ($item) use ($dataInicio) {
+                return !empty($item['data']) && $item['data'] >= $dataInicio;
+            });
+        }
+
+        if (!empty($dataFim)) {
+            $resultados = array_filter($resultados, function ($item) use ($dataFim) {
+                return !empty($item['data']) && $item['data'] <= $dataFim;
+            });
+        }
+
+        return array_values($resultados);
     }
 }
-

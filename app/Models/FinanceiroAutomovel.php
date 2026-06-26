@@ -10,11 +10,11 @@ class FinanceiroAutomovel
     // =====================================================
     // 1. ATRIBUTOS
     // =====================================================
-    private ?int   $idFinanceiroAutomovel = null;
-    private ?int   $idVeiculo             = null;
-    private ?float $combustivel           = null;
-    private ?float $manutencao            = null;
-    private ?float $ipva                  = null;
+    private ?int $idFinanceiroAutomovel = null;
+    private ?int $idVeiculo = null;
+    private ?float $combustivel = null;
+    private ?float $manutencao = null;
+    private ?float $ipva = null;
 
     private PDO $pdo;
 
@@ -30,20 +30,50 @@ class FinanceiroAutomovel
     // =====================================================
     // 3. GETTERS E SETTERS
     // =====================================================
-    public function getIdFinanceiroAutomovel(): ?int { return $this->idFinanceiroAutomovel; }
-    public function setIdFinanceiroAutomovel(?int $id): void { $this->idFinanceiroAutomovel = $id; }
+    public function getIdFinanceiroAutomovel(): ?int
+    {
+        return $this->idFinanceiroAutomovel;
+    }
+    public function setIdFinanceiroAutomovel(?int $id): void
+    {
+        $this->idFinanceiroAutomovel = $id;
+    }
 
-    public function getIdVeiculo(): ?int { return $this->idVeiculo; }
-    public function setIdVeiculo($id): void { $this->idVeiculo = $id ? (int) $id : null; }
+    public function getIdVeiculo(): ?int
+    {
+        return $this->idVeiculo;
+    }
+    public function setIdVeiculo($id): void
+    {
+        $this->idVeiculo = $id ? (int) $id : null;
+    }
 
-    public function getCombustivel(): ?float { return $this->combustivel; }
-    public function setCombustivel($valor): void { $this->combustivel = $valor !== null && $valor !== '' ? (float) $valor : null; }
+    public function getCombustivel(): ?float
+    {
+        return $this->combustivel;
+    }
+    public function setCombustivel($valor): void
+    {
+        $this->combustivel = $valor !== null && $valor !== '' ? (float) $valor : null;
+    }
 
-    public function getManutencao(): ?float { return $this->manutencao; }
-    public function setManutencao($valor): void { $this->manutencao = $valor !== null && $valor !== '' ? (float) $valor : null; }
+    public function getManutencao(): ?float
+    {
+        return $this->manutencao;
+    }
+    public function setManutencao($valor): void
+    {
+        $this->manutencao = $valor !== null && $valor !== '' ? (float) $valor : null;
+    }
 
-    public function getIpva(): ?float { return $this->ipva; }
-    public function setIpva($valor): void { $this->ipva = $valor !== null && $valor !== '' ? (float) $valor : null; }
+    public function getIpva(): ?float
+    {
+        return $this->ipva;
+    }
+    public function setIpva($valor): void
+    {
+        $this->ipva = $valor !== null && $valor !== '' ? (float) $valor : null;
+    }
 
     // =====================================================
     // 4. HYDRATE
@@ -83,14 +113,14 @@ class FinanceiroAutomovel
     public function save(): bool
     {
         try {
-            $sql = "INSERT INTO financeiroAutomovel (idVeiculo, combustivel, manutencao, ipva)
-                    VALUES (:idVeiculo, :combustivel, :manutencao, :ipva)";
+            $sql = "INSERT INTO financeiroAutomovel (idVeiculo, combustivel, manutencao, ipva, dataRegistro)
+                VALUES (:idVeiculo, :combustivel, :manutencao, :ipva, CURDATE())";
 
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':idVeiculo',    $this->getIdVeiculo(),    PDO::PARAM_INT);
-            $stmt->bindValue(':combustivel',  $this->getCombustivel(),  PDO::PARAM_STR);
-            $stmt->bindValue(':manutencao',   $this->getManutencao(),   PDO::PARAM_STR);
-            $stmt->bindValue(':ipva',         $this->getIpva(),         PDO::PARAM_STR);
+            $stmt->bindValue(':idVeiculo', $this->getIdVeiculo(), PDO::PARAM_INT);
+            $stmt->bindValue(':combustivel', $this->getCombustivel(), PDO::PARAM_STR);
+            $stmt->bindValue(':manutencao', $this->getManutencao(), PDO::PARAM_STR);
+            $stmt->bindValue(':ipva', $this->getIpva(), PDO::PARAM_STR);
             $stmt->execute();
 
             $this->idFinanceiroAutomovel = (int) $this->pdo->lastInsertId();
@@ -116,11 +146,11 @@ class FinanceiroAutomovel
                     WHERE idFinanceiroAutomovel = :id";
 
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':idVeiculo',    $this->getIdVeiculo(),             PDO::PARAM_INT);
-            $stmt->bindValue(':combustivel',  $this->getCombustivel(),           PDO::PARAM_STR);
-            $stmt->bindValue(':manutencao',   $this->getManutencao(),            PDO::PARAM_STR);
-            $stmt->bindValue(':ipva',         $this->getIpva(),                  PDO::PARAM_STR);
-            $stmt->bindValue(':id',           $this->getIdFinanceiroAutomovel(), PDO::PARAM_INT);
+            $stmt->bindValue(':idVeiculo', $this->getIdVeiculo(), PDO::PARAM_INT);
+            $stmt->bindValue(':combustivel', $this->getCombustivel(), PDO::PARAM_STR);
+            $stmt->bindValue(':manutencao', $this->getManutencao(), PDO::PARAM_STR);
+            $stmt->bindValue(':ipva', $this->getIpva(), PDO::PARAM_STR);
+            $stmt->bindValue(':id', $this->getIdFinanceiroAutomovel(), PDO::PARAM_INT);
             $stmt->execute();
 
             return true;
