@@ -49,7 +49,7 @@ CREATE TABLE funcionario (
     estado CHAR(2),
     email VARCHAR(150) NOT NULL,
     cargoFuncao VARCHAR(100),
-    tipoContrato ENUM('CLT', 'CONTRATO TEMPORARIO', 'PESSOA JURÍDICA', 'TERCEIRIZADA') NOT NULL,
+    tipoContrato ENUM('CLT', 'CONTRATO TEMPORARIO', 'PESSOA JURÍDICA', 'TERCEIRIZADO') NOT NULL,
     dataAdmissao DATE,
     dataDesligamento DATE,
     feriasProgramadas DATE,
@@ -158,7 +158,6 @@ CREATE TABLE obra (
     complemento VARCHAR(45),
     contrato VARCHAR(45),
     observacoes TEXT,
-    
     CONSTRAINT fk_obra_cliente
         FOREIGN KEY (idCliente)
         REFERENCES cliente(idCliente)
@@ -190,12 +189,22 @@ CREATE TABLE obraFuncionarioVeiculo (
     idObraFuncionarioVeiculo INT AUTO_INCREMENT PRIMARY KEY,
     idObraFuncionario INT NOT NULL,
     idVeiculo INT NOT NULL,
-
     FOREIGN KEY (idObraFuncionario)
         REFERENCES obraFuncionario(idObraFuncionario),
-
     FOREIGN KEY (idVeiculo)
         REFERENCES veiculo(idVeiculo)
+);
+
+-- =====================================================
+-- CATEGORIA FINANCEIRA FUNCIONARIO
+-- =====================================================
+
+CREATE TABLE categoriaFinanceiroFuncionario (
+    idCategoria INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(80) NOT NULL, -- Salário, Horas Extras, Férias, 13º terceiro 
+    tipo ENUM('ENTRADA','SAIDA') NOT NULL,
+    tipoContrato ENUM('CLT','CONTRATO TEMPORARIO','TERCEIRIZADO','PESSOA JURÍDICA', 'TODOS') NOT NULL DEFAULT 'TODOS',
+    ativo BOOLEAN DEFAULT TRUE
 );
 
 -- =====================================================
@@ -205,15 +214,20 @@ CREATE TABLE obraFuncionarioVeiculo (
 CREATE TABLE financeiroFuncionario (
     idFinanceiroFuncionario INT AUTO_INCREMENT PRIMARY KEY,
     idFuncionario INT NOT NULL,
-    salario DECIMAL(10,2),
-    ferias DECIMAL(10,2),
-    inss DECIMAL(10,2),
-    decimoTerceiro DECIMAL(10,2),
-    dataRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    CONSTRAINT fk_financeiroFuncionario
-        FOREIGN KEY (idFuncionario)
-        REFERENCES funcionario(idFuncionario)
+    idCategoria INT NOT NULL,
+    descricao VARCHAR(200) NOT NULL,
+    valor DECIMAL(10,2) NOT NULL,
+    dataReferencia DATE NOT NULL,   
+    formaPagamento VARCHAR(40),
+    contaPagamento VARCHAR(100),
+    observacao TEXT,
+    dataCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idFuncionario)
+        REFERENCES funcionario(idFuncionario),
+    FOREIGN KEY (idCategoria)
+        REFERENCES categoriaFinanceiroFuncionario(idCategoria)
 );
+
 
 -- =====================================================
 -- FINANCEIRO OBRA
@@ -302,7 +316,7 @@ INSERT INTO funcionario (
  
 ('Carlos Henrique Lima', '1995-02-17', 'Masculino', 'Praia Grande', 'SP', '61841080004',
 'Avenida', 'Avenida Presidente Kennedy', '890', 'Sala 3', 'Praia Grande', '11700000', 'SP',
-'carlos.lima@empresa.com', 'Assistente Administrativo', 'TERCEIRIZADA',
+'carlos.lima@empresa.com', 'Assistente Administrativo', 'TERCEIRIZADO',
 '2021-01-11', NULL, '2026-11-03', 'inativo', 'Contrato encerrado em 2025.'),
  
 ('Fernanda Alves Costa', '1992-08-30', 'Feminino', 'Guarujá', 'SP', '65396386045',
@@ -451,6 +465,71 @@ INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES
 (5, 5); 
 
 -- =====================================================
+-- INSERÇAO DE DADOS DA CATEGORIA FINANCEIRO FUNCIONARIO
+-- =====================================================
+INSERT INTO categoriaFinanceiroFuncionario (nome, tipo, tipoContrato) VALUES
+('Salário', 'ENTRADA', 'CLT'),
+('Horas Extras', 'ENTRADA', 'CLT'),
+('13º Salário', 'ENTRADA', 'CLT'),
+('Férias', 'ENTRADA', 'CLT'),
+('Bônus', 'ENTRADA', 'TODOS'),
+('Ajuda de Custo', 'ENTRADA', 'TODOS'),
+('Pagamento NF', 'ENTRADA', 'PESSOA JURÍDICA'),
+('Pagamento Serviço', 'ENTRADA', 'TERCEIRIZADO'),
+
+('INSS', 'SAIDA', 'CLT'),
+('IRRF', 'SAIDA', 'CLT'),
+('Vale Transporte', 'SAIDA', 'CLT'),
+('Vale Alimentação', 'SAIDA', 'CLT'),
+('Empréstimo', 'SAIDA', 'TODOS');
+
+-- =====================================================
+-- INSERÇAO DE DADOS DA FINANCEIRO FUNCIONARIO
+-- =====================================================
+
+-- FUNCIONÁRIO JOÃO - CLT
+INSERT INTO financeiroFuncionario
+(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
+VALUES
+(1, 1, 'Salário Julho/2026', 5800.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
+(1, 2, 'Horas Extras', 450.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
+(1, 9, 'Desconto INSS', 640.00, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
+(1,10, 'Desconto IRRF', 285.00, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
+(1,11, 'Vale Transporte', 220.00, '2026-07-01', 'Folha', 'Banco do Brasil', '');
+
+-- FUNCIONÁRIA MARIA - CONTRATO TEMPORÁRIO
+INSERT INTO financeiroFuncionario
+(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
+VALUES
+(2, 1, 'Salário Julho/2026', 4700.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
+(2, 5, 'Bônus por desempenho', 300.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
+(2, 9, 'Desconto INSS', 515.00, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
+(2,11, 'Vale Transporte', 180.00, '2026-07-01', 'Folha', 'Caixa Econômica', '');
+
+-- FUNCIONÁRIO CARLOS - TERCEIRIZADA
+INSERT INTO financeiroFuncionario
+(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
+VALUES
+(3, 8, 'Pagamento de Serviço Julho/2026', 5200.00, '2026-07-01', 'TED', 'Banco Itaú', '');
+
+-- FUNCIONÁRIA FERNANDA - PESSOA JURÍDICA
+INSERT INTO financeiroFuncionario
+(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
+VALUES
+(4, 7, 'Pagamento NF Julho/2026', 6000.00, '2026-07-01', 'PIX', 'Banco Inter', ''),
+(4, 6, 'Ajuda de Custo', 350.00, '2026-07-01', 'PIX', 'Banco Inter', '');
+
+-- FUNCIONÁRIO LUCAS - CLT
+INSERT INTO financeiroFuncionario
+(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
+VALUES
+(5, 1, 'Salário Julho/2026', 4500.00, '2026-07-01', 'Transferência', 'Santander', ''),
+(5, 5, 'Bônus', 250.00, '2026-07-01', 'Transferência', 'Santander', ''),
+(5, 9, 'Desconto INSS', 495.00, '2026-07-01', 'Folha', 'Santander', ''),
+(5,11, 'Vale Transporte', 180.00, '2026-07-01', 'Folha', 'Santander', '');
+
+
+-- =====================================================
 -- CONSULTAS DE TESTE (Rode após a criação)
 -- =====================================================
 
@@ -462,6 +541,8 @@ SELECT * FROM funcionario;
 SELECT * FROM contatoFuncionario;
 SELECT * FROM contatoCliente;
 SELECT * FROM obraFuncionario;
+SELECT * FROM funcionario WHERE idFuncionario = 1;
+SELECT * FROM categoriaFinanceiroFuncionario;
  
 SELECT CONSTRAINT_NAME, TABLE_NAME
 FROM information_schema.TABLE_CONSTRAINTS
@@ -489,9 +570,12 @@ DESCRIBE funcionario;
 DESCRIBE cliente;
 DESCRIBE contatoFuncionario;
 DESCRIBE contatoCliente;
+DESCRIBE financeiroFuncionario;
+DESCRIBE financeiroFuncionario;
 
 SHOW COLUMNS FROM funcionario;
 SHOW COLUMNS FROM financeiroObra;
+
  
 SELECT idFinanceiroObra, idObra, descricao, valor, dataGasto 
 FROM financeiroObra 
