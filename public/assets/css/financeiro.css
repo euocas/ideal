@@ -1,7 +1,6 @@
 /* ==========================================
    HEADER
 ========================================== */
-
 .fin-header {
   display: flex;
   align-items: center;
@@ -155,6 +154,22 @@
 }
 
 /* ==========================================
+FUNCIONÁRIO
+========================================== */
+.financeiro-topo {
+  display: grid;
+ grid-template-columns: 52% 33% 15%;
+  gap: 20px;
+  align-items: end;
+}
+
+.periodo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ==========================================
    CAMPOS
 ========================================== */
 
@@ -293,4 +308,3 @@
     font-size: 22px;
   }
 }
-
