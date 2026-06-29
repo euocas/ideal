@@ -154,11 +154,11 @@
 }
 
 /* ==========================================
-FUNCIONÁRIO
+   CARD 1 - BUSCA E DADOS DO FUNCIONÁRIO
 ========================================== */
 .financeiro-topo {
   display: grid;
- grid-template-columns: 52% 33% 15%;
+  grid-template-columns: 52% 33% 15%;
   gap: 20px;
   align-items: end;
 }
@@ -168,6 +168,201 @@ FUNCIONÁRIO
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
+/* ==========================================
+   class FUNCIONÁRIO CARD
+========================================== */
+.funcionario-card {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+  margin-top: 30px;
+  padding: 25px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+/* AVATAR */
+.funcionario-avatar {
+  flex-shrink: 0;
+}
+.avatar-circulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  border: 2px solid #ffd7aa;
+  border-radius: 50%;
+  background: #fff7ed;
+}
+.avatar-circulo i {
+  font-size: 48px;
+  color: var(--orange);
+}
+.funcionario-conteudo {
+  display: flex;
+  flex: 1;
+}
+/* COLUNAS */
+.funcionario-coluna {
+  flex: 1;
+  padding: 0 35px;
+}
+.funcionario-coluna:first-child {
+  padding-left: 0;
+}
+.funcionario-coluna:not(:last-child) {
+  border-right: 1px solid var(--border-light);
+}
+/* NOME */
+.funcionario-nome {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 700;
+}
+.funcionario-funcao,
+.funcionario-cpf,
+.funcionario-admissao {
+  margin-bottom: 6px;
+  color: var(--text);
+  font-size: 15px;
+}
+/* STATUS */
+.status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.status.ativo {
+  background: var(--success-light);
+  color: var(--success-dark);
+}
+/* ITENS */
+.funcionario-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.funcionario-item:last-child {
+  margin-bottom: 0;
+}
+.funcionario-item i {
+  margin-top: 2px;
+  width: 22px;
+  color: var(--text-light);
+  font-size: 18px;
+}
+/* TITULO */
+.funcionario-titulo {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 600;
+}
+/* VALOR */
+.funcionario-valor {
+  display: block;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+/* ==========================================
+   CARD 2 - SUBABAS
+========================================== */
+.subabas-container {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 25px;
+  padding-bottom: 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.subaba {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border-light);
+  border-bottom: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.subaba:not(:first-child) {
+  margin-left: 8px;
+}
+.subaba i {
+  font-size: 15px;
+}
+.subaba:hover {
+  background: var(--surface);
+}
+/* ABA ATIVA */
+.subaba.ativa {
+    position: relative;
+    top: 1px;
+    background: var(--surface);
+    border-color: var(--border-light);
+    border-bottom: 1px solid var(--surface);
+    color: var(--text);
+}
+/* Entrada */
+.subaba.entrada {
+    color: var(--success-dark);
+}
+/* Saída */
+.subaba.saida {
+    color: var(--danger-dark);
+}
+/* Período */
+.subaba.periodo {
+    /* color: var(--info-dark); */
+/* color: #2563eb; */
+color: var(--primary);
+}
+.subaba.entrada.ativa {
+    background: var(--success-light);
+    border-color: var(--success-dark);
+    border-bottom-color: var(--success-light);
+    color: var(--success-dark);
+     border-top: 2.5px solid var(--success-dark);
+
+}
+.subaba.saida.ativa {
+    background: var(--danger-light);
+    border-color: var(--danger-dark);
+    border-bottom-color: var(--danger-light);
+    color: var(--danger-dark);
+     border-top: 2.5px solid var(--danger-dark);
+}
+.subaba.periodo.ativa {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    border-bottom-color: var(--primary-light);
+    color: var(--primary);
+     border-top: 2.5px solid var(--primary);
+}
+
+
+
+/* ==========================================
+   CARD 3 - CONTEÚDO DAS SUBABAS
+========================================== */
+
 
 /* ==========================================
    CAMPOS
