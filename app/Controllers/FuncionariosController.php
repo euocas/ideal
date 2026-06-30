@@ -146,6 +146,13 @@ class FuncionariosController
             !empty($dados['feriasProgramadas']) ? $dados['feriasProgramadas'] : null
         );
 
+        // para os dados de banco acrescentados
+
+        $funcionario->setAgencia($dados['agencia'] ?? null);
+        $funcionario->setConta($dados['conta'] ?? null);
+        $funcionario->setTipoConta($dados['tipoConta'] ?? null);
+        $funcionario->setChavePix($dados['chavePix'] ?? null);
+
         $funcionario->setObservacoes($dados['observacoes'] ?? null);
         $funcionario->setTelefone($dados['telefone'] ?? null);
         $funcionario->setWhatsapp($dados['whatsapp'] ?? null);

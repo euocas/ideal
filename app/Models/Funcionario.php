@@ -6,7 +6,6 @@ use App\Config\Conexao;
 use PDO;
 
 class Funcionario
-
 {
     // =====================================================
     // 1. ATRIBUTOS DA CLASSE (Representam as colunas do banco)
@@ -34,6 +33,16 @@ class Funcionario
     private ?string $dataAdmissao = null;
     private ?string $dataDesligamento = null;
     private ?string $feriasProgramadas = null;
+
+    // Dados Bancários
+    private ?string $agencia = null;
+
+    private ?string $conta = null;
+
+    private ?string $tipoConta = null;
+
+    private ?string $chavePix = null;
+
 
     private ?string $observacoes = null;
 
@@ -262,22 +271,92 @@ class Funcionario
     }
     // novos dados add acima (data de adm, data de deslig e férias)
 
+
+    // novos campos
+
+    public function getAgencia(): ?string
+    {
+        return $this->agencia;
+    }
+
+    public function setAgencia(?string $agencia): void
+    {
+        $this->agencia = $agencia;
+    }
+
+    public function getConta(): ?string
+    {
+        return $this->conta;
+    }
+
+    public function setConta(?string $conta): void
+    {
+        $this->conta = $conta;
+    }
+
+    public function getTipoConta(): ?string
+    {
+        return $this->tipoConta;
+    }
+
+    public function setTipoConta(?string $tipoConta): void
+    {
+        $this->tipoConta = $tipoConta;
+    }
+
+    public function getChavePix(): ?string
+    {
+        return $this->chavePix;
+    }
+
+    public function setChavePix(?string $chavePix): void
+    {
+        $this->chavePix = $chavePix;
+    }
+
+
+
+    // public function getTelefone(): ?string
+    // {
+    //     return $this->telefone;
+    // }
+    // public function setTelefone(?string $telefone): void
+    // {
+    //     $this->telefone = $telefone;
+    // }
+
+    // public function getWhatsapp(): ?string
+    // {
+    //     return $this->whatsapp;
+    // }
+    // public function setWhatsapp(?string $whatsapp): void
+    // {
+    //     $this->whatsapp = $whatsapp;
+    // }
+
+
     public function getTelefone(): ?string
     {
         return $this->telefone;
     }
+
     public function setTelefone(?string $telefone): void
     {
-        $this->telefone = $telefone;
+        $this->telefone = $telefone
+            ? preg_replace('/[^0-9]/', '', $telefone)
+            : null;
     }
 
     public function getWhatsapp(): ?string
     {
         return $this->whatsapp;
     }
+
     public function setWhatsapp(?string $whatsapp): void
     {
-        $this->whatsapp = $whatsapp;
+        $this->whatsapp = $whatsapp
+            ? preg_replace('/[^0-9]/', '', $whatsapp)
+            : null;
     }
 
 
@@ -318,6 +397,11 @@ class Funcionario
         $funcionario->setFeriasProgramadas($dados['feriasProgramadas'] ?? null);
         // acima campos novos add
 
+        $funcionario->setAgencia($dados['agencia'] ?? null);
+        $funcionario->setConta($dados['conta'] ?? null);
+        $funcionario->setTipoConta($dados['tipoConta'] ?? null);
+        $funcionario->setChavePix($dados['chavePix'] ?? null);
+
         $funcionario->setTelefone($dados['telefone'] ?? null);
         $funcionario->setWhatsapp($dados['whatsapp'] ?? null);
 
@@ -357,61 +441,65 @@ class Funcionario
     }
 
     public function save(): bool
-{
-    try {
-        $this->pdo->beginTransaction();
+    {
+        try {
+            $this->pdo->beginTransaction();
 
-        $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, dataAdmissao, dataDesligamento, feriasProgramadas, observacoes) 
-                VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :dataAdmissao, :dataDesligamento, :feriasProgramadas, :observacoes)";
+            $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, dataAdmissao, dataDesligamento, feriasProgramadas,agencia, conta, tipoConta, chavePix, observacoes) 
+                VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :dataAdmissao, :dataDesligamento, :feriasProgramadas,:agencia, :conta, :tipoConta, :chavePix, :observacoes)";
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
-        $stmt->bindValue(':cpf', $this->getCpf(), PDO::PARAM_STR);
-        $stmt->bindValue(':sexo', $this->getSexo(), PDO::PARAM_STR);
-        $stmt->bindValue(':dataNascimento', $this->getDataNascimento(), PDO::PARAM_STR);
-        $stmt->bindValue(':naturalidade', $this->getNaturalidade(), PDO::PARAM_STR);
-        $stmt->bindValue(':estadoNascimento', $this->getEstadoNascimento(), PDO::PARAM_STR);
-        $stmt->bindValue(':tipoLogradouro', $this->getTipoLogradouro(), PDO::PARAM_STR);
-        $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), PDO::PARAM_STR);
-        $stmt->bindValue(':numero', $this->getNumero(), PDO::PARAM_STR);
-        $stmt->bindValue(':complemento', $this->getComplemento(), PDO::PARAM_STR);
-        $stmt->bindValue(':cidade', $this->getCidade(), PDO::PARAM_STR);
-        $stmt->bindValue(':cep', $this->getCep(), PDO::PARAM_STR);
-        $stmt->bindValue(':estado', $this->getEstado(), PDO::PARAM_STR);
-        $stmt->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
-        $stmt->bindValue(':cargoFuncao', $this->getCargoFuncao(), PDO::PARAM_STR);
-        $stmt->bindValue(':tipoContrato', $this->getTipoContrato(), PDO::PARAM_STR);
-        $stmt->bindValue(':status', $this->getStatus(), PDO::PARAM_STR);
-        $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
-        $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
-        $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
-        $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
+            $stmt->bindValue(':cpf', $this->getCpf(), PDO::PARAM_STR);
+            $stmt->bindValue(':sexo', $this->getSexo(), PDO::PARAM_STR);
+            $stmt->bindValue(':dataNascimento', $this->getDataNascimento(), PDO::PARAM_STR);
+            $stmt->bindValue(':naturalidade', $this->getNaturalidade(), PDO::PARAM_STR);
+            $stmt->bindValue(':estadoNascimento', $this->getEstadoNascimento(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipoLogradouro', $this->getTipoLogradouro(), PDO::PARAM_STR);
+            $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), PDO::PARAM_STR);
+            $stmt->bindValue(':numero', $this->getNumero(), PDO::PARAM_STR);
+            $stmt->bindValue(':complemento', $this->getComplemento(), PDO::PARAM_STR);
+            $stmt->bindValue(':cidade', $this->getCidade(), PDO::PARAM_STR);
+            $stmt->bindValue(':cep', $this->getCep(), PDO::PARAM_STR);
+            $stmt->bindValue(':estado', $this->getEstado(), PDO::PARAM_STR);
+            $stmt->bindValue(':email', $this->getEmail(), PDO::PARAM_STR);
+            $stmt->bindValue(':cargoFuncao', $this->getCargoFuncao(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipoContrato', $this->getTipoContrato(), PDO::PARAM_STR);
+            $stmt->bindValue(':status', $this->getStatus(), PDO::PARAM_STR);
+            $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
+            $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
+            $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
+            $stmt->bindValue(':agencia', $this->getAgencia(), PDO::PARAM_STR);
+            $stmt->bindValue(':conta', $this->getConta(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipoConta', $this->getTipoConta(), PDO::PARAM_STR);
+            $stmt->bindValue(':chavePix', $this->getChavePix(), PDO::PARAM_STR);
+            $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
 
-        $stmt->execute();
+            $stmt->execute();
 
-        $this->idFuncionario = (int) $this->pdo->lastInsertId();
+            $this->idFuncionario = (int) $this->pdo->lastInsertId();
 
-        if ($this->getTelefone() || $this->getWhatsapp()) {
-            $sqlContato = "INSERT INTO contatoFuncionario (idFuncionario, telefone, whatsapp) 
+            if ($this->getTelefone() || $this->getWhatsapp()) {
+                $sqlContato = "INSERT INTO contatoFuncionario (idFuncionario, telefone, whatsapp) 
                            VALUES (:idFuncionario, :telefone, :whatsapp)";
-            $stmtContato = $this->pdo->prepare($sqlContato);
-            $stmtContato->bindValue(':idFuncionario', $this->getIdFuncionario(), PDO::PARAM_INT);
-            $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
-            $stmtContato->bindValue(':whatsapp', $this->getWhatsapp(), PDO::PARAM_STR);
-            $stmtContato->execute();
-        }
+                $stmtContato = $this->pdo->prepare($sqlContato);
+                $stmtContato->bindValue(':idFuncionario', $this->getIdFuncionario(), PDO::PARAM_INT);
+                $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
+                $stmtContato->bindValue(':whatsapp', $this->getWhatsapp(), PDO::PARAM_STR);
+                $stmtContato->execute();
+            }
 
-        $this->pdo->commit();
-        return true;
+            $this->pdo->commit();
+            return true;
 
-    } catch (\Exception $e) {
-        if ($this->pdo->inTransaction()) {
-            $this->pdo->rollBack();
+        } catch (\Exception $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            error_log($e->getMessage());
+            return false;
         }
-        error_log($e->getMessage());
-        return false;
     }
-}
 
     public function update(): bool
     {
@@ -428,7 +516,8 @@ class Funcionario
                     nome = :nome, sexo = :sexo, dataNascimento = :dataNascimento, naturalidade = :naturalidade, estadoNascimento = :estadoNascimento, 
                     nomeLogradouro = :nomeLogradouro, numero = :numero, complemento = :complemento, cidade = :cidade, cep = :cep, estado = :estado, 
                     email = :email, cargoFuncao = :cargoFuncao, tipoContrato = :tipoContrato, status = :status, dataAdmissao = :dataAdmissao,
-                    dataDesligamento = :dataDesligamento, feriasProgramadas = :feriasProgramadas, observacoes = :observacoes 
+                    dataDesligamento = :dataDesligamento, feriasProgramadas = :feriasProgramadas,agencia = :agencia,conta = :conta,tipoConta = :tipoConta,chavePix = :chavePix, 
+                    observacoes = :observacoes 
                     WHERE idFuncionario = :id";
 
             $stmt = $this->pdo->prepare($sql);
@@ -451,6 +540,11 @@ class Funcionario
             $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
             $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
             $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
+
+            $stmt->bindValue(':agencia', $this->getAgencia(), PDO::PARAM_STR);
+            $stmt->bindValue(':conta', $this->getConta(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipoConta', $this->getTipoConta(), PDO::PARAM_STR);
+            $stmt->bindValue(':chavePix', $this->getChavePix(), PDO::PARAM_STR);
 
             $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->getIdFuncionario(), PDO::PARAM_INT);
@@ -508,45 +602,45 @@ class Funcionario
      * Busca funcionários com filtros
      */
     public function buscarComFiltros(string $nome = '', string $cargoFuncao = '', string $status = '', string $cpf = ''): array
-{
-    $sql = "SELECT * FROM funcionario WHERE 1=1";
+    {
+        $sql = "SELECT * FROM funcionario WHERE 1=1";
 
-    if (!empty($nome)) {
-        $sql .= " AND nome LIKE :nome";
+        if (!empty($nome)) {
+            $sql .= " AND nome LIKE :nome";
+        }
+
+        if (!empty($cargoFuncao)) {
+            $sql .= " AND cargoFuncao LIKE :cargoFuncao";
+        }
+
+        if (!empty($status)) {
+            $sql .= " AND status = :status";
+        }
+
+        if (!empty($cpf)) {
+            $sql .= " AND cpf LIKE :cpf";
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+
+        if (!empty($nome)) {
+            $stmt->bindValue(':nome', '%' . $nome . '%', PDO::PARAM_STR);
+        }
+
+        if (!empty($cargoFuncao)) {
+            $stmt->bindValue(':cargoFuncao', '%' . $cargoFuncao . '%', PDO::PARAM_STR);
+        }
+
+        if (!empty($status)) {
+            $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        }
+
+        if (!empty($cpf)) {
+            $cpfLimpo = preg_replace('/[^0-9]/', '', $cpf);
+            $stmt->bindValue(':cpf', '%' . $cpfLimpo . '%', PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    if (!empty($cargoFuncao)) {
-        $sql .= " AND cargoFuncao LIKE :cargoFuncao";
-    }
-
-    if (!empty($status)) {
-        $sql .= " AND status = :status";
-    }
-
-    if (!empty($cpf)) {
-        $sql .= " AND cpf LIKE :cpf";
-    }
-
-    $stmt = $this->pdo->prepare($sql);
-
-    if (!empty($nome)) {
-        $stmt->bindValue(':nome', '%' . $nome . '%', PDO::PARAM_STR);
-    }
-
-    if (!empty($cargoFuncao)) {
-        $stmt->bindValue(':cargoFuncao', '%' . $cargoFuncao . '%', PDO::PARAM_STR);
-    }
-
-    if (!empty($status)) {
-        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
-    }
-
-    if (!empty($cpf)) {
-        $cpfLimpo = preg_replace('/[^0-9]/', '', $cpf);
-        $stmt->bindValue(':cpf', '%' . $cpfLimpo . '%', PDO::PARAM_STR);
-    }
-
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 }

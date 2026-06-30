@@ -10,7 +10,11 @@ $cpfBusca = $cpfBusca ?? '';
 $isEdit = isset($funcionario) && is_object($funcionario);
 
 $actionUrl = $isEdit ? "/ideal/public/index.php?url=funcionarios/update&id={$funcionario->getIdFuncionario()}" : "/ideal/public/index.php?url=funcionarios/store";
+
 $cpfValue = $isEdit ? $funcionario->getCpf() : ($cpfBusca ?? '');
+
+$telefoneValue = $isEdit ? $funcionario->getTelefone() : '';
+$whatsappValue = $isEdit ? $funcionario->getWhatsapp() : '';
 
 // TÍTULO DA PÁGINA
 $titulo = 'Funcionários';
@@ -32,6 +36,7 @@ $cargos = [
     'Instalador Elétrico',
     'Mestre de Obras',
     'Montador de Painéis Elétricos',
+    'Recursos Humanos',
     'Oficial Eletricista',
     'Social Midia'
 ];
@@ -318,53 +323,128 @@ require_once __DIR__ . '/../includes/header.php';
                             </select>
                         </div>
 
+                        <?php
+                        $telefoneFormatado = !empty($telefoneValue)
+                            ? (strlen(preg_replace('/\D/', '', $telefoneValue)) == 11
+                                ? preg_replace(
+                                    '/(\d{2})(\d{5})(\d{4})/',
+                                    '($1) $2-$3',
+                                    preg_replace('/\D/', '', $telefoneValue)
+                                )
+                                : preg_replace(
+                                    '/(\d{2})(\d{4})(\d{4})/',
+                                    '($1) $2-$3',
+                                    preg_replace('/\D/', '', $telefoneValue)
+                                ))
+                            : '';
+
+                        $whatsappFormatado = !empty($whatsappValue)
+                            ? (strlen(preg_replace('/\D/', '', $whatsappValue)) == 11
+                                ? preg_replace(
+                                    '/(\d{2})(\d{5})(\d{4})/',
+                                    '($1) $2-$3',
+                                    preg_replace('/\D/', '', $whatsappValue)
+                                )
+                                : preg_replace(
+                                    '/(\d{2})(\d{4})(\d{4})/',
+                                    '($1) $2-$3',
+                                    preg_replace('/\D/', '', $whatsappValue)
+                                ))
+                            : '';
+                        ?>
+
                         <div class="form-group">
                             <label>Telefone</label>
-                            <input type="text" name="telefone" placeholder="(11) 0000-0000"
-                                oninput="mascaraTelefone(this)"
-                                value="<?= htmlspecialchars($isEdit ? $funcionario->getTelefone() : '') ?>">
+                            <input type="text" name="telefone" placeholder="(XX) 0000-0000"
+                                oninput="mascaraTelefone(this)" value="<?= htmlspecialchars($telefoneFormatado) ?>">
                         </div>
 
                         <div class="form-group">
                             <label>WhatsApp</label>
-                            <input type="text" name="whatsapp" placeholder="(11) 00000-0000"
-                                oninput="mascaraTelefone(this)"
-                                value="<?= htmlspecialchars($isEdit ? $funcionario->getWhatsapp() : '') ?>">
+                            <input type="text" name="whatsapp" placeholder="(XX) 00000-0000"
+                                oninput="mascaraTelefone(this)" value="<?= htmlspecialchars($whatsappFormatado) ?>">
                         </div>
 
 
 
+                        <div class="secao-inferior">
 
-                        <div class="card-contratacao">
+                            <!-- DADOS CONTRATAÇÃO -->
+                            <div class="card-contratacao">
 
-                            <h2><i class="fa-solid fa-file-signature icone-titulo"></i> Dados de Contratação</h2>
-                            <div class="grupo-datas">
-                                <div class="form-group">
-                                    <label>Admissão</label>
+                                <h2><i class="fa-solid fa-file-signature icone-titulo"></i> Dados de Contratação</h2>
+                                <div class="grupo-datas">
+                                    <div class="form-group">
+                                        <label>Admissão</label>
 
-                                    <input type="date" name="dataAdmissao"
-                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataAdmissao() : '') ?>">
+                                        <input type="date" name="dataAdmissao"
+                                            value="<?= htmlspecialchars($isEdit ? $funcionario->getDataAdmissao() : '') ?>">
 
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Desligamento</label>
+                                        <input type="date" name="dataDesligamento"
+                                            value="<?= htmlspecialchars($isEdit ? $funcionario->getDataDesligamento() : '') ?>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Férias Programadas</label>
+                                        <input type="date" name="feriasProgramadas"
+                                            value="<?= htmlspecialchars($isEdit ? $funcionario->getFeriasProgramadas() : '') ?>">
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label>Desligamento</label>
-                                    <input type="date" name="dataDesligamento"
-                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getDataDesligamento() : '') ?>">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Férias Programadas</label>
-                                    <input type="date" name="feriasProgramadas"
-                                        value="<?= htmlspecialchars($isEdit ? $funcionario->getFeriasProgramadas() : '') ?>">
-                                </div>
                             </div>
 
-                        </div>
-                        <div class="card-observacao">
-                            <h2><i class="bi bi-journal-text icone-titulo"></i> Observações</h2>
-                            <textarea name="observacoes" maxlength="500"
-                                placeholder="Digite alguma observação se for necessário"><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
+                            <!-- DADOS BANCÁRIOS -->
+
+                            <div class="card-bancario">
+                                <h2><i class="fa-solid fa-building-columns icone-titulo"></i> Dados Bancários</h2>
+                                <div class="grupo-conta">
+                                    <div class="form-group">
+                                        <label for="agencia">Agência</label>
+                                        <input type="text" id="agencia" name="agencia"
+                                            value="<?= htmlspecialchars($funcionario?->getAgencia() ?? '') ?>"
+                                            placeholder="Ex.: 1234 (sem dígito)" maxlength="5" inputmode="numeric">
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="conta">Número da Conta</label>
+                                        <input type="text" id="agencia" name="conta"
+                                            value="<?= htmlspecialchars($funcionario?->getConta() ?? '') ?>"
+                                            placeholder="Ex.: 1234" maxlength="15" inputmode="numeric">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tipoConta">Tipo de Conta</label>
+                                        <select id="tipoConta" name="tipoConta">
+                                            <option value="">Selecione</option>
+                                            <option value="Corrente" <?= ($funcionario?->getTipoConta() === 'CORRENTE') ? 'selected' : '' ?>>Corrente</option>
+                                            <option value="Poupanca" <?= ($funcionario?->getTipoConta() === 'POUPANCA') ? 'selected' : '' ?>>Poupança</option>
+                                            <option value="Salario" <?= ($funcionario?->getTipoConta() === 'SALARIO') ? 'selected' : '' ?>>Salário</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="agencia">Chave Pix</label>
+                                        <input type="text" id="chavePix" name="chavePix"
+                                            value="<?= htmlspecialchars($funcionario?->getChavePix() ?? '') ?>"
+                                            placeholder="CPF, e-mail, telefone ou chave aleatória" maxlength="77">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- OBSERVAÇÃO -->
+                            <div class="card-observacao">
+                                <h2><i class="fa-solid fa-clipboard icone-titulo"></i> Observações</h2>
+                                <textarea name="observacoes" maxlength="500"
+                                    placeholder="Digite alguma observação se for necessário"><?= htmlspecialchars($isEdit ? $funcionario->getObservacoes() : '') ?></textarea>
+                            </div>
+
                         </div>
                     </div>
                 </form>
@@ -424,6 +504,29 @@ require_once __DIR__ . '/../includes/header.php';
             input.value = valor;
         }
     </script>
+
+    <script>
+        function mascaraTelefone(input) {
+            let valor = input.value.replace(/\D/g, '');
+
+            // Limita a 11 dígitos
+            valor = valor.substring(0, 11);
+
+            if (valor.length > 10) {
+                // Celular: (11) 91234-5678
+                valor = valor.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+            } else if (valor.length > 6) {
+                // Telefone: (11) 3234-5678
+                valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+            } else if (valor.length > 2) {
+                valor = valor.replace(/^(\d{2})(\d+)/, '($1) $2');
+            }
+
+            input.value = valor;
+        }
+    </script>
+
+
 </body>
 
 </html>
