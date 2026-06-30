@@ -1,8 +1,11 @@
 <?php
+
+use App\Config\SistemaConstantes;
 // TÍTULO DA PÁGINA
 $titulo = 'Clientes';
 $favicon = '/ideal/public/assets/icon/cliente.png';
 require_once __DIR__ . '/../includes/header.php';
+
 ?>
 
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
@@ -44,13 +47,15 @@ require_once __DIR__ . '/../includes/header.php';
                                         BUSCAR CLIENTE
                                     </h2>
 
-                                    <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
+                                    <form class="form-busca" action="/ideal/public/index.php?url=clientes"
+                                        method="POST">
 
                                         <div class="input-group">
 
                                             <label>Tipo</label>
 
-                                            <select name="tipoDocumento" id="tipoDocumento" onchange="alterarMascaraDocumento()">
+                                            <select name="tipoDocumento" id="tipoDocumento"
+                                                onchange="alterarMascaraDocumento()">
 
                                                 <option value="cpf">CPF</option>
                                                 <option value="cnpj">CNPJ</option>
@@ -65,8 +70,9 @@ require_once __DIR__ . '/../includes/header.php';
                                                 CPF
                                             </label>
 
-                                            <input type="text" id="documento" name="documento" placeholder="000.000.000-00"
-                                                maxlength="14" oninput="mascaraDocumento(this)"
+                                            <input type="text" id="documento" name="documento"
+                                                placeholder="000.000.000-00" maxlength="14"
+                                                oninput="mascaraDocumento(this)"
                                                 value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>">
 
                                         </div>
@@ -124,9 +130,20 @@ require_once __DIR__ . '/../includes/header.php';
 
                                         <label>CPF</label>
 
-                                        <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
-                                            oninput="mascaraCPF(this)"
-                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getCpf() ?? '') : '' ?>">
+                                        <?php
+                                        $cpfValue = isset($cliente) ? $cliente->getCpf() : '';
+                                        $cpfFormatado = !empty($cpfValue)
+                                            ? preg_replace(
+                                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                '$1.$2.$3-$4',
+                                                preg_replace('/\D/', '', $cpfValue)
+                                            )
+                                            : '';
+                                        ?>
+
+                                        <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00"
+                                            maxlength="14" oninput="mascaraCPF(this)"
+                                            value="<?= htmlspecialchars($cpfFormatado) ?>">
 
                                     </div>
 
@@ -134,9 +151,20 @@ require_once __DIR__ . '/../includes/header.php';
 
                                         <label>CNPJ</label>
 
-                                        <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
-                                            oninput="mascaraCNPJ(this)"
-                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getCnpj() ?? '') : '' ?>">
+                                        <?php
+                                        $cnpjValue = isset($cliente) ? $cliente->getCnpj() : '';
+                                        $cnpjFormatado = !empty($cnpjValue)
+                                            ? preg_replace(
+                                                '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                                '$1.$2.$3/$4-$5',
+                                                preg_replace('/\D/', '', $cnpjValue)
+                                            )
+                                            : '';
+                                        ?>
+
+                                        <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00"
+                                            maxlength="18" oninput="mascaraCNPJ(this)"
+                                            value="<?= htmlspecialchars($cnpjFormatado) ?>">
 
                                     </div>
 
@@ -148,9 +176,34 @@ require_once __DIR__ . '/../includes/header.php';
 
                                         <label>Telefone</label>
 
+                                        <?php
+                                        $telefoneValue = isset($cliente) ? $cliente->getTelefone() : '';
+                                        $telefoneFormatado = '';
+                                        if (!empty($telefoneValue)) {
+                                            $telefone = preg_replace('/\D/', '', $telefoneValue);
+                                            if (strlen($telefone) === 11) {
+                                                // Celular
+                                                $telefoneFormatado = preg_replace(
+                                                    '/(\d{2})(\d{5})(\d{4})/',
+                                                    '($1) $2-$3',
+                                                    $telefone
+                                                );
+
+                                            } elseif (strlen($telefone) === 10) {
+
+                                                // Telefone fixo
+                                                $telefoneFormatado = preg_replace(
+                                                    '/(\d{2})(\d{4})(\d{4})/',
+                                                    '($1) $2-$3',
+                                                    $telefone
+                                                );
+                                            }
+                                        }
+                                        ?>
+
                                         <input type="text" name="telefone" placeholder="(00) 00000-0000" maxlength="15"
                                             oninput="mascaraTelefone(this)"
-                                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getTelefone() ?? '') : '' ?>">
+                                           value="<?= htmlspecialchars($telefoneFormatado) ?>">
 
                                     </div>
 
@@ -214,20 +267,16 @@ require_once __DIR__ . '/../includes/header.php';
                                     </div>
 
                                     <div class="form-group">
-
                                         <label>Estado</label>
-
                                         <?php $estadoAtual = isset($cliente) ? $cliente->getEstado() : ''; ?>
+
                                         <select name="estado" id="estado">
-
                                             <option value="">Selecione</option>
-
-                                            <option value="SP" <?= $estadoAtual === 'SP' ? 'selected' : '' ?>>SP</option>
-                                            <option value="RJ" <?= $estadoAtual === 'RJ' ? 'selected' : '' ?>>RJ</option>
-                                            <option value="MG" <?= $estadoAtual === 'MG' ? 'selected' : '' ?>>MG</option>
-                                            <option value="PR" <?= $estadoAtual === 'PR' ? 'selected' : '' ?>>PR</option>
-                                            <option value="SC" <?= $estadoAtual === 'SC' ? 'selected' : '' ?>>SC</option>
-
+                                            <?php foreach (SistemaConstantes::ESTADOS as $sigla => $nome): ?>
+                                                <option value="<?= $sigla ?>" <?= $estadoAtual === $sigla ? 'selected' : '' ?>>
+                                                    <?= $sigla ?> - <?= $nome ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
 
                                     </div>
@@ -264,7 +313,8 @@ require_once __DIR__ . '/../includes/header.php';
 
                             <button type="submit" form="form-dados" class="btn excluir"
                                 formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
-                                onclick="return confirm('Tem certeza que deseja excluir este cliente?');" <?= isset($cliente) ? '' : 'disabled' ?>>
+                                onclick="return confirm('Tem certeza que deseja excluir este cliente?');"
+                                <?= isset($cliente) ? '' : 'disabled' ?>>
 
                                 Excluir
                             </button>
@@ -281,72 +331,7 @@ require_once __DIR__ . '/../includes/header.php';
 
     </div>
 
-    <script>
-        function alterarMascaraDocumento() {
-
-            const tipo = document.getElementById('tipoDocumento').value;
-            const input = document.getElementById('documento');
-            const label = document.getElementById('labelDocumento');
-
-            input.value = '';
-
-            if (tipo === 'cpf') {
-                label.innerText = 'CPF';
-                input.placeholder = '000.000.000-00';
-                input.maxLength = 14;
-            } else {
-                label.innerText = 'CNPJ';
-                input.placeholder = '00.000.000/0000-00';
-                input.maxLength = 18;
-            }
-
-        }
-
-        function mascaraDocumento(input) {
-
-            const tipo = document.getElementById('tipoDocumento').value;
-
-            if (tipo === 'cpf') {
-                mascaraCPF(input);
-            } else {
-                mascaraCNPJ(input);
-            }
-
-        }
-    </script>
-
-    <script>
-        function mascaraCPF(input) {
-            let valor = input.value.replace(/\D/g, '');
-            valor = valor.substring(0, 11);
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-            valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            input.value = valor;
-        }
-    </script>
-
-    <script>
-        function mascaraCNPJ(input) {
-            let valor = input.value.replace(/\D/g, '');
-            valor = valor.substring(0, 14);
-            valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
-            valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-            valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
-            valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
-            input.value = valor;
-        }
-    </script>
-
-    <script>
-        function mascaraTelefone(input) {
-            let valor = input.value.replace(/\D/g, '');
-            valor = valor.substring(0, 11);
-            valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
-            valor = valor.replace(/(\d)(\d{4})$/, '$1-$2');
-            input.value = valor;
-        }
-    </script>
+    <script src="/ideal/public/assets/js/mascaras.js?v=<?= time() ?>"></script>
 
     <script>
         function mascaraCEP(input) {

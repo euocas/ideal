@@ -20,59 +20,8 @@ $whatsappValue = $isEdit ? $funcionario->getWhatsapp() : '';
 $titulo = 'Funcionários';
 $favicon = '/ideal/public/assets/icon/funcionario2.png';
 
-
-//  ARRAY PARA OS CARGOS 
-$cargos = [
-    'Almoxarife',
-    'Analista Financeiro',
-    'Auxiliar Administrativo',
-    'Auxiliar de Eletricista',
-    'Cabista',
-    'Eletricista de Manutenção',
-    'Eletricista Industrial',
-    'Eletricista Montador',
-    'Eletricista Predial',
-    'Encarregado de Obras Elétricas',
-    'Instalador Elétrico',
-    'Mestre de Obras',
-    'Montador de Painéis Elétricos',
-    'Recursos Humanos',
-    'Oficial Eletricista',
-    'Social Midia'
-];
-sort($cargos);
-
-//  ARRAY PARA OS ESTADOS
-$estados = [
-    'AC' => 'Acre',
-    'AL' => 'Alagoas',
-    'AP' => 'Amapá',
-    'AM' => 'Amazonas',
-    'BA' => 'Bahia',
-    'CE' => 'Ceará',
-    'DF' => 'Distrito Federal',
-    'ES' => 'Espírito Santo',
-    'GO' => 'Goiás',
-    'MA' => 'Maranhão',
-    'MT' => 'Mato Grosso',
-    'MS' => 'Mato Grosso do Sul',
-    'MG' => 'Minas Gerais',
-    'PA' => 'Pará',
-    'PB' => 'Paraíba',
-    'PR' => 'Paraná',
-    'PE' => 'Pernambuco',
-    'PI' => 'Piauí',
-    'RJ' => 'Rio de Janeiro',
-    'RN' => 'Rio Grande do Norte',
-    'RS' => 'Rio Grande do Sul',
-    'RO' => 'Rondônia',
-    'RR' => 'Roraima',
-    'SC' => 'Santa Catarina',
-    'SP' => 'São Paulo',
-    'SE' => 'Sergipe',
-    'TO' => 'Tocantins'
-];
-
+use App\Config\SistemaConstantes;
+use App\Config\FuncionarioConstantes;
 
 
 //HEADER
@@ -182,11 +131,14 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>Sexo</label>
+                            <?php $sexo = $isEdit ? $funcionario->getSexo() : ''; ?>
                             <select name="sexo">
                                 <option value="">Selecione</option>
-                                <option value="Masculino" <?= ($isEdit ? $funcionario->getSexo() : '') === 'Masculino' ? 'selected' : '' ?>>Masculino</option>
-                                <option value="Feminino" <?= ($isEdit ? $funcionario->getSexo() : '') === 'Feminino' ? 'selected' : '' ?>>Feminino</option>
-                                <option value="Outro" <?= ($isEdit ? $funcionario->getSexo() : '') === 'Outro' ? 'selected' : '' ?>>Outro</option>
+                                <?php foreach (SistemaConstantes::SEXOS as $opcao): ?>
+                                    <option value="<?= $opcao ?>" <?= $sexo === $opcao ? 'selected' : '' ?>>
+                                        <?= $opcao ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
@@ -205,11 +157,12 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>Estado Nasc.</label>
+                            <?php $estadoNascimento = $isEdit ? $funcionario->getEstadoNascimento() : ''; ?>
                             <select name="estadoNascimento">
                                 <option value="">Selecione</option>
-                                <?php foreach ($estados as $sigla => $nome): ?>
-                                    <option value="<?= $sigla ?>" <?= ($isEdit ? $funcionario->getEstadoNascimento() : '') === $sigla ? 'selected' : '' ?>>
-                                        <?= $nome ?>
+                                <?php foreach (SistemaConstantes::ESTADOS as $sigla => $nome): ?>
+                                    <option value="<?= $sigla ?>" <?= $estadoNascimento === $sigla ? 'selected' : '' ?>>
+                                        <?= $sigla ?> - <?= $nome ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -233,17 +186,21 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
 
                         <div class="form-group">
-                            <label>Cargo / Função</label>
+                            <label>Cargo</label>
+                            <?php $cargo = $isEdit ? $funcionario->getCargoFuncao() : ''; ?>
 
                             <select name="cargoFuncao">
                                 <option value="">Selecione</option>
-                                <?php foreach ($cargos as $cargo): ?>
-                                    <option value="<?= $cargo ?>" <?= ($isEdit ? $funcionario->getCargoFuncao() : '') === $cargo ? 'selected' : '' ?>>
-                                        <?= $cargo ?>
+                                <?php
+                                $cargos = FuncionarioConstantes::CARGOS;
+                                sort($cargos);
+                                foreach ($cargos as $item):
+                                    ?>
+                                    <option value="<?= $item ?>" <?= $cargo === $item ? 'selected' : '' ?>>
+                                        <?= $item ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-
                         </div>
 
                         <div class="form-group">
@@ -278,18 +235,29 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>CEP</label>
-                            <input type="text" name="cep"
-                                value="<?= htmlspecialchars($isEdit ? $funcionario->getCep() : '') ?>" maxlength="9"
+                            <?php
+                            $cepFormatado = '';
+                            if ($isEdit && !empty($funcionario->getCep())) {
+                                $cepFormatado = preg_replace(
+                                    '/(\d{5})(\d{3})/',
+                                    '$1-$2',
+                                    preg_replace('/\D/', '', $funcionario->getCep())
+                                );
+                            }
+
+                            ?>
+                            <input type="text" name="cep" value="<?= htmlspecialchars($cepFormatado) ?>" maxlength="9"
                                 inputmode="numeric" oninput="mascaraCEP(this)" placeholder="00000-000">
                         </div>
 
                         <div class="form-group">
                             <label>Estado</label>
+                            <?php $estado = $isEdit ? $funcionario->getEstado() : ''; ?>
                             <select name="estado">
                                 <option value="">Selecione</option>
-                                <?php foreach ($estados as $sigla => $nome): ?>
-                                    <option value="<?= $sigla ?>" <?= ($isEdit ? $funcionario->getEstado() : '') === $sigla ? 'selected' : '' ?>>
-                                        <?= $nome ?>
+                                <?php foreach (SistemaConstantes::ESTADOS as $sigla => $nome): ?>
+                                    <option value="<?= $sigla ?>" <?= $estado === $sigla ? 'selected' : '' ?>>
+                                        <?= $sigla ?> - <?= $nome ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -304,22 +272,30 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
 
                         <div class="form-group">
-                            <label>Tipo Contrato</label>
+                            <label>Tipo de Contrato</label>
+                            <?php $tipoContrato = $isEdit ? $funcionario->getTipoContrato() : ''; ?>
+
                             <select name="tipoContrato">
                                 <option value="">Selecione</option>
-                                <option value="CLT" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'CLT' ? 'selected' : '' ?>>CLT</option>
-                                <option value="CONTRATO TEMPORARIO" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'CONTRATO TEMPORARIO' ? 'selected' : '' ?>>Contrato Temporário</option>
-                                <option value="PESSOA JURÍRIDICA" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'PESSOA JURÍRIDICA' ? 'selected' : '' ?>>Pessoa Jurídica</option>
-                                <option value="TERCERIZADA" <?= ($isEdit ? $funcionario->getTipoContrato() : '') === 'TERCERIZADA' ? 'selected' : '' ?>>Tercerizada</option>
+                                <?php foreach (FuncionarioConstantes::TIPOS_CONTRATO as $valor => $descricao): ?>
+                                    <option value="<?= $valor ?>" <?= $tipoContrato === $valor ? 'selected' : '' ?>>
+                                        <?= $descricao ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Status</label>
+                            <?php $status = $isEdit ? $funcionario->getStatus() : ''; ?>
                             <select name="status">
                                 <option value="">Selecione</option>
-                                <option value="ativo" <?= ($isEdit ? $funcionario->getStatus() : '') === 'ativo' ? 'selected' : '' ?>>Ativo</option>
-                                <option value="inativo" <?= ($isEdit ? $funcionario->getStatus() : '') === 'inativo' ? 'selected' : '' ?>>Inativo</option>
+                                <?php foreach (SistemaConstantes::STATUS as $valor => $descricao): ?>
+                                    <option value="<?= $valor ?>" <?= $status === $valor ? 'selected' : '' ?>>
+                                        <?= $descricao ?>
+                                    </option>
+                                <?php endforeach; ?>
+
                             </select>
                         </div>
 
@@ -485,48 +461,7 @@ require_once __DIR__ . '/../includes/header.php';
 
         </main>
     </div>
-
-    <script>
-        function mascaraCPF(input) {
-            let valor = input.value.replace(/\D/g, '');
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-            valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            input.value = valor;
-        }
-    </script>
-
-    <script>
-        function mascaraCEP(input) {
-            let valor = input.value.replace(/\D/g, '');
-            valor = valor.substring(0, 8);
-            valor = valor.replace(/(\d{5})(\d)/, '$1-$2');
-            input.value = valor;
-        }
-    </script>
-
-    <script>
-        function mascaraTelefone(input) {
-            let valor = input.value.replace(/\D/g, '');
-
-            // Limita a 11 dígitos
-            valor = valor.substring(0, 11);
-
-            if (valor.length > 10) {
-                // Celular: (11) 91234-5678
-                valor = valor.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
-            } else if (valor.length > 6) {
-                // Telefone: (11) 3234-5678
-                valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
-            } else if (valor.length > 2) {
-                valor = valor.replace(/^(\d{2})(\d+)/, '($1) $2');
-            }
-
-            input.value = valor;
-        }
-    </script>
-
-
+    <script src="/ideal/public/assets/js/mascaras.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

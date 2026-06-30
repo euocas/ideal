@@ -2,6 +2,8 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+use App\Config\SistemaConstantes;
+
 
 
 /** @var \App\Models\FinanceiroFuncionario|null $financeiroFuncionario */
@@ -29,21 +31,38 @@ if (!in_array($tipo, $tipos)) {
 }
 
 
-//array para os meses da tela funcionário
-$meses = [
-    1 => 'Janeiro',
-    2 => 'Fevereiro',
-    3 => 'Março',
-    4 => 'Abril',
-    5 => 'Maio',
-    6 => 'Junho',
-    7 => 'Julho',
-    8 => 'Agosto',
-    9 => 'Setembro',
-    10 => 'Outubro',
-    11 => 'Novembro',
-    12 => 'Dezembro'
+// array para as categorias da sub aba de funcionário
+$proventos = [
+    'Salário',
+    'Férias',
+    '13º Salário',
+    'Hora Extra',
+    'Bônus',
+    'Comissão',
+    'Adicional Noturno',
+    'Periculosidade',
+    'Insalubridade',
+    'Participação nos Lucros (PLR)',
+    'Ajuda de Custo',
+    'Outros'
 ];
+// array para os descontos da sub aba de funcionário
+$descontos = [
+    'INSS',
+    'IRRF',
+    'Vale Transporte',
+    'Vale Refeição',
+    'Vale Alimentação',
+    'Plano de Saúde',
+    'Plano Odontológico',
+    'Empréstimo',
+    'Adiantamento Salarial',
+    'Faltas',
+    'Atrasos',
+    'Pensão Alimentícia',
+    'Outros'
+];
+
 
 // Modo edição
 $isEditFuncionario = isset($financeiroFuncionario) && is_object($financeiroFuncionario);
@@ -160,10 +179,11 @@ $actionAutomovel = $isEditAutomovel
                                 <div class="periodo-grid">
                                     <select name="mes" required>
                                         <option value="">Mês</option>
-                                        <?php foreach ($meses as $numero => $nome): ?>
+                                        <?php foreach (SistemaConstantes::MESES as $numero => $nome): ?>
                                             <option value="<?= $numero ?>">
                                                 <?= $nome ?>
                                             </option>
+
                                         <?php endforeach; ?>
                                     </select>
                                     <select name="ano" required>
@@ -386,7 +406,125 @@ $actionAutomovel = $isEditAutomovel
 
                         <?php if ($tipo === 'entrada'): ?>
 
-                            <!-- Formulário Nova Entrada -->
+                            <!-- Formulário Nova Entrada (proventos) -->
+                            <div class="entrada-container">
+
+                                <div class="entrada-formulario">
+
+                                    <form id="form-entrada" action="<?= $actionFuncionario ?>" method="POST">
+
+                                        <input type="hidden" name="tipo" value="entrada">
+
+                                        <div class="grid-entrada">
+
+                                            <!-- Tipo de Provento -->
+                                            <div class="form-group">
+                                                <label>Tipo de Provento (Categoria) <span class="obrigatorio">*</span></label>
+
+                                                <select name="categoria" required>
+                                                    <option value="">Selecione o tipo</option>
+                                                    <?php foreach ($proventos as $proventos): ?>
+                                                        <option value="<? $proventos ?>">
+                                                            <?= $proventos ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <!-- Descrição -->
+                                            <div class="form-group">
+                                                <label>Descrição <span class="obrigatorio">*</span></label>
+
+                                                <input type="text" name="descricao" placeholder="Descreva o provento"
+                                                    maxlength="100" required>
+                                            </div>
+
+                                            <!-- Referência -->
+                                            <div class="form-group">
+                                                <label>Referência</label>
+
+                                                <input type="text" name="referencia" placeholder="Ex: 07/2026">
+                                            </div>
+
+                                            <!-- Data -->
+                                            <div class="form-group">
+                                                <label>Data de Referência <span class="obrigatorio">*</span></label>
+
+                                                <input type="date" name="dataReferencia" required>
+                                            </div>
+
+                                            <!-- Forma de Pagamento -->
+                                            <div class="form-group">
+                                                <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
+
+                                                <select name="formaPagamento" required>
+                                                    <option value="">Selecione</option>
+                                                    <option>PIX</option>
+                                                    <option>Transferência</option>
+                                                    <option>Dinheiro</option>
+                                                    <option>Depósito</option>
+                                                    <option>Cheque</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Conta -->
+                                            <div class="form-group">
+                                                <label>Conta Pagamento (Opcional)</label>
+
+                                                <select name="contaPagamento">
+                                                    <option value="">Selecione a conta</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Valor -->
+                                            <div class="form-group">
+                                                <label>Valor <span class="obrigatorio">*</span></label>
+
+                                                <div class="input-prefixo">
+                                                    <span class="prefixo">R$</span>
+
+                                                    <input type="number" step="0.01" name="valor" placeholder="0,00" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Observação -->
+                                            <div class="form-group span-2">
+                                                <label>Observação (Opcional)</label>
+
+                                                <textarea name="observacao" rows="4" maxlength="250"
+                                                    placeholder="Informações adicionais sobre o provento..."></textarea>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="acoes-entrada">
+
+                                            <button type="submit" class="btn salvar">
+                                                <i class="fa-solid fa-floppy-disk"></i>
+                                                Salvar Entrada
+                                            </button>
+
+                                            <button type="reset" class="btn limpar">
+                                                <i class="fa-solid fa-rotate-right"></i>
+                                                Limpar
+                                            </button>
+
+                                        </div>
+
+                                    </form>
+
+
+
+                                </div>
+
+                                <aside class="entrada-info">
+
+                                </aside>
+
+                            </div>
+
+
+
 
                         <?php elseif ($tipo === 'saida'): ?>
 

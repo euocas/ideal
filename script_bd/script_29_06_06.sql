@@ -312,7 +312,7 @@ INSERT INTO funcionario (
 
 ('João Pedro Silva', '1990-05-12', 'Masculino', 'Santos', 'SP', '58058711063',
 'Rua', 'Avenida Ana Costa', '120', 'Apto 12', 'Santos', '11060001', 'SP',
-'joao.silva@empresa.com', 'Analista de Sistemas', 'CLT',
+'joao.silva@empresa.com', 'Analista Financeiro', 'CLT',
 '2022-03-14', NULL, '2026-12-10',
 '1234', '12345', 'CORRENTE', '58058711063',
 'ativo', 'Funcionário experiente em desenvolvimento web.'),
@@ -326,21 +326,21 @@ INSERT INTO funcionario (
 
 ('Carlos Henrique Lima', '1995-02-17', 'Masculino', 'Praia Grande', 'SP', '61841080004',
 'Avenida', 'Avenida Presidente Kennedy', '890', 'Sala 3', 'Praia Grande', '11700000', 'SP',
-'carlos.lima@empresa.com', 'Assistente Administrativo', 'TERCEIRIZADO',
+'carlos.lima@empresa.com', 'Auxiliar Administrativo', 'TERCEIRIZADO',
 '2021-01-11', NULL, '2026-11-03',
 '3050', '45678', 'SALARIO', '61999998888',
 'inativo', 'Contrato encerrado em 2025.'),
 
 ('Fernanda Alves Costa', '1992-08-30', 'Feminino', 'Guarujá', 'SP', '65396386045',
 'Rua', 'Rua Mário Ribeiro', '77', NULL, 'Guarujá', '11410000', 'SP',
-'fernanda.costa@empresa.com', 'Designer Gráfico', 'PESSOA JURÍDICA',
+'fernanda.costa@empresa.com', 'Cabista', 'PESSOA JURÍDICA',
 '2024-02-05', NULL, '2026-08-18',
 '4102', '32145', 'CORRENTE', 'fernanda.costa@empresa.com',
-'ativo', 'Responsável pela identidade visual da empresa.'),
+'ativo', 'Responsável por cabeamento das empresas.'),
 
 ('Lucas Martins Pereira', '2000-01-10', 'Outro', 'Cubatão', 'SP', '15935745682',
 'Travessa', 'Travessa das Flores', '15', 'Casa', 'Cubatão', '11500000', 'SP',
-'lucas.pereira@empresa.com', 'Suporte Técnico', 'CLT',
+'lucas.pereira@empresa.com', 'Instalador Elétrico', 'CLT',
 '2025-01-20', NULL, '2027-01-12',
 '5501', '78945', 'CORRENTE', '15935745682',
 'ativo', 'Atendimento interno e suporte aos usuários.');
