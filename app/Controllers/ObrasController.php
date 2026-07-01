@@ -33,11 +33,18 @@ class ObrasController
 
                 if ($obra) {
                     $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
+
+                    if ($obra->getIdCliente()) {
+                        $clienteModel = new Cliente();
+                        $cliente = $clienteModel->findById($obra->getIdCliente());
+                    }
                 }
+
+
             }
         }
 
-        require_once __DIR__ . '/../Views/obras/index.php';
+require_once __DIR__ . '/../Views/obras/index.php';
     }
 
     public function create()

@@ -126,11 +126,37 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
 
                         <div class="cliente-area">
-                            <input type="hidden" name="idCliente" id="idCliente" value="<?= isset($obra) ? $obra->getIdCliente() : '' ?>">
-                            <div class="form-group">
-                                <label>CNPJ / CPF Cliente</label>
-                                <input type="text" id="cnpjCliente" name="cnpjCliente" oninput="mascaraCNPJ(this)" maxlength="18" placeholder="00.000.000/0000-00">
-                            </div>
+    <input type="hidden" name="idCliente" id="idCliente" value="<?= isset($obra) ? $obra->getIdCliente() : '' ?>">
+    
+    <?php 
+    // Validação segura para resgatar os dados do objeto Cliente
+    $docCliente = '';
+    $nomeCli = '-';
+    $whatsappCli = '-';
+    
+    if (isset($cliente) && $cliente) {
+        // Tenta pegar o CNPJ ou CPF
+        $docCliente = (method_exists($cliente, 'getCnpj') && $cliente->getCnpj()) ? $cliente->getCnpj() : ((method_exists($cliente, 'getCpf')) ? $cliente->getCpf() : '');
+        // Tenta pegar o Nome ou Razão Social
+        $nomeCli = method_exists($cliente, 'getNomeCliente') ? $cliente->getNomeCliente() : (method_exists($cliente, 'getNome') ? $cliente->getNome() : '-');
+        // Tenta pegar o WhatsApp
+        $whatsappCli = (method_exists($cliente, 'getTelefone') && $cliente->getTelefone()) ? $cliente->getTelefone() : '-';
+    }
+    ?>
+
+    <div class="form-group">
+        <label>CNPJ / CPF Cliente</label>
+        <input type="text" id="cnpjCliente" name="cnpjCliente" oninput="mascaraCNPJ(this)" maxlength="18" placeholder="00.000.000/0000-00" value="<?= htmlspecialchars($docCliente) ?>">
+    </div>
+    <div class="cliente-card">
+        <h3><i class="fa-solid fa-user"></i> Dados do Cliente</h3>
+        <div class="cliente-grid">
+            <div class="cliente-info"><span>Nome / Razão Social</span><strong id="clienteNome"><?= htmlspecialchars($nomeCli) ?></strong></div>
+            <div class="cliente-info"><span>CPF/CNPJ</span><strong id="clienteCnpj"><?= htmlspecialchars($docCliente ?: '-') ?></strong></div>
+            <div class="cliente-info"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span><strong id="clienteWhatsapp"><?= htmlspecialchars($whatsappCli) ?></strong></div>
+        </div>
+    </div>
+</div>
                             <div class="cliente-card">
                                 <h3><i class="fa-solid fa-user"></i> Dados do Cliente</h3>
                                 <div class="cliente-grid">
