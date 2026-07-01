@@ -118,6 +118,8 @@
 
 .grid-form {
   grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  gap: 20px;
 }
 
 .span-2 {
@@ -131,6 +133,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .form-group label {
@@ -275,7 +278,6 @@
   font-weight: 700;
 }
 
-
 /* ==========================================
    CARD 2 - SUBABAS
 ========================================== */
@@ -313,56 +315,124 @@
 }
 /* ABA ATIVA */
 .subaba.ativa {
-    position: relative;
-    top: 1px;
-    background: var(--surface);
-    border-color: var(--border-light);
-    border-bottom: 1px solid var(--surface);
-    color: var(--text);
+  position: relative;
+  top: 1px;
+  background: var(--surface);
+  border-color: var(--border-light);
+  border-bottom: 1px solid var(--surface);
+  color: var(--text);
 }
 /* Entrada */
 .subaba.entrada {
-    color: var(--success-dark);
+  color: var(--success-dark);
 }
 /* Saída */
 .subaba.saida {
-    color: var(--danger-dark);
+  color: var(--danger-dark);
 }
 /* Período */
 .subaba.periodo {
-    /* color: var(--info-dark); */
-/* color: #2563eb; */
-color: var(--primary);
+  /* color: var(--info-dark); */
+  /* color: #2563eb; */
+  color: var(--primary);
 }
 .subaba.entrada.ativa {
-    background: var(--success-light);
-    border-color: var(--success-dark);
-    border-bottom-color: var(--success-light);
-    color: var(--success-dark);
-     border-top: 2.5px solid var(--success-dark);
-
+  background: var(--success-light);
+  border-color: var(--success-dark);
+  border-bottom-color: var(--success-light);
+  color: var(--success-dark);
+  border-top: 2.5px solid var(--success-dark);
 }
 .subaba.saida.ativa {
-    background: var(--danger-light);
-    border-color: var(--danger-dark);
-    border-bottom-color: var(--danger-light);
-    color: var(--danger-dark);
-     border-top: 2.5px solid var(--danger-dark);
+  background: var(--danger-light);
+  border-color: var(--danger-dark);
+  border-bottom-color: var(--danger-light);
+  color: var(--danger-dark);
+  border-top: 2.5px solid var(--danger-dark);
 }
 .subaba.periodo.ativa {
-    background: var(--primary-light);
-    border-color: var(--primary);
-    border-bottom-color: var(--primary-light);
-    color: var(--primary);
-     border-top: 2.5px solid var(--primary);
+  background: var(--primary-light);
+  border-color: var(--primary);
+  border-bottom-color: var(--primary-light);
+  color: var(--primary);
+  border-top: 2.5px solid var(--primary);
 }
 
-
-
 /* ==========================================
-   CARD 3 - CONTEÚDO DAS SUBABAS
+   CARD 3 - NOVA ENTRADA
 ========================================== */
 
+.entrada-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.entrada-formulario {
+  width: 100%;
+}
+
+.grid-entrada {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.entrada-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 100%;
+}
+
+.entrada-info{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.info-card{
+    padding:20px;
+    border-radius:var(--radius-md);
+    border:1px solid var(--border-light);
+}
+
+.info-card.entrada{
+    background:#eefdf3;
+    border-color:#c9ebd3;
+}
+
+.info-card.saida{
+    background:#fff4f4;
+    border-color:#f3cccc;
+}
+.info-card ul{
+    margin: 10px 0 0;
+    padding-left: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 24px;
+    row-gap: 4px;
+} *
+ .ino-card li{
+    margin: 0;
+    font-size: 14px;
+    color: var(--text);
+
+} 
+
+/* .info-card ul{
+    display:flex;
+    flex-wrap:wrap;
+    margin-top:10px;
+    padding-left:18px;
+}
+
+.info-card li{
+    width:50%;
+    margin-bottom:5px;
+} */
 
 /* ==========================================
    CAMPOS
@@ -390,7 +460,7 @@ color: var(--primary);
 .form-group textarea {
   min-height: 100px;
   padding: 12px 14px;
-  resize: vertical;
+  resize: none;
 }
 
 .form-group input:focus,
@@ -411,6 +481,7 @@ color: var(--primary);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   transition: var(--transition);
+  min-width: 0;
 }
 
 .input-prefixo:focus-within {
@@ -475,13 +546,31 @@ color: var(--primary);
 ========================================== */
 
 @media (max-width: 1100px) {
-  .grid-form {
-    grid-template-columns: repeat(2, 1fr);
+  .financeiro-topo {
+    grid-template-columns: 1fr;
   }
 
-  .span-2,
-  .span-3 {
-    grid-column: span 2;
+  .funcionario-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .funcionario-conteudo {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .funcionario-coluna {
+    padding: 25px 0;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .entrada-container {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-entrada {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -501,5 +590,14 @@ color: var(--primary);
 
   .fin-header h1 {
     font-size: 22px;
+  }
+
+  .grid-entrada {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-entrada .span-2,
+  .grid-entrada .span-3 {
+    grid-column: span 1;
   }
 }

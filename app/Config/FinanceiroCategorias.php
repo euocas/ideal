@@ -103,17 +103,16 @@ class FinanceiroCategorias
      */
 
     public const FORMAS_PAGAMENTO = [
-        'Dinheiro',
-        'PIX',
-        'Transferência',
-        'Depósito',
+        'Boleto Bancário',
         'Cartão de Débito',
         'Cartão de Crédito',
-        'Boleto',
-        'Cheque'
+        'Dinheiro',
+        'Faturado (Nota Fiscal)',
+        'PIX',
+        'Transferência Bancária',
     ];
 
 
 
-    
+
 }

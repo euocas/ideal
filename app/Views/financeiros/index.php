@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 use App\Config\SistemaConstantes;
+use App\Config\FinanceiroCategorias;
 
 
 
@@ -30,38 +31,6 @@ if (!in_array($tipo, $tipos)) {
     $tipo = 'entrada';
 }
 
-
-// array para as categorias da sub aba de funcionário
-$proventos = [
-    'Salário',
-    'Férias',
-    '13º Salário',
-    'Hora Extra',
-    'Bônus',
-    'Comissão',
-    'Adicional Noturno',
-    'Periculosidade',
-    'Insalubridade',
-    'Participação nos Lucros (PLR)',
-    'Ajuda de Custo',
-    'Outros'
-];
-// array para os descontos da sub aba de funcionário
-$descontos = [
-    'INSS',
-    'IRRF',
-    'Vale Transporte',
-    'Vale Refeição',
-    'Vale Alimentação',
-    'Plano de Saúde',
-    'Plano Odontológico',
-    'Empréstimo',
-    'Adiantamento Salarial',
-    'Faltas',
-    'Atrasos',
-    'Pensão Alimentícia',
-    'Outros'
-];
 
 
 // Modo edição
@@ -419,13 +388,12 @@ $actionAutomovel = $isEditAutomovel
 
                                             <!-- Tipo de Provento -->
                                             <div class="form-group">
-                                                <label>Tipo de Provento (Categoria) <span class="obrigatorio">*</span></label>
-
+                                                <label>Tipo de proventos (Categoria) <span class="obrigatorio">*</span></label>
                                                 <select name="categoria" required>
                                                     <option value="">Selecione o tipo</option>
-                                                    <?php foreach ($proventos as $proventos): ?>
-                                                        <option value="<? $proventos ?>">
-                                                            <?= $proventos ?>
+                                                    <?php foreach (FinanceiroCategorias::PROVENTOS as $provento): ?>
+                                                        <option value="<?= $provento ?>">
+                                                            <?= $provento ?>
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
@@ -459,11 +427,11 @@ $actionAutomovel = $isEditAutomovel
 
                                                 <select name="formaPagamento" required>
                                                     <option value="">Selecione</option>
-                                                    <option>PIX</option>
-                                                    <option>Transferência</option>
-                                                    <option>Dinheiro</option>
-                                                    <option>Depósito</option>
-                                                    <option>Cheque</option>
+                                                    <?php foreach (FinanceiroCategorias::FORMAS_PAGAMENTO as $forma): ?>
+                                                        <option value="<?= $forma ?>">
+                                                            <?= $forma ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                             </div>
 
@@ -518,6 +486,46 @@ $actionAutomovel = $isEditAutomovel
                                 </div>
 
                                 <aside class="entrada-info">
+
+                                    <!-- Card Proventos -->
+                                    <div class="info-card entrada">
+
+                                        <div class="info-header">
+                                            <div>
+                                                <h3> <i class="fa-solid fa-arrow-up"></i> Proventos (Entradas)</i> </h3>
+                                                <p>Registro de valores que o funcionário tem a receber.</p>
+                                            </div>
+                                        </div>
+
+                                        <span class="info-subtitulo">Exemplos:</span>
+
+                                        <ul>
+                                            <?php foreach (FinanceiroCategorias::PROVENTOS as $provento): ?>
+                                                <li><?= $provento ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+
+                                    </div>
+
+                                    <!-- Card Descontos -->
+                                    <div class="info-card saida">
+
+                                        <div class="info-header">
+                                            <div>
+                                                <h3><i class="fa-solid fa-arrow-down"></i> Descontos (Saídas)</h3>
+                                                <p>Registro de valores que serão descontados.</p>
+                                            </div>
+                                        </div>
+
+                                        <span class="info-subtitulo">Exemplos:</span>
+
+                                        <ul>
+                                            <?php foreach (FinanceiroCategorias::DESCONTOS as $desconto): ?>
+                                                <li><?= $desconto ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+
+                                    </div>
 
                                 </aside>
 
