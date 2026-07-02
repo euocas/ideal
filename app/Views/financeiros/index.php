@@ -76,12 +76,12 @@ $actionAutomovel = $isEditAutomovel
         <main class="main-content">
 
             <!-- TÍTULO -->
-            <div class="fin-header">
+            <!-- <div class="fin-header">
                 <div>
                     <h1><i class="fa-solid fa-dollar-sign"></i> Financeiro</h1>
                     <p>Gerencie as informações financeiras de funcionários, obras e automóveis.</p>
                 </div>
-            </div>
+            </div> -->
 
             <!-- ALERTAS DE SESSÃO -->
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
@@ -354,7 +354,7 @@ $actionAutomovel = $isEditAutomovel
                         <a href="?url=financeiros&aba=funcionario&tipo=entrada"
                             class="subaba entrada <?= $tipo === 'entrada' ? 'ativa' : '' ?>">
                             <i class="fa-solid fa-plus"></i>
-                            Nova Entrada (Proventos)
+                            Novo Lançamento (Proventos)
                         </a>
 
                         <a href="?url=financeiros&aba=funcionario&tipo=saida"
@@ -388,7 +388,7 @@ $actionAutomovel = $isEditAutomovel
 
                                             <!-- Tipo de Provento -->
                                             <div class="form-group">
-                                                <label>Tipo de proventos (Categoria) <span class="obrigatorio">*</span></label>
+                                                <label>Tipo de Proventos (Categoria) <span class="obrigatorio">*</span></label>
                                                 <select name="categoria" required>
                                                     <option value="">Selecione o tipo</option>
                                                     <?php foreach (FinanceiroCategorias::PROVENTOS as $provento): ?>
@@ -416,7 +416,7 @@ $actionAutomovel = $isEditAutomovel
 
                                             <!-- Data -->
                                             <div class="form-group">
-                                                <label>Data de Referência <span class="obrigatorio">*</span></label>
+                                                <label>Data do Pagamento <span class="obrigatorio">*</span></label>
 
                                                 <input type="date" name="dataReferencia" required>
                                             </div>
@@ -436,13 +436,23 @@ $actionAutomovel = $isEditAutomovel
                                             </div>
 
                                             <!-- Conta -->
-                                            <div class="form-group">
-                                                <label>Conta Pagamento (Opcional)</label>
 
-                                                <select name="contaPagamento">
-                                                    <option value="">Selecione a conta</option>
+
+
+                                            <div class="form-group">
+                                                <label for="contaPagamento">Conta Pagamento</label>
+
+                                                <select id="contaPagamento" name="contaPagamento">
+                                                    <option value="">Selecione</option>
+
+                                                    <?php foreach (FinanceiroCategorias::CONTAS_PAGAMENTO as $valor => $descricao): ?>
+                                                        <option value="<?= $valor ?>">
+                                                            <?= $descricao ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                             </div>
+
 
                                             <!-- Valor -->
                                             <div class="form-group">
@@ -472,6 +482,11 @@ $actionAutomovel = $isEditAutomovel
                                                 Salvar Entrada
                                             </button>
 
+                                            <button type="submit" class="btn salvar-novo">
+                                                <i class="fa-solid fa-plus"></i>
+                                                Salvar e Novo
+                                            </button>
+
                                             <button type="reset" class="btn limpar">
                                                 <i class="fa-solid fa-rotate-right"></i>
                                                 Limpar
@@ -491,13 +506,16 @@ $actionAutomovel = $isEditAutomovel
                                     <div class="info-card entrada">
 
                                         <div class="info-header">
+                                            <div class="info-icon">
+                                                <i class="fa-solid fa-arrow-up"></i>
+                                            </div>
                                             <div>
-                                                <h3> <i class="fa-solid fa-arrow-up"></i> Proventos (Entradas)</i> </h3>
-                                                <p>Registro de valores que o funcionário tem a receber.</p>
+                                                <h3>Proventos (Entradas)</h3>
                                             </div>
                                         </div>
+                                        <p class="info-descricao">Registro de valores que o funcionário tem a receber.</p>
 
-                                        <span class="info-subtitulo">Exemplos:</span>
+                                        <!-- <span class="info-subtitulo">Exemplos:</span> -->
 
                                         <ul>
                                             <?php foreach (FinanceiroCategorias::PROVENTOS as $provento): ?>
@@ -508,16 +526,174 @@ $actionAutomovel = $isEditAutomovel
                                     </div>
 
                                     <!-- Card Descontos -->
-                                    <div class="info-card saida">
+                                    <!-- <div class="info-card saida">
 
                                         <div class="info-header">
-                                            <div>
-                                                <h3><i class="fa-solid fa-arrow-down"></i> Descontos (Saídas)</h3>
+                                            <div class="info-icon">
+                                                <i class="fa-solid fa-arrow-down"></i>
+                                            </div>
+                                            <div><h3> Descontos (Saídas)</h3>
                                                 <p>Registro de valores que serão descontados.</p>
                                             </div>
                                         </div>
 
                                         <span class="info-subtitulo">Exemplos:</span>
+
+                                        <ul>
+                                            <?php foreach (FinanceiroCategorias::DESCONTOS as $desconto): ?>
+                                                <li><?= $desconto ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+
+                                    </div> -->
+
+                                </aside>
+
+                            </div>
+
+                        <?php elseif ($tipo === 'saida'): ?>
+
+                            <!-- Formulário Nova Saída -->
+                            <div class="saida-container">
+
+                                <div class="saida-formulario">
+
+                                    <form id="form-saida" action="<?= $actionFuncionario ?>" method="POST">
+
+                                        <input type="hidden" name="tipo" value="entrada">
+
+                                        <div class="grid-saida">
+
+                                            <!-- Tipo de Provento -->
+                                            <div class="form-group">
+                                                <label>Tipo de Descontos (Categoria) <span class="obrigatorio">*</span></label>
+                                                <select name="categoria" required>
+                                                    <option value="">Selecione o tipo</option>
+                                                    <?php foreach (FinanceiroCategorias::DESCONTOS as $provento): ?>
+                                                        <option value="<?= $provento ?>">
+                                                            <?= $provento ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <!-- Descrição -->
+                                            <div class="form-group">
+                                                <label>Descrição <span class="obrigatorio">*</span></label>
+
+                                                <input type="text" name="descricao" placeholder="Descreva o provento"
+                                                    maxlength="100" required>
+                                            </div>
+
+                                            <!-- Referência -->
+                                            <div class="form-group">
+                                                <label>Referência</label>
+
+                                                <input type="text" name="referencia" placeholder="Ex: 07/2026">
+                                            </div>
+
+                                            <!-- Data -->
+                                            <div class="form-group">
+                                                <label>Data do Pagamento <span class="obrigatorio">*</span></label>
+
+                                                <input type="date" name="dataReferencia" required>
+                                            </div>
+
+                                            <!-- Forma de Pagamento -->
+                                            <div class="form-group">
+                                                <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
+
+                                                <select name="formaPagamento" required>
+                                                    <option value="">Selecione</option>
+                                                    <?php foreach (FinanceiroCategorias::FORMAS_PAGAMENTO as $forma): ?>
+                                                        <option value="<?= $forma ?>">
+                                                            <?= $forma ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <!-- Conta -->
+
+
+
+                                            <div class="form-group">
+                                                <label for="contaPagamento">Conta Pagamento</label>
+
+                                                <select id="contaPagamento" name="contaPagamento">
+                                                    <option value="">Selecione</option>
+
+                                                    <?php foreach (FinanceiroCategorias::CONTAS_PAGAMENTO as $valor => $descricao): ?>
+                                                        <option value="<?= $valor ?>">
+                                                            <?= $descricao ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+
+                                            <!-- Valor -->
+                                            <div class="form-group">
+                                                <label>Valor <span class="obrigatorio">*</span></label>
+
+                                                <div class="input-prefixo">
+                                                    <span class="prefixo">R$</span>
+
+                                                    <input type="number" step="0.01" name="valor" placeholder="0,00" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Observação -->
+                                            <div class="form-group span-2">
+                                                <label>Observação (Opcional)</label>
+
+                                                <textarea name="observacao" rows="4" maxlength="250"
+                                                    placeholder="Informações adicionais sobre o desconto..."></textarea>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="acoes-saida">
+
+                                            <button type="submit" class="btn salvar">
+                                                <i class="fa-solid fa-floppy-disk"></i>
+                                                Salvar Entrada
+                                            </button>
+
+                                            <button type="submit" class="btn salvar-novo">
+                                                <i class="fa-solid fa-plus"></i>
+                                                Salvar e Novo
+                                            </button>
+
+                                            <button type="reset" class="btn limpar">
+                                                <i class="fa-solid fa-rotate-right"></i>
+                                                Limpar
+                                            </button>
+
+                                        </div>
+
+                                    </form>
+
+
+
+                                </div>
+
+                                <aside class="saida-info">
+
+                                    <!-- Card Descontos -->
+                                    <div class="info-card saida">
+
+                                        <div class="info-header">
+                                            <div class="info-icon">
+                                                <i class="fa-solid fa-arrow-down"></i>
+                                            </div>
+                                            <div>
+                                                <h3> Descontos (Saídas)</h3>
+                                                <p>Registro de valores que serão descontados.</p>
+                                            </div>
+                                        </div>
+
+
 
                                         <ul>
                                             <?php foreach (FinanceiroCategorias::DESCONTOS as $desconto): ?>
@@ -531,13 +707,6 @@ $actionAutomovel = $isEditAutomovel
 
                             </div>
 
-
-
-
-                        <?php elseif ($tipo === 'saida'): ?>
-
-                            <!-- Formulário Nova Saída -->
-
                         <?php elseif ($tipo === 'periodo'): ?>
 
                             <!-- Tabela Lançamentos do Período -->
@@ -545,8 +714,17 @@ $actionAutomovel = $isEditAutomovel
                         <?php endif; ?>
 
                     </div>
-
                 </section>
+
+                <div class="financeiro-dica">
+                    <div class="financeiro-dica-conteudo">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>
+                            <strong>Dica:</strong> Use a aba <strong>"Lançamentos do Período"</strong> para visualizar todos
+                            os registros de entradas e saídas deste funcionário no período selecionado.
+                        </span>
+                    </div>
+                </div>
 
 
 
@@ -650,6 +828,7 @@ $actionAutomovel = $isEditAutomovel
 
                     </form>
                 </section>
+
 
                 <div class="acoes">
                     <a href="/ideal/public/index.php?url=financeiros&aba=funcionario" class="btn novo"> <i

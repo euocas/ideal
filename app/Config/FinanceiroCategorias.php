@@ -13,30 +13,29 @@ class FinanceiroCategorias
     public const PROVENTOS = [
         'Salário',
         'Férias',
-        '13º Salário',
         'Hora Extra',
-        'Adicional Noturno',
         'Periculosidade',
+        '13º Salário',
         'Insalubridade',
         'Comissão',
         'Bônus',
-        'PLR (Participação nos Lucros)',
         'Ajuda de Custo',
+        'Adicional Noturno',
+        'Participação nos Lucros',
         'Outros'
     ];
 
     public const DESCONTOS = [
         'INSS',
         'IRRF',
+        'Faltas',
+        'Atrasos',
         'Vale Transporte',
-        'Vale Refeição',
         'Vale Alimentação',
         'Plano de Saúde',
         'Plano Odontológico',
-        'Empréstimo',
+        'Vale Refeição',
         'Adiantamento Salarial',
-        'Faltas',
-        'Atrasos',
         'Pensão Alimentícia',
         'Outros'
     ];
@@ -112,6 +111,12 @@ class FinanceiroCategorias
         'Transferência Bancária',
     ];
 
+    public const CONTAS_PAGAMENTO = [
+    'Conta Corrente Empresa',
+    'Conta Poupança Empresa',
+    'Caixa',
+    'PIX',
+];
 
 
 

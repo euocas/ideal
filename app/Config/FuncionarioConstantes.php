@@ -34,4 +34,14 @@ class FuncionarioConstantes
         'Oficial Eletricista',
         'Recursos Humanos',
     ];
+
+    //  * ==========================================================
+    //  * TIPOS DE CONTA
+    //  * ==========================================================
+
+    public const TIPOS_CONTA = [
+        'CORRENTE' => 'Corrente',
+        'POUPANCA' => 'Poupança',
+        'SALARIO'  => 'Salário',
+    ];
 }
