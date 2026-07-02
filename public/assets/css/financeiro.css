@@ -179,7 +179,8 @@
   align-items: center;
   gap: 35px;
   margin-top: 30px;
-  padding: 25px;
+  /* padding: 25px; */
+  padding: 14px 18px;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   background: var(--surface);
@@ -362,18 +363,21 @@
    CARD 3 - NOVA ENTRADA
 ========================================== */
 
-.entrada-container {
+.entrada-container,
+.saida-container{
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 24px;
   align-items: start;
 }
 
-.entrada-formulario {
+.entrada-formulario,
+.saida-formulario{
   width: 100%;
 }
 
-.grid-entrada {
+.grid-entrada,
+.grid-saida {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -386,53 +390,143 @@
   min-height: 100%;
 }
 
-.entrada-info{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
+.entrada-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.info-card{
-    padding:20px;
-    border-radius:var(--radius-md);
-    border:1px solid var(--border-light);
+.info-card {
+  padding: 30px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
 }
 
-.info-card.entrada{
-    background:#eefdf3;
-    border-color:#c9ebd3;
+.info-card.entrada {
+  background: #eefdf3;
+  border-color: #c9ebd3;
 }
 
-.info-card.saida{
-    background:#fff4f4;
-    border-color:#f3cccc;
+.info-card.saida {
+  background: #fff4f4;
+  border-color: #f3cccc;
 }
-.info-card ul{
-    margin: 10px 0 0;
-    padding-left: 18px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 24px;
-    row-gap: 4px;
-} *
- .ino-card li{
-    margin: 0;
-    font-size: 14px;
-    color: var(--text);
-
-} 
-
-/* .info-card ul{
-    display:flex;
-    flex-wrap:wrap;
-    margin-top:10px;
-    padding-left:18px;
+.info-card ul {
+  margin: 10px 0 0;
+  padding-left: 22px;
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 38px;
+  row-gap: 6px;
 }
 
-.info-card li{
-    width:50%;
-    margin-bottom:5px;
-} */
+.info-card li {
+  margin: 0;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.info-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.info-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: -7px;
+}
+.info-card.entrada .info-icon {
+  background: var(--success-dark);
+  color: #dcfce7;
+}
+
+.info-card.saida .info-icon {
+  background: var(--danger-dark);
+  color: #fee2e2;
+}
+.info-descricao {
+  margin: 12px 0;
+  color: var(--primary);
+  text-align: center; /* ou left */
+  font-size: 0.95rem;
+}
+.financeiro-dica {
+  display: flex;
+  justify-content: center;
+  padding: 14px 18px;
+  margin-top: 24px;
+
+  background: #eef5ff;
+  border: 1px solid #cfe2ff;
+  border-radius: 8px;
+}
+
+.financeiro-dica-conteudo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary);
+}
+
+.financeiro-dica i {
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.info-header p {
+  margin-top: 28px;
+  margin-bottom: 10px;
+  color: var(--primary);
+  text-align: left;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info-subtitulo {
+  display: block;
+  text-align: center;
+  font-weight: 700;
+  color: var(--text);
+  margin: 8px 0;
+}
+
+.acoes-entrada,
+.acoes-saida {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.acoes-entrada .btn,
+.acoes-saida .btn {
+
+    min-width: 170px;
+
+}
+.btn.salvar-novo {
+  background: var(--btn-primary);
+  color: #fff;
+  border: none;
+}
+.btn.salvar-novo:hover {
+  background: #2563eb; /* ou crie uma variável */
+}
+.btn.salvar{
+  background: var(--orange-dark);
+  color: #fff;
+  border: none;
+}
 
 /* ==========================================
    CAMPOS
@@ -449,6 +543,7 @@
   font-size: 14px;
   outline: none;
   transition: var(--transition);
+  font: var(--font-primary);
 }
 
 .form-group input,
@@ -565,15 +660,19 @@
     border-right: none !important;
     border-bottom: 1px solid var(--border-light);
   }
-  .entrada-container {
-    grid-template-columns: 1fr;
-  }
+  /* .entrada-container {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 24px;
+    align-items: start;
+  } */
 
   .grid-entrada {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* responsividade  */
 @media (max-width: 768px) {
   .grid-form {
     grid-template-columns: 1fr;

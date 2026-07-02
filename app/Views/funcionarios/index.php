@@ -395,11 +395,16 @@ require_once __DIR__ . '/../includes/header.php';
 
                                     <div class="form-group">
                                         <label for="tipoConta">Tipo de Conta</label>
+                                        <?php
+                                        $tipoConta = isset($funcionario) ? $funcionario->getTipoConta() : '';
+                                        ?>
                                         <select id="tipoConta" name="tipoConta">
                                             <option value="">Selecione</option>
-                                            <option value="Corrente" <?= ($funcionario?->getTipoConta() === 'CORRENTE') ? 'selected' : '' ?>>Corrente</option>
-                                            <option value="Poupanca" <?= ($funcionario?->getTipoConta() === 'POUPANCA') ? 'selected' : '' ?>>Poupança</option>
-                                            <option value="Salario" <?= ($funcionario?->getTipoConta() === 'SALARIO') ? 'selected' : '' ?>>Salário</option>
+                                            <?php foreach (FuncionarioConstantes::TIPOS_CONTA as $valor => $descricao): ?>
+                                                <option value="<?= $valor ?>" <?= $tipoConta === $valor ? 'selected' : '' ?>>
+                                                    <?= $descricao ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
 
