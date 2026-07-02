@@ -24,10 +24,8 @@ function mascaraCNPJ(input) {
 
 function mascaraCEP(input) {
   let valor = input.value.replace(/\D/g, "");
-
   valor = valor.substring(0, 8);
   valor = valor.replace(/(\d{5})(\d)/, "$1-$2");
-
   input.value = valor;
 }
 
