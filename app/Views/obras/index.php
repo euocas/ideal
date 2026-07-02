@@ -98,12 +98,15 @@ require_once __DIR__ . '/../includes/header.php';
                         <i class="fa-regular fa-clipboard"></i>
                         Dados da Obra
                     </h2>
+                    
                     <div class="grid-form">
+                        
                         <div class="form-group">
                             <label>Contrato</label>
                             <input type="text" name="contrato" maxlength="45" placeholder="Digite o contrato"
                                 value="<?= isset($obra) ? $obra->getContrato() : '' ?>">
                         </div>
+                        
                         <div class="form-group">
                             <label>Status da Obra</label>
                             <select name="status" required>
@@ -113,12 +116,14 @@ require_once __DIR__ . '/../includes/header.php';
                                 <option value="Cancelada" <?= isset($obra) && $obra->getStatus() === 'Cancelada'    ? 'selected' : '' ?>>Cancelada</option>
                             </select>
                         </div>
+                        
                         <div class="form-group">
                             <label>Data de Início</label>
                             <input type="datetime-local" name="dataInicio"
                                 value="<?= isset($obra) && $obra->getDataInicio() ? $obra->getDataInicio()->format('Y-m-d\TH:i') : '' ?>"
                                 required>
                         </div>
+                        
                         <div class="form-group">
                             <label>Data de Finalização</label>
                             <input type="datetime-local" name="dataFim"
@@ -126,48 +131,38 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
 
                         <div class="cliente-area">
-    <input type="hidden" name="idCliente" id="idCliente" value="<?= isset($obra) ? $obra->getIdCliente() : '' ?>">
-    
-    <?php 
-    // Validação segura para resgatar os dados do objeto Cliente
-    $docCliente = '';
-    $nomeCli = '-';
-    $whatsappCli = '-';
-    
-    if (isset($cliente) && $cliente) {
-        // Tenta pegar o CNPJ ou CPF
-        $docCliente = (method_exists($cliente, 'getCnpj') && $cliente->getCnpj()) ? $cliente->getCnpj() : ((method_exists($cliente, 'getCpf')) ? $cliente->getCpf() : '');
-        // Tenta pegar o Nome ou Razão Social
-        $nomeCli = method_exists($cliente, 'getNomeCliente') ? $cliente->getNomeCliente() : (method_exists($cliente, 'getNome') ? $cliente->getNome() : '-');
-        // Tenta pegar o WhatsApp
-        $whatsappCli = (method_exists($cliente, 'getTelefone') && $cliente->getTelefone()) ? $cliente->getTelefone() : '-';
-    }
-    ?>
+                            <input type="hidden" name="idCliente" id="idCliente" value="<?= isset($obra) ? $obra->getIdCliente() : '' ?>">
+                            
+                            <?php 
+                            // Validação segura para resgatar os dados do objeto Cliente
+                            $docCliente = '';
+                            $nomeCli = '-';
+                            $whatsappCli = '-';
+                            
+                            if (isset($cliente) && $cliente) {
+                                // Tenta pegar o CNPJ ou CPF
+                                $docCliente = (method_exists($cliente, 'getCnpj') && $cliente->getCnpj()) ? $cliente->getCnpj() : ((method_exists($cliente, 'getCpf')) ? $cliente->getCpf() : '');
+                                // Tenta pegar o Nome ou Razão Social
+                                $nomeCli = method_exists($cliente, 'getNomeCliente') ? $cliente->getNomeCliente() : (method_exists($cliente, 'getNome') ? $cliente->getNome() : '-');
+                                // Tenta pegar o WhatsApp
+                                $whatsappCli = (method_exists($cliente, 'getTelefone') && $cliente->getTelefone()) ? $cliente->getTelefone() : '-';
+                            }
+                            ?>
 
-    <div class="form-group">
-        <label>CNPJ / CPF Cliente</label>
-        <input type="text" id="cnpjCliente" name="cnpjCliente" oninput="mascaraCNPJ(this)" maxlength="18" placeholder="00.000.000/0000-00" value="<?= htmlspecialchars($docCliente) ?>">
-    </div>
-    <div class="cliente-card">
-        <h3><i class="fa-solid fa-user"></i> Dados do Cliente</h3>
-        <div class="cliente-grid">
-            <div class="cliente-info"><span>Nome / Razão Social</span><strong id="clienteNome"><?= htmlspecialchars($nomeCli) ?></strong></div>
-            <div class="cliente-info"><span>CPF/CNPJ</span><strong id="clienteCnpj"><?= htmlspecialchars($docCliente ?: '-') ?></strong></div>
-            <div class="cliente-info"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span><strong id="clienteWhatsapp"><?= htmlspecialchars($whatsappCli) ?></strong></div>
-        </div>
-    </div>
-</div>
+                            <div class="form-group">
+                                <label>CNPJ / CPF Cliente</label>
+                                <input type="text" id="cnpjCliente" name="cnpjCliente" oninput="mascaraCNPJ(this)" maxlength="18" placeholder="00.000.000/0000-00" value="<?= htmlspecialchars($docCliente) ?>">
+                            </div>
+                            
                             <div class="cliente-card">
                                 <h3><i class="fa-solid fa-user"></i> Dados do Cliente</h3>
                                 <div class="cliente-grid">
-                                    <div class="cliente-info"><span>Nome / Razão Social</span><strong id="clienteNome">-</strong></div>
-                                    <div class="cliente-info"><span>CPF/CNPJ</span><strong id="clienteCnpj">-</strong></div>
-                                    <div class="cliente-info"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span><strong id="clienteWhatsapp">-</strong></div>
+                                    <div class="cliente-info"><span>Nome / Razão Social</span><strong id="clienteNome"><?= htmlspecialchars($nomeCli) ?></strong></div>
+                                    <div class="cliente-info"><span>CPF/CNPJ</span><strong id="clienteCnpj"><?= htmlspecialchars($docCliente ?: '-') ?></strong></div>
+                                    <div class="cliente-info"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span><strong id="clienteWhatsapp"><?= htmlspecialchars($whatsappCli) ?></strong></div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
+                        </div> </div> </section>
 
                 <section class="card">
                     <h2 class="titulo-card"><i class="fa-solid fa-location-dot"></i> Endereço da Obra</h2>
@@ -244,7 +239,45 @@ require_once __DIR__ . '/../includes/header.php';
                                     <th>Ações</th>
                                 </tr>
                             </thead>
-                            <tbody id="tabela-funcionarios-body">
+                           <tbody id="tabela-funcionarios-body">
+                                <?php
+                                $indiceFuncionario = 0;
+                                if (isset($obra) && !empty($obra->getFuncionariosVinculados())):
+                                    foreach ($obra->getFuncionariosVinculados() as $func):
+                                        $nome = htmlspecialchars($func['nomeFuncionario'] ?? '—');
+                                        $funcao = htmlspecialchars($func['funcao'] ?? '—');
+                                        $modelo = htmlspecialchars($func['modelo'] ?? '—');
+                                        $placa = htmlspecialchars($func['placa'] ?? '—');
+
+                                        $dtInicio = !empty($func['dataAdmissao']) ? date('d/m/Y', strtotime($func['dataAdmissao'])) : '—';
+                                        $dtSaida = !empty($func['dataDesligamento']) ? date('d/m/Y', strtotime($func['dataDesligamento'])) : '—';
+                                        $status = htmlspecialchars($func['statusFuncionario'] ?? 'Ativo');
+                                        $statusClass = strtolower($status) === 'ativo' ? 'ativo' : 'inativo';
+
+                                        $idFunc = $func['idFuncionario'];
+                                        $idVeic = $func['idVeiculo'] ?? '';
+                                ?>
+                                    <tr>
+                                        <td>
+                                            <?= $nome ?>
+                                            <input type="hidden" name="funcionariosObra[<?= $indiceFuncionario ?>][idFuncionario]" value="<?= $idFunc ?>">
+                                            <input type="hidden" name="funcionariosObra[<?= $indiceFuncionario ?>][idVeiculo]" value="<?= $idVeic ?>">
+                                        </td>
+                                        <td><?= $funcao ?></td>
+                                        <td><?= $modelo ?></td>
+                                        <td><?= $placa ?></td>
+                                        <td><?= $dtInicio ?></td>
+                                        <td><?= $dtSaida ?></td>
+                                        <td><span class="status <?= $statusClass ?>"><?= $status ?></span></td>
+                                        <td class="acoes-tabela">
+                                            <button type="button" class="btn-excluir" onclick="removerFuncionarioDaTabela(this)"><i class="fa-solid fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                <?php
+                                        $indiceFuncionario++;
+                                    endforeach;
+                                endif;
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -264,7 +297,7 @@ require_once __DIR__ . '/../includes/header.php';
 
     <script>
         // Lógica de Funcionários e Tabela
-        let indiceFuncionario = 0;
+       let indiceFuncionario = <?= isset($indiceFuncionario) ? $indiceFuncionario : 0 ?>;
 
         function adicionarFuncionarioNaTabela() {
             const selectFuncionario = document.getElementById('idFuncionarioSelect');

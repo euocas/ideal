@@ -257,6 +257,33 @@ public function setFuncionariosVinculados(array $funcionarios): void
         return $obra;
     }
 
+    public function carregarFuncionariosVinculados(): void
+    {
+        if (!$this->idObra) return;
+
+        // Faz um JOIN para buscar o funcionário e o veículo vinculado a ele nesta obra
+        $sql = "SELECT 
+                    of.idFuncionario, 
+                    f.nome as nomeFuncionario, 
+                    f.cargoFuncao as funcao, 
+                    f.dataAdmissao, 
+                    f.dataDesligamento, 
+                    f.status as statusFuncionario,
+                    ofv.idVeiculo, 
+                    v.modelo, 
+                    v.placa
+                FROM obraFuncionario of
+                INNER JOIN funcionario f ON of.idFuncionario = f.idFuncionario
+                LEFT JOIN obraFuncionarioVeiculo ofv ON of.idObraFuncionario = ofv.idObraFuncionario
+                LEFT JOIN veiculo v ON ofv.idVeiculo = v.idVeiculo
+                WHERE of.idObra = :idObra";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':idObra' => $this->idObra]);
+        
+        $this->funcionariosVinculados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // =====================================================
     // CRUD
     // =====================================================
@@ -353,6 +380,8 @@ public function setFuncionariosVinculados(array $funcionarios): void
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    
+
     public function buscarPorId(int $id): ?self
     {
         $sql = "SELECT * FROM obra WHERE idObra = :id";
@@ -360,52 +389,128 @@ public function setFuncionariosVinculados(array $funcionarios): void
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $dados ? $this->hydrate($dados) : null;
+        
+        if ($dados) {
+            $obra = $this->hydrate($dados);
+            $obra->carregarFuncionariosVinculados(); // Carrega a tabela
+            return $obra;
+        }
+        return null;
+    }
+
+    public function buscarPorContrato(string $contrato): ?self
+    {
+        $sql = "SELECT * FROM obra WHERE contrato = :contrato LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':contrato' => $contrato]);
+        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($dados) {
+            $obra = $this->hydrate($dados);
+            $obra->carregarFuncionariosVinculados(); // Carrega a tabela
+            return $obra;
+        }
+        return null;
     }
 
     public function atualizar(): bool
     {
-        $sql = "UPDATE obra SET
-                    idCliente     = :idCliente,
-                    dataInicio    = :dataInicio,
-                    dataFim       = :dataFim,
-                    status        = :status,
-                    estado        = :estado,
-                    cidade        = :cidade,
-                    cep           = :cep,
-                    logradouro    = :logradouro,
-                    endereco      = :endereco,
-                    numero        = :numero,
-                    complemento   = :complemento,
-                    observacoes   = :observacoes,
-                    contrato      = :contrato
-                WHERE idObra = :idObra";
+        try {
+            // Iniciamos a transação (se der erro, nada é salvo)
+            $this->pdo->beginTransaction();
 
-        $stmt = $this->pdo->prepare($sql);
+            $sql = "UPDATE obra SET
+                        idCliente     = :idCliente,
+                        dataInicio    = :dataInicio,
+                        dataFim       = :dataFim,
+                        status        = :status,
+                        estado        = :estado,
+                        cidade        = :cidade,
+                        cep           = :cep,
+                        logradouro    = :logradouro,
+                        endereco      = :endereco,
+                        numero        = :numero,
+                        complemento   = :complemento,
+                        observacoes   = :observacoes,
+                        contrato      = :contrato
+                    WHERE idObra = :idObra";
 
-        $sucesso = $stmt->execute([
-            ':idCliente'   => $this->idCliente,   // ✅ ADICIONADO
-            ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
-            ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
-            ':status'      => $this->status,
-            ':estado'      => $this->estado,
-            ':cidade'      => $this->cidade,
-            ':cep'         => $this->cep,
-            ':logradouro'  => $this->logradouro,
-            ':endereco'    => $this->endereco,
-            ':numero'      => $this->numero,
-            ':complemento' => $this->complemento,
-            ':observacoes' => $this->observacoes,
-            ':contrato'    => $this->contrato,
-            ':idObra'      => $this->idObra
-        ]);
+            $stmt = $this->pdo->prepare($sql);
 
-        if (!$sucesso) {
-            error_log(print_r($stmt->errorInfo(), true));
+            $sucesso = $stmt->execute([
+                ':idCliente'   => $this->idCliente,
+                ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
+                ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
+                ':status'      => $this->status,
+                ':estado'      => $this->estado,
+                ':cidade'      => $this->cidade,
+                ':cep'         => $this->cep,
+                ':logradouro'  => $this->logradouro,
+                ':endereco'    => $this->endereco,
+                ':numero'      => $this->numero,
+                ':complemento' => $this->complemento,
+                ':observacoes' => $this->observacoes,
+                ':contrato'    => $this->contrato,
+                ':idObra'      => $this->idObra
+            ]);
+
+            if (!$sucesso) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+        
+            $stmtFind = $this->pdo->prepare("SELECT idObraFuncionario FROM obraFuncionario WHERE idObra = :idObra");
+            $stmtFind->execute([':idObra' => $this->idObra]);
+            $ids = $stmtFind->fetchAll(PDO::FETCH_COLUMN);
+
+            if (!empty($ids)) {
+                $in = str_repeat('?,', count($ids) - 1) . '?';
+                $stmtDelVeic = $this->pdo->prepare("DELETE FROM obraFuncionarioVeiculo WHERE idObraFuncionario IN ($in)");
+                $stmtDelVeic->execute($ids);
+            }
+
+            // Agora limpa os funcionários
+            $stmtDelFunc = $this->pdo->prepare("DELETE FROM obraFuncionario WHERE idObra = :idObra");
+            $stmtDelFunc->execute([':idObra' => $this->idObra]);
+
+            // Re-insere o que veio da tela atualizado
+            if (!empty($this->funcionariosVinculados)) {
+                $sqlFunc = "INSERT INTO obraFuncionario (idObra, idFuncionario) VALUES (:idObra, :idFuncionario)";
+                $stmtFunc = $this->pdo->prepare($sqlFunc);
+
+                $sqlVeic = "INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES (:idObraFuncionario, :idVeiculo)";
+                $stmtVeic = $this->pdo->prepare($sqlVeic);
+
+                foreach ($this->funcionariosVinculados as $func) {
+                    if (empty($func['idFuncionario'])) continue;
+
+                    $stmtFunc->execute([
+                        ':idObra' => $this->idObra,
+                        ':idFuncionario' => $func['idFuncionario']
+                    ]);
+
+                    $idObraFunc = (int) $this->pdo->lastInsertId();
+
+                    if (!empty($func['idVeiculo'])) {
+                        $stmtVeic->execute([
+                            ':idObraFuncionario' => $idObraFunc,
+                            ':idVeiculo' => $func['idVeiculo']
+                        ]);
+                    }
+                }
+            }
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (\Exception $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            error_log("Erro no Update de Obra: " . $e->getMessage());
             return false;
         }
-
-        return true;
     }
 
     public function excluir(int $id): bool
@@ -415,14 +520,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
         return $stmt->execute([':id' => $id]);
     }
 
-    public function buscarPorContrato(string $contrato): ?self
-    {
-        $sql = "SELECT * FROM obra WHERE contrato = :contrato LIMIT 1";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':contrato' => $contrato]);
-        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $dados ? $this->hydrate($dados) : null;
-    }
+    
 
     public function buscarComFiltros(string $contrato = '', string $statusObra = ''): array
     {
