@@ -97,8 +97,9 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label>Contrato</label>
                             <input type="text" name="contrato" maxlength="45" placeholder="Digite o contrato"
-                                value="<?= isset($obra) ? $obra->getContrato() : '' ?>">
+                                value="<?= isset($obra) ? $obra->getContrato() : (isset($_POST['contratoBusca']) ? htmlspecialchars($_POST['contratoBusca']) : '') ?>">
                         </div>
+
 
                         <div class="form-group">
                             <label>Status da Obra</label>

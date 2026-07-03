@@ -38,9 +38,14 @@ class ObrasController
                         $clienteModel = new Cliente();
                         $cliente = $clienteModel->findById($obra->getIdCliente());
                     }
-                }
+                    
+                }else {
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $_SESSION['mensagem_erro'] = "Obra inexistente. Cadastre-a no banco de dados.";
 
-
+}
             }
         }
 
