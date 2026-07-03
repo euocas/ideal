@@ -131,20 +131,53 @@ $actionAutomovel = $isEditAutomovel
                     </div>
 
                     <form id="form-funcionario" action="<?= $actionFuncionario ?>" method="POST">
-
-
                         <div class="financeiro-topo">
-                            <div class="form-group funcionario">
-                                <label>Funcionário <span class="obrigatorio">*</span></label>
 
-                                <select name="idFuncionario">
-                                    <option>Selecione um funcionário</option>
-                                </select>
+                            <div class="grid-busca">
+                                <div class="busca-box">
+                                    <h2>
+                                        <i class="fa-solid fa-user"></i>
+                                        LOCALIZAR FUNCIONÁRIO
+                                    </h2>
+                                    <?php if (!empty($mensagem)): ?>
+                                        <div class="alert alert-warning">
+                                            <?= $mensagem ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div class="form-busca"
+                                        action="/ideal/public/index.php?url=financeiros&aba=funcionario" method="POST">
+                                        <div class="input-group">
+                                            <label>CPF</label>
+                                            <input type="text" name="cpf" placeholder="000.000.000-00" maxlength="14"
+                                                oninput="mascaraCPF(this)" required>
+                                        </div>
+                                        <button type="submit" name="acao" value="localizar" class="btn-buscar">
+                                            <i class="bi bi-search"></i>
+                                            LOCALIZAR
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="dica-box">
+                                    <h3>
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        DICA
+                                    </h3>
+                                    <p>
+                                        Digite o CPF do funcionário e clique em
+                                        <strong>LOCALIZAR</strong> para buscar os dados financeiros.
+                                        Após localizar o funcionário, selecione o período desejado para registrar ou
+                                        consultar lançamentos.
+                                    </p>
+                                </div>
                             </div>
 
                             <div class="form-group periodo">
-                                <label>Período de Referência <span class="obrigatorio">*</span></label>
-
+                                <div class="titulo-periodo">
+                                    <label>Período de Referência <span class="obrigatorio">*</span></label>
+                                </div>
+                                
                                 <div class="periodo-grid">
                                     <select name="mes" required>
                                         <option value="">Mês</option>
@@ -169,14 +202,16 @@ $actionAutomovel = $isEditAutomovel
                                     </select>
                                 </div>
 
+                                <div class="acoes-topo">
+                                    <button type="submit" name="acao" value="buscar" class="btn-buscar">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        Buscar
+                                    </button>
+                                </div>
+
 
                             </div>
-                            <div class="acoes-topo">
-                                <button class="btn-buscar">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                    Buscar
-                                </button>
-                            </div>
+
                         </div>
                     </form>
 

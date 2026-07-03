@@ -159,18 +159,71 @@
 /* ==========================================
    CARD 1 - BUSCA E DADOS DO FUNCIONÁRIO
 ========================================== */
-.financeiro-topo {
-  display: grid;
-  grid-template-columns: 52% 33% 15%;
-  gap: 20px;
-  align-items: end;
+.form-busca{
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+}
+.form-busca .input-group{
+    flex: 1;
+}
+.form-busca .btn-buscar{
+    width: 200px;
+    height: 47px; /* opcional, se quiser igualar ao input */
+}
+.financeiro-topo{
+    display: grid;
+    grid-template-columns: 53% 42%;
+    gap: 40px;
+    align-items: start;
+}
+.form-group.periodo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: -8px;
+}
+.titulo-periodo{
+     padding-left: 40px;
 }
 
 .periodo-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
 }
+.form-group.periodo select {
+    width: 88%;
+}
+
+.acoes-topo{
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+}
+.acoes-topo .btn-buscar {
+  margin-bottom: 10px;
+  width: 220px;
+}
+.btn-localizar{
+  margin-bottom: 15px;
+}
+.periodo-box{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+}
+.periodo-box .btn-buscar
+{
+    margin-top:auto;
+    width:100%;
+}
+
 /* ==========================================
    class FUNCIONÁRIO CARD
 ========================================== */
@@ -178,7 +231,7 @@
   display: flex;
   align-items: center;
   gap: 35px;
-  margin-top: 30px;
+  margin-top: 10px;
   /* padding: 25px; */
   padding: 14px 18px;
   border: 1px solid var(--border-light);
