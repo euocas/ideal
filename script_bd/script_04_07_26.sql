@@ -9,7 +9,6 @@ DROP DATABASE IF EXISTS empreiteira;
 -- =====================================================
 
 CREATE DATABASE empreiteira;
-
 USE empreiteira;
 
 -- =====================================================
@@ -232,6 +231,26 @@ CREATE TABLE financeiroFuncionario (
     FOREIGN KEY (idCategoria)
         REFERENCES categoriaFinanceiroFuncionario(idCategoria)
 );
+-- =====================================================
+-- FINANCEIRO FUNCIONARIO - REMUNERAÇÃO
+-- =====================================================
+CREATE TABLE funcionarioRemuneracao (
+    idRemuneracao INT AUTO_INCREMENT PRIMARY KEY,
+    idFuncionario INT NOT NULL,
+    salarioBase DECIMAL(10,2) NOT NULL,
+    valeTransporte DECIMAL(10,2) DEFAULT 0.00,
+    valeRefeicao DECIMAL(10,2) DEFAULT 0.00,
+    planoSaude DECIMAL(10,2) DEFAULT 0.00,
+    inicioVigencia DATE NOT NULL,
+    fimVigencia DATE DEFAULT NULL,
+    dataCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_remuneracao_funcionario
+        FOREIGN KEY (idFuncionario)
+        REFERENCES funcionario(idFuncionario)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
 
 
 -- =====================================================
@@ -344,8 +363,6 @@ INSERT INTO funcionario (
 '2025-01-20', NULL, '2027-01-12',
 '5501', '78945', 'CORRENTE', '15935745682',
 'ativo', 'Atendimento interno e suporte aos usuários.');
-
-
 
 -- =====================================================
 -- INSERÇAO DE DADOS DE CONTATO DE FUNCIONÁRIOS
@@ -546,6 +563,28 @@ VALUES
 (5, 9, 'Desconto INSS', 495.00, '2026-07-01', 'Folha', 'Santander', ''),
 (5,11, 'Vale Transporte', 180.00, '2026-07-01', 'Folha', 'Santander', '');
 
+-- ============================================================
+-- INSERÇAO DE DADOS FUNCIONARIO REMUNERAÇÃO (Uso no financeiro)
+-- =============================================================
+
+INSERT INTO funcionarioRemuneracao (idFuncionario, salarioBase, valeTransporte, valeRefeicao,
+    planoSaude,inicioVigencia,fimVigencia) 
+VALUES
+-- João Pedro Silva
+(1, 4500.00, 220.00, 550.00, 180.00, '2022-03-14', NULL),
+
+-- Maria Oliveira Souza
+(2, 3900.00, 180.00, 500.00, 180.00, '2023-07-03', NULL),
+
+-- Carlos Henrique Lima (Inativo)
+(3, 2500.00, 180.00, 400.00, 0.00, '2021-01-11', '2025-12-31'),
+
+-- Fernanda Alves Costa (PJ)
+(4, 5200.00, 0.00, 0.00, 0.00, '2024-02-05', NULL),
+
+-- Lucas Martins Pereira
+(5, 2800.00, 220.00, 450.00, 150.00, '2025-01-20', NULL);
+
 
 -- =====================================================
 -- CONSULTAS DE TESTE (Rode após a criação)
@@ -561,6 +600,7 @@ SELECT * FROM contatoCliente;
 SELECT * FROM obraFuncionario;
 SELECT * FROM funcionario WHERE idFuncionario = 1;
 SELECT * FROM categoriaFinanceiroFuncionario;
+SELECT * FROM funcionarioRemuneracao;
  
 SELECT CONSTRAINT_NAME, TABLE_NAME
 FROM information_schema.TABLE_CONSTRAINTS
