@@ -145,8 +145,8 @@ $actionAutomovel = $isEditAutomovel
                                         </div>
                                     <?php endif; ?>
 
-                                    <div class="form-busca"
-                                        action="/ideal/public/index.php?url=financeiros&aba=funcionario" method="POST">
+                                    <div class="form-busca" action="/ideal/public/index.php?url=financeiros&aba=funcionario"
+                                        method="POST">
                                         <div class="input-group">
                                             <label>CPF</label>
                                             <input type="text" name="cpf" placeholder="000.000.000-00" maxlength="14"
@@ -165,10 +165,9 @@ $actionAutomovel = $isEditAutomovel
                                         DICA
                                     </h3>
                                     <p>
-                                        Digite o CPF do funcionário e clique em
-                                        <strong>LOCALIZAR</strong> para buscar os dados financeiros.
-                                        Após localizar o funcionário, selecione o período desejado para registrar ou
-                                        consultar lançamentos.
+                                        <strong>Localize</strong> o funcionário pelo <strong>CPF</strong>.Em seguida,
+                                        selecione o período para consultar ou
+                                        registrar lançamentos.
                                     </p>
                                 </div>
                             </div>
@@ -177,7 +176,7 @@ $actionAutomovel = $isEditAutomovel
                                 <div class="titulo-periodo">
                                     <label>Período de Referência <span class="obrigatorio">*</span></label>
                                 </div>
-                                
+
                                 <div class="periodo-grid">
                                     <select name="mes" required>
                                         <option value="">Mês</option>
@@ -217,40 +216,55 @@ $actionAutomovel = $isEditAutomovel
 
                     <div class="funcionario-card">
 
-                        <!-- Avatar -->
-                        <div class="funcionario-avatar">
-
-                            <div class="avatar-circulo">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-
-                        </div>
-
                         <!-- Informações -->
                         <div class="funcionario-conteudo">
 
                             <!-- Coluna 1 -->
-                            <div class="funcionario-coluna">
+                            <!-- Coluna 1 -->
+                            <div class="funcionario-coluna funcionario-principal">
 
-                                <h2 class="funcionario-nome">
-                                    Carlos Alberto da Silva
-                                </h2>
+                                <div class="cabecalho-funcionario">
 
-                                <p class="funcionario-funcao">
-                                    Eletricista
-                                </p>
+                                    <div class="nome-funcionario">
+                                        <i class="fa-solid fa-helmet-safety"></i>
 
-                                <p class="funcionario-cpf">
-                                    CPF: 123.456.789-10
-                                </p>
+                                        <h2 class="funcionario-nome">
+                                            Carlos Alberto da Silva
+                                        </h2>
+                                    </div>
 
-                                <p class="funcionario-admissao">
-                                    Admissão: 15/03/2022
-                                </p>
+                                    <span class="status ativo">
+                                        <i class="fa-solid fa-circle"></i>
+                                        Ativo
+                                    </span>
 
-                                <span class="status ativo">
-                                    Ativo
-                                </span>
+                                </div>
+
+                                <hr>
+
+                                <div class="funcionario-info">
+
+                                    <div class="info-item">
+                                        <i class="fa-regular fa-id-card"></i>
+
+                                        <div>
+                                            <span class="funcionario-titulo">CPF</span>
+                                            <span class="funcionario-valor">123.456.789-10</span>
+                                        </div>
+                                    </div>
+
+                                    <span class="separador">•</span>
+
+                                    <div class="info-item">
+                                        <i class="fa-regular fa-calendar"></i>
+
+                                        <div>
+                                            <span class="funcionario-titulo">Admissão</span>
+                                            <span class="funcionario-valor">15/03/2022</span>
+                                        </div>
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -259,28 +273,9 @@ $actionAutomovel = $isEditAutomovel
 
                                 <div class="funcionario-item">
 
-                                    <i class="fa-solid fa-users"></i>
-
-                                    <div>
-
-                                        <span class="funcionario-titulo">
-                                            Departamento
-                                        </span>
-
-                                        <span class="funcionario-valor">
-                                            Operacional
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="funcionario-item">
-
                                     <i class="fa-solid fa-user-tie"></i>
 
                                     <div>
-
                                         <span class="funcionario-titulo">
                                             Cargo
                                         </span>
@@ -288,7 +283,6 @@ $actionAutomovel = $isEditAutomovel
                                         <span class="funcionario-valor">
                                             Eletricista
                                         </span>
-
                                     </div>
 
                                 </div>
@@ -298,7 +292,6 @@ $actionAutomovel = $isEditAutomovel
                                     <i class="fa-solid fa-gift"></i>
 
                                     <div>
-
                                         <span class="funcionario-titulo">
                                             Salário Base
                                         </span>
@@ -306,7 +299,6 @@ $actionAutomovel = $isEditAutomovel
                                         <span class="funcionario-valor">
                                             R$ 3.500,00
                                         </span>
-
                                     </div>
 
                                 </div>
@@ -328,24 +320,6 @@ $actionAutomovel = $isEditAutomovel
 
                                         <span class="funcionario-valor">
                                             CLT
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="funcionario-item">
-
-                                    <i class="fa-regular fa-clock"></i>
-
-                                    <div>
-
-                                        <span class="funcionario-titulo">
-                                            Jornada
-                                        </span>
-
-                                        <span class="funcionario-valor">
-                                            44h semanais
                                         </span>
 
                                     </div>
@@ -560,27 +534,8 @@ $actionAutomovel = $isEditAutomovel
 
                                     </div>
 
-                                    <!-- Card Descontos -->
-                                    <!-- <div class="info-card saida">
 
-                                        <div class="info-header">
-                                            <div class="info-icon">
-                                                <i class="fa-solid fa-arrow-down"></i>
-                                            </div>
-                                            <div><h3> Descontos (Saídas)</h3>
-                                                <p>Registro de valores que serão descontados.</p>
-                                            </div>
-                                        </div>
 
-                                        <span class="info-subtitulo">Exemplos:</span>
-
-                                        <ul>
-                                            <?php foreach (FinanceiroCategorias::DESCONTOS as $desconto): ?>
-                                                <li><?= $desconto ?></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-
-                                    </div> -->
 
                                 </aside>
 
@@ -595,7 +550,7 @@ $actionAutomovel = $isEditAutomovel
 
                                     <form id="form-saida" action="<?= $actionFuncionario ?>" method="POST">
 
-                                        <input type="hidden" name="tipo" value="entrada">
+                                        <input type="hidden" name="tipo" value="saida">
 
                                         <div class="grid-saida">
 
@@ -649,9 +604,6 @@ $actionAutomovel = $isEditAutomovel
                                             </div>
 
                                             <!-- Conta -->
-
-
-
                                             <div class="form-group">
                                                 <label for="contaPagamento">Conta Pagamento</label>
 
@@ -665,7 +617,6 @@ $actionAutomovel = $isEditAutomovel
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
-
 
                                             <!-- Valor -->
                                             <div class="form-group">
@@ -704,9 +655,7 @@ $actionAutomovel = $isEditAutomovel
                                                 <i class="fa-solid fa-rotate-right"></i>
                                                 Limpar
                                             </button>
-
                                         </div>
-
                                     </form>
 
 
@@ -742,24 +691,242 @@ $actionAutomovel = $isEditAutomovel
 
                             </div>
 
+
                         <?php elseif ($tipo === 'periodo'): ?>
 
-                            <!-- Tabela Lançamentos do Período -->
+                            <div class="resumo-lancamentos">
+
+                                <div class="card-resumo entrada">
+                                    <div class="icone">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </div>
+
+                                    <div class="conteudo">
+                                        <span>Total de Entradas</span>
+                                        <strong>R$ 6.850,00</strong>
+                                        <small>9 lançamentos</small>
+                                    </div>
+                                </div>
+
+                                <div class="card-resumo saida">
+                                    <div class="icone">
+                                        <i class="fas fa-arrow-down"></i>
+                                    </div>
+
+                                    <div class="conteudo">
+                                        <span>Total de Saídas</span>
+                                        <strong>R$ 1.245,00</strong>
+                                        <small>9 lançamentos</small>
+                                    </div>
+                                </div>
+
+                                <div class="card-resumo saldo">
+                                    <div class="icone">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+
+                                    <div class="conteudo">
+                                        <span>Saldo Líquido</span>
+                                        <strong>R$ 5.605,00</strong>
+                                        <small>Saldo do período</small>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="filtros-lancamentos">
+
+                                <div class="form-group">
+                                    <label>Pesquisar</label>
+                                    <input type="text" placeholder="Pesquise por salário, hora extra, INSS...">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Tipo</label>
+                                    <select>
+                                        <option>Todos</option>
+                                        <option>Entradas</option>
+                                        <option>Saídas</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Situação</label>
+                                    <select>
+                                        <option>Todas</option>
+                                        <option>Pago</option>
+                                        <option>Pendente</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group btn-filtro">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="fas fa-filter"></i>
+                                        Filtros
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="tabela-lancamentos">
+
+                                <table>
+
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Tipo</th>
+                                            <th>Descrição</th>
+                                            <th class="text-right">Valor</th>
+                                            <th>Situação</th>
+                                            <th class="text-center">Ações</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+
+                                            <td>05/07/2026</td>
+
+                                            <td>
+                                                <span class="badge-entrada">
+                                                    <i class="fa-solid fa-arrow-up"></i>
+                                                    Entrada
+                                                </span>
+                                            </td>
+
+                                            <td>Salário referente a Julho/2026</td>
+
+                                            <td class="valor-positivo">
+                                                R$ 5.000,00
+                                            </td>
+
+                                            <td>
+                                                <span class="status-pago">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                    Pago
+                                                </span>
+                                            </td>
+
+                                            <td class="acoes">
+
+                                                <button class="btn-acao editar">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </button>
+
+                                                <button class="btn-acao excluir">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td>05/07/2026</td>
+
+                                            <td>
+                                                <span class="badge-entrada">
+                                                    <i class="fa-solid fa-arrow-up"></i>
+                                                    Entrada
+                                                </span>
+                                            </td>
+
+                                            <td>Salário referente a Julho/2026</td>
+
+                                            <td class="valor-positivo">
+                                                R$ 5.000,00
+                                            </td>
+
+                                            <td>
+                                                <span class="status-pago">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                    Pago
+                                                </span>
+                                            </td>
+
+                                            <td class="acoes">
+
+                                                <button class="btn-acao editar">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </button>
+
+                                                <button class="btn-acao excluir">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+
+                                            <td>05/07/2026</td>
+
+                                            <td>
+                                                <span class="badge-entrada">
+                                                    <i class="fa-solid fa-arrow-up"></i>
+                                                    Entrada
+                                                </span>
+                                            </td>
+
+                                            <td>Salário referente a Julho/2026</td>
+
+                                            <td class="valor-positivo">
+                                                R$ 5.000,00
+                                            </td>
+
+                                            <td>
+                                                <span class="status-pago">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                    Pago
+                                                </span>
+                                            </td>
+
+                                            <td class="acoes">
+
+                                                <button class="btn-acao editar">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </button>
+
+                                                <button class="btn-acao excluir">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                            <div class="dica-lancamentos">
+                                <i class="fas fa-info-circle"></i>
+                                Clique em <strong>Editar</strong> para alterar um lançamento. As entradas serão abertas na aba
+                                <strong>Nova Entrada</strong> e as saídas na aba <strong>Nova Saída</strong>.
+                            </div>
 
                         <?php endif; ?>
+
 
                     </div>
                 </section>
 
-                <div class="financeiro-dica">
-                    <div class="financeiro-dica-conteudo">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>
-                            <strong>Dica:</strong> Use a aba <strong>"Lançamentos do Período"</strong> para visualizar todos
-                            os registros de entradas e saídas deste funcionário no período selecionado.
-                        </span>
+                <?php if ($tipo === 'entrada' || $tipo === 'saida'): ?>
+                    <div class="financeiro-dica">
+                        <div class="financeiro-dica-conteudo">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>
+                                <strong>Dica:</strong> Use a aba <strong>"Lançamentos do Período"</strong>
+                                para visualizar todos os registros de entradas e saídas deste funcionário no período
+                                selecionado.
+                            </span>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
 
 
 
