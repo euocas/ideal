@@ -169,6 +169,7 @@ class ClientesController
 
             $salvou = $cliente->save();
 
+
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
@@ -180,6 +181,8 @@ class ClientesController
 
             header("Location: /ideal/public/index.php?url=clientes");
             exit;
+
+ 
         }
     }
 

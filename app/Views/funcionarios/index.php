@@ -20,6 +20,10 @@ $whatsappValue = $isEdit ? $funcionario->getWhatsapp() : '';
 $titulo = 'Funcionários';
 $favicon = '/ideal/public/assets/icon/funcionario2.png';
 
+// Estado da tela
+$isNovo = isset($_GET['novo']);
+$isEdit = isset($funcionario) && is_object($funcionario);
+
 use App\Config\SistemaConstantes;
 use App\Config\FuncionarioConstantes;
 
@@ -432,36 +436,35 @@ require_once __DIR__ . '/../includes/header.php';
 
             </section>
             <div class="acoes">
-                <a href="/ideal/public/index.php?url=funcionarios" class="btn novo">
+
+                <button type="submit" form="form-dados" class="btn novo"
+                    formaction="/ideal/public/index.php?url=funcionarios/store" <?= $isNovo ? '' : 'disabled' ?>>
                     <i class="bi bi-plus-lg"></i>
                     Cadastrar
-                </a>
+                </button>
 
-                <?php if (!$isEdit): ?>
+                <button type="submit" form="form-dados" class="btn alterar"
+                    formaction="/ideal/public/index.php?url=funcionarios/update&id=<?= $isEdit ? $funcionario->getIdFuncionario() : '' ?>"
+                    <?= $isEdit ? '' : 'disabled' ?>>
 
-                    <button type="submit" form="form-dados" class="btn salvar">
-                        <i class="bi bi-floppy"></i>
-                        Salvar
-                    </button>
-                <?php else: ?>
+                    <i class="bi bi-pencil-square"></i>
+                    Alterar
+                </button>
 
-                    <button type="submit" form="form-dados" class="btn alterar">
-                        <i class="bi bi-pencil-square"></i>
-                        Alterar
-                    </button>
+                <button type="submit" form="form-dados" class="btn excluir"
+                    formaction="/ideal/public/index.php?url=funcionarios/delete&id=<?= $isEdit ? $funcionario->getIdFuncionario() : '' ?>"
+                    onclick="return confirm('Tem certeza que deseja excluir este funcionário?');" <?= $isEdit ? '' : 'disabled' ?>>
 
-                    <a href="/ideal/public/index.php?url=funcionarios/delete&id=<?= $funcionario->getIdFuncionario() ?>"
-                        class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este funcionário?')">
-                        <i class="bi bi-trash"></i>
-                        Excluir
-                    </a>
-
-                <?php endif; ?>
+                    <i class="bi bi-trash"></i>
+                    Excluir
+                </button>
 
                 <button type="reset" form="form-dados" class="btn limpar">
+
                     <i class="bi bi-eraser"></i>
                     Limpar
                 </button>
+
             </div>
 
         </main>

@@ -6,6 +6,9 @@ $titulo = 'Clientes';
 $favicon = '/ideal/public/assets/icon/cliente.png';
 require_once __DIR__ . '/../includes/header.php';
 
+// Estado da tela
+$modoNovo = isset($_GET['novo']);
+$modoEdicao = isset($cliente);
 ?>
 
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
@@ -27,25 +30,6 @@ require_once __DIR__ . '/../includes/header.php';
 
         <main class="main-content">
 
-            <!-- <?php if (isset($mensagem) && $mensagem): ?>
-                <div class="alert alert-warning">
-                    <?= htmlspecialchars($mensagem) ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="alert alert-success">
-                    <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
-                </div>
-                <?php unset($_SESSION['mensagem_sucesso']); ?>
-            <?php endif; ?>
-
-            <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="alert alert-error">
-                    <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
-                </div>
-                <?php unset($_SESSION['mensagem_erro']); ?>
-            <?php endif; ?> -->
 
             <section class="card">
 
@@ -58,27 +42,12 @@ require_once __DIR__ . '/../includes/header.php';
                             BUSCAR CLIENTE
                         </h2>
 
-
-
                         <?php if (isset($mensagem) && $mensagem): ?>
                             <div class="alert alert-warning" style="margin:15px 0 20px 0;">
                                 <?= htmlspecialchars($mensagem) ?>
                             </div>
                         <?php endif; ?>
 
-                        <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                            <div class="alert alert-success">
-                                <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
-                            </div>
-                            <?php unset($_SESSION['mensagem_sucesso']); ?>
-                        <?php endif; ?>
-
-                        <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                            <div class="alert alert-error">
-                                <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
-                            </div>
-                            <?php unset($_SESSION['mensagem_erro']); ?>
-                        <?php endif; ?>
 
 
                         <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
@@ -141,6 +110,21 @@ require_once __DIR__ . '/../includes/header.php';
                 <h2><i class="fa-regular fa-clipboard icone-titulo"> </i> Dados do Cliente</h2>
 
                 <form id="form-dados" method="POST">
+
+
+                    <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                        <div class="alert alert-success">
+                            <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                        </div>
+                        <?php unset($_SESSION['mensagem_sucesso']); ?>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                        <div class="alert alert-error">
+                            <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+                        </div>
+                        <?php unset($_SESSION['mensagem_erro']); ?>
+                    <?php endif; ?>
 
                     <input type="hidden" name="idCliente"
                         value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
@@ -332,28 +316,24 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="acoes">
 
                 <button type="submit" form="form-dados" class="btn novo"
-                    formaction="/ideal/public/index.php?url=clientes/store">
-
+                    formaction="/ideal/public/index.php?url=clientes/store" <?= $modoNovo ? '' : 'disabled' ?>>
                     Cadastrar
                 </button>
 
                 <button type="submit" form="form-dados" class="btn alterar"
                     formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
-                    <?= isset($cliente) ? '' : 'disabled' ?>>
-
+                    <?= $modoEdicao ? '' : 'disabled' ?>>
                     Alterar
                 </button>
 
                 <button type="submit" form="form-dados" class="btn excluir"
                     formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
-                    onclick="return confirm('Tem certeza que deseja excluir este cliente?');" <?= isset($cliente) ? '' : 'disabled' ?>>
-
+                    onclick="return confirm('Tem certeza que deseja excluir este cliente?');" <?= $modoEdicao ? '' : 'disabled' ?>>
                     Excluir
                 </button>
 
                 <button type="button" class="btn limpar"
                     onclick="window.location.href='/ideal/public/index.php?url=clientes'">
-
                     Limpar
                 </button>
 

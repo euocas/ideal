@@ -38,23 +38,28 @@ class ObrasController
                         $clienteModel = new Cliente();
                         $cliente = $clienteModel->findById($obra->getIdCliente());
                     }
-                    
-                }else {
-                    if (session_status() === PHP_SESSION_NONE) {
-                        session_start();
-                    }
-                    $_SESSION['mensagem_erro'] = "Obra inexistente. Cadastre-a no banco de dados.";
 
-}
+                } else {
+
+                    header("Location: /ideal/public/index.php?url=obras/create&contrato=" . urlencode($contrato) . "&novo=1");
+                    exit;
+
+                }
             }
         }
 
-require_once __DIR__ . '/../Views/obras/index.php';
+        require_once __DIR__ . '/../Views/obras/index.php';
     }
 
     public function create()
     {
-        $actionUrl = "/ideal/public/index.php?url=obras/store";
+        $contratoBusca = $_GET['contrato'] ?? '';
+        $mensagem = null;
+
+        if (isset($_GET['novo'])) {
+            $mensagem = "Obra não cadastrada. Preencha os dados abaixo para registrar uma nova obra.";
+        }
+
         require_once __DIR__ . '/../Views/obras/index.php';
     }
 
@@ -82,31 +87,31 @@ require_once __DIR__ . '/../Views/obras/index.php';
 
     // ✅ ADICIONADO setIdCliente
     private function popularObjeto(Obra $obra, array $dados): void
-{
-    $obra->setIdCliente(!empty($dados['idCliente']) ? (int)$dados['idCliente'] : null);
+    {
+        $obra->setIdCliente(!empty($dados['idCliente']) ? (int) $dados['idCliente'] : null);
 
-    if (!empty($dados['dataInicio'])) {
-        $obra->setDataInicio(new \DateTime($dados['dataInicio']));
+        if (!empty($dados['dataInicio'])) {
+            $obra->setDataInicio(new \DateTime($dados['dataInicio']));
+        }
+
+        if (!empty($dados['dataFim'])) {
+            $obra->setDataFim(new \DateTime($dados['dataFim']));
+        }
+
+        $obra->setStatus($dados['status'] ?? null);
+        $obra->setEstado($dados['estado'] ?? null);
+        $obra->setCidade($dados['cidade'] ?? null);
+        $obra->setCep($dados['cep'] ?? null);
+        $obra->setLogradouro($dados['logradouro'] ?? null);
+        $obra->setEndereco($dados['endereco'] ?? null);
+        $obra->setNumero($dados['numero'] ?? null);
+        $obra->setComplemento($dados['complemento'] ?? null);
+        $obra->setObservacoes($dados['observacoes'] ?? null);
+        $obra->setContrato($dados['contrato'] ?? null);
+
+        // ✅ ADICIONADO: Pega a array que o JavaScript mandou via inputs hidden
+        $obra->setFuncionariosVinculados($dados['funcionariosObra'] ?? []);
     }
-
-    if (!empty($dados['dataFim'])) {
-        $obra->setDataFim(new \DateTime($dados['dataFim']));
-    }
-
-    $obra->setStatus($dados['status'] ?? null);
-    $obra->setEstado($dados['estado'] ?? null);
-    $obra->setCidade($dados['cidade'] ?? null);
-    $obra->setCep($dados['cep'] ?? null);
-    $obra->setLogradouro($dados['logradouro'] ?? null);
-    $obra->setEndereco($dados['endereco'] ?? null);
-    $obra->setNumero($dados['numero'] ?? null);
-    $obra->setComplemento($dados['complemento'] ?? null);
-    $obra->setObservacoes($dados['observacoes'] ?? null);
-    $obra->setContrato($dados['contrato'] ?? null);
-
-    // ✅ ADICIONADO: Pega a array que o JavaScript mandou via inputs hidden
-$obra->setFuncionariosVinculados($dados['funcionariosObra'] ?? []);
-}
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

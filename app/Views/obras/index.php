@@ -13,6 +13,10 @@ $funcionarios = $modelFuncionario->listar();
 $modelVeiculo = new \App\Models\Veiculo();
 $veiculos = $modelVeiculo->listar();
 
+// Estado da Tela
+$modoNovo = isset($_GET['novo']);
+$modoEdicao = isset($obra);
+
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
@@ -58,6 +62,13 @@ require_once __DIR__ . '/../includes/header.php';
                             <i class="fa-solid fa-building"></i>
                             BUSCAR OBRA
                         </h2>
+
+                        <?php if (!empty($mensagem)): ?>
+                            <div class="alert alert-warning">
+                                <?= htmlspecialchars($mensagem) ?>
+                            </div>
+                        <?php endif; ?>
+
                         <form class="form-busca" action="/ideal/public/index.php?url=obras" method="POST">
                             <div class="input-group">
                                 <label>Contrato</label>
@@ -94,10 +105,15 @@ require_once __DIR__ . '/../includes/header.php';
 
                     <div class="grid-topo-obra">
 
+                        <?php
+                        $contratoValue = isset($obra)
+                            ? $obra->getContrato()
+                            : ($contratoBusca ?? '');
+                        ?>
                         <div class="form-group">
                             <label>Contrato</label>
                             <input type="text" name="contrato" maxlength="45" placeholder="Digite o contrato"
-                                value="<?= isset($obra) ? $obra->getContrato() : (isset($_POST['contratoBusca']) ? htmlspecialchars($_POST['contratoBusca']) : '') ?>">
+                                value="<?= htmlspecialchars($contratoValue) ?>">
                         </div>
 
 
@@ -417,15 +433,32 @@ require_once __DIR__ . '/../includes/header.php';
                 </section>
 
                 <div class="acoes">
-                    <button type="submit" form="form-dados" class="btn novo"><i class="bi bi-plus-lg"></i>
-                        Cadastrar</button>
-                    <button type="submit" form="form-dados" class="btn alterar"><i class="bi bi-pencil-square"></i>
-                        Alterar</button>
-                    <button type="submit" form="form-dados" class="btn excluir"><i class="bi bi-trash"></i>
-                        Excluir</button>
-                    <button type="reset" form="form-dados" class="btn limpar" onclick="limparCliente()"><i
-                            class="bi bi-eraser"></i>
-                        Limpar</button>
+
+                    <button type="submit" form="form-dados" class="btn novo"
+                        formaction="/ideal/public/index.php?url=obras/store" <?= $modoNovo ? '' : 'disabled' ?>>
+                        <i class="bi bi-plus-lg"></i>
+                        Cadastrar
+                    </button>
+
+                    <button type="submit" form="form-dados" class="btn alterar"
+                        formaction="/ideal/public/index.php?url=obras/update&id=<?= $modoEdicao ? $obra->getIdObra() : '' ?>"
+                        <?= $modoEdicao ? '' : 'disabled' ?>>
+                        <i class="bi bi-pencil-square"></i>
+                        Alterar
+                    </button>
+
+                    <button type="submit" form="form-dados" class="btn excluir"
+                        formaction="/ideal/public/index.php?url=obras/delete&id=<?= $modoEdicao ? $obra->getIdObra() : '' ?>"
+                        onclick="return confirm('Tem certeza que deseja excluir esta obra?');" <?= $modoEdicao ? '' : 'disabled' ?>>
+                        <i class="bi bi-trash"></i>
+                        Excluir
+                    </button>
+
+                    <button type="reset" form="form-dados" class="btn limpar" onclick="limparCliente()">
+                        <i class="bi bi-eraser"></i>
+                        Limpar
+                    </button>
+
                 </div>
 
             </form>
@@ -503,50 +536,7 @@ require_once __DIR__ . '/../includes/header.php';
         }
 
 
-        // function mascaraCNPJ(input) {
-        //     let valor = input.value.replace(/\D/g, '');
-        //     valor = valor.substring(0, 14);
-        //     valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
-        //     valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-        //     valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
-        //     valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
-        //     input.value = valor;
 
-        //     const apenasNumeros = valor.replace(/\D/g, '');
-        //     if (apenasNumeros.length === 14) {
-        //         buscarClientePorCnpj(apenasNumeros);
-        //     }
-        // }
-
-        // function buscarClientePorCnpj(cnpj) {
-        //     fetch(`/ideal/public/index.php?url=clientes/buscarPorCnpj&cnpj=${cnpj}`)
-        //         .then(res => res.json())
-        //         .then(data => {
-        //             if (data && data.idCliente) {
-        //                 document.getElementById('idCliente').value = data.idCliente;
-        //                 document.getElementById('clienteNome').textContent = data.nomeCliente ?? '-';
-        //                 document.getElementById('clienteCnpj').textContent = data.cnpj ?? data.cpf ?? '-';
-        //                 document.getElementById('clienteWhatsapp').textContent = data.whatsapp ?? '-';
-        //             } else {
-        //                 document.getElementById('idCliente').value = '';
-        //                 document.getElementById('clienteNome').textContent = '-';
-        //                 document.getElementById('clienteCnpj').textContent = '-';
-        //                 document.getElementById('clienteWhatsapp').textContent = '-';
-        //             }
-        //         })
-        //         .catch(() => {
-        //             console.error('Erro na busca');
-        //         });
-        // }
-
-        // function limparCliente() {
-        //     document.getElementById('idCliente').value = '';
-        //     document.getElementById('clienteNome').textContent = '-';
-        //     document.getElementById('clienteCnpj').textContent = '-';
-        //     document.getElementById('clienteWhatsapp').textContent = '-';
-        //     const cnpjInput = document.getElementById('cnpjCliente');
-        //     if (cnpjInput) cnpjInput.value = '';
-        // }
     </script>
 </body>
 

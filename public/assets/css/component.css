@@ -37,6 +37,15 @@
 .btn:hover {
   transform: translateY(-2px);
 }
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn:disabled:hover {
+  transform: none;
+}
 
 .novo {
   background: var(--btn-primary);
@@ -98,7 +107,6 @@
   grid-template-columns: 58% 42%;
   gap: 20px;
   align-items: stretch;
-
 }
 
 .busca-box {
