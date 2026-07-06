@@ -23,13 +23,53 @@ class ClientesController
         require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
+
+    // private function buscar()
+    // {
+    //     $documentoDigitado = (string) ($_POST['documento'] ?? '');
+    //     $documentoLimpo = preg_replace('/[^0-9]/', '', $documentoDigitado);
+
+    //     if (empty($documentoLimpo)) {
+    //         $mensagem = "Por favor, digite um documento para realizar a busca.";
+    //         require_once __DIR__ . '/../Views/clientes/index.php';
+    //         return;
+    //     }
+
+    //     $clienteModel = new Cliente();
+    //     $cliente = $clienteModel->findByDocumento($documentoLimpo);
+
+    //     if ($cliente) {
+    //         header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $cliente->getIdCliente());
+    //         exit;
+    //     } else {
+    //         header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
+    //         exit;
+    //     }
+    // }
+
     private function buscar()
     {
+
+        $tipo = $_POST['tipoDocumento'] ?? '';
         $documentoDigitado = (string) ($_POST['documento'] ?? '');
         $documentoLimpo = preg_replace('/[^0-9]/', '', $documentoDigitado);
 
         if (empty($documentoLimpo)) {
             $mensagem = "Por favor, digite um documento para realizar a busca.";
+            require_once __DIR__ . '/../Views/clientes/index.php';
+            return;
+        }
+
+        // Validação conforme o tipo escolhido
+        if ($tipo === 'cpf' && !$this->validarCPF($documentoLimpo)) {
+            $mensagem = "O CPF informado é inválido. Verifique os números e tente novamente.";
+            require_once __DIR__ . '/../Views/clientes/index.php';
+            return;
+        }
+
+
+        if ($tipo === 'cnpj' && !$this->validarCNPJ($documentoLimpo)) {
+            $mensagem = "O CNPJ informado é inválido. Verifique os números e tente novamente.";
             require_once __DIR__ . '/../Views/clientes/index.php';
             return;
         }
@@ -40,11 +80,12 @@ class ClientesController
         if ($cliente) {
             header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $cliente->getIdCliente());
             exit;
-        } else {
-            header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
-            exit;
         }
+
+        header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
+        exit;
     }
+
 
     public function create()
     {
@@ -54,7 +95,23 @@ class ClientesController
         if (isset($_GET['novo'])) {
             $mensagem = "Cliente não cadastrado. Preencha os dados abaixo para registrar um novo cliente.";
         }
+        $cpfBusca = '';
+        $cnpjBusca = '';
 
+        if (strlen($documentoBusca) === 11) {
+            $cpfBusca = preg_replace(
+                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                '$1.$2.$3-$4',
+                $documentoBusca
+            );
+
+        } elseif (strlen($documentoBusca) === 14) {
+            $cnpjBusca = preg_replace(
+                '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                '$1.$2.$3/$4-$5',
+                $documentoBusca
+            );
+        }
         require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
@@ -82,7 +139,7 @@ class ClientesController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cliente = new Cliente();
-            
+
             $this->popularObjeto($cliente, $_POST);
 
             // 1. VALIDAÇÃO DE SEGURANÇA: Obrigatoriedade de ao menos um documento
@@ -112,7 +169,9 @@ class ClientesController
 
             $salvou = $cliente->save();
 
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "O cliente foi cadastrado com sucesso!";
             } else {
@@ -137,7 +196,7 @@ class ClientesController
 
             if ($cliente) {
                 $this->popularObjeto($cliente, $_POST);
-                
+
                 // 1. VALIDAÇÃO: Obrigatoriedade de ao menos um documento
                 if (empty($cliente->getCpf()) && empty($cliente->getCnpj())) {
                     $this->retornarComErro("É obrigatório manter o CPF ou o CNPJ preenchido.", "clientes/edit&id=" . $id);
@@ -165,11 +224,13 @@ class ClientesController
 
                 $atualizou = $cliente->update();
 
-                if (session_status() === PHP_SESSION_NONE) { session_start(); }
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
                 if ($atualizou) {
-                     $_SESSION['mensagem_sucesso'] = "Cadastro do cliente atualizado com sucesso!";
+                    $_SESSION['mensagem_sucesso'] = "Cadastro do cliente atualizado com sucesso!";
                 } else {
-                     $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
+                    $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
                 }
             }
 
@@ -186,11 +247,13 @@ class ClientesController
             $clienteModel = new Cliente();
             $deletou = $clienteModel->delete((int) $id);
 
-            if (session_status() === PHP_SESSION_NONE) { session_start(); }
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             if ($deletou) {
-                 $_SESSION['mensagem_sucesso'] = "Cliente excluído com sucesso!";
+                $_SESSION['mensagem_sucesso'] = "Cliente excluído com sucesso!";
             } else {
-                 $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o cliente. Verifique se ele não possui obras vinculadas.";
+                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o cliente. Verifique se ele não possui obras vinculadas.";
             }
         }
 
@@ -208,14 +271,14 @@ class ClientesController
         $cliente->setCpf(!empty($dados['cpf']) ? $dados['cpf'] : null);
         $cliente->setCnpj(!empty($dados['cnpj']) ? $dados['cnpj'] : null);
         $cliente->setEmail(!empty($dados['email']) ? $dados['email'] : '');
-        
+
         $tipoForm = $dados['tipoCliente'] ?? '';
         if ($tipoForm === 'PESSOA_FISICA') {
             $cliente->setTipoCliente('Pessoa Física');
         } elseif ($tipoForm === 'PESSOA_JURIDICA') {
             $cliente->setTipoCliente('Pessoa Jurídica');
         } else {
-            $cliente->setTipoCliente('Pessoa Física'); 
+            $cliente->setTipoCliente('Pessoa Física');
         }
 
         $cliente->setCidade(!empty($dados['cidade']) ? $dados['cidade'] : '');
@@ -232,7 +295,9 @@ class ClientesController
 
     private function retornarComErro(string $mensagem, string $rota): void
     {
-        if (session_status() === PHP_SESSION_NONE) { session_start(); }
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $_SESSION['mensagem_erro'] = $mensagem;
         header("Location: /ideal/public/index.php?url=" . $rota);
         exit;
@@ -252,9 +317,11 @@ class ClientesController
     private function validarCPF(string $cpf): bool
     {
         $cpf = preg_replace('/[^0-9]/', '', $cpf);
-        
-        if (strlen($cpf) !== 11) return false;
-        if (preg_match('/(\d)\1{10}/', $cpf)) return false; // Bloqueia sequências repetidas (11111111111...)
+
+        if (strlen($cpf) !== 11)
+            return false;
+        if (preg_match('/(\d)\1{10}/', $cpf))
+            return false; // Bloqueia sequências repetidas (11111111111...)
 
         // Cálculo dos dígitos verificadores
         for ($t = 9; $t < 11; $t++) {
@@ -262,7 +329,8 @@ class ClientesController
                 $d += $cpf[$c] * (($t + 1) - $c);
             }
             $d = ((10 * $d) % 11) % 10;
-            if ($cpf[$c] != $d) return false;
+            if ($cpf[$c] != $d)
+                return false;
         }
         return true;
     }
@@ -271,8 +339,10 @@ class ClientesController
     {
         $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
 
-        if (strlen($cnpj) !== 14) return false;
-        if (preg_match('/(\d)\1{13}/', $cnpj)) return false; // Bloqueia sequências repetidas
+        if (strlen($cnpj) !== 14)
+            return false;
+        if (preg_match('/(\d)\1{13}/', $cnpj))
+            return false; // Bloqueia sequências repetidas
 
         // Cálculo dos dígitos verificadores
         $tamanhos = [12, 13];
@@ -283,20 +353,22 @@ class ClientesController
             $pos = $tamanho - 7;
             for ($i = $tamanho; $i >= 1; $i--) {
                 $soma += $numeros[$tamanho - $i] * $pos--;
-                if ($pos < 2) $pos = 9;
+                if ($pos < 2)
+                    $pos = 9;
             }
             $resultado = $soma % 11 < 2 ? 0 : 11 - ($soma % 11);
-            if ($resultado != $digitos[0]) return false;
+            if ($resultado != $digitos[0])
+                return false;
         }
         return true;
     }
 
-// ✅ ADICIONE ESTE MÉTODO DENTRO DA CLASSE ClientesController
+    // ✅ ADICIONE ESTE MÉTODO DENTRO DA CLASSE ClientesController
     public function buscarPorCnpj()
     {
         // Define que a resposta será em JSON para o Javascript ler corretamente
         header('Content-Type: application/json');
-        
+
         $cnpj = $_GET['cnpj'] ?? '';
         $cnpjLimpo = preg_replace('/[^0-9]/', '', $cnpj);
 
@@ -326,7 +398,7 @@ class ClientesController
                 $stmtContato->bindValue(':idCliente', $cliente['idCliente'], \PDO::PARAM_INT);
                 $stmtContato->execute();
                 $contato = $stmtContato->fetch(\PDO::FETCH_ASSOC);
-                
+
                 $cliente['whatsapp'] = $contato['whatsapp'] ?? '-';
 
                 // Retorna os dados para a tela
@@ -337,7 +409,7 @@ class ClientesController
         } catch (\Exception $e) {
             echo json_encode(['erro' => 'Erro no banco de dados: ' . $e->getMessage()]);
         }
-        
+
         exit;
     }
 
