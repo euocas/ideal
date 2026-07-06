@@ -5,54 +5,50 @@ error_reporting(E_ALL);
 use App\Config\SistemaConstantes;
 use App\Config\FinanceiroCategorias;
 
-
-
-/** @var \App\Models\FinanceiroFuncionario|null $financeiroFuncionario */
-/** @var \App\Models\FinanceiroObra|null $financeiroObra */
-/** @var \App\Models\FinanceiroAutomovel|null $financeiroAutomovel */
-
-// TÍTULO
 $titulo = 'Financeiro';
 $favicon = '/ideal/public/assets/icon/financeiro3.png';
 
 require_once __DIR__ . '/../includes/header.php';
 
-// Aba ativa (funcionario | obra | automovel)
 $aba = $_GET['aba'] ?? 'funcionario';
 $abas = ['funcionario', 'obra', 'automovel'];
-if (!in_array($aba, $abas)) {
-    $aba = 'funcionario';
-}
+if (!in_array($aba, $abas)) $aba = 'funcionario';
 
-//Sub-Aba ativa para o funcionário (entrada | saída | período)
 $tipo = $_GET['tipo'] ?? 'entrada';
 $tipos = ['entrada', 'saida', 'periodo'];
-if (!in_array($tipo, $tipos)) {
-    $tipo = 'entrada';
+if (!in_array($tipo, $tipos)) $tipo = 'entrada';
+
+$cpfBusca = $_GET['cpf'] ?? $_POST['cpf'] ?? '';
+$mesBusca = $_GET['mes'] ?? $_POST['mes'] ?? date('m');
+$anoBusca = $_GET['ano'] ?? $_POST['ano'] ?? date('Y');
+
+$funcModelExiste = isset($funcionarioBusca) && is_object($funcionarioBusca);
+
+// Regra inteligente para Data Padrão de formulários (Ajusta pro mês selecionado)
+$mesStr = str_pad($mesBusca, 2, '0', STR_PAD_LEFT);
+if ($mesBusca == date('m') && $anoBusca == date('Y')) {
+    $dataPadrao = date('Y-m-d'); // Se for o mês atual, usa hoje
+} else {
+    $dataPadrao = date("Y-m-t", strtotime("{$anoBusca}-{$mesStr}-01")); // Usa o último dia do mês pesquisado
 }
 
+$fnNome = $funcModelExiste ? $funcionarioBusca->getNome() : '—';
+$fnStatus = $funcModelExiste ? ucfirst($funcionarioBusca->getStatus()) : '—';
+$fnStatusClass = strtolower($fnStatus) === 'ativo' ? 'ativo' : 'inativo';
+$fnCpf = $funcModelExiste ? $funcionarioBusca->getCpf() : '—';
+if ($fnCpf !== '—' && strlen($fnCpf) === 11) {
+    $fnCpf = substr($fnCpf, 0, 3) . '.' . substr($fnCpf, 3, 3) . '.' . substr($fnCpf, 6, 3) . '-' . substr($fnCpf, 9, 2);
+}
+$fnAdmissao = ($funcModelExiste && $funcionarioBusca->getDataAdmissao()) ? date('d/m/Y', strtotime($funcionarioBusca->getDataAdmissao())) : '—';
+$fnCargo = $funcModelExiste ? $funcionarioBusca->getCargoFuncao() : '—';
+$fnContrato = $funcModelExiste ? $funcionarioBusca->getTipoContrato() : '—';
+$fnBanco = $funcModelExiste ? ($funcionarioBusca->getAgencia() . ' / ' . $funcionarioBusca->getConta()) : '—';
 
-
-// Modo edição
-$isEditFuncionario = isset($financeiroFuncionario) && is_object($financeiroFuncionario);
 $isEditObra = isset($financeiroObra) && is_object($financeiroObra);
 $isEditAutomovel = isset($financeiroAutomovel) && is_object($financeiroAutomovel);
-
-// URLs de action
-$actionFuncionario = $isEditFuncionario
-    ? "/ideal/public/index.php?url=financeiros/updateFuncionario&id={$financeiroFuncionario->getIdFinanceiroFuncionario()}"
-    : "/ideal/public/index.php?url=financeiros/storeFuncionario";
-
-$actionObra = $isEditObra
-    ? "/ideal/public/index.php?url=financeiros/updateObra&id={$financeiroObra->getIdFinanceiroObra()}"
-    : "/ideal/public/index.php?url=financeiros/storeObra";
-
-$actionAutomovel = $isEditAutomovel
-    ? "/ideal/public/index.php?url=financeiros/updateAutomovel&id={$financeiroAutomovel->getIdFinanceiroAutomovel()}"
-    : "/ideal/public/index.php?url=financeiros/storeAutomovel";
+$actionObra = $isEditObra ? "/ideal/public/index.php?url=financeiros/updateObra&id={$financeiroObra->getIdFinanceiroObra()}" : "/ideal/public/index.php?url=financeiros/storeObra";
+$actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/updateAutomovel&id={$financeiroAutomovel->getIdFinanceiroAutomovel()}" : "/ideal/public/index.php?url=financeiros/storeAutomovel";
 ?>
-
-
 
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/base.css">
@@ -60,68 +56,35 @@ $actionAutomovel = $isEditAutomovel
 <link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
-
 <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-
 <link rel="stylesheet" href="/ideal/public/assets/css/financeiro.css?v=<?= time() ?>">
-
-
 </head>
 
 <body>
     <div class="dashboard-container">
-
         <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
         <main class="main-content">
 
-            <!-- TÍTULO -->
-            <!-- <div class="fin-header">
-                <div>
-                    <h1><i class="fa-solid fa-dollar-sign"></i> Financeiro</h1>
-                    <p>Gerencie as informações financeiras de funcionários, obras e automóveis.</p>
-                </div>
-            </div> -->
-
-            <!-- ALERTAS DE SESSÃO -->
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="alert alert-success">
-                    <?= $_SESSION['mensagem_sucesso'] ?>
-                </div>
+                <div class="alert alert-success"><?= $_SESSION['mensagem_sucesso'] ?></div>
                 <?php unset($_SESSION['mensagem_sucesso']); ?>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="alert alert-error">
-                    <?= $_SESSION['mensagem_erro'] ?>
-                </div>
+                <div class="alert alert-error"><?= $_SESSION['mensagem_erro'] ?></div>
                 <?php unset($_SESSION['mensagem_erro']); ?>
             <?php endif; ?>
 
-            <!-- ABAS -->
             <div class="abas-container">
-                <a href="?url=financeiros&aba=funcionario" class="aba <?= $aba === 'funcionario' ? 'ativa' : '' ?>">
-                    <i class="fa-solid fa-user-tie"></i>
-                    Funcionário
-                </a>
-                <a href="?url=financeiros&aba=obra" class="aba <?= $aba === 'obra' ? 'ativa' : '' ?>">
-                    <i class="fa-solid fa-hard-hat"></i>
-                    Obra
-                </a>
-                <a href="?url=financeiros&aba=automovel" class="aba <?= $aba === 'automovel' ? 'ativa' : '' ?>">
-                    <i class="fa-solid fa-car"></i>
-                    Automóvel
-                </a>
+                <a href="?url=financeiros&aba=funcionario" class="aba <?= $aba === 'funcionario' ? 'ativa' : '' ?>"><i class="fa-solid fa-user-tie"></i> Funcionário</a>
+                <a href="?url=financeiros&aba=obra" class="aba <?= $aba === 'obra' ? 'ativa' : '' ?>"><i class="fa-solid fa-hard-hat"></i> Obra</a>
+                <a href="?url=financeiros&aba=automovel" class="aba <?= $aba === 'automovel' ? 'ativa' : '' ?>"><i class="fa-solid fa-car"></i> Automóvel</a>
             </div>
 
-            <!-- ============================================================
-             ABA: FINANCEIRO FUNCIONÁRIO
-        ============================================================ -->
             <?php if ($aba === 'funcionario'): ?>
 
-                <!-- CARD 1 -->
                 <section class="card">
-
                     <div class="card-titulo">
                         <i class="fa-solid fa-user-tie icone-aba"></i>
                         <div>
@@ -130,45 +93,22 @@ $actionAutomovel = $isEditAutomovel
                         </div>
                     </div>
 
-                    <form id="form-funcionario" action="<?= $actionFuncionario ?>" method="POST">
+                    <form id="form-busca-func" action="/ideal/public/index.php?url=financeiros&aba=funcionario&tipo=<?= $tipo ?>" method="POST">
                         <div class="financeiro-topo">
-
                             <div class="grid-busca">
                                 <div class="busca-box">
-                                    <h2>
-                                        <i class="fa-solid fa-user"></i>
-                                        LOCALIZAR FUNCIONÁRIO
-                                    </h2>
-                                    <?php if (!empty($mensagem)): ?>
-                                        <div class="alert alert-warning">
-                                            <?= $mensagem ?>
-                                        </div>
-                                    <?php endif; ?>
-
-                                    <div class="form-busca" action="/ideal/public/index.php?url=financeiros&aba=funcionario"
-                                        method="POST">
+                                    <h2><i class="fa-solid fa-user"></i> LOCALIZAR FUNCIONÁRIO</h2>
+                                    <div class="form-busca">
                                         <div class="input-group">
                                             <label>CPF</label>
-                                            <input type="text" name="cpf" placeholder="000.000.000-00" maxlength="14"
-                                                oninput="mascaraCPF(this)" required>
+                                            <input type="text" name="cpf" value="<?= htmlspecialchars($cpfBusca) ?>" placeholder="000.000.000-00" maxlength="14" oninput="mascaraCPF(this)" required>
                                         </div>
-                                        <button type="submit" name="acao" value="localizar" class="btn-buscar">
-                                            <i class="bi bi-search"></i>
-                                            LOCALIZAR
-                                        </button>
+                                        <button type="submit" name="acao" value="localizar" class="btn-buscar"><i class="bi bi-search"></i> LOCALIZAR</button>
                                     </div>
                                 </div>
-
                                 <div class="dica-box">
-                                    <h3>
-                                        <i class="fa-solid fa-circle-info"></i>
-                                        DICA
-                                    </h3>
-                                    <p>
-                                        <strong>Localize</strong> o funcionário pelo <strong>CPF</strong>.Em seguida,
-                                        selecione o período para consultar ou
-                                        registrar lançamentos.
-                                    </p>
+                                    <h3><i class="fa-solid fa-circle-info"></i> DICA</h3>
+                                    <p><strong>Localize</strong> o funcionário pelo <strong>CPF</strong>. Em seguida, selecione o período para consultar ou registrar lançamentos.</p>
                                 </div>
                             </div>
 
@@ -176,741 +116,335 @@ $actionAutomovel = $isEditAutomovel
                                 <div class="titulo-periodo">
                                     <label>Período de Referência <span class="obrigatorio">*</span></label>
                                 </div>
-
                                 <div class="periodo-grid">
                                     <select name="mes" required>
                                         <option value="">Mês</option>
                                         <?php foreach (SistemaConstantes::MESES as $numero => $nome): ?>
-                                            <option value="<?= $numero ?>">
-                                                <?= $nome ?>
-                                            </option>
-
+                                            <option value="<?= $numero ?>" <?= $numero == $mesBusca ? 'selected' : '' ?>><?= $nome ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <select name="ano" required>
                                         <option value="">Ano</option>
-                                        <?php
-                                        $anoAtual = date('Y');
-                                        for ($ano = $anoAtual - 3; $ano <= $anoAtual + 5; $ano++):
-                                            ?>
-                                            <option value="<?= $ano ?>">
-                                                <?= $ano ?>
-                                            </option>
+                                        <?php $anoAtual = date('Y'); for ($ano = $anoAtual - 3; $ano <= $anoAtual + 5; $ano++): ?>
+                                            <option value="<?= $ano ?>" <?= $ano == $anoBusca ? 'selected' : '' ?>><?= $ano ?></option>
                                         <?php endfor; ?>
-
                                     </select>
                                 </div>
-
                                 <div class="acoes-topo">
-                                    <button type="submit" name="acao" value="buscar" class="btn-buscar">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                        Buscar
-                                    </button>
+                                    <button type="submit" name="acao" value="buscar" class="btn-buscar"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
                                 </div>
-
-
                             </div>
-
                         </div>
                     </form>
 
                     <div class="funcionario-card">
-
-                        <!-- Informações -->
                         <div class="funcionario-conteudo">
-
-                            <!-- Coluna 1 -->
-                            <!-- Coluna 1 -->
                             <div class="funcionario-coluna funcionario-principal">
-
                                 <div class="cabecalho-funcionario">
-
                                     <div class="nome-funcionario">
                                         <i class="fa-solid fa-helmet-safety"></i>
-
-                                        <h2 class="funcionario-nome">
-                                            Carlos Alberto da Silva
-                                        </h2>
+                                        <h2 class="funcionario-nome"><?= $fnNome ?></h2>
                                     </div>
-
-                                    <span class="status ativo">
-                                        <i class="fa-solid fa-circle"></i>
-                                        Ativo
-                                    </span>
-
+                                    <span class="status <?= $fnStatusClass ?>"><i class="fa-solid fa-circle"></i> <?= $fnStatus ?></span>
                                 </div>
-
                                 <hr>
-
                                 <div class="funcionario-info">
-
                                     <div class="info-item">
                                         <i class="fa-regular fa-id-card"></i>
-
                                         <div>
                                             <span class="funcionario-titulo">CPF</span>
-                                            <span class="funcionario-valor">123.456.789-10</span>
+                                            <span class="funcionario-valor"><?= $fnCpf ?></span>
                                         </div>
                                     </div>
-
                                     <span class="separador">•</span>
-
                                     <div class="info-item">
                                         <i class="fa-regular fa-calendar"></i>
-
                                         <div>
                                             <span class="funcionario-titulo">Admissão</span>
-                                            <span class="funcionario-valor">15/03/2022</span>
+                                            <span class="funcionario-valor"><?= $fnAdmissao ?></span>
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
 
-                            <!-- Coluna 2 -->
                             <div class="funcionario-coluna">
-
                                 <div class="funcionario-item">
-
                                     <i class="fa-solid fa-user-tie"></i>
-
                                     <div>
-                                        <span class="funcionario-titulo">
-                                            Cargo
-                                        </span>
-
-                                        <span class="funcionario-valor">
-                                            Eletricista
-                                        </span>
+                                        <span class="funcionario-titulo">Cargo</span>
+                                        <span class="funcionario-valor"><?= htmlspecialchars($fnCargo) ?></span>
                                     </div>
-
                                 </div>
-
                                 <div class="funcionario-item">
-
-                                    <i class="fa-solid fa-gift"></i>
-
-                                    <div>
-                                        <span class="funcionario-titulo">
-                                            Salário Base
-                                        </span>
-
-                                        <span class="funcionario-valor">
-                                            R$ 3.500,00
-                                        </span>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <!-- Coluna 3 -->
-                            <div class="funcionario-coluna">
-
-                                <div class="funcionario-item">
-
-                                    <i class="fa-solid fa-clipboard-list"></i>
-
-                                    <div>
-
-                                        <span class="funcionario-titulo">
-                                            Tipo de Contrato
-                                        </span>
-
-                                        <span class="funcionario-valor">
-                                            CLT
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="funcionario-item">
-
                                     <i class="fa-solid fa-building-columns"></i>
-
                                     <div>
-
-                                        <span class="funcionario-titulo">
-                                            Banco / Conta
-                                        </span>
-
-                                        <span class="funcionario-valor">
-                                            Banco do Brasil - 001 / 12345-6
-                                        </span>
-
+                                        <span class="funcionario-titulo">Banco / Conta</span>
+                                        <span class="funcionario-valor"><?= htmlspecialchars($fnBanco) ?></span>
                                     </div>
-
                                 </div>
-
                             </div>
 
+                            <div class="funcionario-coluna">
+                                <div class="funcionario-item">
+                                    <i class="fa-solid fa-clipboard-list"></i>
+                                    <div>
+                                        <span class="funcionario-titulo">Tipo de Contrato</span>
+                                        <span class="funcionario-valor"><?= htmlspecialchars($fnContrato) ?></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-
                 </section>
 
-                <!-- CARD 2  -->
-                <!-- ============================================================
-                    SUB-ABAS - LANÇAMENTOS DO FUNCIONÁRIO
-                 ============================================================ -->
                 <section class="card">
-
                     <div class="subabas-container">
-
-                        <a href="?url=financeiros&aba=funcionario&tipo=entrada"
-                            class="subaba entrada <?= $tipo === 'entrada' ? 'ativa' : '' ?>">
-                            <i class="fa-solid fa-plus"></i>
-                            Novo Lançamento (Proventos)
-                        </a>
-
-                        <a href="?url=financeiros&aba=funcionario&tipo=saida"
-                            class="subaba saida <?= $tipo === 'saida' ? 'ativa' : '' ?>">
-                            <i class="fa-solid fa-minus"></i>
-                            Nova Saída (Descontos)
-                        </a>
-
-                        <a href="?url=financeiros&aba=funcionario&tipo=periodo"
-                            class="subaba periodo <?= $tipo === 'periodo' ? 'ativa' : '' ?>">
-                            <i class="fa-solid fa-list"></i>
-                            Lançamentos do Período
-                        </a>
-
+                        <a href="?url=financeiros&aba=funcionario&tipo=entrada&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>" class="subaba entrada <?= $tipo === 'entrada' ? 'ativa' : '' ?>"><i class="fa-solid fa-plus"></i> Novo Lançamento (Proventos)</a>
+                        <a href="?url=financeiros&aba=funcionario&tipo=saida&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>" class="subaba saida <?= $tipo === 'saida' ? 'ativa' : '' ?>"><i class="fa-solid fa-minus"></i> Nova Saída (Descontos)</a>
+                        <a href="?url=financeiros&aba=funcionario&tipo=periodo&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>" class="subaba periodo <?= $tipo === 'periodo' ? 'ativa' : '' ?>"><i class="fa-solid fa-list"></i> Lançamentos do Período</a>
                     </div>
 
                     <div class="conteudo-aba">
 
                         <?php if ($tipo === 'entrada'): ?>
-
-                            <!-- Formulário Nova Entrada (proventos) -->
                             <div class="entrada-container">
-
                                 <div class="entrada-formulario">
-
-                                    <form id="form-entrada" action="<?= $actionFuncionario ?>" method="POST">
-
+                                    <form id="form-entrada" action="/ideal/public/index.php?url=financeiros/storeFuncionario" method="POST">
                                         <input type="hidden" name="tipo" value="entrada">
+                                        <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste ? $funcionarioBusca->getIdFuncionario() : '' ?>">
+                                        <input type="hidden" name="cpf_hidden" value="<?= htmlspecialchars($cpfBusca) ?>">
+                                        <input type="hidden" name="mes_hidden" value="<?= htmlspecialchars($mesBusca) ?>">
+                                        <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars($anoBusca) ?>">
 
                                         <div class="grid-entrada">
-
-                                            <!-- Tipo de Provento -->
                                             <div class="form-group">
                                                 <label>Tipo de Proventos (Categoria) <span class="obrigatorio">*</span></label>
                                                 <select name="categoria" required>
                                                     <option value="">Selecione o tipo</option>
                                                     <?php foreach (FinanceiroCategorias::PROVENTOS as $provento): ?>
-                                                        <option value="<?= $provento ?>">
-                                                            <?= $provento ?>
-                                                        </option>
+                                                        <option value="<?= $provento ?>"><?= $provento ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
 
-                                            <!-- Descrição -->
                                             <div class="form-group">
                                                 <label>Descrição <span class="obrigatorio">*</span></label>
-
-                                                <input type="text" name="descricao" placeholder="Descreva o provento"
-                                                    maxlength="100" required>
+                                                <input type="text" name="descricao" placeholder="Descreva o provento" maxlength="100" required>
                                             </div>
 
-                                            <!-- Referência -->
-                                            <div class="form-group">
-                                                <label>Referência</label>
-
-                                                <input type="text" name="referencia" placeholder="Ex: 07/2026">
-                                            </div>
-
-                                            <!-- Data -->
                                             <div class="form-group">
                                                 <label>Data do Pagamento <span class="obrigatorio">*</span></label>
-
-                                                <input type="date" name="dataReferencia" required>
+                                                <input type="date" name="dataReferencia" value="<?= $dataPadrao ?>" required>
                                             </div>
 
-                                            <!-- Forma de Pagamento -->
                                             <div class="form-group">
                                                 <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
-
                                                 <select name="formaPagamento" required>
                                                     <option value="">Selecione</option>
                                                     <?php foreach (FinanceiroCategorias::FORMAS_PAGAMENTO as $forma): ?>
-                                                        <option value="<?= $forma ?>">
-                                                            <?= $forma ?>
-                                                        </option>
+                                                        <option value="<?= $forma ?>"><?= $forma ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
-
-                                            <!-- Conta -->
-
-
 
                                             <div class="form-group">
                                                 <label for="contaPagamento">Conta Pagamento</label>
-
                                                 <select id="contaPagamento" name="contaPagamento">
                                                     <option value="">Selecione</option>
-
                                                     <?php foreach (FinanceiroCategorias::CONTAS_PAGAMENTO as $valor => $descricao): ?>
-                                                        <option value="<?= $valor ?>">
-                                                            <?= $descricao ?>
-                                                        </option>
+                                                        <option value="<?= $valor ?>"><?= $descricao ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
 
-
-                                            <!-- Valor -->
                                             <div class="form-group">
                                                 <label>Valor <span class="obrigatorio">*</span></label>
-
                                                 <div class="input-prefixo">
                                                     <span class="prefixo">R$</span>
-
                                                     <input type="number" step="0.01" name="valor" placeholder="0,00" required>
                                                 </div>
                                             </div>
 
-                                            <!-- Observação -->
                                             <div class="form-group span-2">
                                                 <label>Observação (Opcional)</label>
-
-                                                <textarea name="observacao" rows="4" maxlength="250"
-                                                    placeholder="Informações adicionais sobre o provento..."></textarea>
+                                                <textarea name="observacao" rows="4" maxlength="250" placeholder="Informações adicionais sobre o provento..."></textarea>
                                             </div>
-
                                         </div>
 
                                         <div class="acoes-entrada">
-
-                                            <button type="submit" class="btn salvar">
-                                                <i class="fa-solid fa-floppy-disk"></i>
-                                                Salvar Entrada
-                                            </button>
-
-                                            <button type="submit" class="btn salvar-novo">
-                                                <i class="fa-solid fa-plus"></i>
-                                                Salvar e Novo
-                                            </button>
-
-                                            <button type="reset" class="btn limpar">
-                                                <i class="fa-solid fa-rotate-right"></i>
-                                                Limpar
-                                            </button>
-
+                                            <button type="submit" class="btn salvar"><i class="fa-solid fa-floppy-disk"></i> Salvar Entrada</button>
+                                            <button type="reset" class="btn limpar"><i class="fa-solid fa-rotate-right"></i> Limpar</button>
                                         </div>
-
                                     </form>
-
-
-
                                 </div>
-
                                 <aside class="entrada-info">
-
-                                    <!-- Card Proventos -->
                                     <div class="info-card entrada">
-
                                         <div class="info-header">
-                                            <div class="info-icon">
-                                                <i class="fa-solid fa-arrow-up"></i>
-                                            </div>
-                                            <div>
-                                                <h3>Proventos (Entradas)</h3>
-                                            </div>
+                                            <div class="info-icon"><i class="fa-solid fa-arrow-up"></i></div>
+                                            <div><h3>Proventos (Entradas)</h3></div>
                                         </div>
                                         <p class="info-descricao">Registro de valores que o funcionário tem a receber.</p>
-
-                                        <!-- <span class="info-subtitulo">Exemplos:</span> -->
-
                                         <ul>
                                             <?php foreach (FinanceiroCategorias::PROVENTOS as $provento): ?>
                                                 <li><?= $provento ?></li>
                                             <?php endforeach; ?>
                                         </ul>
-
                                     </div>
-
-
-
-
                                 </aside>
-
                             </div>
 
                         <?php elseif ($tipo === 'saida'): ?>
-
-                            <!-- Formulário Nova Saída -->
                             <div class="saida-container">
-
                                 <div class="saida-formulario">
-
-                                    <form id="form-saida" action="<?= $actionFuncionario ?>" method="POST">
-
+                                    <form id="form-saida" action="/ideal/public/index.php?url=financeiros/storeFuncionario" method="POST">
                                         <input type="hidden" name="tipo" value="saida">
+                                        <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste ? $funcionarioBusca->getIdFuncionario() : '' ?>">
+                                        <input type="hidden" name="cpf_hidden" value="<?= htmlspecialchars($cpfBusca) ?>">
+                                        <input type="hidden" name="mes_hidden" value="<?= htmlspecialchars($mesBusca) ?>">
+                                        <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars($anoBusca) ?>">
 
                                         <div class="grid-saida">
-
-                                            <!-- Tipo de Provento -->
                                             <div class="form-group">
                                                 <label>Tipo de Descontos (Categoria) <span class="obrigatorio">*</span></label>
                                                 <select name="categoria" required>
                                                     <option value="">Selecione o tipo</option>
-                                                    <?php foreach (FinanceiroCategorias::DESCONTOS as $provento): ?>
-                                                        <option value="<?= $provento ?>">
-                                                            <?= $provento ?>
-                                                        </option>
+                                                    <?php foreach (FinanceiroCategorias::DESCONTOS as $desconto): ?>
+                                                        <option value="<?= $desconto ?>"><?= $desconto ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
 
-                                            <!-- Descrição -->
                                             <div class="form-group">
                                                 <label>Descrição <span class="obrigatorio">*</span></label>
-
-                                                <input type="text" name="descricao" placeholder="Descreva o provento"
-                                                    maxlength="100" required>
+                                                <input type="text" name="descricao" placeholder="Descreva o desconto" maxlength="100" required>
                                             </div>
 
-                                            <!-- Referência -->
-                                            <div class="form-group">
-                                                <label>Referência</label>
-
-                                                <input type="text" name="referencia" placeholder="Ex: 07/2026">
-                                            </div>
-
-                                            <!-- Data -->
                                             <div class="form-group">
                                                 <label>Data do Pagamento <span class="obrigatorio">*</span></label>
-
-                                                <input type="date" name="dataReferencia" required>
+                                                <input type="date" name="dataReferencia" value="<?= $dataPadrao ?>" required>
                                             </div>
 
-                                            <!-- Forma de Pagamento -->
                                             <div class="form-group">
                                                 <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
-
                                                 <select name="formaPagamento" required>
                                                     <option value="">Selecione</option>
                                                     <?php foreach (FinanceiroCategorias::FORMAS_PAGAMENTO as $forma): ?>
-                                                        <option value="<?= $forma ?>">
-                                                            <?= $forma ?>
-                                                        </option>
+                                                        <option value="<?= $forma ?>"><?= $forma ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
 
-                                            <!-- Conta -->
                                             <div class="form-group">
                                                 <label for="contaPagamento">Conta Pagamento</label>
-
                                                 <select id="contaPagamento" name="contaPagamento">
                                                     <option value="">Selecione</option>
-
                                                     <?php foreach (FinanceiroCategorias::CONTAS_PAGAMENTO as $valor => $descricao): ?>
-                                                        <option value="<?= $valor ?>">
-                                                            <?= $descricao ?>
-                                                        </option>
+                                                        <option value="<?= $valor ?>"><?= $descricao ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
 
-                                            <!-- Valor -->
                                             <div class="form-group">
                                                 <label>Valor <span class="obrigatorio">*</span></label>
-
                                                 <div class="input-prefixo">
                                                     <span class="prefixo">R$</span>
-
                                                     <input type="number" step="0.01" name="valor" placeholder="0,00" required>
                                                 </div>
                                             </div>
 
-                                            <!-- Observação -->
                                             <div class="form-group span-2">
                                                 <label>Observação (Opcional)</label>
-
-                                                <textarea name="observacao" rows="4" maxlength="250"
-                                                    placeholder="Informações adicionais sobre o desconto..."></textarea>
+                                                <textarea name="observacao" rows="4" maxlength="250" placeholder="Informações adicionais sobre o desconto..."></textarea>
                                             </div>
-
                                         </div>
 
                                         <div class="acoes-saida">
-
-                                            <button type="submit" class="btn salvar">
-                                                <i class="fa-solid fa-floppy-disk"></i>
-                                                Salvar Entrada
-                                            </button>
-
-                                            <button type="submit" class="btn salvar-novo">
-                                                <i class="fa-solid fa-plus"></i>
-                                                Salvar e Novo
-                                            </button>
-
-                                            <button type="reset" class="btn limpar">
-                                                <i class="fa-solid fa-rotate-right"></i>
-                                                Limpar
-                                            </button>
+                                            <button type="submit" class="btn salvar"><i class="fa-solid fa-floppy-disk"></i> Salvar Saída</button>
+                                            <button type="reset" class="btn limpar"><i class="fa-solid fa-rotate-right"></i> Limpar</button>
                                         </div>
                                     </form>
-
-
-
                                 </div>
-
                                 <aside class="saida-info">
-
-                                    <!-- Card Descontos -->
                                     <div class="info-card saida">
-
                                         <div class="info-header">
-                                            <div class="info-icon">
-                                                <i class="fa-solid fa-arrow-down"></i>
-                                            </div>
-                                            <div>
-                                                <h3> Descontos (Saídas)</h3>
-                                                <p>Registro de valores que serão descontados.</p>
-                                            </div>
+                                            <div class="info-icon"><i class="fa-solid fa-arrow-down"></i></div>
+                                            <div><h3>Descontos (Saídas)</h3><p>Registro de valores descontados.</p></div>
                                         </div>
-
-
-
                                         <ul>
                                             <?php foreach (FinanceiroCategorias::DESCONTOS as $desconto): ?>
                                                 <li><?= $desconto ?></li>
                                             <?php endforeach; ?>
                                         </ul>
-
                                     </div>
-
                                 </aside>
-
                             </div>
-
 
                         <?php elseif ($tipo === 'periodo'): ?>
-
                             <div class="resumo-lancamentos">
-
                                 <div class="card-resumo entrada">
-                                    <div class="icone">
-                                        <i class="fas fa-arrow-up"></i>
-                                    </div>
-
+                                    <div class="icone"><i class="fas fa-arrow-up"></i></div>
                                     <div class="conteudo">
                                         <span>Total de Entradas</span>
-                                        <strong>R$ 6.850,00</strong>
-                                        <small>9 lançamentos</small>
+                                        <strong>R$ <?= number_format($resumo['entradas'], 2, ',', '.') ?></strong>
                                     </div>
                                 </div>
-
                                 <div class="card-resumo saida">
-                                    <div class="icone">
-                                        <i class="fas fa-arrow-down"></i>
-                                    </div>
-
+                                    <div class="icone"><i class="fas fa-arrow-down"></i></div>
                                     <div class="conteudo">
                                         <span>Total de Saídas</span>
-                                        <strong>R$ 1.245,00</strong>
-                                        <small>9 lançamentos</small>
+                                        <strong>R$ <?= number_format($resumo['saidas'], 2, ',', '.') ?></strong>
                                     </div>
                                 </div>
-
                                 <div class="card-resumo saldo">
-                                    <div class="icone">
-                                        <i class="fas fa-dollar-sign"></i>
-                                    </div>
-
+                                    <div class="icone"><i class="fas fa-dollar-sign"></i></div>
                                     <div class="conteudo">
                                         <span>Saldo Líquido</span>
-                                        <strong>R$ 5.605,00</strong>
-                                        <small>Saldo do período</small>
+                                        <strong>R$ <?= number_format($resumo['saldo'], 2, ',', '.') ?></strong>
                                     </div>
                                 </div>
-
                             </div>
 
-                            <div class="filtros-lancamentos">
-
-                                <div class="form-group">
-                                    <label>Pesquisar</label>
-                                    <input type="text" placeholder="Pesquise por salário, hora extra, INSS...">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Tipo</label>
-                                    <select>
-                                        <option>Todos</option>
-                                        <option>Entradas</option>
-                                        <option>Saídas</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Situação</label>
-                                    <select>
-                                        <option>Todas</option>
-                                        <option>Pago</option>
-                                        <option>Pendente</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group btn-filtro">
-                                    <button class="btn btn-outline-primary">
-                                        <i class="fas fa-filter"></i>
-                                        Filtros
-                                    </button>
-                                </div>
-
-                            </div>
                             <div class="tabela-lancamentos">
-
                                 <table>
-
                                     <thead>
                                         <tr>
                                             <th>Data</th>
-                                            <th>Tipo</th>
+                                            <th>Categoria</th>
                                             <th>Descrição</th>
                                             <th class="text-right">Valor</th>
-                                            <th>Situação</th>
                                             <th class="text-center">Ações</th>
                                         </tr>
                                     </thead>
-
                                     <tbody>
-
-                                        <tr>
-
-                                            <td>05/07/2026</td>
-
-                                            <td>
-                                                <span class="badge-entrada">
-                                                    <i class="fa-solid fa-arrow-up"></i>
-                                                    Entrada
-                                                </span>
-                                            </td>
-
-                                            <td>Salário referente a Julho/2026</td>
-
-                                            <td class="valor-positivo">
-                                                R$ 5.000,00
-                                            </td>
-
-                                            <td>
-                                                <span class="status-pago">
-                                                    <i class="fa-solid fa-circle-check"></i>
-                                                    Pago
-                                                </span>
-                                            </td>
-
-                                            <td class="acoes">
-
-                                                <button class="btn-acao editar">
-                                                    <i class="fa-solid fa-pen"></i>
-                                                </button>
-
-                                                <button class="btn-acao excluir">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-
-                                            </td>
-
-                                        </tr>
-
-                                        <tr>
-
-                                            <td>05/07/2026</td>
-
-                                            <td>
-                                                <span class="badge-entrada">
-                                                    <i class="fa-solid fa-arrow-up"></i>
-                                                    Entrada
-                                                </span>
-                                            </td>
-
-                                            <td>Salário referente a Julho/2026</td>
-
-                                            <td class="valor-positivo">
-                                                R$ 5.000,00
-                                            </td>
-
-                                            <td>
-                                                <span class="status-pago">
-                                                    <i class="fa-solid fa-circle-check"></i>
-                                                    Pago
-                                                </span>
-                                            </td>
-
-                                            <td class="acoes">
-
-                                                <button class="btn-acao editar">
-                                                    <i class="fa-solid fa-pen"></i>
-                                                </button>
-
-                                                <button class="btn-acao excluir">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-
-                                            <td>05/07/2026</td>
-
-                                            <td>
-                                                <span class="badge-entrada">
-                                                    <i class="fa-solid fa-arrow-up"></i>
-                                                    Entrada
-                                                </span>
-                                            </td>
-
-                                            <td>Salário referente a Julho/2026</td>
-
-                                            <td class="valor-positivo">
-                                                R$ 5.000,00
-                                            </td>
-
-                                            <td>
-                                                <span class="status-pago">
-                                                    <i class="fa-solid fa-circle-check"></i>
-                                                    Pago
-                                                </span>
-                                            </td>
-
-                                            <td class="acoes">
-
-                                                <button class="btn-acao editar">
-                                                    <i class="fa-solid fa-pen"></i>
-                                                </button>
-
-                                                <button class="btn-acao excluir">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-
-                                            </td>
-
-                                        </tr>
-
+                                        <?php if(empty($lancamentos)): ?>
+                                            <tr><td colspan="5" class="text-center">Nenhum lançamento encontrado para este período.</td></tr>
+                                        <?php else: ?>
+                                            <?php foreach ($lancamentos as $l): ?>
+                                                <tr>
+                                                    <td><?= date('d/m/Y', strtotime($l['dataReferencia'])) ?></td>
+                                                    <td>
+                                                        <?php if ($l['categoriaTipo'] === 'ENTRADA'): ?>
+                                                            <span class="badge-entrada"><i class="fa-solid fa-arrow-up"></i> <?= htmlspecialchars($l['categoriaNome']) ?></span>
+                                                        <?php else: ?>
+                                                            <span class="badge-saida"><i class="fa-solid fa-arrow-down"></i> <?= htmlspecialchars($l['categoriaNome']) ?></span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td><?= htmlspecialchars($l['descricao']) ?></td>
+                                                    <td class="<?= $l['categoriaTipo'] === 'ENTRADA' ? 'valor-positivo' : 'valor-negativo' ?>">
+                                                        <?= $l['categoriaTipo'] === 'ENTRADA' ? '+' : '-' ?> R$ <?= number_format($l['valor'], 2, ',', '.') ?>
+                                                    </td>
+                                                    <td class="acoes text-center">
+                                                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $l['idFinanceiroFuncionario'] ?>&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>" class="btn-acao excluir" onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </tbody>
-
                                 </table>
-
                             </div>
-
-                            <div class="dica-lancamentos">
-                                <i class="fas fa-info-circle"></i>
-                                Clique em <strong>Editar</strong> para alterar um lançamento. As entradas serão abertas na aba
-                                <strong>Nova Entrada</strong> e as saídas na aba <strong>Nova Saída</strong>.
-                            </div>
-
                         <?php endif; ?>
-
 
                     </div>
                 </section>
@@ -920,26 +454,14 @@ $actionAutomovel = $isEditAutomovel
                         <div class="financeiro-dica-conteudo">
                             <i class="fa-solid fa-circle-info"></i>
                             <span>
-                                <strong>Dica:</strong> Use a aba <strong>"Lançamentos do Período"</strong>
-                                para visualizar todos os registros de entradas e saídas deste funcionário no período
-                                selecionado.
+                                <strong>Dica:</strong> Use a aba <strong>"Lançamentos do Período"</strong> para visualizar todos os registros de entradas e saídas deste funcionário no período selecionado.
                             </span>
                         </div>
                     </div>
                 <?php endif; ?>
 
-
-
-
-
-
-                <!-- ============================================================
-             ABA: FINANCEIRO OBRA
-        ============================================================ -->
             <?php elseif ($aba === 'obra'): ?>
-
                 <section class="card">
-
                     <div class="card-titulo">
                         <i class="fa-solid fa-hard-hat icone-aba"></i>
                         <div>
@@ -947,29 +469,16 @@ $actionAutomovel = $isEditAutomovel
                             <p>Registre gastos, categorias e pagamentos vinculados a obras.</p>
                         </div>
                     </div>
-
                     <form id="form-obra" action="<?= $actionObra ?>" method="POST">
-
                         <div class="grid-form">
-
-                            <!-- ID OBRA -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-building"></i> ID da Obra</label>
-                                <input type="number" name="idObra"
-                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getIdObra() : '') ?>"
-                                    placeholder="Ex: 1" required min="1">
+                                <input type="number" name="idObra" value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getIdObra() : '') ?>" placeholder="Ex: 1" required min="1">
                             </div>
-
-                            <!-- DESCRIÇÃO -->
                             <div class="form-group span-2">
-                                <label><i class="fa-solid fa-file-lines"></i> Descrição <span
-                                        class="obrigatorio">*</span></label>
-                                <input type="text" name="descricao" maxlength="100"
-                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDescricao() : '') ?>"
-                                    placeholder="Descreva o gasto" required>
+                                <label><i class="fa-solid fa-file-lines"></i> Descrição <span class="obrigatorio">*</span></label>
+                                <input type="text" name="descricao" maxlength="100" value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDescricao() : '') ?>" placeholder="Descreva o gasto" required>
                             </div>
-
-                            <!-- CATEGORIA -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-tags"></i> Categoria</label>
                                 <select name="categoria">
@@ -982,29 +491,17 @@ $actionAutomovel = $isEditAutomovel
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
-                            <!-- VALOR -->
                             <div class="form-group">
-                                <label><i class="fa-solid fa-money-bill-wave"></i> Valor <span
-                                        class="obrigatorio">*</span></label>
+                                <label><i class="fa-solid fa-money-bill-wave"></i> Valor <span class="obrigatorio">*</span></label>
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" name="valor" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getValor() : '') ?>"
-                                        placeholder="0,00" required>
+                                    <input type="number" name="valor" step="0.01" min="0" value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getValor() : '') ?>" placeholder="0,00" required>
                                 </div>
                             </div>
-
-                            <!-- DATA DO GASTO -->
                             <div class="form-group">
-                                <label><i class="fa-solid fa-calendar-day"></i> Data do Gasto <span
-                                        class="obrigatorio">*</span></label>
-                                <input type="date" name="dataGasto"
-                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDataGasto() : '') ?>"
-                                    required>
+                                <label><i class="fa-solid fa-calendar-day"></i> Data do Gasto <span class="obrigatorio">*</span></label>
+                                <input type="date" name="dataGasto" value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDataGasto() : '') ?>" required>
                             </div>
-
-                            <!-- FORMA DE PAGAMENTO -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</label>
                                 <select name="formaPagamento">
@@ -1013,50 +510,30 @@ $actionAutomovel = $isEditAutomovel
                                     $formas = ['Dinheiro', 'PIX', 'Cartão de Débito', 'Cartão de Crédito', 'Boleto', 'Transferência'];
                                     $formaAtual = $isEditObra ? $financeiroObra->getFormaPagamento() : '';
                                     foreach ($formas as $f): ?>
-                                        <option value="<?= $f ?>" <?= $formaAtual === $f ? 'selected' : '' ?>><?= $f ?>
-                                        </option>
+                                        <option value="<?= $f ?>" <?= $formaAtual === $f ? 'selected' : '' ?>><?= $f ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
-                            <!-- OBSERVAÇÃO -->
                             <div class="form-group span-3">
                                 <label><i class="fa-solid fa-note-sticky"></i> Observação</label>
-                                <textarea name="observacao" maxlength="200"
-                                    placeholder="Informações adicionais sobre o gasto..."><?= htmlspecialchars($isEditObra ? $financeiroObra->getObservacao() : '') ?></textarea>
+                                <textarea name="observacao" maxlength="200" placeholder="Informações adicionais sobre o gasto..."><?= htmlspecialchars($isEditObra ? $financeiroObra->getObservacao() : '') ?></textarea>
                             </div>
-
                         </div>
-
                     </form>
                 </section>
-
-
                 <div class="acoes">
-                    <a href="/ideal/public/index.php?url=financeiros&aba=funcionario" class="btn novo"> <i
-                            class="bi bi-plus-lg"></i>Cadastrar</a>
+                    <a href="/ideal/public/index.php?url=financeiros&aba=obra" class="btn novo"><i class="bi bi-plus-lg"></i> Cadastrar</a>
                     <?php if (!$isEditObra): ?>
-                        <button type="submit" form="form-obra" class="btn salvar"><i class="bi bi-floppy"></i>
-                            Salvar</button>
+                        <button type="submit" form="form-obra" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
                     <?php else: ?>
-                        <button type="submit" form="form-obra" class="btn alterar"><i class="bi bi-pencil-square"></i>
-                            Alterar</button>
-                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>"
-                            class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')">
-                        <?php endif; ?>
-                        <button type="reset" form="form-funcionario" class="btn limpar">
-                            <i class="bi bi-eraser"></i>
-                            Limpar
-                        </button>
+                        <button type="submit" form="form-obra" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
+                        <a href="/ideal/public/index.php?url=financeiros/deleteObra&id=<?= $financeiroObra->getIdFinanceiroObra() ?>" class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
+                    <?php endif; ?>
+                    <button type="reset" form="form-obra" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
                 </div>
 
-                <!-- ============================================================
-             ABA: FINANCEIRO AUTOMÓVEL
-        ============================================================ -->
             <?php elseif ($aba === 'automovel'): ?>
-
                 <section class="card">
-
                     <div class="card-titulo">
                         <i class="fa-solid fa-car icone-aba"></i>
                         <div>
@@ -1064,53 +541,33 @@ $actionAutomovel = $isEditAutomovel
                             <p>Registre gastos com combustível, manutenção e IPVA.</p>
                         </div>
                     </div>
-
                     <form id="form-automovel" action="<?= $actionAutomovel ?>" method="POST">
-
                         <div class="grid-form">
-
-                            <!-- ID VEÍCULO -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-car-side"></i> ID do Veículo</label>
-                                <input type="number" name="idVeiculo"
-                                    value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIdVeiculo() : '') ?>"
-                                    placeholder="Ex: 1" required min="1">
+                                <input type="number" name="idVeiculo" value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIdVeiculo() : '') ?>" placeholder="Ex: 1" required min="1">
                             </div>
-
-                            <!-- COMBUSTÍVEL -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-gas-pump"></i> Combustível</label>
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" name="combustivel" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getCombustivel() : '') ?>"
-                                        placeholder="0,00">
+                                    <input type="number" name="combustivel" step="0.01" min="0" value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getCombustivel() : '') ?>" placeholder="0,00">
                                 </div>
                             </div>
-
-                            <!-- MANUTENÇÃO -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-screwdriver-wrench"></i> Manutenção</label>
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" name="manutencao" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getManutencao() : '') ?>"
-                                        placeholder="0,00">
+                                    <input type="number" name="manutencao" step="0.01" min="0" value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getManutencao() : '') ?>" placeholder="0,00">
                                 </div>
                             </div>
-
-                            <!-- IPVA -->
                             <div class="form-group">
                                 <label><i class="fa-solid fa-file-invoice-dollar"></i> IPVA</label>
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" name="ipva" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIpva() : '') ?>"
-                                        placeholder="0,00">
+                                    <input type="number" name="ipva" step="0.01" min="0" value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIpva() : '') ?>" placeholder="0,00">
                                 </div>
                             </div>
-
-                            <!-- CARD RESUMO TOTAL -->
                             <div class="form-group span-3">
                                 <div class="resumo-total">
                                     <i class="fa-solid fa-calculator"></i>
@@ -1118,55 +575,24 @@ $actionAutomovel = $isEditAutomovel
                                     <strong id="total-automovel">R$ 0,00</strong>
                                 </div>
                             </div>
-
                         </div>
-
                     </form>
                 </section>
-
                 <div class="acoes">
-
-                    <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo">
-                        <i class="bi bi-plus-lg"></i>
-                        Cadastrar
-                    </a>
-
+                    <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo"><i class="bi bi-plus-lg"></i> Cadastrar</a>
                     <?php if (!$isEditAutomovel): ?>
-
-                        <button type="submit" form="form-automovel" class="btn salvar">
-                            <i class="bi bi-floppy"></i>
-                            Salvar
-                        </button>
-
+                        <button type="submit" form="form-automovel" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
                     <?php else: ?>
-
-                        <button type="submit" form="form-automovel" class="btn alterar">
-                            <i class="bi bi-pencil-square"></i>
-                            Alterar
-                        </button>
-
-                        <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
-                            class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')">
-                            <i class="bi bi-trash"></i>
-                            Excluir
-                        </a>
-
+                        <button type="submit" form="form-automovel" class="btn alterar"><i class="bi bi-pencil-square"></i> Alterar</button>
+                        <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>" class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i class="bi bi-trash"></i> Excluir</a>
                     <?php endif; ?>
-
-                    <button type="reset" form="form-automovel" class="btn limpar">
-                        <i class="bi bi-eraser"></i>
-                        Limpar
-                    </button>
-
+                    <button type="reset" form="form-automovel" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
                 </div>
-
             <?php endif; ?>
-
         </main>
     </div>
 
     <script>
-        // Calcula total em tempo real na aba automóvel
         function calcularTotalAutomovel() {
             const campos = ['combustivel', 'manutencao', 'ipva'];
             let total = 0;
@@ -1177,13 +603,8 @@ $actionAutomovel = $isEditAutomovel
             const el = document.getElementById('total-automovel');
             if (el) el.textContent = 'R$ ' + total.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
-
-        document.querySelectorAll('[name="combustivel"], [name="manutencao"], [name="ipva"]')
-            .forEach(el => el.addEventListener('input', calcularTotalAutomovel));
-
+        document.querySelectorAll('[name="combustivel"], [name="manutencao"], [name="ipva"]').forEach(el => el.addEventListener('input', calcularTotalAutomovel));
         calcularTotalAutomovel();
     </script>
-
 </body>
-
 </html>
