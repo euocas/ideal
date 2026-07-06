@@ -6,8 +6,6 @@ use App\Models\FinanceiroFuncionario;
 use App\Models\FinanceiroAutomovel;
 use App\Core\Auth;
  
- 
- 
 
 class FinanceiroObraController // ✅ NOME CORRETO
 

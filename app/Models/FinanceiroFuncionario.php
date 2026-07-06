@@ -34,37 +34,94 @@ class FinanceiroFuncionario
     // =====================================================
     // 3. GETTERS E SETTERS
     // =====================================================
-    public function getIdFinanceiroFuncionario(): ?int { return $this->idFinanceiroFuncionario; }
-    public function setIdFinanceiroFuncionario(?int $id): void { $this->idFinanceiroFuncionario = $id; }
-
-    public function getIdFuncionario(): ?int { return $this->idFuncionario; }
-    public function setIdFuncionario($id): void { $this->idFuncionario = $id ? (int) $id : null; }
-
-    public function getIdCategoria(): ?int { return $this->idCategoria; }
-    public function setIdCategoria(?int $idCategoria): void { $this->idCategoria = $idCategoria; }
-
-    public function getDescricao(): ?string { return $this->descricao; }
-    public function setDescricao(?string $descricao): void { $this->descricao = $descricao; }
-
-    public function getValor(): ?float { return $this->valor; }
-    public function setValor($valor): void { 
-        if(is_string($valor)) {
-            $valor = str_replace(['.', ','], ['', '.'], $valor);
-        }
-        $this->valor = $valor !== null && $valor !== '' ? (float) $valor : null; 
+    public function getIdFinanceiroFuncionario(): ?int
+    {
+        return $this->idFinanceiroFuncionario;
+    }
+    public function setIdFinanceiroFuncionario(?int $id): void
+    {
+        $this->idFinanceiroFuncionario = $id;
     }
 
-    public function getDataReferencia(): ?string { return $this->dataReferencia; }
-    public function setDataReferencia(?string $dataReferencia): void { $this->dataReferencia = $dataReferencia; }
+    public function getIdFuncionario(): ?int
+    {
+        return $this->idFuncionario;
+    }
+    public function setIdFuncionario($id): void
+    {
+        $this->idFuncionario = $id ? (int) $id : null;
+    }
 
-    public function getFormaPagamento(): ?string { return $this->formaPagamento; }
-    public function setFormaPagamento(?string $formaPagamento): void { $this->formaPagamento = $formaPagamento; }
+    public function getIdCategoria(): ?int
+    {
+        return $this->idCategoria;
+    }
+    public function setIdCategoria(?int $idCategoria): void
+    {
+        $this->idCategoria = $idCategoria;
+    }
 
-    public function getContaPagamento(): ?string { return $this->contaPagamento; }
-    public function setContaPagamento(?string $contaPagamento): void { $this->contaPagamento = $contaPagamento; }
+    public function getDescricao(): ?string
+    {
+        return $this->descricao;
+    }
+    public function setDescricao(?string $descricao): void
+    {
+        $this->descricao = $descricao;
+    }
 
-    public function getObservacao(): ?string { return $this->observacao; }
-    public function setObservacao(?string $observacao): void { $this->observacao = $observacao; }
+    public function getValor(): ?float
+    {
+        return $this->valor;
+    }
+    // public function setValor($valor): void { 
+    //     if(is_string($valor)) {
+    //         $valor = str_replace(['.', ','], ['', '.'], $valor);
+    //     }
+    //     $this->valor = $valor !== null && $valor !== '' ? (float) $valor : null; 
+    // }
+    public function setValor($valor): void
+    {
+        $this->valor = $valor !== null && $valor !== ''
+            ? (float) $valor
+            : null;
+    }
+
+    public function getDataReferencia(): ?string
+    {
+        return $this->dataReferencia;
+    }
+    public function setDataReferencia(?string $dataReferencia): void
+    {
+        $this->dataReferencia = $dataReferencia;
+    }
+
+    public function getFormaPagamento(): ?string
+    {
+        return $this->formaPagamento;
+    }
+    public function setFormaPagamento(?string $formaPagamento): void
+    {
+        $this->formaPagamento = $formaPagamento;
+    }
+
+    public function getContaPagamento(): ?string
+    {
+        return $this->contaPagamento;
+    }
+    public function setContaPagamento(?string $contaPagamento): void
+    {
+        $this->contaPagamento = $contaPagamento;
+    }
+
+    public function getObservacao(): ?string
+    {
+        return $this->observacao;
+    }
+    public function setObservacao(?string $observacao): void
+    {
+        $this->observacao = $observacao;
+    }
 
     // =====================================================
     // 4. FUNÇÕES AUXILIARES E CRUD
@@ -74,16 +131,17 @@ class FinanceiroFuncionario
     public function buscarIdCategoriaPorNome(string $nome, string $tipo = 'ENTRADA'): ?int
     {
         $nomeLimpo = trim($nome);
-        if (empty($nomeLimpo)) return null;
+        if (empty($nomeLimpo))
+            return null;
 
         $stmt = $this->pdo->prepare("SELECT idCategoria FROM categoriaFinanceiroFuncionario WHERE LOWER(nome) = LOWER(:nome) LIMIT 1");
         $stmt->execute([':nome' => $nomeLimpo]);
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($res) {
-            return (int)$res['idCategoria'];
+            return (int) $res['idCategoria'];
         }
-        
+
         // Se não achou, cadastra automaticamente para evitar que a tela quebre
         try {
             $stmtInsert = $this->pdo->prepare("INSERT INTO categoriaFinanceiroFuncionario (nome, tipo, tipoContrato, ativo) VALUES (:nome, :tipo, 'TODOS', 1)");
@@ -91,7 +149,7 @@ class FinanceiroFuncionario
                 ':nome' => $nomeLimpo,
                 ':tipo' => strtoupper($tipo)
             ]);
-            return (int)$this->pdo->lastInsertId();
+            return (int) $this->pdo->lastInsertId();
         } catch (\Exception $e) {
             return null;
         }
@@ -132,7 +190,7 @@ class FinanceiroFuncionario
             $stmt->bindValue(':formaPagamento', $this->getFormaPagamento(), PDO::PARAM_STR);
             $stmt->bindValue(':contaPagamento', $this->getContaPagamento(), PDO::PARAM_STR);
             $stmt->bindValue(':observacao', $this->getObservacao(), PDO::PARAM_STR);
-            
+
             $stmt->execute();
 
             $this->idFinanceiroFuncionario = (int) $this->pdo->lastInsertId();

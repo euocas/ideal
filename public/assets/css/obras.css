@@ -114,6 +114,10 @@ input[type="datetime-local"] {
   background: var(--success-light);
   color: var(--success-dark);
 }
+.status.inativo {
+  background: var(--danger-light);
+  color: var(--danger-dark);
+}
 
 .acoes-tabela {
   display: flex;
@@ -282,14 +286,14 @@ input[type="datetime-local"] {
 }
 
 .info-tabela {
-    color: var(--primary);
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-top: 16px;
-    font-size: 14px;
+  color: var(--primary);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 14px;
 }
 /* ==========================================
    RESPONSIVO

@@ -31,10 +31,8 @@ class FinanceiroCategorias
         'Faltas',
         'Atrasos',
         'Vale Transporte',
-        'Vale Alimentação',
         'Plano de Saúde',
         'Plano Odontológico',
-        'Vale Refeição',
         'Adiantamento Salarial',
         'Pensão Alimentícia',
         'Outros'
