@@ -19,7 +19,7 @@ class VeiculosController
             return $this->buscar();
         }
 
-        $mensagem = null;
+     
         require_once __DIR__ . '/../Views/veiculos/index.php';
     }
 
@@ -32,7 +32,7 @@ class VeiculosController
         $placaLimpa = strtoupper(preg_replace('/[^a-zA-Z0-9]/', '', $placaDigitada));
 
         if (!$this->validarPlaca($placaLimpa)) {
-            $mensagem = "A placa informada é inválida. Verifique os caracteres e tente novamente.";
+            $_SESSION['mensagem_erro'] = "A placa informada é inválida. Verifique os caracteres e tente novamente.";
             require_once __DIR__ . '/../Views/veiculos/index.php';
             return;
         }
@@ -61,10 +61,9 @@ class VeiculosController
     public function create()
     {
         $placaBusca = $_GET['placa'] ?? '';
-        $mensagem = null;
 
         if (isset($_GET['novo'])) {
-            $mensagem = "Placa não cadastrada. Preencha os dados para registrar um novo veículo.";
+            $_SESSION['mensagem_erro'] = "Veículo não encontrado. Preencha os dados abaixo para realizar o cadastro.";
         }
 
         require_once __DIR__ . '/../Views/veiculos/index.php';
@@ -121,7 +120,7 @@ class VeiculosController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $veiculo = new Veiculo();
-            
+
             // Popula o objeto com os dados do formulário
             $this->popularObjeto($veiculo, $_POST);
 
@@ -151,14 +150,14 @@ class VeiculosController
                 if ($veiculo) {
                     // Atualizamos o objeto com os novos dados
                     $this->popularObjeto($veiculo, $_POST);
-                    
+
                     // O objeto atualiza a si mesmo
                     $atualizou = $veiculo->update();
 
                     if ($atualizou) {
-                         $_SESSION['mensagem_sucesso'] = "Cadastro do veículo atualizado com sucesso!";
+                        $_SESSION['mensagem_sucesso'] = "Cadastro do veículo atualizado com sucesso!";
                     } else {
-                         $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados do veículo.";
+                        $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados do veículo.";
                     }
                 }
             }
@@ -170,17 +169,19 @@ class VeiculosController
 
     public function delete()
     {
-        $id = $_GET['id'] ?? null;
+        $id = (int) ($_POST['id'] ?? 0);
 
-        if ($id) {
+        if ($id > 0) {
             $veiculoModel = new Veiculo();
-            $deletou = $veiculoModel->delete((int) $id);
-            
+            $deletou = $veiculoModel->delete($id);
+
             if ($deletou) {
-                 $_SESSION['mensagem_sucesso'] = "Veículo excluído com sucesso!";
+                $_SESSION['mensagem_sucesso'] = "Veículo excluído com sucesso!";
             } else {
-                 $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o veículo. Verifique se ele não possui vínculos.";
+                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o veículo. Verifique se ele não possui vínculos.";
             }
+        } else {
+            $_SESSION['mensagem_erro'] = "Veículo inválido para exclusão.";
         }
 
         header("Location: /ideal/public/index.php?url=veiculos");

@@ -1,20 +1,37 @@
 <?php
-$isEdit = isset($veiculo) && is_object($veiculo);
-$actionUrl = $isEdit ? "/ideal/public/index.php?url=veiculos/update&id={$veiculo->getIdVeiculo()}" : "/ideal/public/index.php?url=veiculos/store";
 
-$renavamValue = $isEdit ? $veiculo->getRenavam() : '';
+/** @var \App\Models\Veiculo|null $veiculo */
+// Estado da tela
+$modoNovo = isset($_GET['novo']);
+$modoEdicao = isset($veiculo) && is_object($veiculo);
+
+// Ação do formulário
+$actionUrl = $modoEdicao
+    ? "/ideal/public/index.php?url=veiculos/update&id={$veiculo->getIdVeiculo()}"
+    : "/ideal/public/index.php?url=veiculos/store";
+
+// Valores dos campos
+$renavamValue = $modoEdicao ? $veiculo->getRenavam() : '';
+
 // Pega a placa buscada caso seja um cadastro novo
 $placaBusca = $_GET['placa'] ?? ($_POST['placa'] ?? '');
-$placaValue = $isEdit ? $veiculo->getPlaca() : $placaBusca;
+$placaValue = $modoEdicao ? $veiculo->getPlaca() : $placaBusca;
 
 // Formatação inteligente dos anos (transforma YYYY em YYYY-01-01 para o input date ler)
 $anoFabValue = '';
-if ($isEdit && !empty($veiculo->getAnoFabricacao())) {
-    $anoFabValue = strlen((string) $veiculo->getAnoFabricacao()) === 4 ? $veiculo->getAnoFabricacao() . '-01-01' : $veiculo->getAnoFabricacao();
+
+if ($modoEdicao && !empty($veiculo->getAnoFabricacao())) {
+    $anoFabValue = strlen((string) $veiculo->getAnoFabricacao()) === 4
+        ? $veiculo->getAnoFabricacao() . '-01-01'
+        : $veiculo->getAnoFabricacao();
 }
+
 $anoModValue = '';
-if ($isEdit && !empty($veiculo->getAnoModelo())) {
-    $anoModValue = strlen((string) $veiculo->getAnoModelo()) === 4 ? $veiculo->getAnoModelo() . '-01-01' : $veiculo->getAnoModelo();
+
+if ($modoEdicao && !empty($veiculo->getAnoModelo())) {
+    $anoModValue = strlen((string) $veiculo->getAnoModelo()) === 4
+        ? $veiculo->getAnoModelo() . '-01-01'
+        : $veiculo->getAnoModelo();
 }
 
 // HEADERS ANTI CACHE
@@ -30,6 +47,7 @@ $favicon = '/ideal/public/assets/icon/veiculo.png';
 require_once __DIR__ . '/../includes/header.php';
 
 ?>
+
 
 <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
 <link rel="stylesheet" href="/ideal/public/assets/css/base.css">
@@ -54,11 +72,13 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="grid-busca">
                     <div class="busca-box">
                         <h2>🚘 BUSCAR VEÍCULO</h2>
-                        <?php if (!empty($mensagem)): ?>
-                            <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;">
-                                <?= htmlspecialchars($mensagem); ?>
-                            </p>
+                        <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                            <div class="alert alert-error">
+                                 <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
+                            </div>
+                            <?php unset($_SESSION['mensagem_erro']); ?>
                         <?php endif; ?>
+                         
                         <form class="form-busca" action="/ideal/public/index.php?url=veiculos" method="POST">
                             <div class="input-group">
                                 <label>PLACA</label>
@@ -115,7 +135,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group">
                             <label>Chassi</label>
                             <input type="text" name="chassi"
-                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getChassi() ?? '') : '') ?>"
+                                value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getChassi() ?? '') : '') ?>"
                                 oninput="mascaraChassi(this)" maxlength="17" placeholder="9BWZZZ377VT004251">
                         </div>
                         <div class="form-group">
@@ -123,14 +143,14 @@ require_once __DIR__ . '/../includes/header.php';
                             <select name="marca">
                                 <option value="">Selecione a marca</option>
                                 <optgroup label="Utilitários leves">
-                                    <option value="Fiat" <?= ($isEdit && $veiculo->getMarca() === 'Fiat') ? 'selected' : '' ?>>Fiat</option>
-                                    <option value="Volkswagen" <?= ($isEdit && $veiculo->getMarca() === 'Volkswagen') ? 'selected' : '' ?>>Volkswagen</option>
-                                    <option value="Chevrolet" <?= ($isEdit && $veiculo->getMarca() === 'Chevrolet') ? 'selected' : '' ?>>Chevrolet</option>
-                                    <option value="Renault" <?= ($isEdit && $veiculo->getMarca() === 'Renault') ? 'selected' : '' ?>>Renault</option>
+                                    <option value="Fiat" <?= ($modoEdicao && $veiculo->getMarca() === 'Fiat') ? 'selected' : '' ?>>Fiat</option>
+                                    <option value="Volkswagen" <?= ($modoEdicao && $veiculo->getMarca() === 'Volkswagen') ? 'selected' : '' ?>>Volkswagen</option>
+                                    <option value="Chevrolet" <?= ($modoEdicao && $veiculo->getMarca() === 'Chevrolet') ? 'selected' : '' ?>>Chevrolet</option>
+                                    <option value="Renault" <?= ($modoEdicao && $veiculo->getMarca() === 'Renault') ? 'selected' : '' ?>>Renault</option>
                                 </optgroup>
                                 <optgroup label="Picapes médias">
-                                    <option value="Toyota" <?= ($isEdit && $veiculo->getMarca() === 'Toyota') ? 'selected' : '' ?>>Toyota</option>
-                                    <option value="Ford" <?= ($isEdit && $veiculo->getMarca() === 'Ford') ? 'selected' : '' ?>>Ford</option>
+                                    <option value="Toyota" <?= ($modoEdicao && $veiculo->getMarca() === 'Toyota') ? 'selected' : '' ?>>Toyota</option>
+                                    <option value="Ford" <?= ($modoEdicao && $veiculo->getMarca() === 'Ford') ? 'selected' : '' ?>>Ford</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -139,15 +159,16 @@ require_once __DIR__ . '/../includes/header.php';
                             <select name="modelo">
                                 <option value="">Selecione o modelo</option>
                                 <optgroup label="Utilitários leves">
-                                    <option value="Fiat Strada" <?= ($isEdit && $veiculo->getModelo() === 'Fiat Strada') ? 'selected' : '' ?>>Fiat Strada</option>
-                                    <option value="Volkswagen Saveiro" <?= ($isEdit && $veiculo->getModelo() === 'Volkswagen Saveiro') ? 'selected' : '' ?>>Volkswagen
+                                    <option value="Fiat Strada" <?= ($modoEdicao && $veiculo->getModelo() === 'Fiat Strada') ? 'selected' : '' ?>>Fiat Strada</option>
+                                    <option value="Volkswagen Saveiro" <?= ($modoEdicao && $veiculo->getModelo() === 'Volkswagen Saveiro') ? 'selected' : '' ?>>Volkswagen
                                         Saveiro</option>
-                                    <option value="Chevrolet Montana" <?= ($isEdit && $veiculo->getModelo() === 'Chevrolet Montana') ? 'selected' : '' ?>>Chevrolet Montana</option>
-                                    <option value="Fiat Fiorino" <?= ($isEdit && $veiculo->getModelo() === 'Fiat Fiorino') ? 'selected' : '' ?>>Fiat Fiorino</option>
+                                    <option value="Chevrolet Montana" <?= ($modoEdicao && $veiculo->getModelo() === 'Chevrolet Montana') ? 'selected' : '' ?>>Chevrolet
+                                        Montana</option>
+                                    <option value="Fiat Fiorino" <?= ($modoEdicao && $veiculo->getModelo() === 'Fiat Fiorino') ? 'selected' : '' ?>>Fiat Fiorino</option>
                                 </optgroup>
                                 <optgroup label="Picapes médias">
-                                    <option value="Toyota Hilux" <?= ($isEdit && $veiculo->getModelo() === 'Toyota Hilux') ? 'selected' : '' ?>>Toyota Hilux</option>
-                                    <option value="Chevrolet S10" <?= ($isEdit && $veiculo->getModelo() === 'Chevrolet S10') ? 'selected' : '' ?>>Chevrolet S10</option>
+                                    <option value="Toyota Hilux" <?= ($modoEdicao && $veiculo->getModelo() === 'Toyota Hilux') ? 'selected' : '' ?>>Toyota Hilux</option>
+                                    <option value="Chevrolet S10" <?= ($modoEdicao && $veiculo->getModelo() === 'Chevrolet S10') ? 'selected' : '' ?>>Chevrolet S10</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -163,12 +184,12 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Cor</label>
                             <select name="cor">
                                 <option value="">Selecione</option>
-                                <option value="Branco" <?= ($isEdit && $veiculo->getCor() === 'Branco') ? 'selected' : '' ?>>Branco</option>
-                                <option value="Preto" <?= ($isEdit && $veiculo->getCor() === 'Preto') ? 'selected' : '' ?>>
+                                <option value="Branco" <?= ($modoEdicao && $veiculo->getCor() === 'Branco') ? 'selected' : '' ?>>Branco</option>
+                                <option value="Preto" <?= ($modoEdicao && $veiculo->getCor() === 'Preto') ? 'selected' : '' ?>>
                                     Preto</option>
-                                <option value="Prata" <?= ($isEdit && $veiculo->getCor() === 'Prata') ? 'selected' : '' ?>>
+                                <option value="Prata" <?= ($modoEdicao && $veiculo->getCor() === 'Prata') ? 'selected' : '' ?>>
                                     Prata</option>
-                                <option value="Cinza" <?= ($isEdit && $veiculo->getCor() === 'Cinza') ? 'selected' : '' ?>>
+                                <option value="Cinza" <?= ($modoEdicao && $veiculo->getCor() === 'Cinza') ? 'selected' : '' ?>>
                                     Cinza</option>
                             </select>
                         </div>
@@ -178,28 +199,28 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Status</label>
                             <select name="statusVeiculo">
                                 <option value="">Selecione</option>
-                                <option value="ATIVO" <?= ($isEdit && $veiculo->getStatusVeiculo() === 'ATIVO') ? 'selected' : '' ?>>Ativo</option>
-                                <option value="EM MANUTENCAO" <?= ($isEdit && $veiculo->getStatusVeiculo() === 'EM MANUTENCAO') ? 'selected' : '' ?>>Em manutenção</option>
-                                <option value="INATIVO" <?= ($isEdit && $veiculo->getStatusVeiculo() === 'INATIVO') ? 'selected' : '' ?>>Inativo</option>
-                                <option value="VENDIDO" <?= ($isEdit && $veiculo->getStatusVeiculo() === 'VENDIDO') ? 'selected' : '' ?>>Vendido</option>
+                                <option value="ATIVO" <?= ($modoEdicao && $veiculo->getStatusVeiculo() === 'ATIVO') ? 'selected' : '' ?>>Ativo</option>
+                                <option value="EM MANUTENCAO" <?= ($modoEdicao && $veiculo->getStatusVeiculo() === 'EM MANUTENCAO') ? 'selected' : '' ?>>Em manutenção</option>
+                                <option value="INATIVO" <?= ($modoEdicao && $veiculo->getStatusVeiculo() === 'INATIVO') ? 'selected' : '' ?>>Inativo</option>
+                                <option value="VENDIDO" <?= ($modoEdicao && $veiculo->getStatusVeiculo() === 'VENDIDO') ? 'selected' : '' ?>>Vendido</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Quilometragem</label>
                             <input type="text" name="quilometragem"
-                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getQuilometragem() ?? '') : '') ?>"
+                                value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getQuilometragem() ?? '') : '') ?>"
                                 maxlength="9" pattern="\d{1,7}" inputmode="numeric" placeholder="Ex: 125000">
                         </div>
                         <div class="form-group">
                             <!-- CORRIGIDO: name="dataUltimaRevisao" -->
                             <label>Última Revisão</label>
                             <input type="date" name="dataUltimaRevisao"
-                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getDataUltimaRevisao() ?? '') : '') ?>">
+                                value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getDataUltimaRevisao() ?? '') : '') ?>">
                         </div>
                         <div class="form-group">
                             <label>Próxima Revisão</label>
                             <input type="date" name="proximaRevisao"
-                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getProximaRevisao() ?? '') : '') ?>">
+                                value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getProximaRevisao() ?? '') : '') ?>">
                         </div>
                         <h2 class="subtitulo-form" style="grid-column: 1 / -1;">Responsável</h2>
                         <div class="form-group">
@@ -207,48 +228,66 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Propriedade do Veículo</label>
                             <select name="tipoPosse">
                                 <option value="">Selecione</option>
-                                <option value="PROPRIO" <?= ($isEdit && $veiculo->getTipoPosse() === 'PROPRIO') ? 'selected' : '' ?>>Próprio</option>
-                                <option value="ALUGADO" <?= ($isEdit && $veiculo->getTipoPosse() === 'ALUGADO') ? 'selected' : '' ?>>Alugado</option>
-                                <option value="EMPRESTADO" <?= ($isEdit && $veiculo->getTipoPosse() === 'EMPRESTADO') ? 'selected' : '' ?>>Emprestado</option>
-                                <option value="TERCEIRIZADO" <?= ($isEdit && $veiculo->getTipoPosse() === 'TERCEIRIZADO') ? 'selected' : '' ?>>Terceirizado</option>
+                                <option value="PROPRIO" <?= ($modoEdicao && $veiculo->getTipoPosse() === 'PROPRIO') ? 'selected' : '' ?>>Próprio</option>
+                                <option value="ALUGADO" <?= ($modoEdicao && $veiculo->getTipoPosse() === 'ALUGADO') ? 'selected' : '' ?>>Alugado</option>
+                                <option value="EMPRESTADO" <?= ($modoEdicao && $veiculo->getTipoPosse() === 'EMPRESTADO') ? 'selected' : '' ?>>Emprestado</option>
+                                <option value="TERCEIRIZADO" <?= ($modoEdicao && $veiculo->getTipoPosse() === 'TERCEIRIZADO') ? 'selected' : '' ?>>Terceirizado
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
                             <!-- CORRIGIDO: name="responsavelVeiculo" -->
                             <label>Responsável pelo veículo</label>
                             <input type="text" name="responsavelVeiculo"
-                                value="<?= htmlspecialchars($isEdit ? ($veiculo->getResponsavelVeiculo() ?? '') : '') ?>"
+                                value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getResponsavelVeiculo() ?? '') : '') ?>"
                                 minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo">
                         </div>
                         <div class="form-group observacao">
                             <label>Observações</label>
                             <textarea
-                                name="observacoes"><?= htmlspecialchars($isEdit ? ($veiculo->getObservacoes() ?? '') : '') ?></textarea>
+                                name="observacoes"><?= htmlspecialchars($modoEdicao ? ($veiculo->getObservacoes() ?? '') : '') ?></textarea>
                         </div>
                     </div>
                 </section>
 
-                <div class="acoes">
-                    <a href="/ideal/public/index.php?url=veiculos" class="btn novo">
-                        <i class="bi bi-plus-lg"></i>
-                        Cadastrar</a>
 
-                    <?php if (!$isEdit): ?>
-                        <button type="submit" class="btn salvar">
-                            <i class="bi bi-floppy"></i> Salvar
-                        </button>
+                <div class="acoes">
+
+                    <button type="submit" class="btn novo" <?= !$modoNovo ? 'disabled' : '' ?>>
+                        <i class="bi bi-plus-lg"></i>
+                        Cadastrar
+                    </button>
+
+                    <button type="submit" class="btn salvar" <?= !$modoEdicao ? 'disabled' : '' ?>>
+                        <i class="bi bi-floppy"></i>
+                        Salvar
+                    </button>
+
+                    <?php if ($modoEdicao): ?>
+                        <form action="/ideal/public/index.php?url=veiculos/delete" method="POST" style="display:inline;"
+                            onsubmit="return confirm('Excluir este veículo?');">
+
+                            <input type="hidden" name="id" value="<?= $veiculo->getIdVeiculo() ?>">
+
+                            <button type="submit" class="btn excluir">
+                                <i class="bi bi-trash"></i>
+                                Excluir
+                            </button>
+                        </form>
                     <?php else: ?>
-                        <button type="submit" class="btn alterar">
-                            <i class="bi bi-pencil-square"></i>
-                            Alterar</button>
-                        <a href="/ideal/public/index.php?url=veiculos/delete&id=<?= $veiculo->getIdVeiculo() ?>"
-                            class="btn excluir" onclick="return confirm('Excluir este veículo?')">
-                        </a>
+                        <button type="button" class="btn excluir" disabled>
+                            <i class="bi bi-trash"></i>
+                            Excluir
+                        </button>
                     <?php endif; ?>
 
+                    <button type="reset" class="btn limpar">
+                        <i class="bi bi-eraser"></i>
+                        Limpar
+                    </button>
 
-                    <button type="reset" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
                 </div>
+
             </form>
         </main>
     </div>
