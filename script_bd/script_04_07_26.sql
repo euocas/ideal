@@ -238,8 +238,6 @@ CREATE TABLE funcionarioRemuneracao (
     idRemuneracao INT AUTO_INCREMENT PRIMARY KEY,
     idFuncionario INT NOT NULL,
     salarioBase DECIMAL(10,2) NOT NULL,
-    valeTransporte DECIMAL(10,2) DEFAULT 0.00,
-    valeRefeicao DECIMAL(10,2) DEFAULT 0.00,
     planoSaude DECIMAL(10,2) DEFAULT 0.00,
     inicioVigencia DATE NOT NULL,
     fimVigencia DATE DEFAULT NULL,
@@ -285,6 +283,7 @@ CREATE TABLE financeiroAutomovel (
         FOREIGN KEY (idVeiculo)
         REFERENCES veiculo(idVeiculo)
 );
+
 -- =====================================================
 -- AUTOMOVEL FUNCIONARIO
 -- =====================================================
@@ -567,23 +566,19 @@ VALUES
 -- INSERÇAO DE DADOS FUNCIONARIO REMUNERAÇÃO (Uso no financeiro)
 -- =============================================================
 
-INSERT INTO funcionarioRemuneracao (idFuncionario, salarioBase, valeTransporte, valeRefeicao,
-    planoSaude,inicioVigencia,fimVigencia) 
+INSERT INTO funcionarioRemuneracao (
+idFuncionario,salarioBase,planoSaude,inicioVigencia,fimVigencia)
 VALUES
 -- João Pedro Silva
-(1, 4500.00, 220.00, 550.00, 180.00, '2022-03-14', NULL),
-
+(1, 5800.00, 550.00, '2022-03-14', NULL),
 -- Maria Oliveira Souza
-(2, 3900.00, 180.00, 500.00, 180.00, '2023-07-03', NULL),
-
+(2, 3900.00, 500.00, '2023-07-03', NULL),
 -- Carlos Henrique Lima (Inativo)
-(3, 2500.00, 180.00, 400.00, 0.00, '2021-01-11', '2025-12-31'),
-
+(3, 2500.00, 400.00, '2021-01-11', '2025-12-31'),
 -- Fernanda Alves Costa (PJ)
-(4, 5200.00, 0.00, 0.00, 0.00, '2024-02-05', NULL),
-
+(4, 5200.00, 0.00, '2024-02-05', NULL),
 -- Lucas Martins Pereira
-(5, 2800.00, 220.00, 450.00, 150.00, '2025-01-20', NULL);
+(5, 2800.00, 450.00, '2025-01-20', NULL);
 
 
 -- =====================================================

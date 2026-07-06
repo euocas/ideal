@@ -5,6 +5,10 @@ error_reporting(E_ALL);
 use App\Config\SistemaConstantes;
 use App\Config\FinanceiroCategorias;
 
+/** @var \App\Models\Funcionario|null $funcionarioBusca */
+/** @var \App\Models\FinanceiroObra|null $financeiroObra */
+/** @var \App\Models\FinanceiroAutomovel|null $financeiroAutomovel */
+
 $titulo = 'Financeiro';
 $favicon = '/ideal/public/assets/icon/financeiro3.png';
 
