@@ -15,13 +15,13 @@ class AuthController
             session_start();
         }
 
-        // Rate limiting: máximo de 5 tentativas por IP a cada 5 minutos
-        $ip      = $_SERVER['REMOTE_ADDR'] ?? 'desconhecido';
-        $chave   = 'login_tentativas_' . md5($ip);
-        $limite  = 5;
-        $janela  = 5 * 60; // segundos
+        // Rate limiting: máximo de 5 tentativas por IP a cada 3 minutos
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'desconhecido';
+        $chave = 'login_tentativas_' . md5($ip);
+        $limite = 5;
+        $janela = 3 * 60; // segundos
 
-        $tentativas  = $_SESSION[$chave]['count']        ?? 0;
+        $tentativas = $_SESSION[$chave]['count'] ?? 0;
         $bloqueadoAte = $_SESSION[$chave]['bloqueado_ate'] ?? 0;
 
         if (time() < $bloqueadoAte) {
@@ -52,11 +52,12 @@ class AuthController
 
         $usuarioModel = new Usuario();
         $usuario = $usuarioModel->buscarPorEmail($email);
+   
 
         // Usuário não encontrado ou senha incorreta — mesma mensagem para não revelar qual falhou
         if (!$usuario || !password_verify($senha, $usuario['senha'])) {
             $tentativas++;
-            $_SESSION[$chave]['count']  = $tentativas;
+            $_SESSION[$chave]['count'] = $tentativas;
             $_SESSION[$chave]['desde'] ??= time();
 
             if ($tentativas >= $limite) {

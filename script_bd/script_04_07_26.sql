@@ -596,6 +596,7 @@ SELECT * FROM obraFuncionario;
 SELECT * FROM funcionario WHERE idFuncionario = 1;
 SELECT * FROM categoriaFinanceiroFuncionario;
 SELECT * FROM funcionarioRemuneracao;
+SELECT * FROM financeiroFuncionario;
  
 SELECT CONSTRAINT_NAME, TABLE_NAME
 FROM information_schema.TABLE_CONSTRAINTS

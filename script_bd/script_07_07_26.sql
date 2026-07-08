@@ -9,7 +9,6 @@ DROP DATABASE IF EXISTS empreiteira;
 -- =====================================================
 
 CREATE DATABASE empreiteira;
-
 USE empreiteira;
 
 -- =====================================================
@@ -22,9 +21,10 @@ USE empreiteira;
 
 CREATE TABLE usuario (
     idUsuario INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100),
-    email VARCHAR(120) UNIQUE,
-    senha VARCHAR(255)
+    perfil ENUM('Administrador', 'Usuario') NOT NULL DEFAULT 'Usuario',
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL
 );
  
 
@@ -53,9 +53,14 @@ CREATE TABLE funcionario (
     dataAdmissao DATE,
     dataDesligamento DATE,
     feriasProgramadas DATE,
+    agencia VARCHAR(5),
+    conta VARCHAR(15),
+  tipoConta ENUM('CORRENTE', 'POUPANCA', 'SALARIO'),
+    chavePix VARCHAR(77),
     status ENUM('ativo', 'inativo') NOT NULL DEFAULT 'ativo',
     observacoes TEXT
 );
+
  
 -- =====================================================
 -- CONTATO FUNCIONARIO
@@ -227,6 +232,24 @@ CREATE TABLE financeiroFuncionario (
     FOREIGN KEY (idCategoria)
         REFERENCES categoriaFinanceiroFuncionario(idCategoria)
 );
+-- =====================================================
+-- FINANCEIRO FUNCIONARIO - REMUNERAÇÃO
+-- =====================================================
+CREATE TABLE funcionarioRemuneracao (
+    idRemuneracao INT AUTO_INCREMENT PRIMARY KEY,
+    idFuncionario INT NOT NULL,
+    salarioBase DECIMAL(10,2) NOT NULL,
+    planoSaude DECIMAL(10,2) DEFAULT 0.00,
+    inicioVigencia DATE NOT NULL,
+    fimVigencia DATE DEFAULT NULL,
+    dataCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_remuneracao_funcionario
+        FOREIGN KEY (idFuncionario)
+        REFERENCES funcionario(idFuncionario)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
 
 
 -- =====================================================
@@ -261,6 +284,7 @@ CREATE TABLE financeiroAutomovel (
         FOREIGN KEY (idVeiculo)
         REFERENCES veiculo(idVeiculo)
 );
+
 -- =====================================================
 -- AUTOMOVEL FUNCIONARIO
 -- =====================================================
@@ -283,16 +307,16 @@ CREATE TABLE automovelFuncionario (
 -- INSERÇAO DE DADOS DE USUÁRIOS - SENHA PADRÃO: 1234 = $2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2
 -- ==================================================================================================================
 
-INSERT INTO usuario (nome, email, senha) VALUES
-('Administrador','emailteste@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Juliana','emaildajuju@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Douglas','emaildodouglas@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Matheus','emaildomatheus@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Camila', 'emaildacamila@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Francielly','emaildafrancielly@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Danilo', 'emaildodanilo@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Alexandre', 'emaildoalexandre@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Senac', 'senacsantos@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
+INSERT INTO usuario (perfil, nome, email, senha) VALUES
+('Administrador','Ideal','ideal@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Juliana','emaildajuju@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Douglas','emaildodouglas@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Matheus','emaildomatheus@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Camila', 'emaildacamila@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Francielly','emaildafrancielly@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Danilo', 'emaildodanilo@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Alexandre', 'emaildoalexandre@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Usuario','Senac', 'senacsantos@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
  
 -- =====================================================
 -- INSERÇAO DE DADOS DE FUNCIONÁRIOS
@@ -302,33 +326,44 @@ INSERT INTO funcionario (
     nome, dataNascimento, sexo, naturalidade, estadoNascimento, cpf,
     tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep,
     estado, email, cargoFuncao, tipoContrato, dataAdmissao, dataDesligamento,
-    feriasProgramadas, status, observacoes
+    feriasProgramadas, agencia, conta, tipoConta, chavePix, status, observacoes
 ) VALUES
+
 ('João Pedro Silva', '1990-05-12', 'Masculino', 'Santos', 'SP', '58058711063',
 'Rua', 'Avenida Ana Costa', '120', 'Apto 12', 'Santos', '11060001', 'SP',
-'joao.silva@empresa.com', 'Analista de Sistemas', 'CLT',
-'2022-03-14', NULL, '2026-12-10', 'ativo', 'Funcionário experiente em desenvolvimento web.'),
- 
+'joao.silva@empresa.com', 'Analista Financeiro', 'CLT',
+'2022-03-14', NULL, '2026-12-10',
+'1234', '12345', 'CORRENTE', '58058711063',
+'ativo', 'Funcionário experiente em desenvolvimento web.'),
+
 ('Maria Oliveira Souza', '1988-11-23', 'Feminino', 'São Vicente', 'SP', '98765432100',
 'Rua', 'Rua Frei Gaspar', '450', NULL, 'São Vicente', '11310000', 'SP',
 'maria.souza@empresa.com', 'Recursos Humanos', 'CONTRATO TEMPORARIO',
-'2023-07-03', NULL, '2026-09-15', 'ativo', 'Atua no recrutamento e seleção.'),
- 
+'2023-07-03', NULL, '2026-09-15',
+'2100', '98765', 'POUPANCA', 'maria.souza@empresa.com',
+'ativo', 'Atua no recrutamento e seleção.'),
+
 ('Carlos Henrique Lima', '1995-02-17', 'Masculino', 'Praia Grande', 'SP', '61841080004',
 'Avenida', 'Avenida Presidente Kennedy', '890', 'Sala 3', 'Praia Grande', '11700000', 'SP',
-'carlos.lima@empresa.com', 'Assistente Administrativo', 'TERCEIRIZADO',
-'2021-01-11', NULL, '2026-11-03', 'inativo', 'Contrato encerrado em 2025.'),
- 
+'carlos.lima@empresa.com', 'Auxiliar Administrativo', 'TERCEIRIZADO',
+'2021-01-11', NULL, '2026-11-03',
+'3050', '45678', 'SALARIO', '61999998888',
+'inativo', 'Contrato encerrado em 2025.'),
+
 ('Fernanda Alves Costa', '1992-08-30', 'Feminino', 'Guarujá', 'SP', '65396386045',
 'Rua', 'Rua Mário Ribeiro', '77', NULL, 'Guarujá', '11410000', 'SP',
-'fernanda.costa@empresa.com', 'Designer Gráfico', 'PESSOA JURÍDICA',
-'2024-02-05', NULL, '2026-08-18', 'ativo', 'Responsável pela identidade visual da empresa.'),
+'fernanda.costa@empresa.com', 'Cabista', 'PESSOA JURÍDICA',
+'2024-02-05', NULL, '2026-08-18',
+'4102', '32145', 'CORRENTE', 'fernanda.costa@empresa.com',
+'ativo', 'Responsável por cabeamento das empresas.'),
 
 ('Lucas Martins Pereira', '2000-01-10', 'Outro', 'Cubatão', 'SP', '15935745682',
 'Travessa', 'Travessa das Flores', '15', 'Casa', 'Cubatão', '11500000', 'SP',
-'lucas.pereira@empresa.com', 'Suporte Técnico', 'CLT',
-'2025-01-20', NULL, '2027-01-12', 'ativo', 'Atendimento interno e suporte aos usuários.');
- 
+'lucas.pereira@empresa.com', 'Instalador Elétrico', 'CLT',
+'2025-01-20', NULL, '2027-01-12',
+'5501', '78945', 'CORRENTE', '15935745682',
+'ativo', 'Atendimento interno e suporte aos usuários.');
+
 -- =====================================================
 -- INSERÇAO DE DADOS DE CONTATO DE FUNCIONÁRIOS
 -- =====================================================
@@ -528,6 +563,24 @@ VALUES
 (5, 9, 'Desconto INSS', 495.00, '2026-07-01', 'Folha', 'Santander', ''),
 (5,11, 'Vale Transporte', 180.00, '2026-07-01', 'Folha', 'Santander', '');
 
+-- ============================================================
+-- INSERÇAO DE DADOS FUNCIONARIO REMUNERAÇÃO (Uso no financeiro)
+-- =============================================================
+
+INSERT INTO funcionarioRemuneracao (
+idFuncionario,salarioBase,planoSaude,inicioVigencia,fimVigencia)
+VALUES
+-- João Pedro Silva
+(1, 5800.00, 550.00, '2022-03-14', NULL),
+-- Maria Oliveira Souza
+(2, 3900.00, 500.00, '2023-07-03', NULL),
+-- Carlos Henrique Lima (Inativo)
+(3, 2500.00, 400.00, '2021-01-11', '2025-12-31'),
+-- Fernanda Alves Costa (PJ)
+(4, 5200.00, 0.00, '2024-02-05', NULL),
+-- Lucas Martins Pereira
+(5, 2800.00, 450.00, '2025-01-20', NULL);
+
 
 -- =====================================================
 -- CONSULTAS DE TESTE (Rode após a criação)
@@ -543,6 +596,8 @@ SELECT * FROM contatoCliente;
 SELECT * FROM obraFuncionario;
 SELECT * FROM funcionario WHERE idFuncionario = 1;
 SELECT * FROM categoriaFinanceiroFuncionario;
+SELECT * FROM funcionarioRemuneracao;
+SELECT * FROM financeiroFuncionario;
  
 SELECT CONSTRAINT_NAME, TABLE_NAME
 FROM information_schema.TABLE_CONSTRAINTS
@@ -571,7 +626,7 @@ DESCRIBE cliente;
 DESCRIBE contatoFuncionario;
 DESCRIBE contatoCliente;
 DESCRIBE financeiroFuncionario;
-DESCRIBE financeiroFuncionario;
+
 
 SHOW COLUMNS FROM funcionario;
 SHOW COLUMNS FROM financeiroObra;

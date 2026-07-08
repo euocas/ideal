@@ -15,6 +15,7 @@ class Credencial
     private ?string $nome = null;
     private ?string $email = null;
     private ?string $senha = null;
+    private ?string $perfil = null;
 
     public string $dbError = '';
 
@@ -74,6 +75,16 @@ class Credencial
         $this->senha = $senha;
     }
 
+    public function getPerfil(): ?string
+    {
+        return $this->perfil;
+    }
+
+    public function setPerfil(?string $perfil): void
+    {
+        $this->perfil = $perfil;
+    }
+
     // =====================================================
     // HYDRATE
     // =====================================================
@@ -84,6 +95,7 @@ class Credencial
 
         // CORREÇÃO: O banco retorna 'idUsuario' no SELECT *
         $usuario->setId($dados['idUsuario'] ?? $dados['id'] ?? null);
+        $usuario->setPerfil($dados['perfil'] ?? null);
         $usuario->setNome($dados['nome'] ?? null);
         $usuario->setEmail($dados['email'] ?? null);
         $usuario->setSenha($dados['senha'] ?? null);
@@ -124,6 +136,7 @@ class Credencial
 
         return $dados ? $this->hydrate($dados) : null;
     }
+    
 
     // =====================================================
     // ALTERAÇÃO DE SENHA
@@ -202,7 +215,7 @@ class Credencial
             return false;
         }
     }
-public function buscarUsuario(string $login): ?array
+    public function buscarUsuario(string $login): ?array
     {
         // Verifica se o que foi digitado é um número (ID) ou texto (Nome)
         if (is_numeric($login)) {
@@ -213,9 +226,9 @@ public function buscarUsuario(string $login): ?array
                 FROM usuario
                 WHERE idUsuario = :login
                 LIMIT 1";
-            
+
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':login', (int)$login, PDO::PARAM_INT);
+            $stmt->bindValue(':login', (int) $login, PDO::PARAM_INT);
 
         } else {
             $sql = "SELECT
@@ -225,7 +238,7 @@ public function buscarUsuario(string $login): ?array
                 FROM usuario
                 WHERE nome LIKE :login
                 LIMIT 1";
-            
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':login', '%' . $login . '%', PDO::PARAM_STR);
         }
@@ -236,4 +249,4 @@ public function buscarUsuario(string $login): ?array
         return $dados ?: null;
     }
 
-    }
+}

@@ -81,7 +81,7 @@ return [
  
 
  'credenciais' => [CredenciaisController::class, 'index'],
- 'credenciais/buscar' => [CredenciaisController::class, 'buscar'],
+//  'credenciais/buscar' => [CredenciaisController::class, 'buscar'],
  'credenciais/alterar' => [CredenciaisController::class, 'alterar'],
 'clientes/buscarPorCnpj' => [ClientesController::class, 'buscarPorCnpj'],
  

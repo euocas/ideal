@@ -23,6 +23,35 @@
 }
 
 /* ==========================================
+   TÍTULOS DOS BLOCOS
+========================================== */
+
+.titulo-bloco {
+  margin-bottom: 20px;
+}
+
+.titulo-bloco h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0;
+  color: var(--orange-dark);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.titulo-bloco h2 i {
+  color: var(--orange-dark);
+  font-size: 18px;
+}
+
+.titulo-bloco p {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+/* ==========================================
    GRID BUSCA (topo: card busca + dica)
 ========================================== */
 .grid-busca {
@@ -47,15 +76,66 @@
   box-sizing: border-box;
   width: 100%;
 }
-
-.card-busca h3 {
-  margin: 0 0 20px 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-heading);
-  letter-spacing: 0.5px;
+.card-dica {
+  padding: 30px;
 }
 
+.card-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-busca h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0;
+  color: var(--orange-dark);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.subtitulo-card {
+  margin: 6px 0 24px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.titulo-bloco {
+  margin-bottom: 22px;
+}
+
+.titulo-bloco h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0;
+  color: var(--orange-dark);
+  font-size: 20px;
+}
+
+.titulo-bloco p {
+  margin-top: 6px;
+  color: #777;
+  font-size: 13px;
+}
+
+.campo input,
+.campo select {
+  height: 44px;
+}
+
+.subtitulo-card {
+  display: block;
+  margin-top: 12px !important;
+  margin-bottom: 24px !important;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
 /* ==========================================
    CARD DICA
 ========================================== */
@@ -107,40 +187,24 @@
   gap: 0;
 }
 
-/* Separador entre blocos */
-.card-formulario hr {
-  display: block !important;
-  margin: 25px 0;
-  border: 0;
-  border-top: 1px solid var(--border-light);
-}
-
 /* ==========================================
    BLOCOS (Dados de Acesso / Senha / Email)
 ========================================== */
 .bloco-formulario {
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  padding: 20px 0;
+  padding: 28px 0;
+  border-top: 1px solid var(--border-light);
 }
 
 /* Primeiro bloco sem padding top */
 .bloco-formulario:first-child {
+  border-top: none;
   padding-top: 0;
 }
 
-.bloco-formulario h2,
-#blocoSenha h2,
 #blocoEmail h2 {
-  margin: 0 0 20px 0;
-  color: var(--orange-dark);
-  font-size: 18px;
-  font-weight: 600;
-}
-
-#blocoEmail h2 {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
 /* ==========================================
@@ -184,60 +248,66 @@
   background: var(--surface-alt);
   box-sizing: border-box;
   width: 100%;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 
-.campo input:focus,
-.campo select:focus {
-  outline: none;
-  border-color: var(--orange-dark);
-  background: var(--surface);
-}
+  .campo input:focus,
+  .campo select:focus {
+    outline: none;
+    border-color: var(--orange-dark);
+    background: var(--surface);
+  }
 
 .campo input[readonly] {
-  background: var(--surface-alt);
-  color: var(--text-disabled);
-  cursor: not-allowed;
-  border-color: var(--border-light);
+    background: #f5f5f5;
+    color: #666;
+    font-weight: 600;
+    cursor: default;
+    padding: 10px 12px !important;
 }
-
-
-
 /* ==========================================
    AÇÕES
 ========================================== */
+
 .acoes {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 20px;
+}
+
+.content button.btn-alterar,
+.content .btn-limpar {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 120px;
+  height: 42px;
+  padding: 0 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 .content button.btn-alterar {
-  padding: 16px 20px;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: none !important;
   background: var(--btn-warning);
   color: var(--text-white);
-  transition: var(--transition);
 }
 
 .content button.btn-limpar {
-  padding: 16px 20px;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: none !important;
   background: var(--btn-secondary);
   color: var(--text-white);
-  transition: var(--transition);
+}
+
+.content button.btn-alterar:hover,
+.content button.btn-limpar:hover {
+  opacity: 0.9;
 }
 
 /* ==========================================

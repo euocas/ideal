@@ -17,36 +17,96 @@ class CredenciaisController
 
     public function index()
     {
+
+        $login = '';
+        $tipoAlteracao = 'senha';
+        $usuario = null;
+
+        // Se for administrador, permite buscar qualquer usuário
+        if ($_SESSION['usuario']['perfil'] === 'Administrador') {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $login = trim($_POST['login'] ?? '');
+                $tipoAlteracao = $_POST['tipoAlteracao'] ?? 'senha';
+
+                if (!empty($login)) {
+                    $usuario = $this->model->buscarUsuario($login);
+                    if (!$usuario) {
+                        $_SESSION['mensagem_erro'] = 'Usuário não encontrado.';
+                    }
+                } else {
+                    $_SESSION['mensagem_erro'] = 'Informe um usuário para realizar a busca.';
+                }
+            }
+
+        } else {
+            // Usuário comum
+            $credencial = $this->model->findById($_SESSION['usuario']['idUsuario']);
+            if ($credencial) {
+                $usuario = [
+                    'id' => $credencial->getId(),
+                    'nome' => $credencial->getNome(),
+                    'email' => $credencial->getEmail()
+                ];
+                $login = $credencial->getNome();
+            }
+        }
+
         require '../app/Views/credenciais/index.php';
+
     }
-
-    public function buscar()
-    {
-        $login = $_POST['login'] ?? '';
-        $usuario = $this->model->buscarUsuario($login);
-
-        // Define o cabeçalho como JSON para o JavaScript entender corretamente
-        header('Content-Type: application/json');
-        echo json_encode($usuario);
-        exit;
-    }
-
     public function alterar()
     {
-        if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
-        $idUsuario = $_POST['idUsuario'] ?? null;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $isAdministrador = ($_SESSION['usuario']['perfil'] === 'Administrador');
+
+        // $idUsuario = $_POST['idUsuario'] ?? null;
+        if ($_SESSION['usuario']['perfil'] === 'Administrador') {
+            $idUsuario = $_POST['idUsuario'] ?? null;
+        } else {
+            $idUsuario = $_SESSION['usuario']['idUsuario'];
+        }
+
+
         $tipoAlteracao = $_POST['tipoAlteracao'] ?? '';
+
+
+        if (!$isAdministrador) {
+
+            $temSenha = !empty($_POST['novaSenha']);
+            $temEmail = !empty($_POST['novoEmail']);
+
+            if ($temSenha && $temEmail) {
+                $tipoAlteracao = 'ambos';
+            } elseif ($temSenha) {
+                $tipoAlteracao = 'senha';
+            } elseif ($temEmail) {
+                $tipoAlteracao = 'email';
+            }
+        }
+        // NOVA VALIDAÇÃO
+        if (empty($tipoAlteracao)) {
+            $_SESSION['mensagem_erro'] = 'Informe pelo menos uma alteração para continuar.';
+            header('Location: /ideal/public/index.php?url=credenciais');
+            exit;
+        }
 
         // Validação básica
         if (!$idUsuario) {
-            $_SESSION['mensagem_erro'] = "Selecione um usuário primeiro clicando em 'Buscar'.";
+            if ($_SESSION['usuario']['perfil'] === 'Administrador') {
+                $_SESSION['mensagem_erro'] = "Selecione um usuário primeiro clicando em 'Buscar'.";
+            } else {
+                $_SESSION['mensagem_erro'] = "Não foi possível identificar o usuário logado.";
+            }
+
             header('Location: /ideal/public/index.php?url=credenciais');
             exit;
         }
 
         $this->model->setId((int) $idUsuario);
-        
+
         $sucesso = false;
         $erro = false;
         $msgErro = "";
