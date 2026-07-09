@@ -94,7 +94,7 @@
   display: flex;
   align-items: flex-start;
   gap: 16px;
- margin-bottom: 18px;
+  margin-bottom: 18px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--border-light);
 }
@@ -232,13 +232,13 @@
   gap: 20px;
 }
 .dica-box {
-   padding: 18px 20px;
-    margin-right: 15px;
+  padding: 18px 20px;
+  margin-right: 15px;
 }
-.obra-header h2 i{
+.obra-header h2 i {
   color: var(--orange);
 }
-.obra-header p{
+.obra-header p {
   color: var(--orange);
 }
 .funcionario-principal {
@@ -331,8 +331,7 @@
   padding: 14px 18px;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  background:#f7f8fa;
-
+  background: #f7f8fa;
 }
 
 .funcionario-conteudo {
@@ -1014,12 +1013,12 @@
 /* ==========================================
    GUIA - OBRA
 ========================================== */
-.obra-topo{
-    background: #fff;
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 24px;
+.obra-topo {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
 }
 .obra-card {
   display: flex;
@@ -1027,31 +1026,31 @@
   gap: 24px;
   margin-bottom: 30px;
 }
-.obra-header{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-    margin-bottom:8px;
+.obra-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
 }
-.obra-header h2{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-size:2rem;
-    font-weight:700;
-    color:var(--text-dark);
+.obra-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
 }
-.obra-header h2 i{
-    font-size:1.7rem;
-    color:var(--orange);
+.obra-header h2 i {
+  font-size: 1.7rem;
+  color: var(--orange);
 }
-.obra-header p{
-    font-size:1rem;
-    color:var(--text-light);
-    margin-left:46px;
+.obra-header p {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-left: 46px;
 }
-.obra-card .card-titulo{
-    margin-bottom:2px;
+.obra-card .card-titulo {
+  margin-bottom: 2px;
 }
 /* Busca */
 .obra-busca {
@@ -1059,18 +1058,18 @@
   grid-template-columns: 55% 45%;
   gap: 24px;
 }
-.obra-info{
-    display:block;
-    margin-top:10px;
+.obra-info {
+  display: block;
+  margin-top: 10px;
 }
-.obra-dados{
-    display:flex;
-    flex-direction:column;
-    width:100%;
-    padding:28px 34px;
-    border:1px solid var(--border-light);
-    border-radius:12px;
-    background:#fff;
+.obra-dados {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 28px 34px;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  background: #fff;
 }
 /* formulário para cadastro de gastos - lado direito  */
 .obra-formulario {
@@ -1115,95 +1114,93 @@
   resize: vertical;
 }
 
-.obra-cabecalho{
-    display:flex;
-    align-items:center;
-    gap:22px;
+.obra-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 22px;
 }
 
-.obra-titulo{
-    display:flex;
-    align-items:center;
-    gap:18px;
+.obra-titulo {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
-.obra-avatar{
-    width:90px;
-    height:90px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-shrink:0;
-    border-radius:50%;
-    background:#eef5ff;
-}
-
-.obra-avatar i{
-    font-size:42px;
-    color:var(--orange);
+.obra-avatar {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #eef5ff;
 }
 
-.obra-informacoes{
-    display:grid;
-    grid-template-columns:repeat(5,max-content);
-    justify-content:space-between;
-    align-items:flex-start;
-    margin-top:28px;
-}
-.obra-item{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
-}
-.obra-item i{
-
-    font-size:15px;
-
-    color:#6b7280;
-
-    margin-top:2px;
-
-}
-.obra-item div{
-    display:flex;
-    flex-direction:column;
+.obra-avatar i {
+  font-size: 42px;
+  color: var(--orange);
 }
 
-.obra-item span:first-child{
-    font-size:14px;
-    color:#666;
+.obra-informacoes {
+  display: grid;
+  grid-template-columns: repeat(5, max-content);
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 28px;
+}
+.obra-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.obra-item i {
+  font-size: 15px;
+
+  color: #6b7280;
+
+  margin-top: 2px;
+}
+.obra-item div {
+  display: flex;
+  flex-direction: column;
 }
 
-.obra-item span:last-child{
-    font-size:16px;
-    font-weight:600;
-}
-.obra-label{
-    font-size:13px;
-    color:#777;
-    margin-bottom:2px;
+.obra-item span:first-child {
+  font-size: 14px;
+  color: #666;
 }
 
-.obra-valor{
-    font-size:16px;
-    font-weight:700;
-    color:var(--text);
+.obra-item span:last-child {
+  font-size: 16px;
+  font-weight: 600;
+}
+.obra-label {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 2px;
+}
+
+.obra-valor {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
 }
 .obra-resumo {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border: 1px solid var(--border-light);
   border-radius: 12px;
-  background:#f7f8fa;
+  background: #f7f8fa;
   overflow: hidden;
   margin-top: 10px;
 }
-.obra-nome{
-    margin:0;
+.obra-nome {
+  margin: 0;
 
-    font-size:30px;
-    font-weight:700;
+  font-size: 30px;
+  font-weight: 700;
 
-    color:var(--text);
+  color: var(--text);
 }
 .resumo-item {
   flex: 1;
@@ -1242,129 +1239,144 @@
   gap: 15px;
   margin-top: 25px;
 }
+/* .obra-lancamentos {
+  display: grid;
+  grid-template-columns: 60% 39.6%;
+  gap: 10px;
+  align-items: stretch;
+} */
+
 .obra-lancamentos{
     display:grid;
-    grid-template-columns: 62% 38%;
-    gap:2px;
-    margin-top:20px;
+    grid-template-columns: minmax(0,2fr) minmax(380px,1fr);
+    gap:24px;
+    align-items:start;
 }
+
 .obra-esquerda,
+.obra-direita {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .obra-direita{
     display:flex;
-    flex-direction:column;
 }
-.formulario-grid{
-    display:grid;
-    gap:18px;
 
+.obra-direita .obra-historico{
+    flex:1;
+}
+.formulario-grid {
+  display: grid;
+  gap: 18px;
 }
 
 /* ==========================================
    HISTÓRICO - OBRA
 ========================================== */
-.obra-historico{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background: var(--white);
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
-    padding: 20px;
-      background: #fff;
+.obra-historico {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 20px;
+  background: #fff;
 }
-.historico-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.historico-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.historico-header h3{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.1rem;
-    color: var(--orange);
+.historico-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  color: var(--orange);
 }
-.btn-historico{
-    padding: 8px 16px;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    background: #fff;
-    cursor: pointer;
-    transition: .2s;
+.btn-historico {
+  padding: 8px 16px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.2s;
 }
-.btn-historico:hover{
-    background: #f7f7f7;
+.btn-historico:hover {
+  background: #f7f7f7;
 }
-.tabela-historico{
-    width: 100%;
-    border-collapse: collapse;
+.tabela-historico {
+  width: 100%;
+  border-collapse: collapse;
 }
-.tabela-historico thead{
-    background: #f8f9fa;
+.tabela-historico thead {
+  background: #f8f9fa;
 }
-.tabela-historico th{
-    padding: 14px;
-    text-align: left;
-    font-size: .9rem;
-    color: var(--text-light);
+.tabela-historico th {
+  padding: 14px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--text-light);
 }
-.tabela-historico td{
-    padding: 16px 14px;
-    border-top: 1px solid var(--border-light);
-    vertical-align: middle;
+.tabela-historico td {
+  padding: 16px 14px;
+  border-top: 1px solid var(--border-light);
+  vertical-align: middle;
 }
-.tabela-historico tbody tr:hover{
-    background: #fafafa;
+.tabela-historico tbody tr:hover {
+  background: #fafafa;
 }
-.badge{
-    display: inline-block;
-    padding: 5px 12px;
-    border-radius: 8px;
-    font-size: .8rem;
-    font-weight: 600;
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
-.material{
-    background: #fff5d8;
-    color: #8a6d00;
-}
-
-.alimentacao{
-    background: #dff7df;
-    color: #19763a;
+.material {
+  background: #fff5d8;
+  color: #8a6d00;
 }
 
-.transporte{
-    background: #dcecff;
-    color: #2755a5;
+.alimentacao {
+  background: #dff7df;
+  color: #19763a;
 }
 
-.locacao{
-    background: #f7dfff;
-    color: #7c2fa5;
+.transporte {
+  background: #dcecff;
+  color: #2755a5;
 }
-.valor{
-    font-weight: 700;
-    color: var(--orange);
+
+.locacao {
+  background: #f7dfff;
+  color: #7c2fa5;
 }
-.btn-icon{
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    background: #fff;
-    cursor: pointer;
+.valor {
+  font-weight: 700;
+  color: var(--orange);
 }
-.historico-footer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 18px;
-    border-top: 1px solid var(--border-light);
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
 }
-.total-periodo{
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--orange);
+.historico-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-light);
+}
+.total-periodo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--orange);
 }
 /* ==========================================
    RESPONSIVO

@@ -688,79 +688,42 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
 
                     </div>
 
-    <!-- Resumo Financeiro -->
-                <div class="obra-resumo">
+                    <!-- Resumo Financeiro -->
+                    <div class="obra-resumo">
 
-                    <div class="resumo-item">
-                        <span class="resumo-titulo">
-                            Valor Contratado
-                        </span>
+                        <div class="resumo-item">
+                            <span class="resumo-titulo">
+                                Valor Contratado
+                            </span>
 
-                        <strong class="valor-contrato">
-                            R$ 285.000,00
-                        </strong>
-                    </div>
+                            <strong class="valor-contrato">
+                                R$ 285.000,00
+                            </strong>
+                        </div>
 
-                    <div class="resumo-item">
-                        <span class="resumo-titulo">
-                            Gasto Atual
-                        </span>
+                        <div class="resumo-item">
+                            <span class="resumo-titulo">
+                                Gasto Atual
+                            </span>
 
-                        <strong class="valor-gasto">
-                            R$ 124.500,00
-                        </strong>
-                    </div>
+                            <strong class="valor-gasto">
+                                R$ 124.500,00
+                            </strong>
+                        </div>
 
-                    <div class="resumo-item">
-                        <span class="resumo-titulo">
-                            Saldo Disponível
-                        </span>
+                        <div class="resumo-item">
+                            <span class="resumo-titulo">
+                                Saldo Disponível
+                            </span>
 
-                        <strong class="valor-saldo">
-                            R$ 160.500,00
-                        </strong>
+                            <strong class="valor-saldo">
+                                R$ 160.500,00
+                            </strong>
+                        </div>
+
                     </div>
 
                 </div>
-
-                </div>
-
-                <!-- Resumo Financeiro -->
-                <!-- <div class="obra-resumo">
-
-                    <div class="resumo-item">
-                        <span class="resumo-titulo">
-                            Valor Contratado
-                        </span>
-
-                        <strong class="valor-contrato">
-                            R$ 285.000,00
-                        </strong>
-                    </div>
-
-                    <div class="resumo-item">
-                        <span class="resumo-titulo">
-                            Gasto Atual
-                        </span>
-
-                        <strong class="valor-gasto">
-                            R$ 124.500,00
-                        </strong>
-                    </div>
-
-                    <div class="resumo-item">
-                        <span class="resumo-titulo">
-                            Saldo Disponível
-                        </span>
-
-                        <strong class="valor-saldo">
-                            R$ 160.500,00
-                        </strong>
-                    </div>
-
-                </div> -->
-
-
                 <div class="obra-lancamentos">
                     <div class="obra-esquerda">
                         <div class="obra-formulario">
@@ -793,13 +756,7 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                         </select>
                                     </div>
 
-                                    <!-- Descrição -->
-                                    <div class="form-group span-2">
-                                        <label>Descrição <span class="obrigatorio">*</span></label>
 
-                                        <input type="text" name="descricao" maxlength="100"
-                                            placeholder="Descreva o gasto realizado" required>
-                                    </div>
 
                                     <!-- Valor -->
                                     <div class="form-group">
@@ -851,8 +808,17 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                         <label>Documento</label>
 
                                         <input type="text" name="documento" maxlength="50"
-                                            placeholder="Número da nota fiscal, recibo ou documento">
+                                            placeholder="Ex.: NF-e 125487 ou Recibo 4589">
                                     </div>
+
+                                    <!-- Descrição -->
+                                    <div class="form-group span-2">
+                                        <label>Descrição <span class="obrigatorio">*</span></label>
+
+                                        <input type="text" name="descricao" maxlength="100"
+                                            placeholder="Ex.: Compra de cabos elétricos" required>
+                                    </div>
+
                                 </div>
                                 <!-- Observação -->
                                 <div class="form-group span-2">
@@ -863,11 +829,7 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
 
 
 
-                                <!-- Histórico -->
 
-                                <div class="obra-historico">
-
-                                </div>
 
                             </form>
 
@@ -875,109 +837,103 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
 
                     </div>
                     <div class="obra-direita">
+
                         <div class="obra-historico">
-                            <div class="obra-historico">
-                                <div class="historico-header">
-                                    <h3><i class="fa-solid fa-list"> </i> Últimos Lançamentos da Obra</h3>
 
-                                    <a href="/ideal/public/index.php?url=financeiros&aba=obra&acao=historico"
-                                        class="btn-historico">
-                                        Ver Todos
-                                    </a>
-                                </div>
-                                <div class="historico-tabela">
-                                    <div class="historico-tabela">
+                            <div class="historico-header">
+                                <h3>
+                                    <i class="fa-solid fa-list"></i>
+                                    Últimos Lançamentos da Obra
+                                </h3>
 
-                                        <table class="tabela-historico">
-
-                                            <thead>
-                                                <tr>
-                                                    <th>Data</th>
-                                                    <th>Descrição</th>
-                                                    <th>Categoria</th>
-                                                    <th>Valor</th>
-                                                    <th>Ações</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-
-                                                <tr>
-                                                    <td>05/07/2026</td>
-                                                    <td>Material Elétrico</td>
-
-                                                    <td>
-                                                        <span class="badge material">
-                                                            Material
-                                                        </span>
-                                                    </td>
-
-                                                    <td class="valor">
-                                                        R$ 1.250,00
-                                                    </td>
-
-                                                    <td class="acoes">
-                                                        <button class="btn-icon">
-                                                            <i class="fa-solid fa-eye"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>04/07/2026</td>
-                                                    <td>Almoço Equipe</td>
-
-                                                    <td>
-                                                        <span class="badge alimentacao">
-                                                            Alimentação
-                                                        </span>
-                                                    </td>
-
-                                                    <td class="valor">
-                                                        R$ 185,00
-                                                    </td>
-
-                                                    <td class="acoes">
-                                                        <button class="btn-icon">
-                                                            <i class="fa-solid fa-eye"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-
-                                                <!-- demais registros -->
-
-                                            </tbody>
-
-                                        </table>
-
-                                    </div>
-                                </div>
-                                <div class="historico-footer">
-                                    <div>
-
-                                        <span>Total de Lançamentos</span>
-
-                                        <strong>5</strong>
-
-                                    </div>
-
-                                    <div>
-
-                                        <span>Total do Período</span>
-
-                                        <strong class="total-periodo">
-
-                                            R$ 3.075,00
-
-                                        </strong>
-
-                                    </div>
-
-                                </div>
+                                <a href="/ideal/public/index.php?url=financeiros&aba=obra&acao=historico"
+                                    class="btn-historico">
+                                    Ver Todos
+                                </a>
                             </div>
 
+                            <div class="historico-tabela">
+                                <table class="tabela-historico">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Descrição</th>
+                                            <th>Categoria</th>
+                                            <th>Valor</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td>05/07/2026</td>
+                                            <td>Material Elétrico</td>
+
+                                            <td>
+                                                <span class="badge material">
+                                                    Material
+                                                </span>
+                                            </td>
+
+                                            <td class="valor">
+                                                R$ 1.250,00
+                                            </td>
+
+                                            <td class="acoes">
+                                                <button class="btn-icon">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>04/07/2026</td>
+                                            <td>Almoço Equipe</td>
+
+                                            <td>
+                                                <span class="badge alimentacao">
+                                                    Alimentação
+                                                </span>
+                                            </td>
+
+                                            <td class="valor">
+                                                R$ 185,00
+                                            </td>
+
+                                            <td class="acoes">
+                                                <button class="btn-icon">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Demais registros -->
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                            <div class="historico-footer">
+
+                                <div>
+                                    <span>Total de Lançamentos</span>
+                                    <strong>5</strong>
+                                </div>
+
+                                <div>
+                                    <span>Total do Período</span>
+                                    <strong class="total-periodo">
+                                        R$ 3.075,00
+                                    </strong>
+                                </div>
+
+                            </div>
 
                         </div>
+
                     </div>
                 </div>
 
