@@ -537,79 +537,481 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                 <?php endif; ?>
 
             <?php elseif ($aba === 'obra'): ?>
-                <section class="card">
-                    <div class="card-titulo">
-                        <i class="fa-solid fa-hard-hat icone-aba"></i>
-                        <div>
-                            <h2>Financeiro da Obra</h2>
-                            <p>Registre gastos, categorias e pagamentos vinculados a obras.</p>
+                <div class="obra-topo">
+
+                    <div class="obra-card">
+
+                        <!-- ==========================
+         CABEÇALHO
+    =========================== -->
+                        <div class="card-titulo">
+                            <i class="fa-solid fa-hard-hat icone-aba"></i>
+                            <div>
+                                <h2>Financeiro da Obra</h2>
+                                <p>Registre categorias, gastos e pagamentos vinculados às obras.</p>
+                            </div>
                         </div>
+
+                        <!-- ==========================
+                                    BUSCA
+                            =========================== -->
+
+                        <div class="obra-busca">
+
+                            <div class="busca-box">
+
+                                <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                                    <div class="alert alert-error">
+                                        <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
+                                    </div>
+                                    <?php unset($_SESSION['mensagem_erro']); ?>
+                                <?php endif; ?>
+
+                                <form class="form-busca" action="/ideal/public/index.php?url=financeiros&aba=obra"
+                                    method="POST">
+
+                                    <div class="input-group">
+                                        <label>Digite o código ou nome da obra</label>
+
+                                        <input type="text" name="buscaObra"
+                                            placeholder="Ex.: 15 ou Reforma Hospital Municipal" maxlength="100" required>
+                                    </div>
+
+                                    <button type="submit" class="btn-buscar">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        LOCALIZAR
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                            <div class="dica-box">
+
+                                <h3>
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    DICA
+                                </h3>
+
+                                <p>
+                                    Localize a obra pelo <strong>código</strong> ou
+                                    <strong>nome</strong>. Após selecionar uma obra,
+                                    será possível registrar gastos, consultar lançamentos
+                                    e acompanhar o resumo financeiro.
+                                </p>
+
+                            </div>
+
+                        </div>
+
                     </div>
-                    <form id="form-obra" action="<?= $actionObra ?>" method="POST">
-                        <div class="grid-form">
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-building"></i> ID da Obra</label>
-                                <input type="number" name="idObra"
-                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getIdObra() : '') ?>"
-                                    placeholder="Ex: 1" required min="1">
-                            </div>
-                            <div class="form-group span-2">
-                                <label><i class="fa-solid fa-file-lines"></i> Descrição <span
-                                        class="obrigatorio">*</span></label>
-                                <input type="text" name="descricao" maxlength="100"
-                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDescricao() : '') ?>"
-                                    placeholder="Descreva o gasto" required>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-tags"></i> Categoria</label>
-                                <select name="categoria">
-                                    <option value="">Selecione</option>
-                                    <?php
-                                    $categorias = ['Material', 'Mão de Obra', 'Equipamento', 'Transporte', 'Serviço Terceirizado', 'Outros'];
-                                    $catAtual = $isEditObra ? $financeiroObra->getCategoria() : '';
-                                    foreach ($categorias as $c): ?>
-                                        <option value="<?= $c ?>" <?= $catAtual === $c ? 'selected' : '' ?>><?= $c ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-money-bill-wave"></i> Valor <span
-                                        class="obrigatorio">*</span></label>
-                                <div class="input-prefixo">
-                                    <span class="prefixo">R$</span>
-                                    <input type="number" name="valor" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getValor() : '') ?>"
-                                        placeholder="0,00" required>
+
+                    <!-- ==========================
+                              DADOS DA OBRA
+                    =========================== -->
+                    <div class="obra-info">
+
+                        <!-- Dados -->
+                        <div class="obra-dados">
+
+                            <!-- Cabeçalho -->
+                            <div class="obra-cabecalho">
+
+                                <div class="obra-avatar">
+                                    <i class="fa-solid fa-hard-hat"></i>
+                                </div>
+
+                                <div class="obra-titulo">
+                                    <h3 class="obra-nome">Reforma Hospital Municipal</h3>
+                                    <span class="status andamento">Em andamento</span>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-calendar-day"></i> Data do Gasto <span
-                                        class="obrigatorio">*</span></label>
-                                <input type="date" name="dataGasto"
-                                    value="<?= htmlspecialchars($isEditObra ? $financeiroObra->getDataGasto() : '') ?>"
-                                    required>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-credit-card"></i> Forma de Pagamento</label>
-                                <select name="formaPagamento">
-                                    <option value="">Selecione</option>
-                                    <?php
-                                    $formas = ['Dinheiro', 'PIX', 'Cartão de Débito', 'Cartão de Crédito', 'Boleto', 'Transferência'];
-                                    $formaAtual = $isEditObra ? $financeiroObra->getFormaPagamento() : '';
-                                    foreach ($formas as $f): ?>
-                                        <option value="<?= $f ?>" <?= $formaAtual === $f ? 'selected' : '' ?>><?= $f ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group span-3">
-                                <label><i class="fa-solid fa-note-sticky"></i> Observação</label>
-                                <textarea name="observacao" maxlength="200"
-                                    placeholder="Informações adicionais sobre o gasto..."><?= htmlspecialchars($isEditObra ? $financeiroObra->getObservacao() : '') ?></textarea>
+
+                            <!-- Informações -->
+                            <div class="obra-informacoes">
+
+                                <div class="obra-item">
+                                    <i class="fa-solid fa-hashtag"></i>
+
+                                    <div>
+                                        <span class="obra-label">Código</span>
+                                        <span class="obra-valor">18</span>
+                                    </div>
+                                </div>
+
+                                <div class="obra-item">
+                                    <i class="fa-solid fa-building"></i>
+
+                                    <div>
+                                        <span class="obra-label">Cliente</span>
+                                        <span class="obra-valor">
+                                            Prefeitura de Santos
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="obra-item">
+                                    <i class="fa-solid fa-user"></i>
+
+                                    <div>
+                                        <span class="obra-label">Responsável</span>
+                                        <span class="obra-valor">
+                                            João Carlos
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="obra-item">
+                                    <i class="fa-solid fa-calendar-day"></i>
+
+                                    <div>
+                                        <span class="obra-label">Data de Início</span>
+                                        <span class="obra-valor">
+                                            10/03/2026
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="obra-item">
+                                    <i class="fa-solid fa-calendar-check"></i>
+
+                                    <div>
+                                        <span class="obra-label">Previsão de Término</span>
+                                        <span class="obra-valor">
+                                            15/12/2026
+                                        </span>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </form>
-                </section>
-                <div class="acoes">
+
+                    </div>
+
+    <!-- Resumo Financeiro -->
+                <div class="obra-resumo">
+
+                    <div class="resumo-item">
+                        <span class="resumo-titulo">
+                            Valor Contratado
+                        </span>
+
+                        <strong class="valor-contrato">
+                            R$ 285.000,00
+                        </strong>
+                    </div>
+
+                    <div class="resumo-item">
+                        <span class="resumo-titulo">
+                            Gasto Atual
+                        </span>
+
+                        <strong class="valor-gasto">
+                            R$ 124.500,00
+                        </strong>
+                    </div>
+
+                    <div class="resumo-item">
+                        <span class="resumo-titulo">
+                            Saldo Disponível
+                        </span>
+
+                        <strong class="valor-saldo">
+                            R$ 160.500,00
+                        </strong>
+                    </div>
+
+                </div>
+
+                </div>
+
+                <!-- Resumo Financeiro -->
+                <!-- <div class="obra-resumo">
+
+                    <div class="resumo-item">
+                        <span class="resumo-titulo">
+                            Valor Contratado
+                        </span>
+
+                        <strong class="valor-contrato">
+                            R$ 285.000,00
+                        </strong>
+                    </div>
+
+                    <div class="resumo-item">
+                        <span class="resumo-titulo">
+                            Gasto Atual
+                        </span>
+
+                        <strong class="valor-gasto">
+                            R$ 124.500,00
+                        </strong>
+                    </div>
+
+                    <div class="resumo-item">
+                        <span class="resumo-titulo">
+                            Saldo Disponível
+                        </span>
+
+                        <strong class="valor-saldo">
+                            R$ 160.500,00
+                        </strong>
+                    </div>
+
+                </div> -->
+
+
+                <div class="obra-lancamentos">
+                    <div class="obra-esquerda">
+                        <div class="obra-formulario">
+
+                            <!-- Cabeçalho -->
+                            <div class="formulario-header">
+                                <h3>
+                                    <i class="fa-solid fa-paperclip"></i>
+                                    Registrar Gasto
+                                </h3>
+                            </div>
+
+                            <form id="form-obra" action="<?= $actionObra ?>" method="POST" enctype="multipart/form-data">
+
+                                <div class="formulario-grid">
+
+                                    <!-- Categoria -->
+                                    <div class="form-group">
+                                        <label>Categoria <span class="obrigatorio">*</span></label>
+
+                                        <select name="categoria" required>
+                                            <option value="">Selecione uma categoria</option>
+                                            <option>Material</option>
+                                            <option>Mão de Obra</option>
+                                            <option>Equipamento</option>
+                                            <option>Transporte</option>
+                                            <option>Alimentação</option>
+                                            <option>Locação</option>
+                                            <option>Outros</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Descrição -->
+                                    <div class="form-group span-2">
+                                        <label>Descrição <span class="obrigatorio">*</span></label>
+
+                                        <input type="text" name="descricao" maxlength="100"
+                                            placeholder="Descreva o gasto realizado" required>
+                                    </div>
+
+                                    <!-- Valor -->
+                                    <div class="form-group">
+                                        <label>Valor <span class="obrigatorio">*</span></label>
+
+                                        <div class="input-prefixo">
+                                            <span class="prefixo">R$</span>
+
+                                            <input type="number" name="valor" step="0.01" min="0" placeholder="0,00"
+                                                required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Data -->
+                                    <div class="form-group">
+                                        <label>Data do Gasto <span class="obrigatorio">*</span></label>
+
+                                        <input type="date" name="dataGasto" required>
+                                    </div>
+
+                                    <!-- Forma de Pagamento -->
+                                    <div class="form-group">
+                                        <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
+
+                                        <select name="formaPagamento" required>
+
+                                            <option value="">Selecione</option>
+
+                                            <option>Dinheiro</option>
+                                            <option>PIX</option>
+                                            <option>Cartão de Débito</option>
+                                            <option>Cartão de Crédito</option>
+                                            <option>Boleto</option>
+                                            <option>Transferência</option>
+
+                                        </select>
+                                    </div>
+
+                                    <!-- Fornecedor -->
+                                    <div class="form-group">
+                                        <label>Fornecedor</label>
+
+                                        <input type="text" name="fornecedor" maxlength="100"
+                                            placeholder="Nome do fornecedor (opcional)">
+                                    </div>
+
+                                    <!-- Documento -->
+                                    <div class="form-group">
+                                        <label>Documento</label>
+
+                                        <input type="text" name="documento" maxlength="50"
+                                            placeholder="Número da nota fiscal, recibo ou documento">
+                                    </div>
+                                </div>
+                                <!-- Observação -->
+                                <div class="form-group span-2">
+                                    <label>Observação</label>
+                                    <textarea name="observacao" rows="4" maxlength="500"
+                                        placeholder="Informações adicionais sobre o gasto (opcional)"></textarea>
+                                </div>
+
+
+
+                                <!-- Histórico -->
+
+                                <div class="obra-historico">
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <div class="obra-direita">
+                        <div class="obra-historico">
+                            <div class="obra-historico">
+                                <div class="historico-header">
+                                    <h3><i class="fa-solid fa-list"> </i> Últimos Lançamentos da Obra</h3>
+
+                                    <a href="/ideal/public/index.php?url=financeiros&aba=obra&acao=historico"
+                                        class="btn-historico">
+                                        Ver Todos
+                                    </a>
+                                </div>
+                                <div class="historico-tabela">
+                                    <div class="historico-tabela">
+
+                                        <table class="tabela-historico">
+
+                                            <thead>
+                                                <tr>
+                                                    <th>Data</th>
+                                                    <th>Descrição</th>
+                                                    <th>Categoria</th>
+                                                    <th>Valor</th>
+                                                    <th>Ações</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                                <tr>
+                                                    <td>05/07/2026</td>
+                                                    <td>Material Elétrico</td>
+
+                                                    <td>
+                                                        <span class="badge material">
+                                                            Material
+                                                        </span>
+                                                    </td>
+
+                                                    <td class="valor">
+                                                        R$ 1.250,00
+                                                    </td>
+
+                                                    <td class="acoes">
+                                                        <button class="btn-icon">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>04/07/2026</td>
+                                                    <td>Almoço Equipe</td>
+
+                                                    <td>
+                                                        <span class="badge alimentacao">
+                                                            Alimentação
+                                                        </span>
+                                                    </td>
+
+                                                    <td class="valor">
+                                                        R$ 185,00
+                                                    </td>
+
+                                                    <td class="acoes">
+                                                        <button class="btn-icon">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- demais registros -->
+
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <div class="historico-footer">
+                                    <div>
+
+                                        <span>Total de Lançamentos</span>
+
+                                        <strong>5</strong>
+
+                                    </div>
+
+                                    <div>
+
+                                        <span>Total do Período</span>
+
+                                        <strong class="total-periodo">
+
+                                            R$ 3.075,00
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Botões -->
+                <div class="formulario-acoes">
+
+                    <a href="/ideal/public/index.php?url=financeiros&aba=obra" class="btn novo"><i
+                            class="bi bi-plus-lg"></i> Cadastrar</a>
+                    <?php if (!$isEditObra): ?>
+                        <button type="submit" form="form-obra" class="btn salvar"><i class="bi bi-floppy"></i>
+                            Salvar</button>
+                    <?php else: ?>
+                        <button type="submit" form="form-obra" class="btn alterar"><i class="bi bi-pencil-square"></i>
+                            Alterar</button>
+                        <a href="/ideal/public/index.php?url=financeiros/deleteObra&id=<?= $financeiroObra->getIdFinanceiroObra() ?>"
+                            class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i
+                                class="bi bi-trash"></i> Excluir</a>
+                    <?php endif; ?>
+                    <button type="reset" form="form-obra" class="btn limpar"><i class="bi bi-eraser"></i>
+                        Limpar</button>
+
+                </div>
+        </div>
+
+
+
+        </div>
+
+
+
+
+
+        <!-- <div class="acoes">
                     <a href="/ideal/public/index.php?url=financeiros&aba=obra" class="btn novo"><i
                             class="bi bi-plus-lg"></i> Cadastrar</a>
                     <?php if (!$isEditObra): ?>
@@ -622,80 +1024,80 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                 class="bi bi-trash"></i> Excluir</a>
                     <?php endif; ?>
                     <button type="reset" form="form-obra" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
-                </div>
+                </div> -->
 
-            <?php elseif ($aba === 'automovel'): ?>
-                <section class="card">
-                    <div class="card-titulo">
-                        <i class="fa-solid fa-car icone-aba"></i>
-                        <div>
-                            <h2>Financeiro do Automóvel</h2>
-                            <p>Registre gastos com combustível, manutenção e IPVA.</p>
+    <?php elseif ($aba === 'automovel'): ?>
+        <section class="card">
+            <div class="card-titulo">
+                <i class="fa-solid fa-car icone-aba"></i>
+                <div>
+                    <h2>Financeiro do Automóvel</h2>
+                    <p>Registre gastos com combustível, manutenção e IPVA.</p>
+                </div>
+            </div>
+            <form id="form-automovel" action="<?= $actionAutomovel ?>" method="POST">
+                <div class="grid-form">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-car-side"></i> ID do Veículo</label>
+                        <input type="number" name="idVeiculo"
+                            value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIdVeiculo() : '') ?>"
+                            placeholder="Ex: 1" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-gas-pump"></i> Combustível</label>
+                        <div class="input-prefixo">
+                            <span class="prefixo">R$</span>
+                            <input type="number" name="combustivel" step="0.01" min="0"
+                                value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getCombustivel() : '') ?>"
+                                placeholder="0,00">
                         </div>
                     </div>
-                    <form id="form-automovel" action="<?= $actionAutomovel ?>" method="POST">
-                        <div class="grid-form">
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-car-side"></i> ID do Veículo</label>
-                                <input type="number" name="idVeiculo"
-                                    value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIdVeiculo() : '') ?>"
-                                    placeholder="Ex: 1" required min="1">
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-gas-pump"></i> Combustível</label>
-                                <div class="input-prefixo">
-                                    <span class="prefixo">R$</span>
-                                    <input type="number" name="combustivel" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getCombustivel() : '') ?>"
-                                        placeholder="0,00">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-screwdriver-wrench"></i> Manutenção</label>
-                                <div class="input-prefixo">
-                                    <span class="prefixo">R$</span>
-                                    <input type="number" name="manutencao" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getManutencao() : '') ?>"
-                                        placeholder="0,00">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-file-invoice-dollar"></i> IPVA</label>
-                                <div class="input-prefixo">
-                                    <span class="prefixo">R$</span>
-                                    <input type="number" name="ipva" step="0.01" min="0"
-                                        value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIpva() : '') ?>"
-                                        placeholder="0,00">
-                                </div>
-                            </div>
-                            <div class="form-group span-3">
-                                <div class="resumo-total">
-                                    <i class="fa-solid fa-calculator"></i>
-                                    <span>Total estimado: </span>
-                                    <strong id="total-automovel">R$ 0,00</strong>
-                                </div>
-                            </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-screwdriver-wrench"></i> Manutenção</label>
+                        <div class="input-prefixo">
+                            <span class="prefixo">R$</span>
+                            <input type="number" name="manutencao" step="0.01" min="0"
+                                value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getManutencao() : '') ?>"
+                                placeholder="0,00">
                         </div>
-                    </form>
-                </section>
-                <div class="acoes">
-                    <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo"><i
-                            class="bi bi-plus-lg"></i> Cadastrar</a>
-                    <?php if (!$isEditAutomovel): ?>
-                        <button type="submit" form="form-automovel" class="btn salvar"><i class="bi bi-floppy"></i>
-                            Salvar</button>
-                    <?php else: ?>
-                        <button type="submit" form="form-automovel" class="btn alterar"><i class="bi bi-pencil-square"></i>
-                            Alterar</button>
-                        <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
-                            class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i
-                                class="bi bi-trash"></i> Excluir</a>
-                    <?php endif; ?>
-                    <button type="reset" form="form-automovel" class="btn limpar"><i class="bi bi-eraser"></i>
-                        Limpar</button>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-file-invoice-dollar"></i> IPVA</label>
+                        <div class="input-prefixo">
+                            <span class="prefixo">R$</span>
+                            <input type="number" name="ipva" step="0.01" min="0"
+                                value="<?= htmlspecialchars($isEditAutomovel ? $financeiroAutomovel->getIpva() : '') ?>"
+                                placeholder="0,00">
+                        </div>
+                    </div>
+                    <div class="form-group span-3">
+                        <div class="resumo-total">
+                            <i class="fa-solid fa-calculator"></i>
+                            <span>Total estimado: </span>
+                            <strong id="total-automovel">R$ 0,00</strong>
+                        </div>
+                    </div>
                 </div>
+            </form>
+        </section>
+        <div class="acoes">
+            <a href="/ideal/public/index.php?url=financeiros&aba=automovel" class="btn novo"><i class="bi bi-plus-lg"></i>
+                Cadastrar</a>
+            <?php if (!$isEditAutomovel): ?>
+                <button type="submit" form="form-automovel" class="btn salvar"><i class="bi bi-floppy"></i>
+                    Salvar</button>
+            <?php else: ?>
+                <button type="submit" form="form-automovel" class="btn alterar"><i class="bi bi-pencil-square"></i>
+                    Alterar</button>
+                <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>"
+                    class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i
+                        class="bi bi-trash"></i> Excluir</a>
             <?php endif; ?>
-        </main>
+            <button type="reset" form="form-automovel" class="btn limpar"><i class="bi bi-eraser"></i>
+                Limpar</button>
+        </div>
+    <?php endif; ?>
+    </main>
     </div>
 
     <script>

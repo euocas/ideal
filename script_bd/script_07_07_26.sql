@@ -615,6 +615,8 @@ INNER JOIN cliente c
 
 SELECT * FROM funcionario WHERE cpf='58058711063'; 
 
+SELECT idUsuario, nome, perfil
+FROM usuario;
 -- =====================================================
 -- DESCRIÇÃO DAS TABELAS
 -- =====================================================

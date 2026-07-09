@@ -32,14 +32,19 @@
 /* ==========================================
    ABAS
 ========================================== */
+.abas-container {
+  margin-bottom: 5px;
+}
+
+.abas-container + .card {
+  padding-top: 12px;
+}
 
 .abas-container {
   display: flex;
   gap: 8px;
-
-  margin-bottom: 18px;
+  /* margin-bottom: 18px; */
   padding-bottom: 0;
-
   border-bottom: 2px solid var(--border-light);
 }
 
@@ -89,8 +94,8 @@
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 28px;
-  padding-bottom: 18px;
+ margin-bottom: 18px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -223,11 +228,18 @@
 }
 .grid-busca {
   display: grid;
-  grid-template-columns: 53% 47%;
+  grid-template-columns: 48% 52%;
   gap: 20px;
 }
 .dica-box {
-  padding: 18px 24px;
+   padding: 18px 20px;
+    margin-right: 15px;
+}
+.obra-header h2 i{
+  color: var(--orange);
+}
+.obra-header p{
+  color: var(--orange);
 }
 .funcionario-principal {
   padding-left: 0;
@@ -254,7 +266,11 @@
   font-size: 20px;
   font-weight: 700;
 }
+/* teste */
+/* .funcionario-conteudo{
+    background: var(--surface-alt);
 
+} */
 .funcionario-principal hr {
   margin: 0 0 16px;
   border: none;
@@ -303,7 +319,6 @@
   font-size: 9px;
 }
 
-
 /* ==========================================
    class FUNCIONÁRIO CARD
 ========================================== */
@@ -316,7 +331,8 @@
   padding: 14px 18px;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  background: var(--surface);
+  background:var(--surface-alt);
+
 }
 
 .funcionario-conteudo {
@@ -647,7 +663,6 @@
   margin-top: 20px;
 }
 
-
 .tabela-lancamentos th:last-child,
 .tabela-lancamentos td:last-child {
   width: 90px;
@@ -655,12 +670,12 @@
   text-align: center;
 }
 .btn-acao.excluir {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
 }
 
 /* ===========================
@@ -997,42 +1012,364 @@
 }
 
 /* ==========================================
-   RESPONSIVO
+   GUIA - OBRA
 ========================================== */
-
-@media (max-width: 1100px) {
-  .financeiro-topo {
-    grid-template-columns: 1fr;
-  }
-
-  .funcionario-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .funcionario-conteudo {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .funcionario-coluna {
-    padding: 25px 0;
-    border-right: none !important;
-    border-bottom: 1px solid var(--border-light);
-  }
-  /* .entrada-container {
-    display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 24px;
-    align-items: start;
-  } */
-
-  .grid-entrada {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.obra-topo{
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.obra-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+.obra-header{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom:8px;
+}
+.obra-header h2{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:2rem;
+    font-weight:700;
+    color:var(--text-dark);
+}
+.obra-header h2 i{
+    font-size:1.7rem;
+    color:var(--orange);
+}
+.obra-header p{
+    font-size:1rem;
+    color:var(--text-light);
+    margin-left:46px;
+}
+.obra-card .card-titulo{
+    margin-bottom:2px;
+}
+/* Busca */
+.obra-busca {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  gap: 24px;
+}
+.obra-info{
+    display:block;
+    margin-top:10px;
+}
+.obra-dados{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    padding:28px 34px;
+    border:1px solid var(--border-light);
+    border-radius:12px;
+    background:#fff;
+}
+/* formulário para cadastro de gastos - lado direito  */
+.obra-formulario {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 24px;
+}
+.formulario-header {
+  margin-bottom: 20px;
+}
+.formulario-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 1.25rem;
+}
+.formulario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 24px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.span-2 {
+  grid-column: span 2;
+}
+.form-group label {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.formulario-observacao {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+}
+.formulario-observacao textarea {
+  min-height: 110px;
+  resize: vertical;
 }
 
-/* responsividade  */
+.obra-cabecalho{
+    display:flex;
+    align-items:center;
+    gap:22px;
+}
+
+.obra-titulo{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+.obra-avatar{
+    width:90px;
+    height:90px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-shrink:0;
+    border-radius:50%;
+    background:#eef5ff;
+}
+
+.obra-avatar i{
+    font-size:42px;
+    color:var(--orange);
+}
+
+.obra-informacoes{
+    display:grid;
+    grid-template-columns:repeat(5,max-content);
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-top:28px;
+}
+.obra-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+}
+.obra-item i{
+
+    font-size:15px;
+
+    color:#6b7280;
+
+    margin-top:2px;
+
+}
+.obra-item div{
+    display:flex;
+    flex-direction:column;
+}
+
+.obra-item span:first-child{
+    font-size:14px;
+    color:#666;
+}
+
+.obra-item span:last-child{
+    font-size:16px;
+    font-weight:600;
+}
+.obra-label{
+    font-size:13px;
+    color:#777;
+    margin-bottom:2px;
+}
+
+.obra-valor{
+    font-size:16px;
+    font-weight:700;
+    color:var(--text);
+}
+.obra-resumo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  /* background: #fff; */
+  background:var(--surface-alt);
+  overflow: hidden;
+  margin-top: 10px;
+}
+.obra-nome{
+    margin:0;
+
+    font-size:30px;
+    font-weight:700;
+
+    color:var(--text);
+}
+.resumo-item {
+  flex: 1;
+  padding: 28px 20px;
+  text-align: center;
+}
+.resumo-item:not(:last-child) {
+  border-right: 1px solid var(--border-light);
+}
+.resumo-titulo {
+  display: block;
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+.valor-contrato {
+  color: #2f6ee5;
+}
+.valor-gasto {
+  color: #ef6b1f;
+}
+.valor-saldo {
+  color: #22a547;
+}
+/* TESTE DE CORES */
+.busca-box {
+  background: #eef4ff;
+}
+.dica-box {
+  background: #f2f2f2;
+}
+/* botoes */
+.formulario-acoes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+.obra-lancamentos{
+    display:grid;
+    grid-template-columns: 62% 38%;
+    gap:2px;
+    margin-top:20px;
+}
+.obra-esquerda,
+.obra-direita{
+    display:flex;
+    flex-direction:column;
+}
+.formulario-grid{
+    display:grid;
+    gap:18px;
+
+}
+
+/* ==========================================
+   HISTÓRICO - OBRA
+========================================== */
+.obra-historico{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 20px;
+      background: #fff;
+}
+.historico-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.historico-header h3{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: var(--orange);
+}
+.btn-historico{
+    padding: 8px 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    transition: .2s;
+}
+.btn-historico:hover{
+    background: #f7f7f7;
+}
+.tabela-historico{
+    width: 100%;
+    border-collapse: collapse;
+}
+.tabela-historico thead{
+    background: #f8f9fa;
+}
+.tabela-historico th{
+    padding: 14px;
+    text-align: left;
+    font-size: .9rem;
+    color: var(--text-light);
+}
+.tabela-historico td{
+    padding: 16px 14px;
+    border-top: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+.tabela-historico tbody tr:hover{
+    background: #fafafa;
+}
+.badge{
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: .8rem;
+    font-weight: 600;
+}
+.material{
+    background: #fff5d8;
+    color: #8a6d00;
+}
+
+.alimentacao{
+    background: #dff7df;
+    color: #19763a;
+}
+
+.transporte{
+    background: #dcecff;
+    color: #2755a5;
+}
+
+.locacao{
+    background: #f7dfff;
+    color: #7c2fa5;
+}
+.valor{
+    font-weight: 700;
+    color: var(--orange);
+}
+.btn-icon{
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+}
+.historico-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-light);
+}
+.total-periodo{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--orange);
+}
+/* ==========================================
+   RESPONSIVO
+========================================== */
 @media (max-width: 768px) {
   .grid-form {
     grid-template-columns: 1fr;

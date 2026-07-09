@@ -15,6 +15,11 @@
   color: var(--orange-dark);
 }
 
+/* TESTE DE CORES */
+.busca-box
+{ background:#eef4ff; }
+.dica-box          
+{ background:#f2f2f2; }
 
 /* ==========================================
    FORMULÁRIO
