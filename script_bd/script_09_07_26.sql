@@ -244,7 +244,6 @@ CREATE TABLE funcionarioRemuneracao (
     inicioVigencia DATE NOT NULL,
     fimVigencia DATE DEFAULT NULL,
     dataCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
     CONSTRAINT fk_remuneracao_funcionario
         FOREIGN KEY (idFuncionario)
         REFERENCES funcionario(idFuncionario)
@@ -329,35 +328,30 @@ INSERT INTO funcionario (
     estado, email, cargoFuncao, tipoContrato, dataAdmissao, dataDesligamento,
     feriasProgramadas, agencia, conta, tipoConta, chavePix, status, observacoes
 ) VALUES
-
 ('João Pedro Silva', '1990-05-12', 'Masculino', 'Santos', 'SP', '58058711063',
 'Rua', 'Avenida Ana Costa', '120', 'Apto 12', 'Santos', '11060001', 'SP',
 'joao.silva@empresa.com', 'Analista Financeiro', 'CLT',
 '2022-03-14', NULL, '2026-12-10',
 '1234', '12345', 'CORRENTE', '58058711063',
 'ativo', 'Funcionário experiente em desenvolvimento web.'),
-
 ('Maria Oliveira Souza', '1988-11-23', 'Feminino', 'São Vicente', 'SP', '98765432100',
 'Rua', 'Rua Frei Gaspar', '450', NULL, 'São Vicente', '11310000', 'SP',
 'maria.souza@empresa.com', 'Recursos Humanos', 'CONTRATO TEMPORARIO',
 '2023-07-03', NULL, '2026-09-15',
 '2100', '98765', 'POUPANCA', 'maria.souza@empresa.com',
 'ativo', 'Atua no recrutamento e seleção.'),
-
 ('Carlos Henrique Lima', '1995-02-17', 'Masculino', 'Praia Grande', 'SP', '61841080004',
 'Avenida', 'Avenida Presidente Kennedy', '890', 'Sala 3', 'Praia Grande', '11700000', 'SP',
 'carlos.lima@empresa.com', 'Auxiliar Administrativo', 'TERCEIRIZADO',
 '2021-01-11', NULL, '2026-11-03',
 '3050', '45678', 'SALARIO', '61999998888',
 'inativo', 'Contrato encerrado em 2025.'),
-
 ('Fernanda Alves Costa', '1992-08-30', 'Feminino', 'Guarujá', 'SP', '65396386045',
 'Rua', 'Rua Mário Ribeiro', '77', NULL, 'Guarujá', '11410000', 'SP',
 'fernanda.costa@empresa.com', 'Cabista', 'PESSOA JURÍDICA',
 '2024-02-05', NULL, '2026-08-18',
 '4102', '32145', 'CORRENTE', 'fernanda.costa@empresa.com',
 'ativo', 'Responsável por cabeamento das empresas.'),
-
 ('Lucas Martins Pereira', '2000-01-10', 'Outro', 'Cubatão', 'SP', '15935745682',
 'Travessa', 'Travessa das Flores', '15', 'Casa', 'Cubatão', '11500000', 'SP',
 'lucas.pereira@empresa.com', 'Instalador Elétrico', 'CLT',
@@ -387,16 +381,12 @@ INSERT INTO cliente (
 ) VALUES
 ('Américo Magalhães Moralles', '09836535004', '63051508000139', 'americomoralles@hotmail.com',
 'Pessoa Jurídica', 'Rua', 'Americana', '88', NULL, 'Suzano', '08512000', 'SP', 'Responsável pela empresa.'),
-
 ('Gabriella Guimarães', '41683643054', '74537841000179', 'guimaraesltda@gmail.com',
 'Pessoa Jurídica', 'Avenida', 'Lunares', '888', NULL, 'Mogi Mirim', '13800005', 'SP', 'Responsável pela empresa.'),
-
 ('Maria Luiza Moralles Gomes', '60877158002', '88465497000164', 'morallesgomes@outlook.com',
 'Pessoa Jurídica', 'Avenida', 'Riviera', '108', NULL, 'Rivieira de São Lourenço', '11250000', 'SP', 'Responsável pela empresa.'),
-
 ('Giovanni Henrique Muniz Gonçalves Lemos', '48245469076',NULL, 'gigilemosmuniz@icloud.com',
 'Pessoa Física', 'Rua', 'da Praia das Astúrias', '10', NULL, 'Guaruja', '11410002', 'SP', 'Não tem empresa vinculada. Serviços avulsos na casa de praia'),
- 
 ('Julio Novares Norton', '79529502079', '81042967000138', 'novaresjulio@gmail.com',
 'Pessoa Jurídica', 'Avenida', 'Solares', '108', NULL, 'Americana', '13145560', 'SP', 'Responsável pela empresa.');
  
@@ -422,28 +412,23 @@ INSERT INTO veiculo (
 'Volkswagen', 'Gol', 2022, 2023, 'Prata', 'ATIVO', 'PROPRIO',
 15000, '2025-01-15', '2026-01-15', 'Empresa XYZ', 'João Silva', 1,
 'Veículo utilizado para visitas externas.'),
- 
 (5, '30497929190', 'AFC1D28', '9BWZZZ377VT004252',
 'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
 15000, '2025-01-15', '2026-01-15', 'Empresa WKY', 'João Silva', 1,
 'Veículo utilizado para visitas externas.'),
-
 (3, '30497829222', 'ADC1K28', '9BWZZZ377VT004932',
 'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
 15000, '2025-01-15', '2026-01-15', 'Empresa Meca', 'João Silva', 1,
 'Veículo utilizado para visitas externas.'),
-
 (4, '31197922190', 'AFJ1D28', '9KWZZZ377VT004252',
 'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
 15000, '2025-01-15', '2026-01-15', 'Empresa WKY', 'João Silva', 1,
 'Veículo utilizado para visitas externas.'),
- 
 (2, '20497929190', 'LFD1D28', '0BWZZZ377VT004252',
 'Volkswagen', 'Fiat Fiorino', 2024, 2023, 'Preto', 'ATIVO', 'PROPRIO',
 15000, '2025-01-15', '2026-01-15', 'Empresa WKY', 'João Silva', 1,
 'Veículo utilizado para visitas externas.');
  
-
 -- =====================================================
 -- INSERÇAO DE DADOS DE OBRA
 -- =====================================================
@@ -451,30 +436,25 @@ INSERT INTO obra (
     idCliente,dataInicio,dataFim,status,estado,cidade,cep,
     logradouro,endereco,numero,complemento,contrato,valorContratado,observacoes
 ) VALUES
-
 -- Cliente 1: Américo Magalhães Moralles
 (1, '2026-01-15 08:00:00', NULL, 'Em andamento', 'SP', 'Suzano', '08512000',
-'Rua Americana', 'Galpão Industrial Moralles', '88', NULL, 'Obra 1', 15000.00,
+'Rua Americana', 'Galpão Industrial Moralles', '88', NULL, 'Obra 1', 158000.00,
 'Ampliação de rede elétrica: Instalação elétrica de área fabril'),
-
 -- Cliente 2: Gabriella Guimarães
 (2, '2025-09-10 07:30:00', '2026-03-20 17:00:00', 'Concluída', 'SP', 'Mogi Mirim', '13800005',
-'Avenida Lunares', 'Centro Administrativo Guimarães', '888', NULL, 'Obra 2',35000.00,
+'Avenida Lunares', 'Centro Administrativo Guimarães', '888', NULL, 'Obra 2',351000.00,
 'Modernização elétrica: Troca completa de quadros e cabeamento'),
-
 -- Cliente 3: Maria Luiza Moralles Gomes
 (3, '2026-05-01 09:00:00', NULL, 'Em andamento', 'SP', 'Bertioga', '11250000',
-'Avenida Riviera', 'Condomínio Riviera Business', '108', 'Bloco B', 'Obra 3',178000.00
+'Avenida Riviera', 'Condomínio Riviera Business', '108', 'Bloco B', 'Obra 3',1781000.00,
 'Expansão da Infraestrutura: Instalação elétrica de novo bloco comercial'),
-
 -- Cliente 4: Giovanni Henrique Muniz Gonçalves Lemos
 (4, '2026-04-10 08:00:00', NULL, 'Em andamento', 'SP', 'Guarujá', '11410002',
-'Rua da Praia das Astúrias', 'Residência Particular', '10', NULL, 'Obra 4',45000.00
+'Rua da Praia das Astúrias', 'Residência Particular', '10', NULL, 'Obra 4',415000.00,
 'Serviço residencial: Reforma elétrica da casa de praia'),
-
 -- Cliente 5: Julio Novares Norton
 (5, '2026-02-03 08:30:00', NULL, 'Em andamento', 'SP', 'Americana', '13145560',
-'Avenida Solares', 'Parque Empresarial Norton', '108', NULL, 'Obra 5',1500.00
+'Avenida Solares', 'Parque Empresarial Norton', '108', NULL, 'Obra 5',15000.00,
 'Construção de subestação: Infraestrutura elétrica para expansão industrial');
 
 
@@ -512,7 +492,6 @@ INSERT INTO categoriaFinanceiroFuncionario (nome, tipo, tipoContrato) VALUES
 ('Ajuda de Custo', 'ENTRADA', 'TODOS'),
 ('Pagamento NF', 'ENTRADA', 'PESSOA JURÍDICA'),
 ('Pagamento Serviço', 'ENTRADA', 'TERCEIRIZADO'),
-
 ('INSS', 'SAIDA', 'CLT'),
 ('IRRF', 'SAIDA', 'CLT'),
 ('Vale Transporte', 'SAIDA', 'CLT'),
@@ -523,42 +502,33 @@ INSERT INTO categoriaFinanceiroFuncionario (nome, tipo, tipoContrato) VALUES
 -- INSERÇAO DE DADOS DA FINANCEIRO FUNCIONARIO
 -- =====================================================
 
--- FUNCIONÁRIO JOÃO - CLT
 INSERT INTO financeiroFuncionario
-(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
+(
+    idFuncionario,idCategoria,descricao,valor,dataReferencia,formaPagamento,contaPagamento,observacao
+)
 VALUES
+
+-- FUNCIONÁRIO JOÃO - CLT
 (1, 1, 'Salário Julho/2026', 5800.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
 (1, 2, 'Horas Extras', 450.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
 (1, 9, 'Desconto INSS', 640.00, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
 (1,10, 'Desconto IRRF', 285.00, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
-(1,11, 'Vale Transporte', 220.00, '2026-07-01', 'Folha', 'Banco do Brasil', '');
+(1,11, 'Vale Transporte', 220.00, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
 
 -- FUNCIONÁRIA MARIA - CONTRATO TEMPORÁRIO
-INSERT INTO financeiroFuncionario
-(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
-VALUES
 (2, 1, 'Salário Julho/2026', 4700.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
 (2, 5, 'Bônus por desempenho', 300.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
 (2, 9, 'Desconto INSS', 515.00, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
-(2,11, 'Vale Transporte', 180.00, '2026-07-01', 'Folha', 'Caixa Econômica', '');
+(2,11, 'Vale Transporte', 180.00, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
 
 -- FUNCIONÁRIO CARLOS - TERCEIRIZADA
-INSERT INTO financeiroFuncionario
-(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
-VALUES
-(3, 8, 'Pagamento de Serviço Julho/2026', 5200.00, '2026-07-01', 'TED', 'Banco Itaú', '');
+(3, 8, 'Pagamento de Serviço Julho/2026', 5200.00, '2026-07-01', 'TED', 'Banco Itaú', ''),
 
 -- FUNCIONÁRIA FERNANDA - PESSOA JURÍDICA
-INSERT INTO financeiroFuncionario
-(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
-VALUES
 (4, 7, 'Pagamento NF Julho/2026', 6000.00, '2026-07-01', 'PIX', 'Banco Inter', ''),
-(4, 6, 'Ajuda de Custo', 350.00, '2026-07-01', 'PIX', 'Banco Inter', '');
+(4, 6, 'Ajuda de Custo', 350.00, '2026-07-01', 'PIX', 'Banco Inter', ''),
 
 -- FUNCIONÁRIO LUCAS - CLT
-INSERT INTO financeiroFuncionario
-(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
-VALUES
 (5, 1, 'Salário Julho/2026', 4500.00, '2026-07-01', 'Transferência', 'Santander', ''),
 (5, 5, 'Bônus', 250.00, '2026-07-01', 'Transferência', 'Santander', ''),
 (5, 9, 'Desconto INSS', 495.00, '2026-07-01', 'Folha', 'Santander', ''),
