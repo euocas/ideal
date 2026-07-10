@@ -27,7 +27,8 @@ class Obra
     private ?string $complemento = null;
     private ?string $observacoes = null;
     private ?string $contrato = null;
-private array $funcionariosVinculados = []; // ✅ ADICIONADO
+    private ?float $valorContratado = null;
+    private array $funcionariosVinculados = []; // ✅ ADICIONADO
 
     private PDO $pdo;
 
@@ -44,16 +45,15 @@ private array $funcionariosVinculados = []; // ✅ ADICIONADO
     // =====================================================
     // GETTERS E SETTERS
     // =====================================================
-public function getFuncionariosVinculados(): array 
-{
-     return $this->funcionariosVinculados; 
-}
+    public function getFuncionariosVinculados(): array
+    {
+        return $this->funcionariosVinculados;
+    }
 
-public function setFuncionariosVinculados(array $funcionarios): void
+    public function setFuncionariosVinculados(array $funcionarios): void
+    {
+        $this->funcionariosVinculados = $funcionarios;
 
-{ 
-    $this->funcionariosVinculados = $funcionarios; 
-    
     }
 
 
@@ -211,9 +211,6 @@ public function setFuncionariosVinculados(array $funcionarios): void
             return;
         }
 
-
-
-        
         $contrato = trim($contrato);
         $contrato = mb_strtolower($contrato, 'UTF-8');
 
@@ -222,6 +219,16 @@ public function setFuncionariosVinculados(array $funcionarios): void
         }
 
         $this->contrato = $contrato;
+    }
+
+    public function getValorContratado(): ?float
+    {
+        return $this->valorContratado;
+    }
+
+    public function setValorContratado(?float $valorContratado): void
+    {
+        $this->valorContratado = $valorContratado;
     }
 
     // =====================================================
@@ -233,7 +240,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
         $obra = new self();
 
         $obra->setIdObra($dados['idObra'] ?? null);
-        $obra->setIdCliente(isset($dados['idCliente']) ? (int)$dados['idCliente'] : null); // ✅ ADICIONADO
+        $obra->setIdCliente(isset($dados['idCliente']) ? (int) $dados['idCliente'] : null); // ✅ ADICIONADO
 
         if (!empty($dados['dataInicio'])) {
             $obra->setDataInicio(new DateTime($dados['dataInicio']));
@@ -251,15 +258,18 @@ public function setFuncionariosVinculados(array $funcionarios): void
         $obra->setEndereco($dados['endereco'] ?? null);
         $obra->setNumero($dados['numero'] ?? null);
         $obra->setComplemento($dados['complemento'] ?? null);
-        $obra->setObservacoes($dados['observacoes'] ?? null);
         $obra->setContrato($dados['contrato'] ?? null);
+        $obra->setValorContratado(isset($dados['valorContratado']) ? (float) $dados['valorContratado'] : null);
+        $obra->setObservacoes($dados['observacoes'] ?? null);
+
 
         return $obra;
     }
 
     public function carregarFuncionariosVinculados(): void
     {
-        if (!$this->idObra) return;
+        if (!$this->idObra)
+            return;
 
         // Faz um JOIN para buscar o funcionário e o veículo vinculado a ele nesta obra
         $sql = "SELECT 
@@ -280,7 +290,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':idObra' => $this->idObra]);
-        
+
         $this->funcionariosVinculados = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -297,28 +307,29 @@ public function setFuncionariosVinculados(array $funcionarios): void
             // 1. SALVA A OBRA
             $sql = "INSERT INTO obra (
                         idCliente, dataInicio, dataFim, status, estado, cidade, cep, 
-                        logradouro, endereco, numero, complemento, observacoes, contrato
+                        logradouro, endereco, numero, complemento,contrato,valorContratado, observacoes
                     ) VALUES (
                         :idCliente, :dataInicio, :dataFim, :status, :estado, :cidade, :cep, 
-                        :logradouro, :endereco, :numero, :complemento, :observacoes, :contrato
+                        :logradouro, :endereco, :numero, :complemento, :contrato,:valorContratado,:observacoes 
                     )";
 
             $stmt = $this->pdo->prepare($sql);
 
             $sucesso = $stmt->execute([
-                ':idCliente'   => $this->idCliente,
-                ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
-                ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
-                ':status'      => $this->status,
-                ':estado'      => $this->estado,
-                ':cidade'      => $this->cidade,
-                ':cep'         => $this->cep,
-                ':logradouro'  => $this->logradouro,
-                ':endereco'    => $this->endereco,
-                ':numero'      => $this->numero,
+                ':idCliente' => $this->idCliente,
+                ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
+                ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
+                ':status' => $this->status,
+                ':estado' => $this->estado,
+                ':cidade' => $this->cidade,
+                ':cep' => $this->cep,
+                ':logradouro' => $this->logradouro,
+                ':endereco' => $this->endereco,
+                ':numero' => $this->numero,
                 ':complemento' => $this->complemento,
-                ':observacoes' => $this->observacoes,
-                ':contrato'    => $this->contrato
+                ':contrato' => $this->contrato,
+                ':valorContratado' => $this->valorContratado,
+                ':observacoes' => $this->observacoes
             ]);
 
             if (!$sucesso) {
@@ -331,7 +342,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
 
             // 2. SALVA OS FUNCIONÁRIOS VINCULADOS
             if (!empty($this->funcionariosVinculados)) {
-                
+
                 $sqlFunc = "INSERT INTO obraFuncionario (idObra, idFuncionario) VALUES (:idObra, :idFuncionario)";
                 $stmtFunc = $this->pdo->prepare($sqlFunc);
 
@@ -339,7 +350,8 @@ public function setFuncionariosVinculados(array $funcionarios): void
                 $stmtVeic = $this->pdo->prepare($sqlVeic);
 
                 foreach ($this->funcionariosVinculados as $func) {
-                    if (empty($func['idFuncionario'])) continue;
+                    if (empty($func['idFuncionario']))
+                        continue;
 
                     // Salva na tabela obraFuncionario
                     $stmtFunc->execute([
@@ -380,8 +392,6 @@ public function setFuncionariosVinculados(array $funcionarios): void
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
-
     public function buscarPorId(int $id): ?self
     {
         $sql = "SELECT * FROM obra WHERE idObra = :id";
@@ -389,7 +399,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($dados) {
             $obra = $this->hydrate($dados);
             $obra->carregarFuncionariosVinculados(); // Carrega a tabela
@@ -404,7 +414,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':contrato' => $contrato]);
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if ($dados) {
             $obra = $this->hydrate($dados);
             $obra->carregarFuncionariosVinculados(); // Carrega a tabela
@@ -431,27 +441,29 @@ public function setFuncionariosVinculados(array $funcionarios): void
                         endereco      = :endereco,
                         numero        = :numero,
                         complemento   = :complemento,
-                        observacoes   = :observacoes,
-                        contrato      = :contrato
+                        contrato      = :contrato,
+                        valorContratado = :valorContratado,
+                        observacoes   = :observacoes
                     WHERE idObra = :idObra";
 
             $stmt = $this->pdo->prepare($sql);
 
             $sucesso = $stmt->execute([
-                ':idCliente'   => $this->idCliente,
-                ':dataInicio'  => $this->dataInicio?->format('Y-m-d H:i:s'),
-                ':dataFim'     => $this->dataFim?->format('Y-m-d H:i:s'),
-                ':status'      => $this->status,
-                ':estado'      => $this->estado,
-                ':cidade'      => $this->cidade,
-                ':cep'         => $this->cep,
-                ':logradouro'  => $this->logradouro,
-                ':endereco'    => $this->endereco,
-                ':numero'      => $this->numero,
+                ':idCliente' => $this->idCliente,
+                ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
+                ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
+                ':status' => $this->status,
+                ':estado' => $this->estado,
+                ':cidade' => $this->cidade,
+                ':cep' => $this->cep,
+                ':logradouro' => $this->logradouro,
+                ':endereco' => $this->endereco,
+                ':numero' => $this->numero,
                 ':complemento' => $this->complemento,
+                ':contrato' => $this->contrato,
+                ':valorContratado' => $this->valorContratado,
                 ':observacoes' => $this->observacoes,
-                ':contrato'    => $this->contrato,
-                ':idObra'      => $this->idObra
+                ':idObra' => $this->idObra
             ]);
 
             if (!$sucesso) {
@@ -459,7 +471,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
                 return false;
             }
 
-        
+
             $stmtFind = $this->pdo->prepare("SELECT idObraFuncionario FROM obraFuncionario WHERE idObra = :idObra");
             $stmtFind->execute([':idObra' => $this->idObra]);
             $ids = $stmtFind->fetchAll(PDO::FETCH_COLUMN);
@@ -483,7 +495,8 @@ public function setFuncionariosVinculados(array $funcionarios): void
                 $stmtVeic = $this->pdo->prepare($sqlVeic);
 
                 foreach ($this->funcionariosVinculados as $func) {
-                    if (empty($func['idFuncionario'])) continue;
+                    if (empty($func['idFuncionario']))
+                        continue;
 
                     $stmtFunc->execute([
                         ':idObra' => $this->idObra,
@@ -504,6 +517,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
             $this->pdo->commit();
             return true;
 
+
         } catch (\Exception $e) {
             if ($this->pdo->inTransaction()) {
                 $this->pdo->rollBack();
@@ -520,7 +534,7 @@ public function setFuncionariosVinculados(array $funcionarios): void
         return $stmt->execute([':id' => $id]);
     }
 
-    
+
 
     public function buscarComFiltros(string $contrato = '', string $statusObra = ''): array
     {

@@ -1,6 +1,8 @@
 <?php
 use App\Config\SistemaConstantes;
 use App\Config\FuncionarioConstantes;
+/** @var \App\Models\Obra|null $obra */
+$obra ??= null;
 
 $actionUrl ??= '/ideal/public/index.php?url=obras/store';
 $titulo = 'Obras';
@@ -143,59 +145,78 @@ require_once __DIR__ . '/../includes/header.php';
 
                     <div class="cliente-area">
 
-                        <input type="hidden" name="idCliente" id="idCliente"
-                            value="<?= isset($obra) ? $obra->getIdCliente() : '' ?>">
 
-                        <?php
-                        $docCliente = '';
-                        $nomeCli = '-';
-                        $whatsappCli = '-';
+                        <div class="cliente-formulario">
 
-                        if (isset($cliente) && $cliente) {
-                            $docCliente = (method_exists($cliente, 'getCnpj') && $cliente->getCnpj())
-                                ? $cliente->getCnpj()
-                                : ((method_exists($cliente, 'getCpf')) ? $cliente->getCpf() : '');
-
-                            $nomeCli = method_exists($cliente, 'getNomeCliente')
-                                ? $cliente->getNomeCliente()
-                                : (method_exists($cliente, 'getNome') ? $cliente->getNome() : '-');
-
-                            $whatsappCli = (method_exists($cliente, 'getTelefone') && $cliente->getTelefone())
-                                ? $cliente->getTelefone()
-                                : '-';
-                        }
-                        ?>
-
-                        <div class="form-group">
-                            <label>CNPJ / CPF Cliente</label>
+                            <input type="hidden" name="idCliente" id="idCliente"
+                                value="<?= isset($obra) ? $obra->getIdCliente() : '' ?>">
 
                             <?php
-                            $documento = preg_replace('/\D/', '', $docCliente);
-                            if (strlen($documento) === 11) {
-                                $documentoFormatado = preg_replace(
-                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                    '$1.$2.$3-$4',
-                                    $documento
-                                );
+                            $docCliente = '';
+                            $nomeCli = '-';
+                            $whatsappCli = '-';
 
-                            } elseif (strlen($documento) === 14) {
-                                $documentoFormatado = preg_replace(
-                                    '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-                                    '$1.$2.$3/$4-$5',
-                                    $documento
-                                );
+                            if (isset($cliente) && $cliente) {
+                                $docCliente = (method_exists($cliente, 'getCnpj') && $cliente->getCnpj())
+                                    ? $cliente->getCnpj()
+                                    : ((method_exists($cliente, 'getCpf')) ? $cliente->getCpf() : '');
 
-                            } else {
-                                $documentoFormatado = '';
+                                $nomeCli = method_exists($cliente, 'getNomeCliente')
+                                    ? $cliente->getNomeCliente()
+                                    : (method_exists($cliente, 'getNome') ? $cliente->getNome() : '-');
+
+                                $whatsappCli = (method_exists($cliente, 'getTelefone') && $cliente->getTelefone())
+                                    ? $cliente->getTelefone()
+                                    : '-';
                             }
                             ?>
 
-                            <input type="text" id="cnpjCliente" name="cnpjCliente" maxlength="18"
-                                placeholder="00.000.000/0000-00" value="<?= htmlspecialchars($documentoFormatado) ?>"
-                                oninput="mascaraCNPJ(this)">
+                            <div class="form-group">
+                                <label>CNPJ / CPF Cliente</label>
+
+                                <?php
+                                $documento = preg_replace('/\D/', '', $docCliente);
+                                if (strlen($documento) === 11) {
+                                    $documentoFormatado = preg_replace(
+                                        '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                        '$1.$2.$3-$4',
+                                        $documento
+                                    );
+
+                                } elseif (strlen($documento) === 14) {
+                                    $documentoFormatado = preg_replace(
+                                        '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                        '$1.$2.$3/$4-$5',
+                                        $documento
+                                    );
+
+                                } else {
+                                    $documentoFormatado = '';
+                                }
+                                ?>
+
+                                <input type="text" id="cnpjCliente" name="cnpjCliente" maxlength="18"
+                                    placeholder="00.000.000/0000-00"
+                                    value="<?= htmlspecialchars($documentoFormatado) ?>" oninput="mascaraCNPJ(this)">
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    Valor Contratado
+                                    <span class="obrigatorio">*</span>
+                                </label>
+
+                                <div class="input-prefixo">
+                                    <!-- <span class="prefixo">R$</span> -->
+
+                                    <input type="text" name="valorContratado" placeholder="0,00"
+                                        value="<?= $obra ? number_format($obra->getValorContratado(), 2, ',', '.') : '' ?>"
+                                        required>
+                                </div>
+                            </div>
+
+
                         </div>
-
-
 
                         <div class="cliente-card">
                             <h3>

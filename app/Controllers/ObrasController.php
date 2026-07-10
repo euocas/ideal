@@ -101,13 +101,16 @@ class ObrasController
         $obra->setStatus($dados['status'] ?? null);
         $obra->setEstado($dados['estado'] ?? null);
         $obra->setCidade($dados['cidade'] ?? null);
-        $obra->setCep($dados['cep'] ?? null);
+        $cep = preg_replace('/\D/', '', $dados['cep'] ?? '');
+        $obra->setCep($cep);
         $obra->setLogradouro($dados['logradouro'] ?? null);
         $obra->setEndereco($dados['endereco'] ?? null);
         $obra->setNumero($dados['numero'] ?? null);
         $obra->setComplemento($dados['complemento'] ?? null);
         $obra->setObservacoes($dados['observacoes'] ?? null);
         $obra->setContrato($dados['contrato'] ?? null);
+        $valorContratado = str_replace(',', '.', str_replace('.', '', $dados['valorContratado'] ?? ''));
+        $obra->setValorContratado((float) $valorContratado);
 
         // ✅ ADICIONADO: Pega a array que o JavaScript mandou via inputs hidden
         $obra->setFuncionariosVinculados($dados['funcionariosObra'] ?? []);
@@ -126,6 +129,16 @@ class ObrasController
                 header("Location: /ideal/public/index.php?url=obras");
                 exit;
             }
+
+            // Valida valor contratado
+            $valorContratado = str_replace(',', '.', str_replace('.', '', $_POST['valorContratado'] ?? ''));
+
+            if ((float) $valorContratado <= 0) {
+                $_SESSION['mensagem_erro'] = "Informe um valor contratado maior que zero.";
+                header("Location: /ideal/public/index.php?url=obras");
+                exit;
+            }
+
 
             $obra = new Obra();
             $this->popularObjeto($obra, $_POST);
@@ -165,6 +178,15 @@ class ObrasController
         // ✅ Valida se o cliente foi selecionado
         if (empty($_POST['idCliente'])) {
             $_SESSION['mensagem_erro'] = "Selecione um cliente válido antes de atualizar a obra.";
+            header("Location: /ideal/public/index.php?url=obras");
+            exit;
+        }
+
+        // Valida valor contratado
+        $valorContratado = str_replace(',', '.', str_replace('.', '', $_POST['valorContratado'] ?? ''));
+
+        if ((float) $valorContratado <= 0) {
+            $_SESSION['mensagem_erro'] = "Informe um valor contratado maior que zero.";
             header("Location: /ideal/public/index.php?url=obras");
             exit;
         }
