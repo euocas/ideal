@@ -124,23 +124,33 @@ class ObrasController
                 session_start();
             }
 
-            // ✅ Valida se o cliente foi selecionado
-            if (empty($_POST['idCliente'])) {
-                $_SESSION['mensagem_erro'] = "Selecione um cliente válido antes de cadastrar a obra.";
+            // Busca o cliente pelo CPF/CNPJ informado
+            $documentoCliente = $_POST['cnpjCliente'] ?? '';
+
+            $clienteModel = new Cliente();
+            $cliente = $clienteModel->findByDocumento($documentoCliente);
+
+            if (!$cliente) {
+                $_SESSION['mensagem_erro'] = "Cliente não encontrado. Verifique o CPF/CNPJ informado.";
                 header("Location: /ideal/public/index.php?url=obras");
                 exit;
             }
 
+            // Vincula o cliente encontrado à obra
+            $_POST['idCliente'] = $cliente->getIdCliente();
 
             // Valida valor contratado
-            $valorContratado = str_replace(',', '.', str_replace('.', '', $_POST['valorContratado'] ?? ''));
+            $valorContratado = str_replace(
+                ',',
+                '.',
+                str_replace('.', '', $_POST['valorContratado'] ?? '')
+            );
 
             if ((float) $valorContratado <= 0) {
                 $_SESSION['mensagem_erro'] = "Informe um valor contratado maior que zero.";
                 header("Location: /ideal/public/index.php?url=obras");
                 exit;
             }
-
 
             $obra = new Obra();
             $this->popularObjeto($obra, $_POST);

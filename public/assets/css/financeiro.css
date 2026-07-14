@@ -107,7 +107,6 @@
 
 .card-titulo h2 {
   margin-bottom: 4px;
-
   color: var(--text);
   font-size: 20px;
 }
@@ -1141,8 +1140,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-
+  gap: 12px;
   padding-bottom: 20px;
   margin-bottom: 25px;
   border-bottom: 1px solid #e5e7eb;
@@ -1152,21 +1150,6 @@
   display: flex;
   align-items: center;
   gap: 18px;
-}
-.obra-avatar {
-  width: 90px;
-  height: 90px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: #eef5ff;
-}
-
-.obra-avatar i {
-  font-size: 42px;
-  color: var(--orange);
 }
 
 .obra-informacoes {
@@ -1227,12 +1210,15 @@
 }
 .obra-nome {
   margin: 0;
-
-  font-size: 30px;
+  text-transform: uppercase;
+  font-size: 25px;
   font-weight: 700;
-
-  color: var(--text);
+  color: var(--navy);
 }
+.status {
+  margin: 0;
+}
+
 .resumo-item {
   flex: 1;
   padding: 28px 20px;

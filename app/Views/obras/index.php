@@ -321,8 +321,14 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group endereco-complemento"><label>Complemento</label><input type="text"
                                 name="complemento" placeholder="Apartamento, bloco, sala..."
                                 value="<?= isset($obra) ? $obra->getComplemento() : '' ?>"></div>
-                        <div class="form-group endereco-observacoes"><label>Observações</label><textarea
-                                name="observacoes" placeholder="Digite as observações (opcional)"></textarea></div>
+                        <div class="form-group endereco-observacoes">
+                            <label>Observações</label>
+                            <textarea name="observacoes" placeholder="Digite as observações (opcional)"><?= isset($obra)
+                                ? htmlspecialchars($obra->getObservacoes() ?? '')
+                                : ''
+                                ?></textarea>
+
+                        </div>
                     </div>
                 </section>
 
