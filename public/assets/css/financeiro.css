@@ -680,6 +680,23 @@
 /* ===========================
    RESUMO DOS LANÇAMENTOS
 =========================== */
+
+.card-resumo.entrada .conteudo strong {
+  color: var(--success);
+}
+
+.card-resumo.saida .conteudo strong {
+  color: var(--danger);
+}
+
+.card-resumo.saldo .conteudo strong {
+  color: var(--primary);
+}
+
+.valor-contratado {
+  color: #2563eb;
+  font-size: 21px;
+}
 .filtros-lancamentos {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr auto;
@@ -1114,10 +1131,21 @@
   resize: vertical;
 }
 
-.obra-cabecalho {
+/* .obra-cabecalho {
   display: flex;
   align-items: center;
   gap: 22px;
+} */
+
+.obra-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .obra-titulo {
@@ -1143,10 +1171,13 @@
 
 .obra-informacoes {
   display: grid;
-  grid-template-columns: repeat(5, max-content);
+  /* grid-template-columns: repeat(5, max-content); */
+  grid-template-columns: repeat(3, 1fr);
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 28px;
+  column-gap: 40px;
+  row-gap: 28px;
 }
 .obra-item {
   display: flex;
@@ -1212,7 +1243,8 @@
 }
 .resumo-titulo {
   display: block;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--text-light);
   margin-bottom: 8px;
 }
@@ -1239,18 +1271,11 @@
   gap: 15px;
   margin-top: 25px;
 }
-/* .obra-lancamentos {
+.obra-lancamentos {
   display: grid;
-  grid-template-columns: 60% 39.6%;
-  gap: 10px;
-  align-items: stretch;
-} */
-
-.obra-lancamentos{
-    display:grid;
-    grid-template-columns: minmax(0,2fr) minmax(380px,1fr);
-    gap:24px;
-    align-items:start;
+  grid-template-columns: minmax(0, 2fr) minmax(380px, 1fr);
+  gap: 24px;
+  align-items: start;
 }
 
 .obra-esquerda,
@@ -1259,18 +1284,25 @@
   flex-direction: column;
   height: 100%;
 }
-.obra-direita{
-    display:flex;
+.obra-direita {
+  display: flex;
 }
 
-.obra-direita .obra-historico{
-    flex:1;
+.obra-direita .obra-historico {
+  flex: 1;
 }
 .formulario-grid {
   display: grid;
   gap: 18px;
 }
-
+.status.andamento {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+.status.concluida {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
 /* ==========================================
    HISTÓRICO - OBRA
 ========================================== */

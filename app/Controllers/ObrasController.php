@@ -89,6 +89,7 @@ class ObrasController
     private function popularObjeto(Obra $obra, array $dados): void
     {
         $obra->setIdCliente(!empty($dados['idCliente']) ? (int) $dados['idCliente'] : null);
+        $obra->setIdResponsavel(!empty($dados['idResponsavel']) ? (int) $dados['idResponsavel'] : null);
 
         if (!empty($dados['dataInicio'])) {
             $obra->setDataInicio(new \DateTime($dados['dataInicio']));
@@ -129,6 +130,7 @@ class ObrasController
                 header("Location: /ideal/public/index.php?url=obras");
                 exit;
             }
+
 
             // Valida valor contratado
             $valorContratado = str_replace(',', '.', str_replace('.', '', $_POST['valorContratado'] ?? ''));

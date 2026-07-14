@@ -151,6 +151,7 @@ CREATE TABLE veiculo (
 CREATE TABLE obra (
     idObra INT AUTO_INCREMENT PRIMARY KEY,
     idCliente INT NOT NULL,
+    idResponsavel INT NULL,
     dataInicio DATETIME NOT NULL,
     dataFim DATETIME,
     status ENUM('Em andamento', 'Concluida', 'Cancelada') NOT NULL,
@@ -162,11 +163,14 @@ CREATE TABLE obra (
     numero CHAR(4) NOT NULL,
     complemento VARCHAR(45),
     contrato VARCHAR(45),
-    valorContratado decimal(12,2),
+    valorContratado DECIMAL(12,2),
     observacoes TEXT,
     CONSTRAINT fk_obra_cliente
         FOREIGN KEY (idCliente)
-        REFERENCES cliente(idCliente)
+        REFERENCES cliente(idCliente),
+    CONSTRAINT fk_obra_responsavel
+        FOREIGN KEY (idResponsavel)
+        REFERENCES funcionario(idFuncionario)
 );
 
 -- =====================================================
@@ -433,27 +437,27 @@ INSERT INTO veiculo (
 -- INSERÇAO DE DADOS DE OBRA
 -- =====================================================
 INSERT INTO obra (
-    idCliente,dataInicio,dataFim,status,estado,cidade,cep,
+    idCliente,idResponsavel,dataInicio,dataFim,status,estado,cidade,cep,
     logradouro,endereco,numero,complemento,contrato,valorContratado,observacoes
 ) VALUES
 -- Cliente 1: Américo Magalhães Moralles
-(1, '2026-01-15 08:00:00', NULL, 'Em andamento', 'SP', 'Suzano', '08512000',
+(1,5, '2026-01-15 08:00:00', NULL, 'Em andamento', 'SP', 'Suzano', '08512000',
 'Rua Americana', 'Galpão Industrial Moralles', '88', NULL, 'Obra 1', 158000.00,
 'Ampliação de rede elétrica: Instalação elétrica de área fabril'),
 -- Cliente 2: Gabriella Guimarães
-(2, '2025-09-10 07:30:00', '2026-03-20 17:00:00', 'Concluída', 'SP', 'Mogi Mirim', '13800005',
+(2,2, '2025-09-10 07:30:00', '2026-03-20 17:00:00', 'Concluída', 'SP', 'Mogi Mirim', '13800005',
 'Avenida Lunares', 'Centro Administrativo Guimarães', '888', NULL, 'Obra 2',351000.00,
 'Modernização elétrica: Troca completa de quadros e cabeamento'),
 -- Cliente 3: Maria Luiza Moralles Gomes
-(3, '2026-05-01 09:00:00', NULL, 'Em andamento', 'SP', 'Bertioga', '11250000',
+(3,5, '2026-05-01 09:00:00', NULL, 'Em andamento', 'SP', 'Bertioga', '11250000',
 'Avenida Riviera', 'Condomínio Riviera Business', '108', 'Bloco B', 'Obra 3',1781000.00,
 'Expansão da Infraestrutura: Instalação elétrica de novo bloco comercial'),
 -- Cliente 4: Giovanni Henrique Muniz Gonçalves Lemos
-(4, '2026-04-10 08:00:00', NULL, 'Em andamento', 'SP', 'Guarujá', '11410002',
+(4,2, '2026-04-10 08:00:00', NULL, 'Em andamento', 'SP', 'Guarujá', '11410002',
 'Rua da Praia das Astúrias', 'Residência Particular', '10', NULL, 'Obra 4',415000.00,
 'Serviço residencial: Reforma elétrica da casa de praia'),
 -- Cliente 5: Julio Novares Norton
-(5, '2026-02-03 08:30:00', NULL, 'Em andamento', 'SP', 'Americana', '13145560',
+(5,5, '2026-02-03 08:30:00', NULL, 'Em andamento', 'SP', 'Americana', '13145560',
 'Avenida Solares', 'Parque Empresarial Norton', '108', NULL, 'Obra 5',15000.00,
 'Construção de subestação: Infraestrutura elétrica para expansão industrial');
 
@@ -511,14 +515,14 @@ VALUES
 -- FUNCIONÁRIO JOÃO - CLT
 (1, 1, 'Salário Julho/2026', 5800.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
 (1, 2, 'Horas Extras', 450.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
-(1, 9, 'Desconto INSS', 621,60, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
+(1, 9, 'Desconto INSS', 621.60, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
 (1,10, 'Desconto IRRF', 515.33, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
 (1,11, 'Vale Transporte', 348.00, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
 
 -- FUNCIONÁRIA MARIA - CONTRATO TEMPORÁRIO
 (2, 1, 'Salário Julho/2026', 3000.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
 (2, 5, 'Bônus por desempenho', 300.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
-(2, 9, 'Desconto INSS', 248,60, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
+(2, 9, 'Desconto INSS', 248.60, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
 (2,11, 'Vale Transporte',180.00, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
 
 -- FUNCIONÁRIO CARLOS - TERCEIRIZADA
@@ -532,7 +536,7 @@ VALUES
 (5, 1, 'Salário Julho/2026', 4700.00, '2026-07-01', 'Transferência', 'Santander', ''),
 (5, 5, 'Bônus', 300.00, '2026-07-01', 'Transferência', 'Santander', ''),
 (5, 9, 'Desconto INSS', 467.60, '2026-07-01', 'Folha', 'Santander', ''),
-(5,10, 'Desconto IRRF', 276,80, '2026-07-01', 'Folha', 'Santander', ''),
+(5,10, 'Desconto IRRF', 276.80, '2026-07-01', 'Folha', 'Santander', ''),
 (5,11, 'Vale Transporte', 282.00, '2026-07-01', 'Folha', 'Santander', '');
 
 -- ============================================================

@@ -14,7 +14,8 @@ class Obra
     // =====================================================
 
     private ?int $idObra = null;
-    private ?int $idCliente = null; // ✅ ADICIONADO
+    private ?int $idCliente = null;
+    private ?int $idResponsavel = null;  // ✅ ADICIONADO
     private ?DateTime $dataInicio = null;
     private ?DateTime $dataFim = null;
     private ?string $status = null;
@@ -67,16 +68,25 @@ class Obra
         $this->idObra = $idObra;
     }
 
-    // ✅ ADICIONADO
+
     public function getIdCliente(): ?int
     {
         return $this->idCliente;
     }
 
-    // ✅ ADICIONADO
     public function setIdCliente(?int $idCliente): void
     {
         $this->idCliente = $idCliente;
+    }
+    // ✅ ADICIONADO
+    public function getIdResponsavel(): ?int
+    {
+        return $this->idResponsavel;
+    }
+    // ✅ ADICIONADO
+    public function setIdResponsavel(?int $idResponsavel): void
+    {
+        $this->idResponsavel = $idResponsavel;
     }
 
     public function getDataInicio(): ?DateTime
@@ -241,6 +251,7 @@ class Obra
 
         $obra->setIdObra($dados['idObra'] ?? null);
         $obra->setIdCliente(isset($dados['idCliente']) ? (int) $dados['idCliente'] : null); // ✅ ADICIONADO
+        $obra->setIdResponsavel(isset($dados['idResponsavel']) ? (int) $dados['idResponsavel'] : null);
 
         if (!empty($dados['dataInicio'])) {
             $obra->setDataInicio(new DateTime($dados['dataInicio']));
@@ -306,10 +317,10 @@ class Obra
 
             // 1. SALVA A OBRA
             $sql = "INSERT INTO obra (
-                        idCliente, dataInicio, dataFim, status, estado, cidade, cep, 
+                        idCliente,idResponsavel, dataInicio, dataFim, status, estado, cidade, cep, 
                         logradouro, endereco, numero, complemento,contrato,valorContratado, observacoes
                     ) VALUES (
-                        :idCliente, :dataInicio, :dataFim, :status, :estado, :cidade, :cep, 
+                        :idCliente,:idResponsavel,:dataInicio, :dataFim, :status, :estado, :cidade, :cep, 
                         :logradouro, :endereco, :numero, :complemento, :contrato,:valorContratado,:observacoes 
                     )";
 
@@ -317,6 +328,7 @@ class Obra
 
             $sucesso = $stmt->execute([
                 ':idCliente' => $this->idCliente,
+                ':idResponsavel' => $this->idResponsavel,
                 ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
                 ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
                 ':status' => $this->status,
@@ -431,6 +443,7 @@ class Obra
 
             $sql = "UPDATE obra SET
                         idCliente     = :idCliente,
+                        idResponsavel   = :idResponsavel,
                         dataInicio    = :dataInicio,
                         dataFim       = :dataFim,
                         status        = :status,
@@ -450,6 +463,7 @@ class Obra
 
             $sucesso = $stmt->execute([
                 ':idCliente' => $this->idCliente,
+                ':idResponsavel' => $this->idResponsavel,
                 ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
                 ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
                 ':status' => $this->status,

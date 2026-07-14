@@ -51,8 +51,13 @@ $fnContrato = $funcModelExiste ? $funcionarioBusca->getTipoContrato() : '—';
 $fnBanco = $funcModelExiste ? ($funcionarioBusca->getAgencia() . ' / ' . $funcionarioBusca->getConta()) : '—';
 
 $isEditObra = isset($financeiroObra) && is_object($financeiroObra);
+
+$actionObra = $isEditObra
+    ? "/ideal/public/index.php?url=financeiro-obra/update&id={$financeiroObra->getIdFinanceiroObra()}"
+    : "/ideal/public/index.php?url=financeiro-obra/store";
+
+
 $isEditAutomovel = isset($financeiroAutomovel) && is_object($financeiroAutomovel);
-$actionObra = $isEditObra ? "/ideal/public/index.php?url=financeiros/updateObra&id={$financeiroObra->getIdFinanceiroObra()}" : "/ideal/public/index.php?url=financeiros/storeObra";
 $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/updateAutomovel&id={$financeiroAutomovel->getIdFinanceiroAutomovel()}" : "/ideal/public/index.php?url=financeiros/storeAutomovel";
 ?>
 
@@ -81,6 +86,19 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                 <a href="?url=financeiros&aba=automovel" class="aba <?= $aba === 'automovel' ? 'ativa' : '' ?>"><i
                         class="fa-solid fa-car"></i> Automóvel</a>
             </div>
+
+            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                <div class="alert alert-success">
+                    <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                </div>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                <div class="alert alert-error">
+                    <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+                </div>
+                <?php unset($_SESSION['mensagem_erro']); ?>
+            <?php endif; ?>
 
             <?php if ($aba === 'funcionario'): ?>
 
@@ -293,20 +311,6 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                         </div>
 
 
-                                        <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                                            <div class="alert alert-success">
-                                                <?= $_SESSION['mensagem_sucesso'] ?>
-                                            </div>
-                                            <?php unset($_SESSION['mensagem_sucesso']); ?>
-                                        <?php endif; ?>
-
-                                        <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                                            <div class="alert alert-error">
-                                                <?= $_SESSION['mensagem_erro'] ?>
-                                            </div>
-                                            <?php unset($_SESSION['mensagem_erro']); ?>
-                                        <?php endif; ?>
-
                                         <div class="acoes-entrada">
                                             <button type="submit" class="btn salvar"><i class="fa-solid fa-floppy-disk"></i>
                                                 Salvar Entrada</button>
@@ -403,21 +407,6 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                                     placeholder="Informações adicionais sobre o desconto..."></textarea>
                                             </div>
                                         </div>
-
-                                        <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                                            <div class="alert alert-success">
-                                                <?= $_SESSION['mensagem_sucesso'] ?>
-                                            </div>
-                                            <?php unset($_SESSION['mensagem_sucesso']); ?>
-                                        <?php endif; ?>
-
-                                        <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                                            <div class="alert alert-error">
-                                                <?= $_SESSION['mensagem_erro'] ?>
-                                            </div>
-                                            <?php unset($_SESSION['mensagem_erro']); ?>
-                                        <?php endif; ?>
-
 
                                         <div class="acoes-saida">
                                             <button type="submit" class="btn salvar"><i class="fa-solid fa-floppy-disk"></i>
@@ -542,8 +531,8 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                     <div class="obra-card">
 
                         <!-- ==========================
-         CABEÇALHO
-    =========================== -->
+                              CABEÇALHO
+                  =========================== -->
                         <div class="card-titulo">
                             <i class="fa-solid fa-hard-hat icone-aba"></i>
                             <div>
@@ -567,14 +556,14 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                     <?php unset($_SESSION['mensagem_erro']); ?>
                                 <?php endif; ?>
 
-                                <form class="form-busca" action="/ideal/public/index.php?url=financeiros&aba=obra"
-                                    method="POST">
+                                <form class="form-busca"
+                                    action="/ideal/public/index.php?url=financeiro-obra/buscar&aba=obra" method="POST">
 
                                     <div class="input-group">
-                                        <label>Digite o código ou nome da obra</label>
+                                        <label>Digite o código ou contrato da obra</label>
 
-                                        <input type="text" name="buscaObra"
-                                            placeholder="Ex.: 15 ou Reforma Hospital Municipal" maxlength="100" required>
+                                        <input type="text" name="buscaObra" placeholder="Ex.: 1 ou Obra 1" maxlength="100"
+                                            required>
                                     </div>
 
                                     <button type="submit" class="btn-buscar">
@@ -616,15 +605,29 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
 
                             <!-- Cabeçalho -->
                             <div class="obra-cabecalho">
+                                <h3 class="obra-nome">
+                                    <?= isset($obra)
+                                        ? htmlspecialchars($obra->getContrato())
+                                        : 'Nenhuma obra localizada'
+                                        ?>
+                                </h3>
 
-                                <div class="obra-avatar">
-                                    <i class="fa-solid fa-hard-hat"></i>
-                                </div>
+                                <?php
+                                $statusObra = isset($obra) ? $obra->getStatus() : '';
 
-                                <div class="obra-titulo">
-                                    <h3 class="obra-nome">Reforma Hospital Municipal</h3>
-                                    <span class="status andamento">Em andamento</span>
-                                </div>
+                                $classeStatus = match ($statusObra) {
+                                    'Em andamento' => 'andamento',
+                                    'Concluida', 'Concluída' => 'concluida',
+                                    'Cancelada' => 'cancelada',
+                                    default => 'andamento'
+                                };
+                                ?>
+
+                                <?php if ($statusObra): ?>
+                                    <span class="status <?= $classeStatus ?>">
+                                        <?= htmlspecialchars($statusObra) ?>
+                                    </span>
+                                <?php endif; ?>
                             </div>
 
                             <!-- Informações -->
@@ -632,54 +635,84 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
 
                                 <div class="obra-item">
                                     <i class="fa-solid fa-hashtag"></i>
-
                                     <div>
                                         <span class="obra-label">Código</span>
-                                        <span class="obra-valor">18</span>
+                                        <strong>
+                                            <?= isset($obra)
+                                                ? htmlspecialchars((string) $obra->getIdObra())
+                                                : '—'
+                                                ?>
+                                        </strong>
                                     </div>
                                 </div>
 
                                 <div class="obra-item">
                                     <i class="fa-solid fa-building"></i>
-
                                     <div>
                                         <span class="obra-label">Cliente</span>
-                                        <span class="obra-valor">
-                                            Prefeitura de Santos
-                                        </span>
+                                        <strong>
+                                            <?= isset($cliente) && $cliente
+                                                ? htmlspecialchars($cliente->getNomeCliente())
+                                                : '—'
+                                                ?>
+                                        </strong>
                                     </div>
                                 </div>
 
                                 <div class="obra-item">
                                     <i class="fa-solid fa-user"></i>
-
                                     <div>
                                         <span class="obra-label">Responsável</span>
-                                        <span class="obra-valor">
-                                            João Carlos
-                                        </span>
+                                        <strong>
+                                            <?= isset($responsavel) && $responsavel
+                                                ? htmlspecialchars($responsavel->getNome())
+                                                : '—'
+                                                ?>
+                                        </strong>
                                     </div>
                                 </div>
 
                                 <div class="obra-item">
                                     <i class="fa-solid fa-calendar-day"></i>
-
                                     <div>
                                         <span class="obra-label">Data de Início</span>
-                                        <span class="obra-valor">
-                                            10/03/2026
-                                        </span>
+                                        <strong>
+                                            <?= isset($obra) && $obra->getDataInicio()
+                                                ? $obra->getDataInicio()->format('d/m/Y')
+                                                : '—'
+                                                ?>
+                                        </strong>
                                     </div>
                                 </div>
 
                                 <div class="obra-item">
                                     <i class="fa-solid fa-calendar-check"></i>
-
                                     <div>
                                         <span class="obra-label">Previsão de Término</span>
-                                        <span class="obra-valor">
-                                            15/12/2026
-                                        </span>
+                                        <strong>
+                                            <?= isset($obra) && $obra->getDataFim()
+                                                ? $obra->getDataFim()->format('d/m/Y')
+                                                : '—'
+                                                ?>
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="obra-item">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                    <div>
+                                        <span class="obra-label">Valor Contratado</span>
+                                        <strong>
+                                            <?= isset($obra) && $obra->getValorContratado() !== null
+                                                ? 'R$ ' . number_format(
+                                                    $obra->getValorContratado(),
+                                                    2,
+                                                    ',',
+                                                    '.'
+                                                )
+                                                : '—'
+                                                ?>
+                                        </strong>
                                     </div>
                                 </div>
 
@@ -696,8 +729,11 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                 Valor Contratado
                             </span>
 
-                            <strong class="valor-contrato">
-                                R$ 285.000,00
+                            <strong class="valor-contratado">
+                                <?= isset($obra) && $obra->getValorContratado() !== null
+                                    ? 'R$ ' . number_format($obra->getValorContratado(), 2, ',', '.')
+                                    : 'R$ 0,00'
+                                    ?>
                             </strong>
                         </div>
 
@@ -707,7 +743,7 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                             </span>
 
                             <strong class="valor-gasto">
-                                R$ 124.500,00
+                                R$ <?= number_format($gastoAtual ?? 0, 2, ',', '.') ?>
                             </strong>
                         </div>
 
@@ -717,7 +753,7 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                             </span>
 
                             <strong class="valor-saldo">
-                                R$ 160.500,00
+                                R$ <?= number_format($saldoDisponivel ?? 0, 2, ',', '.') ?>
                             </strong>
                         </div>
 
@@ -737,7 +773,7 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                             </div>
 
                             <form id="form-obra" action="<?= $actionObra ?>" method="POST" enctype="multipart/form-data">
-
+                                <input type="hidden" name="idObra" value="<?= isset($obra) ? $obra->getIdObra() : '' ?>">
                                 <div class="formulario-grid">
 
                                     <!-- Categoria -->
@@ -826,10 +862,6 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
                                     <textarea name="observacao" rows="4" maxlength="500"
                                         placeholder="Informações adicionais sobre o gasto (opcional)"></textarea>
                                 </div>
-
-
-
-
 
                             </form>
 
@@ -962,25 +994,6 @@ $actionAutomovel = $isEditAutomovel ? "/ideal/public/index.php?url=financeiros/u
 
 
         </div>
-
-
-
-
-
-        <!-- <div class="acoes">
-                    <a href="/ideal/public/index.php?url=financeiros&aba=obra" class="btn novo"><i
-                            class="bi bi-plus-lg"></i> Cadastrar</a>
-                    <?php if (!$isEditObra): ?>
-                        <button type="submit" form="form-obra" class="btn salvar"><i class="bi bi-floppy"></i> Salvar</button>
-                    <?php else: ?>
-                        <button type="submit" form="form-obra" class="btn alterar"><i class="bi bi-pencil-square"></i>
-                            Alterar</button>
-                        <a href="/ideal/public/index.php?url=financeiros/deleteObra&id=<?= $financeiroObra->getIdFinanceiroObra() ?>"
-                            class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')"><i
-                                class="bi bi-trash"></i> Excluir</a>
-                    <?php endif; ?>
-                    <button type="reset" form="form-obra" class="btn limpar"><i class="bi bi-eraser"></i> Limpar</button>
-                </div> -->
 
     <?php elseif ($aba === 'automovel'): ?>
         <section class="card">

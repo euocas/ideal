@@ -390,6 +390,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Responsável</th>
                                     <th>Funcionário</th>
                                     <th>Função / Cargo</th>
                                     <th>Veículo</th>
@@ -417,8 +418,14 @@ require_once __DIR__ . '/../includes/header.php';
 
                                         $idFunc = $func['idFuncionario'];
                                         $idVeic = $func['idVeiculo'] ?? '';
+                                        $ehResponsavel = isset($obra) && $obra->getIdResponsavel() === (int) $idFunc;
                                         ?>
                                         <tr>
+                                            <td class="responsavel-tabela">
+                                                <input type="radio" name="idResponsavel" value="<?= $idFunc ?>"
+                                                    <?= $ehResponsavel ? 'checked' : '' ?>>
+                                            </td>
+
                                             <td>
                                                 <?= $nome ?>
                                                 <input type="hidden"
@@ -428,16 +435,19 @@ require_once __DIR__ . '/../includes/header.php';
                                                     name="funcionariosObra[<?= $indiceFuncionario ?>][idVeiculo]"
                                                     value="<?= $idVeic ?>">
                                             </td>
+
                                             <td><?= $funcao ?></td>
                                             <td><?= $modelo ?></td>
                                             <td><?= $placa ?></td>
                                             <td><?= $dtInicio ?></td>
                                             <td><?= $dtSaida ?></td>
                                             <td><span class="status <?= $statusClass ?>"><?= $status ?></span></td>
+
                                             <td class="acoes-tabela">
                                                 <button type="button" class="btn-excluir"
-                                                    onclick="removerFuncionarioDaTabela(this)"><i
-                                                        class="fa-solid fa-trash"></i></button>
+                                                    onclick="removerFuncionarioDaTabela(this)">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                         <?php
@@ -525,21 +535,34 @@ require_once __DIR__ . '/../includes/header.php';
             const tr = document.createElement('tr');
 
             tr.innerHTML = `
-                <td>
-                    ${nomeFunc}
-                    <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idFuncionario]" value="${idFunc}">
-                    <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idVeiculo]" value="${idVeic}">
-                </td>
-                <td>${funcao}</td>
-                <td>${modeloVeic}</td>
-                <td>${placaVeic}</td>
-                <td>${formataData(inputInicio.value)}</td>
-                <td>${formataData(inputSaida.value)}</td>
-                <td><span class="status ${status.toLowerCase() === 'ativo' ? 'ativo' : 'inativo'}">${status}</span></td>
-                <td class="acoes-tabela">
-                    <button type="button" class="btn-excluir" onclick="removerFuncionarioDaTabela(this)"><i class="fa-solid fa-trash"></i></button>
-                </td>
-            `;
+    <td class="responsavel-tabela">
+        <input type="radio" name="idResponsavel" value="${idFunc}">
+    </td>
+
+    <td>
+        ${nomeFunc}
+        <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idFuncionario]" value="${idFunc}">
+        <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idVeiculo]" value="${idVeic}">
+    </td>
+
+    <td>${funcao}</td>
+    <td>${modeloVeic}</td>
+    <td>${placaVeic}</td>
+    <td>${formataData(inputInicio.value)}</td>
+    <td>${formataData(inputSaida.value)}</td>
+    <td>
+        <span class="status ${status.toLowerCase() === 'ativo' ? 'ativo' : 'inativo'}">
+            ${status}
+        </span>
+    </td>
+
+    <td class="acoes-tabela">
+        <button type="button" class="btn-excluir"
+            onclick="removerFuncionarioDaTabela(this)">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+    </td>
+`;
 
             tbody.appendChild(tr);
             indiceFuncionario++;

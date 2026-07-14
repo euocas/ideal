@@ -10,14 +10,14 @@ class FinanceiroObra
     // =====================================================
     // 1. ATRIBUTOS
     // =====================================================
-    private ?int    $idFinanceiroObra  = null;
-    private ?int    $idObra            = null;
-    private ?string $descricao         = null;
-    private ?string $categoria         = null;
-    private ?float  $valor             = null;
-    private ?string $dataGasto         = null;
-    private ?string $formaPagamento    = null;
-    private ?string $observacao        = null;
+    private ?int $idFinanceiroObra = null;
+    private ?int $idObra = null;
+    private ?string $descricao = null;
+    private ?string $categoria = null;
+    private ?float $valor = null;
+    private ?string $dataGasto = null;
+    private ?string $formaPagamento = null;
+    private ?string $observacao = null;
 
     private PDO $pdo;
 
@@ -33,29 +33,77 @@ class FinanceiroObra
     // =====================================================
     // 3. GETTERS E SETTERS
     // =====================================================
-    public function getIdFinanceiroObra(): ?int { return $this->idFinanceiroObra; }
-    public function setIdFinanceiroObra(?int $id): void { $this->idFinanceiroObra = $id; }
+    public function getIdFinanceiroObra(): ?int
+    {
+        return $this->idFinanceiroObra;
+    }
+    public function setIdFinanceiroObra(?int $id): void
+    {
+        $this->idFinanceiroObra = $id;
+    }
 
-    public function getIdObra(): ?int { return $this->idObra; }
-    public function setIdObra($id): void { $this->idObra = $id ? (int) $id : null; }
+    public function getIdObra(): ?int
+    {
+        return $this->idObra;
+    }
+    public function setIdObra($id): void
+    {
+        $this->idObra = $id ? (int) $id : null;
+    }
 
-    public function getDescricao(): ?string { return $this->descricao; }
-    public function setDescricao(?string $descricao): void { $this->descricao = $descricao; }
+    public function getDescricao(): ?string
+    {
+        return $this->descricao;
+    }
+    public function setDescricao(?string $descricao): void
+    {
+        $this->descricao = $descricao;
+    }
 
-    public function getCategoria(): ?string { return $this->categoria; }
-    public function setCategoria(?string $categoria): void { $this->categoria = $categoria; }
+    public function getCategoria(): ?string
+    {
+        return $this->categoria;
+    }
+    public function setCategoria(?string $categoria): void
+    {
+        $this->categoria = $categoria;
+    }
 
-    public function getValor(): ?float { return $this->valor; }
-    public function setValor($valor): void { $this->valor = $valor !== null && $valor !== '' ? (float) $valor : null; }
+    public function getValor(): ?float
+    {
+        return $this->valor;
+    }
+    public function setValor($valor): void
+    {
+        $this->valor = $valor !== null && $valor !== '' ? (float) $valor : null;
+    }
 
-    public function getDataGasto(): ?string { return $this->dataGasto; }
-    public function setDataGasto(?string $data): void { $this->dataGasto = $data; }
+    public function getDataGasto(): ?string
+    {
+        return $this->dataGasto;
+    }
+    public function setDataGasto(?string $data): void
+    {
+        $this->dataGasto = $data;
+    }
 
-    public function getFormaPagamento(): ?string { return $this->formaPagamento; }
-    public function setFormaPagamento(?string $forma): void { $this->formaPagamento = $forma; }
+    public function getFormaPagamento(): ?string
+    {
+        return $this->formaPagamento;
+    }
+    public function setFormaPagamento(?string $forma): void
+    {
+        $this->formaPagamento = $forma;
+    }
 
-    public function getObservacao(): ?string { return $this->observacao; }
-    public function setObservacao(?string $obs): void { $this->observacao = $obs; }
+    public function getObservacao(): ?string
+    {
+        return $this->observacao;
+    }
+    public function setObservacao(?string $obs): void
+    {
+        $this->observacao = $obs;
+    }
 
     // =====================================================
     // 4. HYDRATE
@@ -94,6 +142,20 @@ class FinanceiroObra
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(fn($row) => $this->hydrate($row), $rows);
     }
+    public function calcularGastoAtual(int $idObra): float
+    {
+        $sql = "SELECT COALESCE(SUM(valor), 0) AS total
+            FROM financeiroObra
+            WHERE idObra = :idObra";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':idObra', $idObra, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return (float) $stmt->fetchColumn();
+    }
+
+
 
     public function save(): bool
     {
@@ -102,13 +164,13 @@ class FinanceiroObra
                     VALUES (:idObra, :descricao, :categoria, :valor, :dataGasto, :formaPagamento, :observacao)";
 
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':idObra',          $this->getIdObra(),          PDO::PARAM_INT);
-            $stmt->bindValue(':descricao',        $this->getDescricao(),       PDO::PARAM_STR);
-            $stmt->bindValue(':categoria',        $this->getCategoria(),       PDO::PARAM_STR);
-            $stmt->bindValue(':valor',            $this->getValor(),           PDO::PARAM_STR);
-            $stmt->bindValue(':dataGasto',        $this->getDataGasto(),       PDO::PARAM_STR);
-            $stmt->bindValue(':formaPagamento',   $this->getFormaPagamento(),  PDO::PARAM_STR);
-            $stmt->bindValue(':observacao',       $this->getObservacao(),      PDO::PARAM_STR);
+            $stmt->bindValue(':idObra', $this->getIdObra(), PDO::PARAM_INT);
+            $stmt->bindValue(':descricao', $this->getDescricao(), PDO::PARAM_STR);
+            $stmt->bindValue(':categoria', $this->getCategoria(), PDO::PARAM_STR);
+            $stmt->bindValue(':valor', $this->getValor(), PDO::PARAM_STR);
+            $stmt->bindValue(':dataGasto', $this->getDataGasto(), PDO::PARAM_STR);
+            $stmt->bindValue(':formaPagamento', $this->getFormaPagamento(), PDO::PARAM_STR);
+            $stmt->bindValue(':observacao', $this->getObservacao(), PDO::PARAM_STR);
             $stmt->execute();
 
             $this->idFinanceiroObra = (int) $this->pdo->lastInsertId();
@@ -137,14 +199,14 @@ class FinanceiroObra
                     WHERE idFinanceiroObra = :id";
 
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':idObra',          $this->getIdObra(),          PDO::PARAM_INT);
-            $stmt->bindValue(':descricao',        $this->getDescricao(),       PDO::PARAM_STR);
-            $stmt->bindValue(':categoria',        $this->getCategoria(),       PDO::PARAM_STR);
-            $stmt->bindValue(':valor',            $this->getValor(),           PDO::PARAM_STR);
-            $stmt->bindValue(':dataGasto',        $this->getDataGasto(),       PDO::PARAM_STR);
-            $stmt->bindValue(':formaPagamento',   $this->getFormaPagamento(),  PDO::PARAM_STR);
-            $stmt->bindValue(':observacao',       $this->getObservacao(),      PDO::PARAM_STR);
-            $stmt->bindValue(':id',               $this->getIdFinanceiroObra(), PDO::PARAM_INT);
+            $stmt->bindValue(':idObra', $this->getIdObra(), PDO::PARAM_INT);
+            $stmt->bindValue(':descricao', $this->getDescricao(), PDO::PARAM_STR);
+            $stmt->bindValue(':categoria', $this->getCategoria(), PDO::PARAM_STR);
+            $stmt->bindValue(':valor', $this->getValor(), PDO::PARAM_STR);
+            $stmt->bindValue(':dataGasto', $this->getDataGasto(), PDO::PARAM_STR);
+            $stmt->bindValue(':formaPagamento', $this->getFormaPagamento(), PDO::PARAM_STR);
+            $stmt->bindValue(':observacao', $this->getObservacao(), PDO::PARAM_STR);
+            $stmt->bindValue(':id', $this->getIdFinanceiroObra(), PDO::PARAM_INT);
             $stmt->execute();
 
             return true;
