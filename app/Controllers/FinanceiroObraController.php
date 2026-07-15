@@ -171,19 +171,26 @@ class FinanceiroObraController // ✅ NOME CORRETO
                 $obra->getIdResponsavel()
             );
         }
-
+        // Dados financeiros da obra
         $gastoAtual = 0;
         $saldoDisponivel = 0;
+        $lancamentosObra = [];
 
         if ($obra) {
             $financeiroObraModel = new FinanceiroObra();
-
             $gastoAtual = $financeiroObraModel->calcularGastoAtual(
                 $obra->getIdObra()
+
             );
 
             $saldoDisponivel =
                 $obra->getValorContratado() - $gastoAtual;
+
+            $lancamentosObra = $financeiroObraModel->findUltimosByIdObra(
+                $obra->getIdObra(),
+                4
+            );
+
         }
 
         // Mantém a aba Obra ativa
@@ -192,19 +199,89 @@ class FinanceiroObraController // ✅ NOME CORRETO
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
 
-    private function popularObra(FinanceiroObra $obj, array $dados): void
+    public function visualizar()
     {
-        $obj->setIdObra($dados['idObra'] ?? null);
-        $obj->setDescricao($dados['descricao'] ?? null);
-        $obj->setCategoria($dados['categoria'] ?? null);
-        $obj->setValor($dados['valor'] ?? null);
-        $obj->setDataGasto($dados['dataGasto'] ?? null);
-        $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
-        $obj->setObservacao($dados['observacao'] ?? null);
+        $idFinanceiroObra = !empty($_GET['id'])
+            ? (int) $_GET['id']
+            : null;
+
+        if (!$idFinanceiroObra) {
+            $_SESSION['mensagem_erro'] = 'Lançamento inválido.';
+
+            header(
+                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+            );
+
+            exit;
+        }
+
+        $financeiroObraModel = new FinanceiroObra();
+
+        $financeiroObra = $financeiroObraModel->findById(
+            $idFinanceiroObra
+        );
+
+        if (!$financeiroObra) {
+            $_SESSION['mensagem_erro'] = 'Lançamento não localizado.';
+
+            header(
+                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+            );
+
+            exit;
+        }
+
+        $idObra = $financeiroObra->getIdObra();
+
+        // Busca a obra
+        $obraModel = new Obra();
+
+        $obra = $obraModel->buscarPorId(
+            $idObra
+        );
+
+        // Busca o cliente
+        $cliente = null;
+
+        if ($obra) {
+            $clienteModel = new Cliente();
+
+            $cliente = $clienteModel->findById(
+                $obra->getIdCliente()
+            );
+        }
+
+        // Busca o responsável
+        $responsavel = null;
+
+        if ($obra && $obra->getIdResponsavel()) {
+            $funcionarioModel = new Funcionario();
+
+            $responsavel = $funcionarioModel->findById(
+                $obra->getIdResponsavel()
+            );
+        }
+
+        // Calcula resumo financeiro
+        $gastoAtual = $financeiroObraModel->calcularGastoAtual(
+            $idObra
+        );
+
+        $saldoDisponivel =
+            $obra->getValorContratado() - $gastoAtual;
+
+        // Últimos 4 lançamentos
+        $lancamentosObra = $financeiroObraModel
+            ->findUltimosByIdObra($idObra, 4);
+
+        $aba = 'obra';
+
+        require_once __DIR__ . '/../Views/financeiros/index.php';
     }
 
     public function store()
     {
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $idObra = !empty($_POST['idObra'])
@@ -239,6 +316,121 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
             exit;
         }
+    }
+    public function update()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $idFinanceiroObra = !empty($_GET['id'])
+                ? (int) $_GET['id']
+                : null;
+
+            if (!$idFinanceiroObra) {
+                $_SESSION['mensagem_erro'] = 'Lançamento financeiro inválido.';
+
+                header(
+                    'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                );
+                exit;
+            }
+
+            $financeiroObraModel = new FinanceiroObra();
+
+            $financeiroObra = $financeiroObraModel->findById(
+                $idFinanceiroObra
+            );
+
+            if (!$financeiroObra) {
+                $_SESSION['mensagem_erro'] = 'Lançamento financeiro não localizado.';
+
+                header(
+                    'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                );
+                exit;
+            }
+
+            $idObra = $financeiroObra->getIdObra();
+
+            $this->popularObra(
+                $financeiroObra,
+                $_POST
+            );
+
+            $alterou = $financeiroObra->update();
+
+            if ($alterou) {
+                $_SESSION['mensagem_sucesso'] = 'Gasto alterado com sucesso!';
+            } else {
+                $_SESSION['mensagem_erro'] = 'Erro ao alterar o gasto.';
+            }
+
+            header(
+                'Location: /ideal/public/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
+            );
+
+            exit;
+        }
+    }
+    public function delete()
+    {
+        $idFinanceiroObra = !empty($_GET['id'])
+            ? (int) $_GET['id']
+            : null;
+
+        if (!$idFinanceiroObra) {
+            $_SESSION['mensagem_erro'] = 'Lançamento financeiro inválido.';
+
+            header(
+                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+            );
+            exit;
+        }
+
+        $financeiroObraModel = new FinanceiroObra();
+
+        $financeiroObra = $financeiroObraModel->findById(
+            $idFinanceiroObra
+        );
+
+        if (!$financeiroObra) {
+            $_SESSION['mensagem_erro'] = 'Lançamento financeiro não localizado.';
+
+            header(
+                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+            );
+            exit;
+        }
+
+        $idObra = $financeiroObra->getIdObra();
+
+        $excluiu = $financeiroObraModel->delete(
+            $idFinanceiroObra
+        );
+
+        if ($excluiu) {
+            $_SESSION['mensagem_sucesso'] = 'Gasto excluído com sucesso!';
+        } else {
+            $_SESSION['mensagem_erro'] = 'Erro ao excluir o gasto.';
+        }
+
+        header(
+            'Location: /ideal/public/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
+        );
+
+        exit;
+    }
+
+    private function popularObra(FinanceiroObra $obj, array $dados): void
+    {
+        $obj->setIdObra($dados['idObra'] ?? null);
+        $obj->setDescricao($dados['descricao'] ?? null);
+        $obj->setCategoria($dados['categoria'] ?? null);
+        $obj->setValor($dados['valor'] ?? null);
+        $obj->setDataGasto($dados['dataGasto'] ?? null);
+        $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
+        $obj->setFornecedor($dados['fornecedor'] ?? null);
+        $obj->setDocumentoFiscal($dados['documentoFiscal'] ?? null);
+        $obj->setObservacao($dados['observacao'] ?? null);
     }
 
     // =========================================================

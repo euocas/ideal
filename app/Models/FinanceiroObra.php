@@ -17,6 +17,9 @@ class FinanceiroObra
     private ?float $valor = null;
     private ?string $dataGasto = null;
     private ?string $formaPagamento = null;
+    private ?string $fornecedor = null;
+
+    private ?string $documentoFiscal = null;
     private ?string $observacao = null;
 
     private PDO $pdo;
@@ -96,6 +99,26 @@ class FinanceiroObra
         $this->formaPagamento = $forma;
     }
 
+    public function getFornecedor(): ?string
+    {
+        return $this->fornecedor;
+    }
+
+    public function setFornecedor(?string $fornecedor): void
+    {
+        $this->fornecedor = $fornecedor;
+    }
+
+    public function getDocumentoFiscal(): ?string
+    {
+        return $this->documentoFiscal;
+    }
+
+    public function setDocumentoFiscal(?string $documentoFiscal): void
+    {
+        $this->documentoFiscal = $documentoFiscal;
+    }
+
     public function getObservacao(): ?string
     {
         return $this->observacao;
@@ -118,6 +141,8 @@ class FinanceiroObra
         $obj->setValor($dados['valor'] ?? null);
         $obj->setDataGasto($dados['dataGasto'] ?? null);
         $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
+        $obj->setFornecedor($dados['fornecedor'] ?? null);
+        $obj->setDocumentoFiscal($dados['documentoFiscal'] ?? null);
         $obj->setObservacao($dados['observacao'] ?? null);
         return $obj;
     }
@@ -142,6 +167,34 @@ class FinanceiroObra
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array_map(fn($row) => $this->hydrate($row), $rows);
     }
+
+    public function findUltimosByIdObra(
+        int $idObra,
+        int $limite = 4
+    ): array {
+        $limite = max(1, $limite);
+
+        $sql = "
+        SELECT *
+        FROM financeiroObra
+        WHERE idObra = :idObra
+        ORDER BY dataGasto DESC, idFinanceiroObra DESC
+        LIMIT {$limite}
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':idObra', $idObra, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(
+            fn($row) => $this->hydrate($row),
+            $rows
+        );
+    }
+
+
     public function calcularGastoAtual(int $idObra): float
     {
         $sql = "SELECT COALESCE(SUM(valor), 0) AS total
@@ -160,8 +213,8 @@ class FinanceiroObra
     public function save(): bool
     {
         try {
-            $sql = "INSERT INTO financeiroObra (idObra, descricao, categoria, valor, dataGasto, formaPagamento, observacao)
-                    VALUES (:idObra, :descricao, :categoria, :valor, :dataGasto, :formaPagamento, :observacao)";
+            $sql = "INSERT INTO financeiroObra (idObra, descricao, categoria, valor, dataGasto, formaPagamento,fornecedor,documentoFiscal, observacao)
+                    VALUES (:idObra, :descricao, :categoria, :valor, :dataGasto, :formaPagamento,:fornecedor,:documentoFiscal,:observacao)";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':idObra', $this->getIdObra(), PDO::PARAM_INT);
@@ -170,6 +223,8 @@ class FinanceiroObra
             $stmt->bindValue(':valor', $this->getValor(), PDO::PARAM_STR);
             $stmt->bindValue(':dataGasto', $this->getDataGasto(), PDO::PARAM_STR);
             $stmt->bindValue(':formaPagamento', $this->getFormaPagamento(), PDO::PARAM_STR);
+            $stmt->bindValue(':fornecedor', $this->getFornecedor(), PDO::PARAM_STR);
+            $stmt->bindValue(':documentoFiscal', $this->getDocumentoFiscal(), PDO::PARAM_STR);
             $stmt->bindValue(':observacao', $this->getObservacao(), PDO::PARAM_STR);
             $stmt->execute();
 
@@ -195,6 +250,8 @@ class FinanceiroObra
                         valor          = :valor,
                         dataGasto      = :dataGasto,
                         formaPagamento = :formaPagamento,
+                        fornecedor = :fornecedor,
+                        documentoFiscal = :documentoFiscal,
                         observacao     = :observacao
                     WHERE idFinanceiroObra = :id";
 
@@ -205,6 +262,8 @@ class FinanceiroObra
             $stmt->bindValue(':valor', $this->getValor(), PDO::PARAM_STR);
             $stmt->bindValue(':dataGasto', $this->getDataGasto(), PDO::PARAM_STR);
             $stmt->bindValue(':formaPagamento', $this->getFormaPagamento(), PDO::PARAM_STR);
+            $stmt->bindValue(':fornecedor', $this->getFornecedor(), PDO::PARAM_STR);
+            $stmt->bindValue(':documentoFiscal', $this->getDocumentoFiscal(), PDO::PARAM_STR);
             $stmt->bindValue(':observacao', $this->getObservacao(), PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->getIdFinanceiroObra(), PDO::PARAM_INT);
             $stmt->execute();

@@ -66,9 +66,9 @@ return [
 
     'financeiro-obra' => [FinanceiroObraController::class, 'index'],
     'financeiro-obra/buscar' => [FinanceiroObraController::class, 'buscarObra'],
+    'financeiro-obra/visualizar' => [FinanceiroObraController::class,'visualizar'],
     'financeiro-obra/create' => [FinanceiroObraController::class, 'create'],
     'financeiro-obra/store' => [FinanceiroObraController::class, 'store'],
-    'financeiro-obra/edit' => [FinanceiroObraController::class, 'edit'],
     'financeiro-obra/update' => [FinanceiroObraController::class, 'update'],
     'financeiro-obra/delete' => [FinanceiroObraController::class, 'delete'],
 
@@ -81,12 +81,7 @@ return [
     'financeiros/deleteAutomovel' => [FinanceirosController::class, 'deleteAutomovel'],
 
     'relatorios' => [RelatoriosController::class, 'index'],
-    'financeiro-obra' => [FinanceiroObraController::class, 'index'],
-    'financeiro-obra/create' => [FinanceiroObraController::class, 'create'],
-    'financeiro-obra/store' => [FinanceiroObraController::class, 'store'],
-    'financeiro-obra/edit' => [FinanceiroObraController::class, 'edit'],
-    'financeiro-obra/update' => [FinanceiroObraController::class, 'update'],
-    'financeiro-obra/delete' => [FinanceiroObraController::class, 'delete'],
+
 
 
     'credenciais' => [CredenciaisController::class, 'index'],

@@ -1260,7 +1260,7 @@
 .obra-lancamentos {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(380px, 1fr);
-  gap: 24px;
+  gap: 13px;
   align-items: start;
 }
 
@@ -1281,6 +1281,22 @@
   display: grid;
   gap: 18px;
 }
+
+.obra-direita th:last-child,
+.obra-direita td:last-child {
+  text-align: center;
+  vertical-align: middle;
+  width: 70px;
+}
+.obra-direita td:last-child a,
+.obra-direita td:last-child button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  text-decoration: none;
+}
+
 .status.andamento {
   background-color: #dcfce7;
   color: #16a34a;
@@ -1396,6 +1412,34 @@
   font-weight: bold;
   color: var(--orange);
 }
+
+/* ==========================================
+   ÚLTIMOS LANÇAMENTOS
+========================================== */
+.lancamentos-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    margin-top: 12px;
+    border-top: 1px solid var(--border);
+}
+.lancamentos-total {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.lancamentos-total span {
+    color: var(--text-secondary);
+}
+.lancamentos-total strong {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+.lancamentos-total:last-child strong {
+    color: var(--orange);
+}
+
 /* ==========================================
    RESPONSIVO
 ========================================== */
