@@ -279,6 +279,39 @@ class FinanceiroObraController // ✅ NOME CORRETO
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
 
+    public function historico()
+    {
+        $idObra = !empty($_GET["idObra"])
+            ? (int) $_GET["idObra"]
+            : null;
+
+        if (!$idObra) {
+            $_SESSION["mensagem_erro"] = "Obra inválida.";
+            header(
+                "Location: /ideal/public/index.php?url=financeiros&aba=obra");
+            exit;
+        }
+
+        $obraModel = new Obra();
+        $obra = $obraModel->buscarPorId($idObra);
+
+        if (!$obra) {
+            $_SESSION["mensagem_erro"] = "Obra não localizada.";
+            header(
+                "Location: /ideal/public/index.php?url=financeiros&aba=obra" );
+            exit;
+        }
+        $financeiroObraModel = new FinanceiroObra();
+        $acao = $_GET["acao"] ?? "ultimos";
+
+        if ($acao === "historico") {
+            $lancamentosObra = $financeiroObraModel ->findByIdObra($idObra);
+        } else {
+            $lancamentosObra = $financeiroObraModel ->findUltimosByIdObra($idObra);
+        }
+        $aba = "obra";
+        require_once __DIR__ . "/../Views/financeiros/index.php";
+    }
     public function store()
     {
 

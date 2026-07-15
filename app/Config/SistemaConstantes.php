@@ -54,9 +54,27 @@ class SistemaConstantes
         'Feminino',
         'Outro'
     ];
-public const STATUS = [
-    'ativo'   => 'Ativo',
-    'inativo' => 'Inativo'
+    public const STATUS = [
+        'ativo' => 'Ativo',
+        'inativo' => 'Inativo'
+    ];
+
+    public const CATEGORIAS_OBRA = [
+    "Material",
+    "Alimentação",
+    "Transporte",
+    "Hospedagem",
+    "Equipamento",
+    "Serviço",
+    "Outros",
+
+];
+
+public const FORMAS_PAGAMENTO = [
+    "PIX",
+    "Boleto",
+    "Cartão",
+    "Transferência",
 ];
 
 }
