@@ -175,7 +175,8 @@
   width: 200px;
   height: 47px; /* opcional, se quiser igualar ao input */
 }
-.financeiro-topo {
+.financeiro-topo,
+.veiculo-topo {
   display: grid;
   grid-template-columns: 53% 42%;
   gap: 40px;
@@ -249,39 +250,38 @@
 .funcionario-principal {
   padding-left: 0;
 }
-
-.cabecalho-funcionario {
+.cabecalho-funcionario,
+.cabecalho-veiculo {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
-.nome-funcionario {
+.nome-funcionario,
+.nome-veiculo {
   display: flex;
   align-items: center;
   gap: 14px;
 }
-.nome-funcionario i {
+.nome-funcionario i,
+.nome-veiculo i {
   font-size: 26px;
   color: var(--text-secondary);
 }
 
-.funcionario-nome {
+.funcionario-nome,
+.veiculo-nome {
   margin: 0;
   font-size: 20px;
   font-weight: 700;
 }
-/* teste */
-/* .funcionario-conteudo{
-    background: var(--surface-alt);
-
-} */
 .funcionario-principal hr {
   margin: 0 0 16px;
   border: none;
   border-top: 1px solid var(--border);
 }
-.funcionario-info {
+.funcionario-info,
+.veiculo-info {
   display: flex;
   align-items: center;
   gap: 48px;
@@ -327,7 +327,8 @@
 /* ==========================================
    class FUNCIONÁRIO CARD
 ========================================== */
-.funcionario-card {
+.funcionario-card,
+.veiculo-card{
   display: flex;
   align-items: center;
   gap: 35px;
@@ -339,12 +340,14 @@
   background: #f7f8fa;
 }
 
-.funcionario-conteudo {
+.funcionario-conteudo,
+.veiculo-conteudo {
   display: flex;
   flex: 1;
 }
 /* COLUNAS */
-.funcionario-coluna {
+.funcionario-coluna,
+.veiculo-coluna {
   flex: 1;
   padding: 0 35px;
 }
@@ -384,7 +387,8 @@
   color: var(--success-dark);
 }
 /* ITENS */
-.funcionario-item {
+.funcionario-item,
+.veiculo-item {
   display: flex;
   align-items: flex-start;
   gap: 14px;
@@ -400,7 +404,8 @@
   font-size: 18px;
 }
 /* TITULO */
-.funcionario-titulo {
+.funcionario-titulo,
+.veiculo-titulo {
   display: block;
   margin-bottom: 3px;
   color: var(--text-light);
@@ -408,7 +413,8 @@
   font-weight: 600;
 }
 /* VALOR */
-.funcionario-valor {
+.funcionario-valor,
+.veiculo-valor{
   display: block;
   color: var(--text);
   font-size: 16px;
@@ -536,6 +542,19 @@
   padding: 30px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
+}
+/* .recebimentos-auto ul {
+    grid-template-columns: 1fr !important;
+    row-gap: 14px !important;
+
+} */
+
+.info-card.recebimentos-auto ul {
+
+    grid-template-columns: 1fr;
+
+    row-gap: 14px;
+
 }
 
 .info-card.entrada {

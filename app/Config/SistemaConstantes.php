@@ -60,21 +60,41 @@ class SistemaConstantes
     ];
 
     public const CATEGORIAS_OBRA = [
-    "Material",
-    "Alimentação",
-    "Transporte",
-    "Hospedagem",
-    "Equipamento",
-    "Serviço",
-    "Outros",
+        "Material",
+        "Alimentação",
+        "Transporte",
+        "Hospedagem",
+        "Equipamento",
+        "Serviço",
+        "Outros",
 
-];
+    ];
 
-public const FORMAS_PAGAMENTO = [
-    "PIX",
-    "Boleto",
-    "Cartão",
-    "Transferência",
-];
+    public const FORMAS_PAGAMENTO = [
+        "PIX",
+        "Boleto",
+        "Cartão",
+        "Transferência",
+    ];
 
+    public const CATEGORIAS_FIN_AUTO = [
+        "Aquisição de veículo",
+        "Combustível",
+        "IPVA",
+        "Licenciamento",
+        "Seguro",
+        "Multa",
+        "Pedágio",
+        "Manutenção",
+        "Outros",
+    ];
+
+    public const RECEBIMENTOS_FIN_AUTO = [
+        "Reembolso",
+        "Venda de peças",
+        "Venda de pneus",
+        "Venda do veículo",
+        "Indenização de seguro",
+        "Outros recebimentos",
+    ];
 }
