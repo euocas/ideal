@@ -550,10 +550,8 @@
 } */
 
 .info-card.recebimentos-auto ul {
-
     grid-template-columns: 1fr;
-
-    row-gap: 14px;
+    row-gap: 12px;
 
 }
 

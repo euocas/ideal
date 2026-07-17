@@ -329,7 +329,7 @@ $veAno = $veiculoExiste
 
                 </div>
                 <aside class="entrada-info">
-                   <div class="info-card entrada recebimentos-auto">
+                    <div class="info-card entrada recebimentos-auto">
                         <div class="info-header">
                             <div class="info-icon"><i class="fa-solid fa-arrow-up"></i></div>
                             <div>
@@ -337,7 +337,7 @@ $veAno = $veiculoExiste
                             </div>
                         </div>
                         <p class="info-descricao"> Registre valores recebidos relacionados ao veículo.</p>
-                        
+
                         <ul>
                             <?php foreach (SistemaConstantes::RECEBIMENTOS_FIN_AUTO as $recebimento): ?>
                                 <li><?= htmlspecialchars($recebimento) ?></li>
@@ -350,85 +350,93 @@ $veAno = $veiculoExiste
         <?php elseif ($tipo === "saida"): ?>
             <div class="saida-container">
                 <div class="saida-formulario">
-                    <form id="form-saida" action="/ideal/public/index.php?url=financeiros/storeFuncionario" method="POST">
+                    <form id="form-saida" action="/ideal/public/index.php?url=financeiros/storeAutomovel" method="POST">
+
                         <input type="hidden" name="tipo" value="saida">
-                        <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste
-                            ? $funcionarioBusca->getIdFuncionario()
-                            : "" ?>">
-                        <input type="hidden" name="cpf_hidden" value="<?= htmlspecialchars(
-                            $cpfBusca,
-                        ) ?>">
-                        <input type="hidden" name="mes_hidden" value="<?= htmlspecialchars(
-                            $mesBusca,
-                        ) ?>">
-                        <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars(
-                            $anoBusca,
-                        ) ?>">
+                        <input type="hidden" name="idVeiculo"
+                            value="<?= $veiculoExiste ? $veiculoBusca->getIdVeiculo() : "" ?>">
+                        <input type="hidden" name="placa_hidden" value="<?= htmlspecialchars($placaBusca) ?>">
+                        <input type="hidden" name="mes_hidden" value="<?= htmlspecialchars($mesBusca) ?>">
+                        <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars($anoBusca) ?>">
 
                         <div class="grid-saida">
+
+                            <!-- Categoria -->
                             <div class="form-group">
-                                <label>Tipo de Descontos (Categoria) <span class="obrigatorio">*</span></label>
+                                <label>Categoria <span class="obrigatorio">*</span></label>
                                 <select name="categoria" required>
-                                    <option value="">Selecione o tipo</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::DESCONTOS
-                                        as $desconto
-                                    ): ?>
-                                        <option value="<?= $desconto ?>"><?= $desconto ?></option>
+                                    <option value="">Selecione a categoria</option>
+
+                                    <?php foreach (SistemaConstantes::CATEGORIAS_FIN_AUTO as $categoria): ?>
+                                        <option value="<?= $categoria ?>">
+                                            <?= $categoria ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
+                            <!-- Fornecedor -->
                             <div class="form-group">
-                                <label>Descrição <span class="obrigatorio">*</span></label>
-                                <input type="text" name="descricao" placeholder="Descreva o desconto" maxlength="100"
-                                    required>
+                                <label>Fornecedor</label>
+                                <input type="text" name="fornecedor" maxlength="100" placeholder="Ex.: Posto Shell">
                             </div>
 
-                            <div class="form-group">
-                                <label>Data do Pagamento <span class="obrigatorio">*</span></label>
-                                <input type="date" name="dataReferencia" value="<?= $dataPadrao ?>" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
-                                <select name="formaPagamento" required>
-                                    <option value="">Selecione</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::FORMAS_PAGAMENTO
-                                        as $forma
-                                    ): ?>
-                                        <option value="<?= $forma ?>"><?= $forma ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="contaPagamento">Conta Pagamento</label>
-                                <select id="contaPagamento" name="contaPagamento">
-                                    <option value="">Selecione</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::CONTAS_PAGAMENTO
-                                        as $valor => $descricao
-                                    ): ?>
-                                        <option value="<?= $valor ?>"><?= $descricao ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
+                            <!-- Valor -->
                             <div class="form-group">
                                 <label>Valor <span class="obrigatorio">*</span></label>
+
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" step="0.01" name="valor" placeholder="0,00" required>
+
+                                    <input type="number" name="valor" step="0.01" min="0" placeholder="0,00" required>
                                 </div>
                             </div>
 
+                            <!-- Descrição -->
                             <div class="form-group span-2">
-                                <label>Observação (Opcional)</label>
-                                <textarea name="observacao" rows="4" maxlength="250"
-                                    placeholder="Informações adicionais sobre o desconto..."></textarea>
+                                <label>Descrição <span class="obrigatorio">*</span></label>
+                                <input type="text" name="descricao" maxlength="255" placeholder="Descreva o gasto" required>
                             </div>
+
+
+                            <!-- Data -->
+                            <div class="form-group">
+                                <label>Data da Movimentação <span class="obrigatorio">*</span></label>
+
+                                <input type="date" name="dataMovimentacao" value="<?= $dataPadrao ?>" required>
+                            </div>
+
+                            <!-- Forma de Pagamento -->
+                            <div class="form-group">
+                                <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
+
+                                <select name="formaPagamento" required>
+                                    <option value="">Selecione</option>
+
+                                    <?php foreach (SistemaConstantes::FORMAS_PAGAMENTO as $forma): ?>
+                                        <option value="<?= $forma ?>">
+                                            <?= $forma ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Documento -->
+                            <div class="form-group">
+                                <label>Documento Fiscal</label>
+
+                                <input type="text" name="documento" maxlength="100"
+                                    placeholder="Ex.: NF-e 125487 ou Recibo 4589">
+                            </div>
+
+                            <!-- Observação -->
+                            <div class="form-group span-2">
+                                <label>Observação</label>
+
+                                <textarea name="observacao" rows="4" maxlength="250"
+                                    placeholder="Informações adicionais sobre o gasto..."></textarea>
+                            </div>
+
                         </div>
 
                         <div class="acoes-saida">
@@ -439,23 +447,24 @@ $veAno = $veiculoExiste
                         </div>
                     </form>
                 </div>
-                <aside class="saida-info">
-                    <div class="info-card saida">
+                <aside class="saida-info ">
+                    <div class="info-card saida recebimentos-auto">
+
                         <div class="info-header">
                             <div class="info-icon"><i class="fa-solid fa-arrow-down"></i></div>
                             <div>
-                                <h3>Descontos (Saídas)</h3>
-                                <p>Registro de valores descontados.</p>
+                                <h3>Gastos</h3>
                             </div>
                         </div>
+
+                        <p class="info-descricao">Registre os gastos relacionados ao veículo.</p>
+
                         <ul>
-                            <?php foreach (
-                                FinanceiroCategorias::DESCONTOS
-                                as $desconto
-                            ): ?>
-                                <li><?= $desconto ?></li>
+                            <?php foreach (SistemaConstantes::CATEGORIAS_FIN_AUTO as $categoria): ?>
+                                <li><?= htmlspecialchars($categoria) ?></li>
                             <?php endforeach; ?>
                         </ul>
+
                     </div>
                 </aside>
             </div>
@@ -475,9 +484,24 @@ $veAno = $veiculoExiste
                     </div>
                 </div>
                 <div class="card-resumo saida">
-                    <div class="icone"><i class="fas fa-arrow-down"></i></div>
+                    <div class="icone"><i class="fas fa-arrow-up"></i></div>
                     <div class="conteudo">
-                        <span>Total de Descontos</span>
+                        <span>Total de Recebimentos</span>
+                        <strong>R$ <?= number_format(
+                            $resumo["entradas"],
+                            2,
+                            ",",
+                            ".",
+                        ) ?>
+                        </strong>
+                    </div>
+                </div>
+                <div class="card-resumo saida">
+                    <div class="icone">
+                        < <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="conteudo">
+                        <span>Total de Gastos</span>
                         <strong>R$ <?= number_format(
                             $resumo["saidas"],
                             2,
@@ -486,18 +510,26 @@ $veAno = $veiculoExiste
                         ) ?></strong>
                     </div>
                 </div>
+
+
                 <div class="card-resumo saldo">
-                    <div class="icone"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="icone">
+                        <i class="fas fa-wallet"></i>
+                    </div>
                     <div class="conteudo">
-                        <span>Salário Líquido</span>
-                        <strong>R$ <?= number_format(
-                            $resumo["saldo"],
-                            2,
-                            ",",
-                            ".",
-                        ) ?></strong>
+                        <span>Saldo do Período</span>
+                        <strong>
+                            R$ <?= number_format(
+                                $resumo["saldo"],
+                                2,
+                                ",",
+                                "."
+                            ) ?>
+                        </strong>
                     </div>
                 </div>
+
+
             </div>
 
             <div class="tabela-lancamentos">
@@ -514,55 +546,43 @@ $veAno = $veiculoExiste
                     <tbody>
                         <?php if (empty($lancamentos)): ?>
                             <tr>
-                                <td colspan="5" class="text-center">Nenhum lançamento encontrado para este período.
-                                </td>
+                                <td colspan="5" class="text-center">Nenhum lançamento encontrado para este período.</td>
                             </tr>
+
                         <?php else: ?>
-                            <?php foreach (
-                                $lancamentos
-                                as $l): ?>
+                            <?php foreach ($lancamentos as $l): ?>
                                 <tr>
-                                    <td><?= date(
-                                        "d/m/Y",
-                                        strtotime($l["dataReferencia"], ),
-                                    ) ?></td>
                                     <td>
-                                        <?php if (
-                                            $l["categoriaTipo"] === "ENTRADA"
-                                        ): ?>
-                                            <span class="badge-entrada"><i class="fa-solid fa-arrow-up"></i>
-                                                <?= htmlspecialchars(
-                                                    $l["categoriaNome"],
-                                                ) ?></span>
+                                        <?= date("d/m/Y", strtotime($l["dataMovimentacao"])) ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($l["tipo"] === "Entrada"): ?>
+                                            <span class="badge-entrada">
+                                                <i class="fa-solid fa-arrow-up"></i>
+                                                <?= htmlspecialchars($l["categoria"]) ?>
+                                            </span>
+
                                         <?php else: ?>
-                                            <span class="badge-saida"><i class="fa-solid fa-arrow-down"></i>
-                                                <?= htmlspecialchars(
-                                                    $l["categoriaNome"],
-                                                ) ?></span>
+                                            <span class="badge-saida">
+                                                <i class="fa-solid fa-arrow-down"></i>
+                                                <?= htmlspecialchars($l["categoria"]) ?>
+                                            </span>
                                         <?php endif; ?>
                                     </td>
-                                    <td><?= htmlspecialchars($l["descricao"], ) ?></td>
-                                    <td class="<?= $l[
-                                        "categoriaTipo"
-                                    ] === "ENTRADA"
+
+                                    <td>
+                                        <?= htmlspecialchars($l["descricao"]) ?>
+                                    </td>
+
+                                    <td class="<?= $l["tipo"] === "Entrada"
                                         ? "valor-positivo"
                                         : "valor-negativo" ?>">
-                                        <?= $l[
-                                            "categoriaTipo"
-                                        ] === "ENTRADA"
-                                            ? "+"
-                                            : "-" ?> R$
-                                        <?= number_format(
-                                            $l["valor"],
-                                            2,
-                                            ",",
-                                            ".",
-                                        ) ?>
+                                        <?= $l["tipo"] === "Entrada" ? "+" : "-" ?>
+                                        R$ <?= number_format($l["valor"], 2, ",", ".") ?>
                                     </td>
+
                                     <td class="acoes text-center">
-                                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $l[
-                                            "idFinanceiroFuncionario"
-                                        ] ?>&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
+                                        <a href="/ideal/public/index.php?url=financeiros/deleteAutomovel&id=<?= $l["idFinanceiroAutomovel"] ?>&placa=<?= urlencode($placaBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
                                             class="btn-acao excluir"
                                             onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
                                             <i class="fa-solid fa-trash"></i>
@@ -584,8 +604,8 @@ $veAno = $veiculoExiste
         <div class="financeiro-dica-conteudo">
             <i class="fa-solid fa-circle-info"></i>
             <span>
-                <strong>Dica:</strong> Use a aba <strong>"Lançamentos do Período"</strong> para visualizar todos
-                os registros de entradas e saídas deste veículo no período selecionado.
+                <strong>Dica:</strong> Use a aba <strong>"Lançamentos do Período"</strong> para visualizar todos os
+                <strong>recebimentos</strong> e <strong>gastos</strong> registrados para este veículo no período selecionado.
             </span>
         </div>
     </div>

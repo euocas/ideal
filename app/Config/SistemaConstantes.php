@@ -90,6 +90,7 @@ class SistemaConstantes
     ];
 
     public const RECEBIMENTOS_FIN_AUTO = [
+        "Bonificação / Cashback",
         "Reembolso",
         "Venda de peças",
         "Venda de pneus",
