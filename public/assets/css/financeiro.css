@@ -543,11 +543,7 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
 }
-/* .recebimentos-auto ul {
-    grid-template-columns: 1fr !important;
-    row-gap: 14px !important;
 
-} */
 
 .info-card.recebimentos-auto ul {
     grid-template-columns: 1fr;
@@ -686,8 +682,7 @@
 
 .tabela-lancamentos th:last-child,
 .tabela-lancamentos td:last-child {
-  width: 90px;
-
+  width: 130px;
   text-align: center;
 }
 .btn-acao.excluir {
@@ -698,6 +693,7 @@
   height: 34px;
   border-radius: 10px;
 }
+
 
 /* ===========================
    RESUMO DOS LANÇAMENTOS
@@ -897,18 +893,40 @@
   font-weight: 600;
 }
 .acoes {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: nowrap;
+
 }
+
+.acoes form {
+
+    margin: 0;
+
+}
+
 .btn-acao {
-  width: 34px;
-  height: 34px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .2s;
+    text-decoration: none;
 }
+
 .btn-acao.editar {
   background: rgba(37, 99, 235, 0.1);
   color: var(--primary);

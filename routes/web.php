@@ -10,6 +10,7 @@ use App\Controllers\ObrasController;
 use App\Controllers\FinanceirosController;
 use App\Controllers\RelatoriosController;
 use App\Controllers\CredenciaisController;
+use App\Controllers\FinanceiroAutomovelController;
 use App\Controllers\FinanceiroObraController;
 
 return [
@@ -64,6 +65,8 @@ return [
     'financeiros/updateObra' => [FinanceirosController::class, 'updateObra'],
     'financeiros/deleteObra' => [FinanceirosController::class, 'deleteObra'],
 
+
+    // Rotas do Financeiro -> Obra
     'financeiro-obra' => [FinanceiroObraController::class, 'index'],
     'financeiro-obra/buscar' => [FinanceiroObraController::class, 'buscarObra'],
     'financeiro-obra/visualizar' => [FinanceiroObraController::class, 'visualizar'],
@@ -74,11 +77,14 @@ return [
 
 
     // Rotas de Financeiro -> Automóvel
-    'financeiros/createAutomovel' => [FinanceirosController::class, 'createAutomovel'],
-    'financeiros/editAutomovel' => [FinanceirosController::class, 'editAutomovel'],
-    'financeiros/storeAutomovel' => [FinanceirosController::class, 'storeAutomovel'],
-    'financeiros/updateAutomovel' => [FinanceirosController::class, 'updateAutomovel'],
-    'financeiros/deleteAutomovel' => [FinanceirosController::class, 'deleteAutomovel'],
+    'financeiro-automovel' => [FinanceiroAutomovelController::class, 'index'],
+    'financeiro-automovel/buscar' => [FinanceiroAutomovelController::class, 'buscarVeiculo'],
+    'financeiro-automovel/visualizar' => [FinanceiroAutomovelController::class, 'visualizar'],
+    'financeiro-automovel/create' => [FinanceiroAutomovelController::class, 'create'],
+    'financeiro-automovel/store' => [FinanceiroAutomovelController::class, 'store'],
+    'financeiro-automovel/update' => [FinanceiroAutomovelController::class, 'update'],
+    'financeiro-automovel/delete' => [FinanceiroAutomovelController::class, 'delete'],
+
     'financeiro-obra/historico' => [FinanceiroObraController::class, 'historico'],
 
     'relatorios' => [RelatoriosController::class, 'index'],
@@ -86,10 +92,8 @@ return [
 
 
     'credenciais' => [CredenciaisController::class, 'index'],
-    //  'credenciais/buscar' => [CredenciaisController::class, 'buscar'],
     'credenciais/alterar' => [CredenciaisController::class, 'alterar'],
     'clientes/buscarPorCnpj' => [ClientesController::class, 'buscarPorCnpj'],
 
-    // 'trocar-senha' => [trocarSenhacontroller::class, 'index'],
-    // 'trocar-senha/salvar' => [trocaSenhacontroller::class, 'salvar'],
+   
 ];

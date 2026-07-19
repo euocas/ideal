@@ -40,8 +40,8 @@ $fnStatus = $funcModelExiste
 
 $fnStatusClass =
     strtolower($fnStatus) === "ativo"
-        ? "ativo"
-        : "inativo";
+    ? "ativo"
+    : "inativo";
 
 $fnCpf = $funcModelExiste
     ? $funcionarioBusca->getCpf()
@@ -60,11 +60,11 @@ if ($fnCpf !== "—" && strlen($fnCpf) === 11) {
 
 $fnAdmissao =
     $funcModelExiste && $funcionarioBusca->getDataAdmissao()
-        ? date(
-            "d/m/Y",
-            strtotime($funcionarioBusca->getDataAdmissao())
-        )
-        : "—";
+    ? date(
+        "d/m/Y",
+        strtotime($funcionarioBusca->getDataAdmissao())
+    )
+    : "—";
 
 $fnCargo = $funcModelExiste
     ? $funcionarioBusca->getCargoFuncao()
@@ -76,8 +76,8 @@ $fnContrato = $funcModelExiste
 
 $fnBanco = $funcModelExiste
     ? $funcionarioBusca->getAgencia() .
-        " / " .
-        $funcionarioBusca->getConta()
+    " / " .
+    $funcionarioBusca->getConta()
     : "—";
 
 ?>
@@ -103,8 +103,7 @@ $fnBanco = $funcModelExiste
                             <label>CPF</label>
                             <input type="text" name="cpf" value="<?= htmlspecialchars(
                                 $cpfBusca,
-                            ) ?>" placeholder="000.000.000-00" maxlength="14"
-                                oninput="mascaraCPF(this)" required>
+                            ) ?>" placeholder="000.000.000-00" maxlength="14" oninput="mascaraCPF(this)" required>
                         </div>
                         <button type="submit" name="acao" value="localizar" class="btn-buscar"><i
                                 class="bi bi-search"></i> LOCALIZAR</button>
@@ -567,14 +566,21 @@ $fnBanco = $funcModelExiste
                                             ".",
                                         ) ?>
                                     </td>
+
+
                                     <td class="acoes text-center">
-                                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $l[
-                                            "idFinanceiroFuncionario"
-                                        ] ?>&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
-                                            class="btn-acao excluir"
+
+                                        <a href="/ideal/public/index.php?url=financeiros/editarFuncionario&id=<?= $l["idFinanceiroFuncionario"] ?>&editar=1&cpf=<?= urlencode($cpfBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
+                                            class="btn-acao editar" title="Editar">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+
+                                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $l["idFinanceiroFuncionario"] ?>&cpf=<?= urlencode($cpfBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
+                                            class="btn-acao excluir" title="Excluir"
                                             onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
                                             <i class="fa-solid fa-trash"></i>
                                         </a>
+
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

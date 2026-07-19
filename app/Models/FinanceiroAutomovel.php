@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use App\Config\Conexao;
@@ -10,11 +9,27 @@ class FinanceiroAutomovel
     // =====================================================
     // 1. ATRIBUTOS
     // =====================================================
+
     private ?int $idFinanceiroAutomovel = null;
+
     private ?int $idVeiculo = null;
-    private ?float $combustivel = null;
-    private ?float $manutencao = null;
-    private ?float $ipva = null;
+    private ?string $tipo = null;
+
+    private ?string $categoria = null;
+
+    private ?float $valor = null;
+
+    private ?string $dataMovimentacao = null;
+
+    private ?string $formaPagamento = null;
+
+    private ?string $fornecedor = null;
+
+    private ?string $documentoFiscal = null;
+
+    private ?string $descricao = null;
+
+    private ?string $observacao = null;
 
     private PDO $pdo;
 
@@ -48,86 +63,248 @@ class FinanceiroAutomovel
         $this->idVeiculo = $id ? (int) $id : null;
     }
 
-    public function getCombustivel(): ?float
+    public function getTipo(): ?string
     {
-        return $this->combustivel;
+        return $this->tipo;
     }
-    public function setCombustivel($valor): void
+    public function setTipo(?string $tipo): void
     {
-        $this->combustivel = $valor !== null && $valor !== '' ? (float) $valor : null;
+        $this->tipo = $tipo;
+    }
+    public function getDescricao(): ?string
+    {
+        return $this->descricao;
+    }
+    public function setDescricao(?string $descricao): void
+    {
+        $this->descricao = $descricao;
     }
 
-    public function getManutencao(): ?float
+    public function getCategoria(): ?string
     {
-        return $this->manutencao;
+        return $this->categoria;
     }
-    public function setManutencao($valor): void
+    public function setCategoria(?string $categoria): void
     {
-        $this->manutencao = $valor !== null && $valor !== '' ? (float) $valor : null;
+        $this->categoria = $categoria;
     }
 
-    public function getIpva(): ?float
+    public function getValor(): ?float
     {
-        return $this->ipva;
+        return $this->valor;
     }
-    public function setIpva($valor): void
+    public function setValor($valor): void
     {
-        $this->ipva = $valor !== null && $valor !== '' ? (float) $valor : null;
+        $this->valor = $valor !== null && $valor !== '' ? (float) $valor : null;
+    }
+
+    public function getDataMovimentacao(): ?string
+    {
+        return $this->dataMovimentacao;
+    }
+    public function setDataMovimentacao(?string $data): void
+    {
+        $this->dataMovimentacao = $data;
+    }
+
+    public function getFormaPagamento(): ?string
+    {
+        return $this->formaPagamento;
+    }
+    public function setFormaPagamento(?string $forma): void
+    {
+        $this->formaPagamento = $forma;
+    }
+
+    public function getFornecedor(): ?string
+    {
+        return $this->fornecedor;
+    }
+
+    public function setFornecedor(?string $fornecedor): void
+    {
+        $this->fornecedor = $fornecedor;
+    }
+
+    public function getDocumentoFiscal(): ?string
+    {
+        return $this->documentoFiscal;
+    }
+
+    public function setDocumentoFiscal(?string $documentoFiscal): void
+    {
+        $this->documentoFiscal = $documentoFiscal;
+    }
+
+    public function getObservacao(): ?string
+    {
+        return $this->observacao;
+    }
+    public function setObservacao(?string $obs): void
+    {
+        $this->observacao = $obs;
     }
 
     // =====================================================
-    // 4. HYDRATE
-    // =====================================================
+// 4. HYDRATE
+// =====================================================
     private function hydrate(array $dados): self
     {
         $obj = new self();
+
         $obj->setIdFinanceiroAutomovel($dados['idFinanceiroAutomovel'] ?? null);
         $obj->setIdVeiculo($dados['idVeiculo'] ?? null);
-        $obj->setCombustivel($dados['combustivel'] ?? null);
-        $obj->setManutencao($dados['manutencao'] ?? null);
-        $obj->setIpva($dados['ipva'] ?? null);
+        $obj->setTipo($dados['tipo'] ?? null);
+        $obj->setDescricao($dados['descricao'] ?? null);
+        $obj->setCategoria($dados['categoria'] ?? null);
+        $obj->setValor($dados['valor'] ?? null);
+        $obj->setDataMovimentacao($dados['dataMovimentacao'] ?? null);
+        $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
+        $obj->setFornecedor($dados['fornecedor'] ?? null);
+        $obj->setDocumentoFiscal($dados['documentoFiscal'] ?? null);
+        $obj->setObservacao($dados['observacao'] ?? null);
+
         return $obj;
     }
-
     // =====================================================
     // 5. CRUD
     // =====================================================
     public function findById(int $id): ?self
     {
         $stmt = $this->pdo->prepare("SELECT * FROM financeiroAutomovel WHERE idFinanceiroAutomovel = :id");
+
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
+
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
 
-    public function findByIdVeiculo(int $idVeiculo): ?self
+    public function findByIdVeiculo(int $idVeiculo): array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM financeiroAutomovel WHERE idVeiculo = :idVeiculo");
+        $stmt = $this->pdo->prepare("SELECT * FROM financeiroAutomovel WHERE idVeiculo = :idVeiculo ORDER BY dataMovimentacao DESC");
         $stmt->bindValue(':idVeiculo', $idVeiculo, PDO::PARAM_INT);
         $stmt->execute();
-        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $dados ? $this->hydrate($dados) : null;
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map(fn($row) => $this->hydrate($row), $rows);
     }
+
+    public function buscarPorVeiculoEPeriodo(
+        int $idVeiculo,
+        int $mes,
+        int $ano
+    ): array {
+
+        $sql = "
+        SELECT *
+        FROM financeiroAutomovel
+        WHERE idVeiculo = :idVeiculo
+          AND MONTH(dataMovimentacao) = :mes
+          AND YEAR(dataMovimentacao) = :ano
+        ORDER BY dataMovimentacao DESC, idFinanceiroAutomovel DESC
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->bindValue(':idVeiculo', $idVeiculo, PDO::PARAM_INT);
+        $stmt->bindValue(':mes', $mes, PDO::PARAM_INT);
+        $stmt->bindValue(':ano', $ano, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function findUltimosByIdVeiculo(
+        int $idVeiculo,
+        int $limite = 4
+    ): array {
+        $limite = max(1, $limite);
+
+        $sql = "
+        SELECT *
+        FROM financeiroAutomovel
+        WHERE idVeiculo = :idVeiculo
+        ORDER BY dataMovimentacao DESC, idFinanceiroAutomovel DESC
+        LIMIT {$limite}
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':idVeiculo', $idVeiculo, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(
+            fn($row) => $this->hydrate($row),
+            $rows
+        );
+    }
+
+    public function calcularGastoAtual(int $idVeiculo): float
+    {
+        $sql = "
+        SELECT COALESCE(SUM(valor), 0) AS total
+        FROM financeiroAutomovel
+        WHERE idVeiculo = :idVeiculo
+          AND tipo = 'Saida'
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':idVeiculo', $idVeiculo, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return (float) $stmt->fetchColumn();
+    }
+
+    public function calcularRecebimentos(int $idVeiculo): float
+    {
+        $sql = "
+        SELECT COALESCE(SUM(valor), 0)
+        FROM financeiroAutomovel
+        WHERE idVeiculo = :idVeiculo
+          AND tipo = 'Entrada'
+    ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':idVeiculo', $idVeiculo, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return (float) $stmt->fetchColumn();
+    }
+
 
     public function save(): bool
     {
         try {
-            $sql = "INSERT INTO financeiroAutomovel (idVeiculo, combustivel, manutencao, ipva, dataRegistro)
-                VALUES (:idVeiculo, :combustivel, :manutencao, :ipva, CURDATE())";
+            $sql = "INSERT INTO financeiroAutomovel (idVeiculo,tipo,descricao,categoria,valor,dataMovimentacao,formaPagamento,fornecedor,documentoFiscal,observacao)
+            VALUES (:idVeiculo,:tipo,:descricao,:categoria,:valor,:dataMovimentacao,:formaPagamento,:fornecedor,:documentoFiscal,:observacao)";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':idVeiculo', $this->getIdVeiculo(), PDO::PARAM_INT);
-            $stmt->bindValue(':combustivel', $this->getCombustivel(), PDO::PARAM_STR);
-            $stmt->bindValue(':manutencao', $this->getManutencao(), PDO::PARAM_STR);
-            $stmt->bindValue(':ipva', $this->getIpva(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipo', $this->getTipo(), PDO::PARAM_STR);
+            $stmt->bindValue(':descricao', $this->getDescricao(), PDO::PARAM_STR);
+            $stmt->bindValue(':categoria', $this->getCategoria(), PDO::PARAM_STR);
+            $stmt->bindValue(':valor', $this->getValor(), PDO::PARAM_STR);
+            $stmt->bindValue(':dataMovimentacao', $this->getDataMovimentacao(), PDO::PARAM_STR);
+            $stmt->bindValue(':formaPagamento', $this->getFormaPagamento(), PDO::PARAM_STR);
+            $stmt->bindValue(':fornecedor', $this->getFornecedor(), PDO::PARAM_STR);
+            $stmt->bindValue(':documentoFiscal', $this->getDocumentoFiscal(), PDO::PARAM_STR);
+            $stmt->bindValue(':observacao', $this->getObservacao(), PDO::PARAM_STR);
             $stmt->execute();
 
             $this->idFinanceiroAutomovel = (int) $this->pdo->lastInsertId();
             return true;
 
+            // } catch (\Exception $e) {
+            //     return false;
+            // }
+
         } catch (\Exception $e) {
-            return false;
+
+            var_dump($e->getMessage());
+
+            exit;
         }
     }
 
@@ -139,17 +316,29 @@ class FinanceiroAutomovel
 
         try {
             $sql = "UPDATE financeiroAutomovel SET
-                        idVeiculo   = :idVeiculo,
-                        combustivel = :combustivel,
-                        manutencao  = :manutencao,
-                        ipva        = :ipva
+                        idVeiculo         = :idVeiculo,
+                        tipo = :tipo,
+                        descricao      = :descricao,
+                        categoria      = :categoria,
+                        valor          = :valor,
+                        dataMovimentacao      = :dataMovimentacao,
+                        formaPagamento = :formaPagamento,
+                        fornecedor = :fornecedor,
+                        documentoFiscal = :documentoFiscal,
+                        observacao     = :observacao
                     WHERE idFinanceiroAutomovel = :id";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':idVeiculo', $this->getIdVeiculo(), PDO::PARAM_INT);
-            $stmt->bindValue(':combustivel', $this->getCombustivel(), PDO::PARAM_STR);
-            $stmt->bindValue(':manutencao', $this->getManutencao(), PDO::PARAM_STR);
-            $stmt->bindValue(':ipva', $this->getIpva(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipo', $this->getTipo(), PDO::PARAM_INT);
+            $stmt->bindValue(':descricao', $this->getDescricao(), PDO::PARAM_STR);
+            $stmt->bindValue(':categoria', $this->getCategoria(), PDO::PARAM_STR);
+            $stmt->bindValue(':valor', $this->getValor(), PDO::PARAM_STR);
+            $stmt->bindValue(':dataMovimentacao', $this->getDataMovimentacao(), PDO::PARAM_STR);
+            $stmt->bindValue(':formaPagamento', $this->getFormaPagamento(), PDO::PARAM_STR);
+            $stmt->bindValue(':fornecedor', $this->getFornecedor(), PDO::PARAM_STR);
+            $stmt->bindValue(':documentoFiscal', $this->getDocumentoFiscal(), PDO::PARAM_STR);
+            $stmt->bindValue(':observacao', $this->getObservacao(), PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->getIdFinanceiroAutomovel(), PDO::PARAM_INT);
             $stmt->execute();
 

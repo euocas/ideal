@@ -74,12 +74,6 @@ class FinanceiroFuncionario
     {
         return $this->valor;
     }
-    // public function setValor($valor): void { 
-    //     if(is_string($valor)) {
-    //         $valor = str_replace(['.', ','], ['', '.'], $valor);
-    //     }
-    //     $this->valor = $valor !== null && $valor !== '' ? (float) $valor : null; 
-    // }
     public function setValor($valor): void
     {
         $this->valor = $valor !== null && $valor !== ''

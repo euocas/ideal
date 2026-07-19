@@ -268,7 +268,7 @@ CREATE TABLE financeiroAutomovel (
     dataMovimentacao DATE NOT NULL,
     formaPagamento VARCHAR(30) NULL,
     fornecedor VARCHAR(100) NULL,
-    documento VARCHAR(100) NULL,
+    documentoFiscal VARCHAR(100) NULL,
     observacao TEXT NULL,
     dataRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (idVeiculo)
@@ -415,7 +415,7 @@ INSERT INTO veiculo (
 -- =====================================================
 -- INSERÇAO DE DADOS DO FINANCEIRO-VEÍCULOS
 -- =====================================================
-INSERT INTO financeiroAutomovel (idVeiculo,tipo,categoria,descricao, valor,dataMovimentacao,formaPagamento,fornecedor,documento,observacao)
+INSERT INTO financeiroAutomovel (idVeiculo,tipo,categoria,descricao, valor,dataMovimentacao,formaPagamento,fornecedor,documentoFiscal,observacao)
 VALUES
 
 -- VEÍCULO 1
@@ -657,6 +657,15 @@ FROM financeiroAutomovel
 WHERE idVeiculo = 1
 AND MONTH(dataMovimentacao) = 7
 AND YEAR(dataMovimentacao) = 2026;
+
+SELECT
+    idFinanceiroAutomovel,
+    tipo,
+    descricao,
+    valor,
+    dataMovimentacao
+FROM financeiroAutomovel
+ORDER BY idFinanceiroAutomovel DESC;
 
 -- =====================================================
 -- DESCRIÇÃO DAS TABELAS

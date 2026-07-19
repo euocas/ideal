@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 $titulo = "Financeiro";
 $favicon = "/ideal/public/assets/icon/financeiro3.png";
 require_once __DIR__ . "/../includes/header.php";
-$aba = $_GET["aba"] ?? "funcionario";
+$aba = $aba ?? ($_GET["aba"] ?? "funcionario");
 $abas = ["funcionario", "obra", "automovel"];
 if (!in_array($aba, $abas)) {
     $aba = "funcionario";
