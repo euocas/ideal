@@ -317,7 +317,7 @@ $veAno = $veiculoExiste
                                 <label>Descrição <span class="obrigatorio">*</span></label>
 
                                 <input type="text" name="descricao" maxlength="255" placeholder="Descreva o recebimento"
-                                      value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getDescricao()) : '' ?>"
+                                    value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getDescricao()) : '' ?>"
                                     required>
                             </div>
 
@@ -457,7 +457,9 @@ $veAno = $veiculoExiste
                             <!-- Descrição -->
                             <div class="form-group span-2">
                                 <label>Descrição <span class="obrigatorio">*</span></label>
-                                <input type="text" name="descricao" maxlength="255" placeholder="Descreva o gasto" value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getDescricao()) : '' ?>" required>
+                                <input type="text" name="descricao" maxlength="255" placeholder="Descreva o gasto"
+                                    value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getDescricao()) : '' ?>"
+                                    required>
                             </div>
 
 
@@ -654,8 +656,11 @@ $veAno = $veiculoExiste
                                                 action="/ideal/public/index.php?url=financeiro-automovel/delete&id=<?= $l["idFinanceiroAutomovel"] ?>"
                                                 method="POST">
 
-                                                <button type="submit" class="btn-acao excluir" title="Excluir"
-                                                    onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
+                                                <input type="hidden" name="placa_hidden" value="<?= htmlspecialchars($placaBusca) ?>">
+                                                <input type="hidden" name="mes_hidden" value="<?= htmlspecialchars($mesBusca) ?>">
+                                                <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars($anoBusca) ?>">
+
+                                                <button type="submit" class="btn-acao excluir" title="Excluir" onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
 
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>

@@ -129,7 +129,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
 
         $model = new FinanceiroAutomovel();
         $financeiroAutomovel = $model->findById($id);
-  
+
 
         if (!$financeiroAutomovel) {
             header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
@@ -141,6 +141,18 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
             $financeiroAutomovel->getIdVeiculo()
         );
         $veiculoBusca = $veiculo;
+        $placaBusca = $veiculo->getPlaca();
+
+        $mesBusca = date(
+            'n',
+            strtotime($financeiroAutomovel->getDataMovimentacao())
+        );
+
+        $anoBusca = date(
+            'Y',
+            strtotime($financeiroAutomovel->getDataMovimentacao())
+        );
+
 
         $gastoAtual = $model->calcularGastoAtual(
             $veiculo->getIdVeiculo()
@@ -200,16 +212,18 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
 
-            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
+            $placa = urlencode($_POST['placa_hidden'] ?? '');
+            $mes = $_POST['mes_hidden'] ?? date('n');
+            $ano = $_POST['ano_hidden'] ?? date('Y');
+
+            header("Location: /ideal/public/index.php?url=financeiro-automovel/buscar" . "&tipo=periodo" . "&placa={$placa}" . "&mes={$mes}" . "&ano={$ano}");
             exit;
         }
     }
 
-
     public function edit()
-{
-
-}
+    {
+    }
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -224,12 +238,16 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
                     $this->popularAutomovel($obj, $_POST);
 
                     if ($obj->update()) {
-                        $_SESSION['mensagem_sucesso'] = "Financeiro do automóvel atualizado com sucesso!";
+                        $_SESSION['mensagem_sucesso'] = "Registro financeiro atualizado com sucesso!";
                     } else {
                         $_SESSION['mensagem_erro'] = "Erro ao atualizar os dados.";
                     }
 
-                    header("Location: /ideal/public/index.php?url=financeiro-automovel/visualizar&id={$id}");
+                    $placa = urlencode($_POST['placa_hidden'] ?? '');
+                    $mes = $_POST['mes_hidden'] ?? date('n');
+                    $ano = $_POST['ano_hidden'] ?? date('Y');
+
+                    header("Location: /ideal/public/index.php?url=financeiro-automovel/buscar" . "&tipo=periodo" . "&placa={$placa}" . "&mes={$mes}" . "&ano={$ano}");
                     exit;
                 }
             }
@@ -240,22 +258,37 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
         }
     }
 
-    public function delete()
-    {
-        $id = $_GET['id'] ?? null;
+public function delete()
+{
+    $id = $_GET['id'] ?? null;
 
-        if ($id) {
-            $model = new FinanceiroAutomovel();
-            $deletou = $model->delete($id);
+    if ($id) {
 
-            if ($deletou) {
-                $_SESSION['mensagem_sucesso'] = "Item excluído com sucesso!";
-            } else {
-                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o registro.";
-            }
+        $placa = urlencode($_POST['placa_hidden'] ?? '');
+        $mes    = $_POST['mes_hidden'] ?? date('n');
+        $ano    = $_POST['ano_hidden'] ?? date('Y');
+
+        $model = new FinanceiroAutomovel();
+        $deletou = $model->delete($id);
+
+        if ($deletou) {
+            $_SESSION['mensagem_sucesso'] = "Lançamento financeiro excluído com sucesso!";
+        } else {
+            $_SESSION['mensagem_erro'] = "Erro ao excluir o lançamento financeiro.";
         }
 
-        header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
+        header(
+            "Location: /ideal/public/index.php?url=financeiro-automovel/buscar"
+            . "&tipo=periodo"
+            . "&placa={$placa}"
+            . "&mes={$mes}"
+            . "&ano={$ano}"
+        );
         exit;
     }
+
+    $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
+    header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
+    exit;
+}
 }

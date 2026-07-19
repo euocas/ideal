@@ -169,6 +169,7 @@ class FinanceiroAutomovel
     // =====================================================
     // 5. CRUD
     // =====================================================
+
     public function findById(int $id): ?self
     {
         $stmt = $this->pdo->prepare("SELECT * FROM financeiroAutomovel WHERE idFinanceiroAutomovel = :id");
@@ -179,7 +180,6 @@ class FinanceiroAutomovel
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
-
     public function findByIdVeiculo(int $idVeiculo): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM financeiroAutomovel WHERE idVeiculo = :idVeiculo ORDER BY dataMovimentacao DESC");
@@ -330,7 +330,7 @@ class FinanceiroAutomovel
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindValue(':idVeiculo', $this->getIdVeiculo(), PDO::PARAM_INT);
-            $stmt->bindValue(':tipo', $this->getTipo(), PDO::PARAM_INT);
+            $stmt->bindValue(':tipo', $this->getTipo(), PDO::PARAM_STR);
             $stmt->bindValue(':descricao', $this->getDescricao(), PDO::PARAM_STR);
             $stmt->bindValue(':categoria', $this->getCategoria(), PDO::PARAM_STR);
             $stmt->bindValue(':valor', $this->getValor(), PDO::PARAM_STR);
@@ -347,6 +347,7 @@ class FinanceiroAutomovel
         } catch (\Exception $e) {
             return false;
         }
+   
     }
 
     public function delete(int $id): bool
