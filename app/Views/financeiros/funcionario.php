@@ -4,17 +4,19 @@ use App\Config\FinanceiroCategorias;
 use App\Config\SistemaConstantes;
 
 /** @var \App\Models\Funcionario|null $funcionarioBusca */
+/** @var \App\Models\FinanceiroFuncionario|null $financeiroFuncionario */
 
-$tipo = $_GET["tipo"] ?? "entrada";
+$tipo = $tipo ?? ($_GET["tipo"] ?? "entrada");
 $tipos = ["entrada", "saida", "periodo"];
+$isEditFuncionario = isset($financeiroFuncionario) && $financeiroFuncionario instanceof \App\Models\FinanceiroFuncionario;
 
 if (!in_array($tipo, $tipos)) {
     $tipo = "entrada";
 }
 
-$cpfBusca = $_GET["cpf"] ?? ($_POST["cpf"] ?? "");
-$mesBusca = $_GET["mes"] ?? ($_POST["mes"] ?? date("m"));
-$anoBusca = $_GET["ano"] ?? ($_POST["ano"] ?? date("Y"));
+$cpfBusca = $cpfBusca ?? ($_GET["cpf"] ?? ($_POST["cpf"] ?? ""));
+$mesBusca = $mesBusca ?? ($_GET["mes"] ?? ($_POST["mes"] ?? date("m")));
+$anoBusca = $anoBusca ?? ($_GET["ano"] ?? ($_POST["ano"] ?? date("Y")));
 
 $funcModelExiste =
     isset($funcionarioBusca) && is_object($funcionarioBusca);
@@ -79,7 +81,6 @@ $fnBanco = $funcModelExiste
     " / " .
     $funcionarioBusca->getConta()
     : "—";
-
 ?>
 
 
@@ -92,7 +93,7 @@ $fnBanco = $funcModelExiste
         </div>
     </div>
 
-    <form id="form-busca-func" action="/ideal/public/index.php?url=financeiros&aba=funcionario&tipo=<?= $tipo ?>"
+    <form id="form-busca-func" action="/ideal/public/index.php?url=financeiro-funcionario/buscar&tipo=<?= $tipo ?>"
         method="POST">
         <div class="financeiro-topo">
             <div class="grid-busca">
@@ -244,7 +245,10 @@ $fnBanco = $funcModelExiste
         <?php if ($tipo === "entrada"): ?>
             <div class="entrada-container">
                 <div class="entrada-formulario">
-                    <form id="form-entrada" action="/ideal/public/index.php?url=financeiros/storeFuncionario" method="POST">
+
+                    <form id="form-entrada"
+                        action="/ideal/public/index.php?url=financeiro-funcionario/<?= $isEditFuncionario ? 'update' : 'store' ?>"
+                        method="POST">
                         <input type="hidden" name="tipo" value="entrada">
                         <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste
                             ? $funcionarioBusca->getIdFuncionario()
@@ -258,54 +262,73 @@ $fnBanco = $funcModelExiste
                         <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars(
                             $anoBusca,
                         ) ?>">
+                        <?php if ($isEditFuncionario): ?>
+                            <input type="hidden" name="idFinanceiroFuncionario"
+                                value="<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>">
+                        <?php endif; ?>
 
                         <div class="grid-entrada">
                             <div class="form-group">
                                 <label>Tipo de Proventos (Categoria) <span class="obrigatorio">*</span></label>
                                 <select name="categoria" required>
                                     <option value="">Selecione o tipo</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::PROVENTOS
-                                        as $provento
-                                    ): ?>
-                                        <option value="<?= $provento ?>"><?= $provento ?></option>
+
+                                    <?php foreach (FinanceiroCategorias::PROVENTOS as $provento): ?>
+                                        <option value="<?= $provento ?>" <?= $isEditFuncionario && $financeiroFuncionario->getCategoria() === $provento ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($provento) ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
+
                             </div>
 
                             <div class="form-group">
                                 <label>Descrição <span class="obrigatorio">*</span></label>
                                 <input type="text" name="descricao" placeholder="Descreva o provento" maxlength="100"
+                                    value="<?= $isEditFuncionario ? htmlspecialchars($financeiroFuncionario->getDescricao()) : '' ?>"
                                     required>
                             </div>
 
                             <div class="form-group">
                                 <label>Data do Pagamento <span class="obrigatorio">*</span></label>
-                                <input type="date" name="dataReferencia" value="<?= $dataPadrao ?>" required>
+                                <input type="date" name="dataReferencia" value="<?= $isEditFuncionario ? htmlspecialchars($financeiroFuncionario->getDataReferencia())
+                                    : $dataPadrao ?>" required>
                             </div>
 
                             <div class="form-group">
                                 <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
                                 <select name="formaPagamento" required>
                                     <option value="">Selecione</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::FORMAS_PAGAMENTO
-                                        as $forma
-                                    ): ?>
-                                        <option value="<?= $forma ?>"><?= $forma ?></option>
+
+                                    <?php
+                                    $formaSelecionada = $isEditFuncionario
+                                        ? $financeiroFuncionario->getFormaPagamento()
+                                        : '';
+                                    ?>
+
+                                    <?php foreach (FinanceiroCategorias::FORMAS_PAGAMENTO as $forma): ?>
+                                        <option value="<?= htmlspecialchars($forma) ?>" <?= $formaSelecionada === $forma ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($forma) ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="contaPagamento">Conta Pagamento</label>
-                                <select id="contaPagamento" name="contaPagamento">
+                                <select name="contaPagamento" required>
                                     <option value="">Selecione</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::CONTAS_PAGAMENTO
-                                        as $valor => $descricao
-                                    ): ?>
-                                        <option value="<?= $valor ?>"><?= $descricao ?></option>
+
+                                    <?php
+                                    $contaSelecionada = $isEditFuncionario
+                                        ? $financeiroFuncionario->getContaPagamento()
+                                        : '';
+                                    ?>
+
+                                    <?php foreach (FinanceiroCategorias::CONTAS_PAGAMENTO as $conta): ?>
+                                        <option value="<?= htmlspecialchars($conta) ?>" <?= $contaSelecionada === $conta ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($conta) ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -314,14 +337,16 @@ $fnBanco = $funcModelExiste
                                 <label>Valor <span class="obrigatorio">*</span></label>
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" step="0.01" name="valor" placeholder="0,00" required>
+                                    <input type="number" step="0.01" name="valor" placeholder="0,00"
+                                        value="<?= $isEditFuncionario ? htmlspecialchars((string) $financeiroFuncionario->getValor()) : '' ?>"
+                                        required>
                                 </div>
                             </div>
 
                             <div class="form-group span-2">
                                 <label>Observação (Opcional)</label>
                                 <textarea name="observacao" rows="4" maxlength="250"
-                                    placeholder="Informações adicionais sobre o provento..."></textarea>
+                                    placeholder="Informações adicionais sobre o provento..."><?= htmlspecialchars($financeiroFuncionario?->getObservacao() ?? '') ?></textarea>
                             </div>
                         </div>
 
@@ -357,7 +382,9 @@ $fnBanco = $funcModelExiste
         <?php elseif ($tipo === "saida"): ?>
             <div class="saida-container">
                 <div class="saida-formulario">
-                    <form id="form-saida" action="/ideal/public/index.php?url=financeiros/storeFuncionario" method="POST">
+                    <form id="form-saida"
+                        action="/ideal/public/index.php?url=financeiro-funcionario/<?= $isEditFuncionario ? 'update' : 'store' ?>"
+                        method="POST">
                         <input type="hidden" name="tipo" value="saida">
                         <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste
                             ? $funcionarioBusca->getIdFuncionario()
@@ -371,17 +398,22 @@ $fnBanco = $funcModelExiste
                         <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars(
                             $anoBusca,
                         ) ?>">
+                        <?php if ($isEditFuncionario): ?>
+                            <input type="hidden" name="idFinanceiroFuncionario"
+                                value="<?= $financeiroFuncionario->getIdFinanceiroFuncionario() ?>">
+                        <?php endif; ?>
 
                         <div class="grid-saida">
                             <div class="form-group">
                                 <label>Tipo de Descontos (Categoria) <span class="obrigatorio">*</span></label>
+
                                 <select name="categoria" required>
                                     <option value="">Selecione o tipo</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::DESCONTOS
-                                        as $desconto
-                                    ): ?>
-                                        <option value="<?= $desconto ?>"><?= $desconto ?></option>
+
+                                    <?php foreach (FinanceiroCategorias::DESCONTOS as $desconto): ?>
+                                        <option value="<?= $desconto ?>" <?= $isEditFuncionario && $financeiroFuncionario->getCategoria() === $desconto ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($desconto) ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -389,36 +421,50 @@ $fnBanco = $funcModelExiste
                             <div class="form-group">
                                 <label>Descrição <span class="obrigatorio">*</span></label>
                                 <input type="text" name="descricao" placeholder="Descreva o desconto" maxlength="100"
+                                    value="<?= $isEditFuncionario ? htmlspecialchars($financeiroFuncionario->getDescricao()) : '' ?>"
                                     required>
                             </div>
 
                             <div class="form-group">
                                 <label>Data do Pagamento <span class="obrigatorio">*</span></label>
-                                <input type="date" name="dataReferencia" value="<?= $dataPadrao ?>" required>
+                                <input type="date" name="dataReferencia" value="<?= $isEditFuncionario ? htmlspecialchars($financeiroFuncionario->getDataReferencia())
+                                    : $dataPadrao ?>" required>
                             </div>
 
                             <div class="form-group">
                                 <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
                                 <select name="formaPagamento" required>
                                     <option value="">Selecione</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::FORMAS_PAGAMENTO
-                                        as $forma
-                                    ): ?>
-                                        <option value="<?= $forma ?>"><?= $forma ?></option>
+                                    <?php
+                                    $formaSelecionada = $isEditFuncionario
+                                        ? $financeiroFuncionario->getFormaPagamento()
+                                        : '';
+                                    ?>
+                                    <?php foreach (FinanceiroCategorias::FORMAS_PAGAMENTO as $forma): ?>
+                                        <option value="<?= htmlspecialchars($forma) ?>" <?= $formaSelecionada === $forma ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($forma) ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="contaPagamento">Conta Pagamento</label>
-                                <select id="contaPagamento" name="contaPagamento">
+
+                                <select name="contaPagamento" required>
+
                                     <option value="">Selecione</option>
-                                    <?php foreach (
-                                        FinanceiroCategorias::CONTAS_PAGAMENTO
-                                        as $valor => $descricao
-                                    ): ?>
-                                        <option value="<?= $valor ?>"><?= $descricao ?></option>
+
+                                    <?php
+                                    $contaSelecionada = $isEditFuncionario
+                                        ? $financeiroFuncionario->getContaPagamento()
+                                        : '';
+                                    ?>
+
+                                    <?php foreach (FinanceiroCategorias::CONTAS_PAGAMENTO as $conta): ?>
+                                        <option value="<?= htmlspecialchars($conta) ?>" <?= $contaSelecionada === $conta ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($conta) ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -427,14 +473,16 @@ $fnBanco = $funcModelExiste
                                 <label>Valor <span class="obrigatorio">*</span></label>
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" step="0.01" name="valor" placeholder="0,00" required>
+                                    <input type="number" step="0.01" name="valor" placeholder="0,00"
+                                        value="<?= $isEditFuncionario ? htmlspecialchars((string) $financeiroFuncionario->getValor()) : '' ?>"
+                                        required>
                                 </div>
                             </div>
 
                             <div class="form-group span-2">
                                 <label>Observação (Opcional)</label>
                                 <textarea name="observacao" rows="4" maxlength="250"
-                                    placeholder="Informações adicionais sobre o desconto..."></textarea>
+                                    placeholder="Informações adicionais sobre o provento..."><?= htmlspecialchars($financeiroFuncionario?->getObservacao() ?? '') ?></textarea>
                             </div>
                         </div>
 
@@ -529,38 +577,31 @@ $fnBanco = $funcModelExiste
                                 $lancamentos
                                 as $l): ?>
                                 <tr>
-                                    <td><?= date(
-                                        "d/m/Y",
-                                        strtotime($l["dataReferencia"], ),
-                                    ) ?></td>
+                                    <td><?= date("d/m/Y", strtotime($l->getDataReferencia()), ) ?></td>
                                     <td>
-                                        <?php if (
-                                            $l["categoriaTipo"] === "ENTRADA"
-                                        ): ?>
-                                            <span class="badge-entrada"><i class="fa-solid fa-arrow-up"></i>
-                                                <?= htmlspecialchars(
-                                                    $l["categoriaNome"],
-                                                ) ?></span>
+                                        <?php if ($l->getTipo() === "ENTRADA"): ?>
+                                            <span class="badge-entrada">
+                                                <i class="fa-solid fa-arrow-up"></i>
+                                                <?= htmlspecialchars($l->getCategoria()) ?>
+                                            </span>
                                         <?php else: ?>
-                                            <span class="badge-saida"><i class="fa-solid fa-arrow-down"></i>
-                                                <?= htmlspecialchars(
-                                                    $l["categoriaNome"],
-                                                ) ?></span>
+                                            <span class="badge-saida">
+                                                <i class="fa-solid fa-arrow-down"></i>
+                                                <?= htmlspecialchars($l->getCategoria()) ?>
+                                            </span>
                                         <?php endif; ?>
                                     </td>
-                                    <td><?= htmlspecialchars($l["descricao"], ) ?></td>
-                                    <td class="<?= $l[
-                                        "categoriaTipo"
-                                    ] === "ENTRADA"
+                                    <td><?= htmlspecialchars($l->getDescricao()) ?></td>
+                                    <td class="<?= $l->getTipo() === "ENTRADA"
                                         ? "valor-positivo"
                                         : "valor-negativo" ?>">
-                                        <?= $l[
-                                            "categoriaTipo"
-                                        ] === "ENTRADA"
+
+                                        <?= $l->getTipo() === "ENTRADA"
                                             ? "+"
                                             : "-" ?> R$
+
                                         <?= number_format(
-                                            $l["valor"],
+                                            $l->getValor(),
                                             2,
                                             ",",
                                             ".",
@@ -568,19 +609,31 @@ $fnBanco = $funcModelExiste
                                     </td>
 
 
-                                    <td class="acoes text-center">
+                                    <td class="text-center">
+                                        <div class="acoes">
 
-                                        <a href="/ideal/public/index.php?url=financeiros/editarFuncionario&id=<?= $l["idFinanceiroFuncionario"] ?>&editar=1&cpf=<?= urlencode($cpfBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
-                                            class="btn-acao editar" title="Editar">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </a>
+                                            <!-- Editar -->
+                                            <a href="/ideal/public/index.php?url=financeiro-funcionario/visualizar&id=<?= $l->getIdFinanceiroFuncionario() ?>&editar=1"
+                                                class="btn-acao editar" title="Editar">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </a>
 
-                                        <a href="/ideal/public/index.php?url=financeiros/deleteFuncionario&id=<?= $l["idFinanceiroFuncionario"] ?>&cpf=<?= urlencode($cpfBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
-                                            class="btn-acao excluir" title="Excluir"
-                                            onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
+                                            <!-- Excluir -->
+                                            <form
+                                                action="/ideal/public/index.php?url=financeiro-funcionario/delete&id=<?= $l->getIdFinanceiroFuncionario() ?>"
+                                                method="POST">
 
+                                                <input type="hidden" name="cpf_hidden" value="<?= htmlspecialchars($cpfBusca) ?>">
+                                                <input type="hidden" name="mes_hidden" value="<?= htmlspecialchars($mesBusca) ?>">
+                                                <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars($anoBusca) ?>">
+
+                                                <button type="submit" class="btn-acao excluir" title="Excluir"
+                                                    onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

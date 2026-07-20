@@ -367,7 +367,7 @@ $veAno = $veiculoExiste
                         <div class="acoes-entrada">
                             <button type="submit" class="btn salvar">
                                 <i class="fa-solid <?= $isEditAutomovel ? 'fa-pen' : 'fa-floppy-disk' ?>"></i>
-                                <?= $isEditAutomovel ? 'Atualizar Lançamento' : 'Salvar Entrada' ?>
+                                <?= $isEditAutomovel ? 'Atualizar' : 'Salvar Entrada' ?>
                             </button>
 
                             <button type="reset" class="btn limpar">

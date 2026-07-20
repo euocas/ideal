@@ -11,6 +11,7 @@ use App\Controllers\FinanceirosController;
 use App\Controllers\RelatoriosController;
 use App\Controllers\CredenciaisController;
 use App\Controllers\FinanceiroAutomovelController;
+use App\Controllers\FinanceiroFuncionarioController;
 use App\Controllers\FinanceiroObraController;
 
 return [
@@ -52,18 +53,20 @@ return [
     'financeiros' => [FinanceirosController::class, 'index'],
 
     // Rotas de Financeiro -> Funcionário
-    'financeiros/createFuncionario' => [FinanceirosController::class, 'createFuncionario'],
-    'financeiros/editFuncionario' => [FinanceirosController::class, 'editFuncionario'],
-    'financeiros/storeFuncionario' => [FinanceirosController::class, 'storeFuncionario'],
-    'financeiros/updateFuncionario' => [FinanceirosController::class, 'updateFuncionario'],
-    'financeiros/deleteFuncionario' => [FinanceirosController::class, 'deleteFuncionario'],
+    'financeiro-funcionario' => [FinanceiroFuncionarioController::class, 'index'],
+    'financeiro-funcionario/buscar' => [FinanceiroFuncionarioController::class, 'buscarFuncionario'],
+    'financeiro-funcionario/visualizar' => [FinanceiroFuncionarioController::class, 'visualizar'],
+    'financeiro-funcionario/create' => [FinanceiroFuncionarioController::class, 'create'],
+    'financeiro-funcionario/store' => [FinanceiroFuncionarioController::class, 'store'],
+    'financeiro-funcionario/update' => [FinanceiroFuncionarioController::class, 'update'],
+    'financeiro-funcionario/delete' => [FinanceiroFuncionarioController::class, 'delete'],
 
     // Rotas de Financeiro -> Obra
-    'financeiros/createObra' => [FinanceirosController::class, 'createObra'],
-    'financeiros/editObra' => [FinanceirosController::class, 'editObra'],
-    'financeiros/storeObra' => [FinanceirosController::class, 'storeObra'],
-    'financeiros/updateObra' => [FinanceirosController::class, 'updateObra'],
-    'financeiros/deleteObra' => [FinanceirosController::class, 'deleteObra'],
+    // 'financeiros/createObra' => [FinanceirosController::class, 'createObra'],
+    // 'financeiros/editObra' => [FinanceirosController::class, 'editObra'],
+    // 'financeiros/storeObra' => [FinanceirosController::class, 'storeObra'],
+    // 'financeiros/updateObra' => [FinanceirosController::class, 'updateObra'],
+    // 'financeiros/deleteObra' => [FinanceirosController::class, 'deleteObra'],
 
 
     // Rotas do Financeiro -> Obra
@@ -95,5 +98,5 @@ return [
     'credenciais/alterar' => [CredenciaisController::class, 'alterar'],
     'clientes/buscarPorCnpj' => [ClientesController::class, 'buscarPorCnpj'],
 
-   
+
 ];

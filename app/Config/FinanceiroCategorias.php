@@ -13,7 +13,7 @@ class FinanceiroCategorias
     public const PROVENTOS = [
         'Salário',
         'Férias',
-        'Hora Extra',
+        'Horas Extras',
         'Periculosidade',
         '13º Salário',
         'Insalubridade',
@@ -100,13 +100,14 @@ class FinanceiroCategorias
      */
 
     public const FORMAS_PAGAMENTO = [
+        'Dinheiro',
+        'PIX',
+        'TED',
         'Boleto Bancário',
         'Cartão de Débito',
         'Cartão de Crédito',
-        'Dinheiro',
-        'Faturado (Nota Fiscal)',
-        'PIX',
-        'Transferência Bancária',
+        'Folha',
+
     ];
 
     public const CONTAS_PAGAMENTO = [

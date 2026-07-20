@@ -560,38 +560,39 @@ INSERT INTO categoriaFinanceiroFuncionario (nome, tipo, tipoContrato) VALUES
 ('Empréstimo', 'SAIDA', 'TODOS');
 
 -- =====================================================
--- INSERÇAO DE DADOS DA FINANCEIRO-FUNCIONARIO
+-- INSERÇÃO DE DADOS DA FINANCEIRO-FUNCIONARIO
 -- =====================================================
 INSERT INTO financeiroFuncionario
 (idFuncionario,idCategoria,descricao,valor,dataReferencia,formaPagamento,contaPagamento,observacao)
 VALUES
 
 -- FUNCIONÁRIO JOÃO - CLT
-(1, 1, 'Salário Julho/2026', 5800.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
-(1, 2, 'Horas Extras', 450.00, '2026-07-01', 'Transferência', 'Banco do Brasil', ''),
-(1, 9, 'Desconto INSS', 621.60, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
-(1,10, 'Desconto IRRF', 515.33, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
-(1,11, 'Vale Transporte', 348.00, '2026-07-01', 'Folha', 'Banco do Brasil', ''),
+(1, 1, 'Salário Julho/2026', 5800.00, '2026-07-01', 'TED', 'Conta Corrente Empresa', ''),
+(1, 2, 'Horas Extras', 450.00, '2026-07-01', 'TED', 'Conta Corrente Empresa', ''),
+(1, 9, 'Desconto INSS', 621.60, '2026-07-01', 'Folha', 'Conta Corrente Empresa', ''),
+(1,10, 'Desconto IRRF', 515.33, '2026-07-01', 'Folha', 'Conta Corrente Empresa', ''),
+(1,11, 'Vale Transporte', 348.00, '2026-07-01', 'Folha', 'Conta Corrente Empresa', ''),
 
 -- FUNCIONÁRIA MARIA - CONTRATO TEMPORÁRIO
-(2, 1, 'Salário Julho/2026', 3000.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
-(2, 5, 'Bônus por desempenho', 300.00, '2026-07-01', 'PIX', 'Caixa Econômica', ''),
-(2, 9, 'Desconto INSS', 248.60, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
-(2,11, 'Vale Transporte',180.00, '2026-07-01', 'Folha', 'Caixa Econômica', ''),
+(2, 1, 'Salário Julho/2026', 3000.00, '2026-07-01', 'PIX', 'Caixa', ''),
+(2, 5, 'Bônus por desempenho', 300.00, '2026-07-01', 'PIX', 'Caixa', ''),
+(2, 9, 'Desconto INSS', 248.60, '2026-07-01', 'Folha', 'Caixa', ''),
+(2,11, 'Vale Transporte',180.00, '2026-07-01', 'Folha', 'Caixa', ''),
 
 -- FUNCIONÁRIO CARLOS - TERCEIRIZADA
-(3, 8, 'Pagamento de Serviço Julho/2026', 5200.00, '2026-07-01', 'TED', 'Banco Itaú', ''),
+(3, 8, 'Pagamento de Serviço Julho/2026', 5200.00, '2026-07-01', 'TED', 'Conta Corrente Empresa', ''),
 
 -- FUNCIONÁRIA FERNANDA - PESSOA JURÍDICA
-(4, 7, 'Pagamento NF Julho/2026', 6000.00, '2026-07-01', 'PIX', 'Banco Inter', ''),
-(4, 6, 'Ajuda de Custo', 350.00, '2026-07-01', 'PIX', 'Banco Inter', ''),
+(4, 7, 'Pagamento NF Julho/2026', 6000.00, '2026-07-01', 'PIX', 'PIX', ''),
+(4, 6, 'Ajuda de Custo', 350.00, '2026-07-01', 'PIX', 'PIX', ''),
 
 -- FUNCIONÁRIO LUCAS - CLT
-(5, 1, 'Salário Julho/2026', 4700.00, '2026-07-01', 'Transferência', 'Santander', ''),
-(5, 5, 'Bônus', 300.00, '2026-07-01', 'Transferência', 'Santander', ''),
-(5, 9, 'Desconto INSS', 467.60, '2026-07-01', 'Folha', 'Santander', ''),
-(5,10, 'Desconto IRRF', 276.80, '2026-07-01', 'Folha', 'Santander', ''),
-(5,11, 'Vale Transporte', 282.00, '2026-07-01', 'Folha', 'Santander', '');
+(5, 1, 'Salário Julho/2026', 4700.00, '2026-07-01', 'TED', 'Conta Corrente Empresa', ''),
+(5, 5, 'Bônus', 300.00, '2026-07-01', 'TED', 'Conta Corrente Empresa', ''),
+(5, 9, 'Desconto INSS', 467.60, '2026-07-01', 'Folha', 'Conta Corrente Empresa', ''),
+(5,10, 'Desconto IRRF', 276.80, '2026-07-01', 'Folha', 'Conta Corrente Empresa', ''),
+(5,11, 'Vale Transporte', 282.00, '2026-07-01', 'Folha', 'Conta Corrente Empresa', '');
+
 
 -- ============================================================
 -- INSERÇAO DE DADOS FUNCIONARIO-REMUNERAÇÃO (Uso no financeiro)
@@ -643,8 +644,6 @@ FROM obra o
 INNER JOIN cliente c
     ON o.idCliente = c.idCliente;
 
-SELECT * FROM funcionario WHERE cpf='58058711063'; 
-
 SELECT idUsuario, nome, perfil
 FROM usuario;
 
@@ -666,6 +665,17 @@ SELECT
     dataMovimentacao
 FROM financeiroAutomovel
 ORDER BY idFinanceiroAutomovel DESC;
+
+
+SELECT idCategoria, nome, tipo
+FROM categoriaFinanceiroFuncionario
+ORDER BY idCategoria;
+
+SELECT DISTINCT contaPagamento
+FROM financeiroFuncionario;
+
+SELECT DISTINCT contaPagamento
+FROM financeiroFuncionario;
 
 -- =====================================================
 -- DESCRIÇÃO DAS TABELAS

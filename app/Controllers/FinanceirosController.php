@@ -29,7 +29,7 @@ class FinanceirosController
 
         if ($aba === 'funcionario' && $cpfBusca !== '') {
             $cpfLimpo = preg_replace('/[^0-9]/', '', $cpfBusca);
-            
+
             $funcModel = new \App\Models\Funcionario();
             $funcionarioBusca = $funcModel->findByCpf($cpfLimpo);
 
@@ -39,17 +39,18 @@ class FinanceirosController
 
                 // Calcula os totais do Salário Líquido e Descontos
                 foreach ($lancamentos as $l) {
-                    if ($l['categoriaTipo'] === 'ENTRADA') {
-                        $resumo['entradas'] += $l['valor'];
+                    if ($l->getTipo() === 'ENTRADA') {
+                        $resumo['entradas'] += $l->getValor();
                     } else {
-                        $resumo['saidas'] += $l['valor'];
+                        $resumo['saidas'] += $l->getValor();
                     }
                 }
                 $resumo['saldo'] = $resumo['entradas'] - $resumo['saidas'];
 
             } else {
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    if (session_status() === PHP_SESSION_NONE) session_start();
+                    if (session_status() === PHP_SESSION_NONE)
+                        session_start();
                     $_SESSION['mensagem_erro'] = "Funcionário não encontrado com este CPF.";
                 }
             }
@@ -58,77 +59,79 @@ class FinanceirosController
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
 
-    public function storeFuncionario()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (session_status() === PHP_SESSION_NONE) session_start();
+    // public function storeFuncionario()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         if (session_status() === PHP_SESSION_NONE)
+    //             session_start();
 
-            // Preserva a busca para não apagar a tela
-            $cpf = $_POST['cpf_hidden'] ?? '';
-            $mes = $_POST['mes_hidden'] ?? date('m');
-            $ano = $_POST['ano_hidden'] ?? date('Y');
-            $tipo = $_POST['tipo'] ?? 'entrada';
+    //         // Preserva a busca para não apagar a tela
+    //         $cpf = $_POST['cpf_hidden'] ?? '';
+    //         $mes = $_POST['mes_hidden'] ?? date('m');
+    //         $ano = $_POST['ano_hidden'] ?? date('Y');
+    //         $tipo = $_POST['tipo'] ?? 'entrada';
 
-            $urlRetorno = "/ideal/public/index.php?url=financeiros&aba=funcionario&tipo={$tipo}&mes={$mes}&ano={$ano}&cpf=" . urlencode($cpf);
+    //         $urlRetorno = "/ideal/public/index.php?url=financeiros&aba=funcionario&tipo={$tipo}&mes={$mes}&ano={$ano}&cpf=" . urlencode($cpf);
 
-            if (empty($_POST['idFuncionario'])) {
-                $_SESSION['mensagem_erro'] = "É necessário localizar um funcionário primeiro.";
-                header("Location: " . $urlRetorno);
-                exit;
-            }
+    //         if (empty($_POST['idFuncionario'])) {
+    //             $_SESSION['mensagem_erro'] = "É necessário localizar um funcionário primeiro.";
+    //             header("Location: " . $urlRetorno);
+    //             exit;
+    //         }
 
-            $model = new FinanceiroFuncionario();
-            
-            // Passa a categoria e o tipo (ENTRADA/SAIDA) para a model auto-cadastrar se faltar
-            $idCategoria = $model->buscarIdCategoriaPorNome($_POST['categoria'] ?? '', $tipo);
+    //         $model = new FinanceiroFuncionario();
 
-            $model->setIdFuncionario($_POST['idFuncionario']);
-            $model->setIdCategoria($idCategoria);
-            $model->setDescricao($_POST['descricao'] ?? null);
-            $model->setValor($_POST['valor'] ?? null);
-            $model->setDataReferencia($_POST['dataReferencia'] ?? null);
-            $model->setFormaPagamento($_POST['formaPagamento'] ?? null);
-            $model->setContaPagamento($_POST['contaPagamento'] ?? null);
-            $model->setObservacao($_POST['observacao'] ?? null);
+    //         // Passa a categoria e o tipo (ENTRADA/SAIDA) para a model auto-cadastrar se faltar
+    //         $idCategoria = $model->buscarIdCategoriaPorNome($_POST['categoria'] ?? '', $tipo);
 
-            $salvou = $model->save();
+    //         $model->setIdFuncionario($_POST['idFuncionario']);
+    //         $model->setIdCategoria($idCategoria);
+    //         $model->setDescricao($_POST['descricao'] ?? null);
+    //         $model->setValor($_POST['valor'] ?? null);
+    //         $model->setDataReferencia($_POST['dataReferencia'] ?? null);
+    //         $model->setFormaPagamento($_POST['formaPagamento'] ?? null);
+    //         $model->setContaPagamento($_POST['contaPagamento'] ?? null);
+    //         $model->setObservacao($_POST['observacao'] ?? null);
 
-            if ($salvou) {
-                $_SESSION['mensagem_sucesso'] = "Lançamento registrado com sucesso!";
-            } else {
-                $_SESSION['mensagem_erro'] = "Ocorreu um erro ao registrar no banco de dados.";
-            }
+    //         $salvou = $model->save();
 
-            header("Location: " . $urlRetorno);
-            exit;
-        }
-    }
+    //         if ($salvou) {
+    //             $_SESSION['mensagem_sucesso'] = "Lançamento registrado com sucesso!";
+    //         } else {
+    //             $_SESSION['mensagem_erro'] = "Ocorreu um erro ao registrar no banco de dados.";
+    //         }
 
-    public function deleteFuncionario()
-    {
-        $id = $_GET['id'] ?? null;
-        
-        $cpf = $_GET['cpf'] ?? '';
-        $mes = $_GET['mes'] ?? date('m');
-        $ano = $_GET['ano'] ?? date('Y');
-        
-        $urlRetorno = "/ideal/public/index.php?url=financeiros&aba=funcionario&tipo=periodo&mes={$mes}&ano={$ano}&cpf=" . urlencode($cpf);
+    //         header("Location: " . $urlRetorno);
+    //         exit;
+    //     }
+    // }
 
-        if ($id) {
-            if (session_status() === PHP_SESSION_NONE) session_start();
-            $model = new FinanceiroFuncionario();
-            $deletou = $model->delete($id);
+    // public function deleteFuncionario()
+    // {
+    //     $id = $_GET['id'] ?? null;
 
-            if ($deletou) {
-                $_SESSION['mensagem_sucesso'] = "Registro excluído com sucesso!";
-            } else {
-                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o registro.";
-            }
-        }
-        
-        header("Location: " . $urlRetorno);
-        exit;
-    }
+    //     $cpf = $_GET['cpf'] ?? '';
+    //     $mes = $_GET['mes'] ?? date('m');
+    //     $ano = $_GET['ano'] ?? date('Y');
+
+    //     $urlRetorno = "/ideal/public/index.php?url=financeiros&aba=funcionario&tipo=periodo&mes={$mes}&ano={$ano}&cpf=" . urlencode($cpf);
+
+    //     if ($id) {
+    //         if (session_status() === PHP_SESSION_NONE)
+    //             session_start();
+    //         $model = new FinanceiroFuncionario();
+    //         $deletou = $model->delete($id);
+
+    //         if ($deletou) {
+    //             $_SESSION['mensagem_sucesso'] = "Registro excluído com sucesso!";
+    //         } else {
+    //             $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o registro.";
+    //         }
+    //     }
+
+    //     header("Location: " . $urlRetorno);
+    //     exit;
+    // }
+
     
-    // MANTENHA O RESTO DO SEU CONTROLLER (Obra e Automóvel) AQUI PARA BAIXO...
 }
