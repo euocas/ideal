@@ -31,8 +31,7 @@ $bannerSlides = [
         'link' => 'index.php?url=financeiros'
     ]
 ];
-
-
+/** @var array $indicadores */
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
