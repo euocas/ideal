@@ -206,3 +206,43 @@ a {
 .mensagem-sucesso h2 span {
   color: var(--info);
 }
+
+/* ==========================================
+   MENSAGEM DE ERRO
+========================================== */
+
+.mensagem-erro {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  font-size: 14px;
+}
+
+/* ==========================================
+   INPUT DE CÓDIGO
+========================================== */
+
+.input-codigo {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 12px;
+}
+
+/* ==========================================
+   BOTÃO SECUNDÁRIO (REENVIAR CÓDIGO)
+========================================== */
+
+.btn-secundario {
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.btn-secundario:hover {
+  background: rgba(255, 90, 31, 0.1);
+  opacity: 1;
+}

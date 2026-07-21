@@ -20,6 +20,11 @@ return [
     'logout' => [AuthController::class, 'logout'],
     'dashboard' => [DashboardController::class, 'index'],
     'esqueci-senha' => [EsqueciSenhaController::class, 'index'],
+    'esqueci-senha/enviar' => [EsqueciSenhaController::class, 'enviarCodigo'],
+    'esqueci-senha/verificar' => [EsqueciSenhaController::class, 'telaVerificarCodigo'],
+    'esqueci-senha/reenviar' => [EsqueciSenhaController::class, 'reenviarCodigo'],
+    'esqueci-senha/validar' => [EsqueciSenhaController::class, 'validarCodigo'],
+    'esqueci-senha/nova-senha' => [EsqueciSenhaController::class, 'telaNovaSenha'],
     'redefinir-senha' => [EsqueciSenhaController::class, 'redefinir'],
 
     'funcionarios' => [FuncionariosController::class, 'index'],
