@@ -309,9 +309,9 @@ INSERT INTO usuario (nome, email, senha) VALUES
 ('Douglas','emaildodouglas@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Matheus','matheusguida08@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Camila', 'emaildacamila@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Francielly','emaildafrancielly@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Francielly','franciellym.ferreira15@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Danilo', 'emaildodanilo@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Alexandre', 'emaildoalexandre@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Alexandre', 'alexandrecardoso590@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Senac', 'senacsantos@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
  
 -- =====================================================
@@ -592,6 +592,21 @@ INNER JOIN cliente c
     ON o.idCliente = c.idCliente;
 
 SELECT * FROM funcionario WHERE cpf='58058711063'; 
+-- =====================================================
+-- CONTADOR 
+-- =====================================================
+SELECT COUNT(*) AS total_funcionarios
+FROM funcionario;
+
+SELECT COUNT(*) AS total_obras
+FROM obra;
+
+SELECT COUNT(*) AS total_clientes
+FROM cliente;
+
+SELECT COUNT(*) AS total_usuarios
+FROM usuario;
+
 
 -- =====================================================
 -- DESCRIÇÃO DAS TABELAS

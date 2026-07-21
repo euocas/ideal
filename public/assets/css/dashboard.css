@@ -1,39 +1,30 @@
 /* ==========================================
    LAYOUT
 ========================================== */
-
 .layout {
   display: flex;
   align-items: flex-start;
   min-height: 100vh;
 }
-
 .content {
   flex: 1;
   padding: 40px;
   background: var(--bg);
 }
-
 /* ==========================================
    SIDEBAR
 ========================================== */
-
 .sidebar {
   position: sticky;
   top: 0;
-
   width: 220px;
   height: 100vh;
   min-height: 100vh;
-
   flex-shrink: 0;
   overflow-y: auto;
-
   display: flex;
   flex-direction: column;
-
   padding: 20px;
-
   background: var(--bg-dark);
   color: var(--text-white);
 }
@@ -41,33 +32,26 @@
 /* ==========================================
    LOGO
 ========================================== */
-
 .logo {
   display: flex;
   align-items: center;
   gap: 15px;
-
   margin-bottom: 40px;
 }
-
 .logo img {
   width: 190px;
   max-width: 100%;
 }
-
 /* ==========================================
    MENU
 ========================================== */
-
 .menu {
   list-style: none;
   flex: 1;
 }
-
 .menu li {
   margin-bottom: 10px;
 }
-
 .menu li a {
   display: flex;
   align-items: center;
@@ -80,31 +64,25 @@
   text-decoration: none;
   transition: var(--transition);
 }
-
 .menu li a:hover,
 .menu li a.active:hover {
   background: var(--orange-dark) !important;
   color: var(--text-white) !important;
 }
-
 .menu li a.active {
   background: var(--btn-dark);
   color: var(--text-white);
 }
-
 .menu-title {
   margin: 25px 0 15px;
-
   color: var(--orange-dark);
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 1px;
 }
-
 /* ==========================================
    USUÁRIO
 ========================================== */
-
 .user {
   display: flex;
   align-items: center;
@@ -118,50 +96,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 50px;
   height: 50px;
-
   flex-shrink: 0;
-
   background: var(--orange-dark);
   border-radius: 50%;
-
   color: var(--text-white);
   font-size: 20px;
   font-weight: bold;
 }
-
 .user-info {
   display: flex;
   flex-direction: column;
 }
-
 .user-info h3 {
   color: var(--text-white);
   font-size: 16px;
 }
-
 .user-info span {
   margin-top: 4px;
-
   color: var(--text-light);
   font-size: 14px;
 }
-
 /* ==========================================
    FORMULÁRIO
 ========================================== */
-
 .content form {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   gap: 15px;
-
   margin-bottom: 40px;
   padding: 25px;
-
   background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
@@ -170,24 +136,18 @@
 .content input[type="text"] {
   flex: 1;
   min-width: 180px;
-
   padding: 10px 0;
-
   background: transparent;
   border: none;
   border-bottom: 2px solid var(--border-light);
-
   color: var(--text);
   font-size: 15px;
-
   outline: none;
   transition: border-color 0.3s ease;
 }
-
 .content input[type="text"]:focus {
   border-bottom-color: var(--orange-dark);
 }
-
 .content button[type="submit"] {
   padding: 10px 25px;
   background: var(--btn-dark);
@@ -200,91 +160,92 @@
   cursor: pointer;
   transition: var(--transition);
 }
-
 .content button[type="submit"]:hover {
   background: var(--orange-dark);
 }
-
 .titulo-pagina {
   color: var(--text);
   font-size: 24px;
   font-weight: 700;
 }
-
 .titulo-pagina::after {
   content: "";
-
   flex: 1;
   height: 1px;
-
   background: linear-gradient(to right, var(--orange-dark), transparent);
   opacity: 0.3;
 }
-
-.subtitulo-pagina {
-  text-align: center;
+/* ==========================================
+   HEADER DASHBOARD
+========================================== */
+.banner-carrossel {
+  margin-top: 29px;
 }
-
-.titulo-dashboard {
-  margin-bottom: 10px;
-
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+.dashboard-header-info h1 {
+  margin: 0;
   color: var(--text);
-  font-size: 42px;
-  line-height: 1.1;
+  font-size: 33px;
+  font-weight: 700;
 }
-
-.subtitulo-dashboard {
-  margin-bottom: 50px;
-
+.dashboard-header-brand {
+  text-align: right;
+}
+.dashboard-header-brand h2 {
+  margin: 0;
   color: var(--text);
-  font-size: 32px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
-
+.subtitulo-sistema {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-light);
+  font-size: 19px;
+  font-weight: 400;
+}
+.logo-a {
+  color: #e67e22;
+}
 /* ==========================================
    PAINEL
 ========================================== */
-
 .painel-opcoes {
   position: relative;
-
-  padding: 45px 20px 20px;
-
+  padding: 10px 16px 16px;
+  margin-bottom: 24px;
   background: var(--surface);
   border: 1px solid var(--orange-light);
   border-radius: var(--radius-md);
 }
-
 .painel-titulo {
-  position: absolute;
-  top: -14px;
-  left: 25px;
-
-  padding: 0 12px;
-
-  background: var(--bg);
-
+  margin-bottom: 16px;
   color: var(--text);
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
 }
-
 /* ==========================================
    CARDS DASHBOARD
 ========================================== */
-
 .cards-dashboard {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
-
 .card-dashboard {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  padding: 25px;
+  gap: 12px;
+  padding: 18px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -294,70 +255,353 @@
   transition: var(--transition);
   box-shadow: var(--shadow-sm);
 }
-
 .card-dashboard:hover {
   transform: translateY(-5px);
   border-color: var(--orange-dark);
   box-shadow: var(--shadow-md);
 }
-
 /* ==========================================
    ÍCONE CARD
 ========================================== */
-
+.card-icon {
+  margin-bottom: 4px;
+}
+.card-dashboard h3 {
+  margin: 0;
+}
+.card-dashboard p {
+  margin: 0;
+}
 .card-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 70px;
   height: 70px;
-
   flex-shrink: 0;
-
   background: var(--surface-alt);
   border-radius: var(--radius-lg);
-
   color: var(--orange-dark);
   font-size: 32px;
 }
-
 /* ==========================================
    TEXTOS DOS CARDS
 ========================================== */
-
 .card-dashboard h3 {
   margin-bottom: 8px;
-
   font-size: 28px;
   font-weight: 700;
 }
-
 .card-dashboard p {
   font-size: 18px;
   line-height: 1.6;
 }
-
 /* ==========================================
    CORES DOS CARDS
 ========================================== */
-
 .card-clientes p {
   color: var(--primary);
 }
-
 .card-funcionarios p {
   color: var(--orange-dark);
 }
-
 .card-obras p {
   color: var(--success);
 }
-
 .card-financeiros p {
   color: var(--warning);
 }
-
 .card-veiculos p {
   color: var(--purple);
+}
+/* ==========================================
+   BANNER / CARROSSEL
+========================================== */
+.banner-carrossel {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  margin-bottom: 22px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-dark);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.35);
+}
+.banner-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.banner-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.banner-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.banner-slide__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.60) 0%,
+        rgba(0, 0, 0, 0.35) 35%,
+        rgba(0, 0, 0, 0.10) 70%,
+        rgba(0, 0, 0, 0.05) 100%
+    );
+}
+.banner-slide__content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  height: 100%;
+  padding: 48px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--text-white);
+}
+.banner-slide__titulo {
+  margin: 0 0 14px;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.banner-slide__destaque {
+  color: var(--orange-dark);
+}
+.banner-slide__descricao {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+.banner-slide__botao {
+  align-self: flex-start;
+  padding: 13px 30px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  color: var(--text-heading);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.banner-slide__botao:hover {
+  background: var(--orange-dark);
+  color: var(--text-white);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -6px rgba(224, 74, 16, 0.55);
+}
+/* Controles */
+.banner-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--text-white);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.banner-nav:hover {
+  background: var(--orange-dark);
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 8px 20px -6px rgba(224, 74, 16, 0.55);
+}
+.banner-nav--prev {
+  left: 20px;
+}
+.banner-nav--next {
+  right: 20px;
+}
+/* Indicadores */
+.banner-dots {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+}
+.banner-dot {
+  width: 9px;
+  height: 9px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.banner-dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+.banner-dot.is-active {
+  background: var(--text-white);
+  width: 24px;
+  border-radius: 6px;
+}
+/* ==========================================
+   INDICADORES (KPIs)
+========================================== */
+.indicadores {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+.indicador {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid #ececec;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: 0.25s;
+}
+.indicador:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+.indicador:hover .indicador__icone {
+  transform: scale(1.06);
+}
+.indicador__icone {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-size: 34px;
+  flex-shrink: 0;
+}
+.indicador__dados {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+   align-items: center; /* Centraliza na vertical */
+  justify-content: center; /* Centraliza na horizontal */
+}
+.indicador__valor {
+  display: block;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+  color: #1f2937;
+}
+.indicador__titulo {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #555;
+}
+.indicador__variacao {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--success-dark);
+}
+.indicador__descricao {
+  display: block;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.indicadores {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 28px;
+}
+/* Cores por categoria */
+.indicador--clientes .indicador__icone {
+  background: #eef4ff;
+}
+.indicador--funcionarios .indicador__icone {
+  background: #fff1e8;
+}
+.indicador--financeiro .indicador__icone {
+  background: var(--success-light);
+}
+.indicador--financeiro .indicador__variacao {
+  color: var(--success-dark);
+}
+.indicador--veiculos .indicador__icone {
+  background: #f1ebff;
+}
+.indicador--veiculos .indicador__variacao {
+  color: var(--purple);
+}
+.indicador--clientes .indicador__variacao {
+  color: var(--primary);
+}
+.indicador--funcionarios .indicador__variacao {
+  color: var(--orange-dark);
+}
+.indicador:nth-child(1) .indicador__icone {
+  background: #eaf3ff;
+  color: #2563eb;
+}
+.indicador:nth-child(2) .indicador__icone {
+  background: #fff1e7;
+  color: #f97316;
+}
+.indicador:nth-child(3) .indicador__icone {
+  background: #eaf9ee;
+  color: #16a34a;
+}
+.indicador:nth-child(4) .indicador__icone {
+  background: #f2eeff;
+  color: #6d28d9;
+}
+
+/* responsividade */
+@media (max-width: 780px) {
+  .banner-carrossel {
+    height: 280px;
+  }
+  .banner-slide__content {
+    padding: 32px 28px;
+    max-width: 100%;
+  }
+  .banner-slide__titulo {
+    font-size: 28px;
+  }
+  .banner-slide__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(15, 15, 15, 0.85) 0%,
+      rgba(15, 15, 15, 0.6) 100%
+    );
+  }
 }
