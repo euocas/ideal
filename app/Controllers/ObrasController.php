@@ -29,7 +29,7 @@ class ObrasController
             if ($contrato !== '') {
 
                 $obraModel = new Obra();
-                $obra = $obraModel->buscarPorContrato($contrato);
+                $obra = $obraModel->findByContrato($contrato);
 
                 if ($obra) {
                     $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
@@ -73,7 +73,7 @@ class ObrasController
         }
 
         $obraModel = new Obra();
-        $obra = $obraModel->buscarPorId($id);
+        $obra = $obraModel->findById($id);
 
         if (!$obra) {
             header("Location: /ideal/public/index.php?url=obras");
@@ -85,11 +85,10 @@ class ObrasController
         require_once __DIR__ . '/../Views/obras/index.php';
     }
 
-    // ✅ ADICIONADO setIdCliente
+
     private function popularObjeto(Obra $obra, array $dados): void
     {
         $obra->setIdCliente(!empty($dados['idCliente']) ? (int) $dados['idCliente'] : null);
-        $obra->setIdResponsavel(!empty($dados['idResponsavel']) ? (int) $dados['idResponsavel'] : null);
 
         if (!empty($dados['dataInicio'])) {
             $obra->setDataInicio(new \DateTime($dados['dataInicio']));
@@ -102,19 +101,28 @@ class ObrasController
         $obra->setStatus($dados['status'] ?? null);
         $obra->setEstado($dados['estado'] ?? null);
         $obra->setCidade($dados['cidade'] ?? null);
+
         $cep = preg_replace('/\D/', '', $dados['cep'] ?? '');
         $obra->setCep($cep);
+
         $obra->setLogradouro($dados['logradouro'] ?? null);
         $obra->setEndereco($dados['endereco'] ?? null);
         $obra->setNumero($dados['numero'] ?? null);
         $obra->setComplemento($dados['complemento'] ?? null);
         $obra->setObservacoes($dados['observacoes'] ?? null);
         $obra->setContrato($dados['contrato'] ?? null);
+
         $valorContratado = str_replace(',', '.', str_replace('.', '', $dados['valorContratado'] ?? ''));
         $obra->setValorContratado((float) $valorContratado);
 
-        // ✅ ADICIONADO: Pega a array que o JavaScript mandou via inputs hidden
-        $obra->setFuncionariosVinculados($dados['funcionariosObra'] ?? []);
+        $funcionarios = $dados['funcionariosObra'] ?? [];
+        $idResponsavel = $dados['idResponsavel'] ?? null;
+        foreach ($funcionarios as &$funcionario) {
+            $funcionario['isResponsavel'] =
+                ((int) $funcionario['idFuncionario'] === (int) $idResponsavel);
+        }
+        $obra->setFuncionariosVinculados($funcionarios);
+
     }
     public function store()
     {
@@ -155,7 +163,7 @@ class ObrasController
             $obra = new Obra();
             $this->popularObjeto($obra, $_POST);
 
-            $salvou = $obra->cadastrar();
+            $salvou = $obra->save();
 
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "Obra cadastrada com sucesso!";
@@ -207,9 +215,10 @@ class ObrasController
 
             $obra = new Obra();
             $obra->setIdObra($id);
+
             $this->popularObjeto($obra, $_POST);
 
-            $atualizou = $obra->atualizar();
+            $atualizou = $obra->update();
 
             if ($atualizou) {
                 $_SESSION['mensagem_sucesso'] = "Obra atualizada com sucesso!";
@@ -228,22 +237,24 @@ class ObrasController
 
     public function delete()
     {
-        $id = $_GET['id'] ?? null;
+        $id = (int) ($_GET['id'] ?? 0);
 
-        if ($id) {
+        if ($id <= 0) {
+            header("Location: /ideal/public/index.php?url=obras");
+            exit;
+        }
 
-            $obraModel = new Obra();
-            $deletou = $obraModel->excluir($id);
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+        $obraModel = new Obra();
+        $deletou = $obraModel->delete($id);
 
-            if ($deletou) {
-                $_SESSION['mensagem_sucesso'] = "Obra excluída com sucesso!";
-            } else {
-                $_SESSION['mensagem_erro'] = "Erro ao excluir a obra.";
-            }
+        if ($deletou) {
+            $_SESSION['mensagem_sucesso'] = "Obra excluída com sucesso!";
+        } else {
+            $_SESSION['mensagem_erro'] = "Erro ao excluir a obra.";
         }
 
         header("Location: /ideal/public/index.php?url=obras");

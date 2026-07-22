@@ -1,5 +1,9 @@
 <?php
 /** @var \App\Models\FinanceiroObra|null $financeiroObra */
+/** @var array<int, array{idCategoriaFinanceiroObra:int, nome:string}> $categoriasObra */
+/** @var \App\Models\Obra|null $obra */
+/** @var \App\Models\Cliente|null $cliente */
+
 use App\Config\SistemaConstantes;
 
 $isEditObra = isset($financeiroObra) && is_object($financeiroObra);
@@ -122,9 +126,7 @@ $actionObra = $isEditObra
                         <span class="obra-label">Código</span>
                         <strong>
                             <?= isset($obra)
-                                ? htmlspecialchars(
-                                    (string) $obra->getIdObra(),
-                                )
+                                ? $obra->getIdObra()
                                 : "—" ?>
                         </strong>
                     </div>
@@ -149,11 +151,8 @@ $actionObra = $isEditObra
                     <div>
                         <span class="obra-label">Responsável</span>
                         <strong>
-                            <?= isset($responsavel) &&
-                                $responsavel
-                                ? htmlspecialchars(
-                                    $responsavel->getNome(),
-                                )
+                            <?= isset($obra)
+                                ? htmlspecialchars($obra->getNomeResponsavel())
                                 : "—" ?>
                         </strong>
                     </div>
@@ -294,14 +293,14 @@ $actionObra = $isEditObra
                     <div class="form-group">
                         <label>Categoria <span class="obrigatorio">*</span></label>
                         <?php
-                             $categoriaSelecionada = $isEditObra? $financeiroObra->getCategoria() : "";
-                        ?>
-
-                        <select name="categoria" required>
+                        $categoriaSelecionada = $isEditObra
+                            ? $financeiroObra->getIdCategoriaFinanceiroObra() : ""; ?>
+                        <select name="idCategoriaFinanceiroObra" required>
                             <option value="">Selecione</option>
-                            <?php foreach (SistemaConstantes::CATEGORIAS_OBRA as $categoria): ?>
-                                <option value="<?= htmlspecialchars($categoria) ?>" <?= $categoriaSelecionada === $categoria ? "selected" : "" ?>>
-                                    <?= htmlspecialchars($categoria) ?>
+                            <?php foreach ($categoriasObra as $categoria): ?>
+                                <option value="<?= $categoria['idCategoriaFinanceiroObra'] ?>"
+                                    <?= $categoriaSelecionada == $categoria['idCategoriaFinanceiroObra'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($categoria['nome']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -325,50 +324,34 @@ $actionObra = $isEditObra
                             required>
                     </div>
                     <!-- Forma de Pagamento -->
+                    <?php
+                    $formaPagamentoSelecionada = $isEditObra ? $financeiroObra->getFormaPagamento() : "";
+                    ?>
+                    <!-- Forma de Pagamento -->
                     <div class="form-group">
-                        <?php
-                        $formaPagamentoSelecionada = $isEditObra ? $financeiroObra->getFormaPagamento() : "";
-                        ?>
-                        <!-- Forma de Pagamento -->
-                        <div class="form-group">
-                            <label>
-                                Forma de Pagamento
-                                <span class="obrigatorio">*</span>
-                            </label>
+                        <label>
+                            Forma de Pagamento
+                            <span class="obrigatorio">*</span>
+                        </label>
 
-                            <select name="formaPagamento" required>
-                                <option value="">Selecione</option>
+                        <select name="formaPagamento" required>
+                            <option value="">Selecione</option>
 
-                                <?php foreach (SistemaConstantes::FORMAS_PAGAMENTO as $formaPagamento): ?>
-                                    <option value="<?= htmlspecialchars($formaPagamento) ?>"
-                                        <?= $formaPagamentoSelecionada === $formaPagamento ? "selected" : "" ?>>
-                                        <?= htmlspecialchars($formaPagamento) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+                            <?php foreach (SistemaConstantes::FORMAS_PAGAMENTO as $formaPagamento): ?>
+                                <option value="<?= htmlspecialchars($formaPagamento) ?>"
+                                    <?= $formaPagamentoSelecionada === $formaPagamento ? "selected" : "" ?>>
+                                    <?= htmlspecialchars($formaPagamento) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
-                    <!-- Fornecedor -->
-                    <div class="form-group">
-                        <label>Fornecedor</label>
-                        <input type="text" name="fornecedor" maxlength="100" placeholder="Nome do fornecedor (opcional)"
-                            value="<?= $isEditObra ? htmlspecialchars($financeiroObra->getFornecedor() ?? "") : "" ?>">
-                    </div>
-
-                    <!-- Documento Fiscal -->
-                    <div class="form-group">
-                        <label>Documento Fiscal</label>
-                        <input type="text" name="documentoFiscal" maxlength="100"
-                            placeholder="Ex.: NF-e 125487 ou Recibo 4589"
-                            value="<?= $isEditObra ? htmlspecialchars($financeiroObra->getDocumentoFiscal() ?? "") : "" ?>">
-                    </div>
 
                     <!-- Descrição -->
                     <div class="form-group span-2">
                         <label>Descrição <span class="obrigatorio">*</span></label>
                         <input type="text" name="descricao" maxlength="100" placeholder="Descrição do gasto"
-                            value="<?= $isEditObra ? htmlspecialchars($financeiroObra->getDescricao(), ) : "" ?>"
+                            value="<?= $isEditObra ? htmlspecialchars($financeiroObra->getDescricao()) : "" ?>"
                             required>
                     </div>
                 </div>
@@ -376,7 +359,7 @@ $actionObra = $isEditObra
                 <div class="form-group span-2">
                     <label>Observação</label>
                     <textarea name="observacao" maxlength="200"
-                        placeholder="Observações adicionais"><?= $isEditObra ? htmlspecialchars($financeiroObra->getObservacao() ?? "", ) : "" ?></textarea>
+                        placeholder="Observações adicionais"><?= $isEditObra ? htmlspecialchars($financeiroObra->getObservacao() ?? "") : "" ?></textarea>
                 </div>
             </form>
         </div>
@@ -413,7 +396,7 @@ $actionObra = $isEditObra
                             <?php foreach ($lancamentosObra as $lancamento): ?>
                                 <tr>
                                     <td>
-                                        <?= date("d/m/Y", strtotime($lancamento->getDataGasto(), ), ) ?>
+                                        <?= date("d/m/Y", strtotime($lancamento->getDataGasto())) ?>
                                     </td>
 
                                     <td>

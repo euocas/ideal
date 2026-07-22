@@ -424,7 +424,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                                         $idFunc = $func['idFuncionario'];
                                         $idVeic = $func['idVeiculo'] ?? '';
-                                        $ehResponsavel = isset($obra) && $obra->getIdResponsavel() === (int) $idFunc;
+                                        $ehResponsavel = !empty($func['isResponsavel']);
                                         ?>
                                         <tr>
                                             <td class="responsavel-tabela">

@@ -12,10 +12,8 @@ class Obra
     // =====================================================
     // ATRIBUTOS
     // =====================================================
-
     private ?int $idObra = null;
     private ?int $idCliente = null;
-    private ?int $idResponsavel = null;  // ✅ ADICIONADO
     private ?DateTime $dataInicio = null;
     private ?DateTime $dataFim = null;
     private ?string $status = null;
@@ -50,14 +48,11 @@ class Obra
     {
         return $this->funcionariosVinculados;
     }
-
     public function setFuncionariosVinculados(array $funcionarios): void
     {
         $this->funcionariosVinculados = $funcionarios;
 
     }
-
-
     public function getIdObra(): ?int
     {
         return $this->idObra;
@@ -68,7 +63,6 @@ class Obra
         $this->idObra = $idObra;
     }
 
-
     public function getIdCliente(): ?int
     {
         return $this->idCliente;
@@ -77,16 +71,6 @@ class Obra
     public function setIdCliente(?int $idCliente): void
     {
         $this->idCliente = $idCliente;
-    }
-    // ✅ ADICIONADO
-    public function getIdResponsavel(): ?int
-    {
-        return $this->idResponsavel;
-    }
-    // ✅ ADICIONADO
-    public function setIdResponsavel(?int $idResponsavel): void
-    {
-        $this->idResponsavel = $idResponsavel;
     }
 
     public function getDataInicio(): ?DateTime
@@ -113,7 +97,6 @@ class Obra
     {
         return $this->status;
     }
-
     public function setStatus(?string $status): void
     {
         $permitidos = [
@@ -213,14 +196,12 @@ class Obra
     {
         return $this->contrato;
     }
-
     public function setContrato(?string $contrato): void
     {
         if ($contrato === null) {
             $this->contrato = null;
             return;
         }
-
         $contrato = trim($contrato);
         $contrato = mb_strtolower($contrato, 'UTF-8');
 
@@ -251,7 +232,6 @@ class Obra
 
         $obra->setIdObra($dados['idObra'] ?? null);
         $obra->setIdCliente(isset($dados['idCliente']) ? (int) $dados['idCliente'] : null); // ✅ ADICIONADO
-        $obra->setIdResponsavel(isset($dados['idResponsavel']) ? (int) $dados['idResponsavel'] : null);
 
         if (!empty($dados['dataInicio'])) {
             $obra->setDataInicio(new DateTime($dados['dataInicio']));
@@ -284,20 +264,23 @@ class Obra
 
         // Faz um JOIN para buscar o funcionário e o veículo vinculado a ele nesta obra
         $sql = "SELECT 
-                    of.idFuncionario, 
-                    f.nome as nomeFuncionario, 
-                    f.cargoFuncao as funcao, 
-                    f.dataAdmissao, 
-                    f.dataDesligamento, 
-                    f.status as statusFuncionario,
-                    ofv.idVeiculo, 
-                    v.modelo, 
-                    v.placa
-                FROM obraFuncionario of
-                INNER JOIN funcionario f ON of.idFuncionario = f.idFuncionario
-                LEFT JOIN obraFuncionarioVeiculo ofv ON of.idObraFuncionario = ofv.idObraFuncionario
-                LEFT JOIN veiculo v ON ofv.idVeiculo = v.idVeiculo
-                WHERE of.idObra = :idObra";
+            of.idFuncionario,
+            of.isResponsavel,
+            f.nome AS nomeFuncionario,
+            f.cargoFuncao AS funcao,
+            f.dataAdmissao,
+            f.dataDesligamento,
+            f.status AS statusFuncionario,
+            ofv.idVeiculo,
+            v.modelo,
+            v.placa
+
+        FROM obraFuncionario of
+        INNER JOIN funcionario f ON of.idFuncionario = f.idFuncionario
+        LEFT JOIN obraFuncionarioVeiculo ofv ON of.idObraFuncionario = ofv.idObraFuncionario
+        LEFT JOIN veiculo v ON ofv.idVeiculo = v.idVeiculo
+
+        WHERE of.idObra = :idObra";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':idObra' => $this->idObra]);
@@ -305,30 +288,36 @@ class Obra
         $this->funcionariosVinculados = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getNomeResponsavel(): string
+    {
+        foreach ($this->funcionariosVinculados as $funcionario) {
+            if (!empty($funcionario['isResponsavel'])) {
+                return $funcionario['nomeFuncionario'];
+            }
+        }
+
+        return "—";
+    }
+
     // =====================================================
     // CRUD
     // =====================================================
 
-    public function cadastrar(): bool
+    public function save(): bool
     {
         try {
             // Inicia a transação com o banco de dados
             $this->pdo->beginTransaction();
 
             // 1. SALVA A OBRA
-            $sql = "INSERT INTO obra (
-                        idCliente,idResponsavel, dataInicio, dataFim, status, estado, cidade, cep, 
-                        logradouro, endereco, numero, complemento,contrato,valorContratado, observacoes
-                    ) VALUES (
-                        :idCliente,:idResponsavel,:dataInicio, :dataFim, :status, :estado, :cidade, :cep, 
-                        :logradouro, :endereco, :numero, :complemento, :contrato,:valorContratado,:observacoes 
-                    )";
+            $sql = "INSERT INTO obra (idCliente, dataInicio, dataFim, status,estado,cidade,cep,logradouro,endereco,numero,complemento,contrato,valorContratado, observacoes) 
+            VALUES 
+            (:idCliente,:dataInicio,:dataFim,:status,:estado,:cidade,:cep,:logradouro,:endereco,:numero,:complemento,:contrato,:valorContratado,:observacoes)";
 
             $stmt = $this->pdo->prepare($sql);
 
             $sucesso = $stmt->execute([
                 ':idCliente' => $this->idCliente,
-                ':idResponsavel' => $this->idResponsavel,
                 ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
                 ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
                 ':status' => $this->status,
@@ -355,7 +344,10 @@ class Obra
             // 2. SALVA OS FUNCIONÁRIOS VINCULADOS
             if (!empty($this->funcionariosVinculados)) {
 
-                $sqlFunc = "INSERT INTO obraFuncionario (idObra, idFuncionario) VALUES (:idObra, :idFuncionario)";
+                $sqlFunc = "INSERT INTO obraFuncionario (idObra,idFuncionario,isResponsavel) 
+               VALUES 
+                (:idObra,:idFuncionario,:isResponsavel)";
+
                 $stmtFunc = $this->pdo->prepare($sqlFunc);
 
                 $sqlVeic = "INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES (:idObraFuncionario, :idVeiculo)";
@@ -368,7 +360,8 @@ class Obra
                     // Salva na tabela obraFuncionario
                     $stmtFunc->execute([
                         ':idObra' => $this->idObra,
-                        ':idFuncionario' => $func['idFuncionario']
+                        ':idFuncionario' => $func['idFuncionario'],
+                        ':isResponsavel' => !empty($func['isResponsavel']) ? 1 : 0
                     ]);
 
                     // Pega o ID do vínculo Obra-Funcionario gerado
@@ -404,7 +397,7 @@ class Obra
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscarPorId(int $id): ?self
+    public function findById(int $id): ?self
     {
         $sql = "SELECT * FROM obra WHERE idObra = :id";
         $stmt = $this->pdo->prepare($sql);
@@ -420,7 +413,7 @@ class Obra
         return null;
     }
 
-    public function buscarPorContrato(string $contrato): ?self
+    public function findByContrato(string $contrato): ?self
     {
         $sql = "SELECT * FROM obra WHERE contrato = :contrato LIMIT 1";
         $stmt = $this->pdo->prepare($sql);
@@ -435,35 +428,33 @@ class Obra
         return null;
     }
 
-    public function atualizar(): bool
+    public function update(): bool
     {
         try {
             // Iniciamos a transação (se der erro, nada é salvo)
             $this->pdo->beginTransaction();
 
             $sql = "UPDATE obra SET
-                        idCliente     = :idCliente,
-                        idResponsavel   = :idResponsavel,
-                        dataInicio    = :dataInicio,
-                        dataFim       = :dataFim,
-                        status        = :status,
-                        estado        = :estado,
-                        cidade        = :cidade,
-                        cep           = :cep,
-                        logradouro    = :logradouro,
-                        endereco      = :endereco,
-                        numero        = :numero,
-                        complemento   = :complemento,
-                        contrato      = :contrato,
-                        valorContratado = :valorContratado,
-                        observacoes   = :observacoes
-                    WHERE idObra = :idObra";
+            idCliente        = :idCliente,
+            dataInicio       = :dataInicio,
+            dataFim          = :dataFim,
+            status           = :status,
+            estado           = :estado,
+            cidade           = :cidade,
+            cep              = :cep,
+            logradouro       = :logradouro,
+            endereco         = :endereco,
+            numero           = :numero,
+            complemento      = :complemento,
+            contrato         = :contrato,
+            valorContratado  = :valorContratado,
+            observacoes      = :observacoes
+        WHERE idObra = :idObra";
 
             $stmt = $this->pdo->prepare($sql);
 
             $sucesso = $stmt->execute([
                 ':idCliente' => $this->idCliente,
-                ':idResponsavel' => $this->idResponsavel,
                 ':dataInicio' => $this->dataInicio?->format('Y-m-d H:i:s'),
                 ':dataFim' => $this->dataFim?->format('Y-m-d H:i:s'),
                 ':status' => $this->status,
@@ -502,11 +493,18 @@ class Obra
 
             // Re-insere o que veio da tela atualizado
             if (!empty($this->funcionariosVinculados)) {
-                $sqlFunc = "INSERT INTO obraFuncionario (idObra, idFuncionario) VALUES (:idObra, :idFuncionario)";
+                $sqlFunc = "INSERT INTO obraFuncionario (idObra,idFuncionario,isResponsavel)
+             VALUES
+             (:idObra,:idFuncionario,:isResponsavel)";
+
+
                 $stmtFunc = $this->pdo->prepare($sqlFunc);
 
                 $sqlVeic = "INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES (:idObraFuncionario, :idVeiculo)";
+
+
                 $stmtVeic = $this->pdo->prepare($sqlVeic);
+
 
                 foreach ($this->funcionariosVinculados as $func) {
                     if (empty($func['idFuncionario']))
@@ -514,8 +512,10 @@ class Obra
 
                     $stmtFunc->execute([
                         ':idObra' => $this->idObra,
-                        ':idFuncionario' => $func['idFuncionario']
+                        ':idFuncionario' => $func['idFuncionario'],
+                        ':isResponsavel' => !empty($func['isResponsavel']) ? 1 : 0
                     ]);
+
 
                     $idObraFunc = (int) $this->pdo->lastInsertId();
 
@@ -539,18 +539,27 @@ class Obra
             error_log("Erro no Update de Obra: " . $e->getMessage());
             return false;
         }
+
+        // } catch (\Exception $e) {
+
+        //     if ($this->pdo->inTransaction()) {
+
+        //         $this->pdo->rollBack();
+
+        //     }
+
+        //     throw $e;
+        // }
     }
 
-    public function excluir(int $id): bool
+    public function delete(int $id): bool
     {
         $sql = "DELETE FROM obra WHERE idObra = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }
 
-
-
-    public function buscarComFiltros(string $contrato = '', string $statusObra = ''): array
+    public function findByFilters(string $contrato = '', string $status = ''): array
     {
         $sql = "SELECT * FROM obra WHERE 1=1";
 
@@ -558,8 +567,8 @@ class Obra
             $sql .= " AND contrato LIKE :contrato";
         }
 
-        if (!empty($statusObra)) {
-            $sql .= " AND status = :statusObra";
+        if (!empty($status)) {
+            $sql .= " AND status = :status";
         }
 
         $sql .= " ORDER BY idObra DESC";
@@ -570,11 +579,12 @@ class Obra
             $stmt->bindValue(':contrato', '%' . $contrato . '%', PDO::PARAM_STR);
         }
 
-        if (!empty($statusObra)) {
-            $stmt->bindValue(':statusObra', $statusObra, PDO::PARAM_STR);
+        if (!empty($status)) {
+            $stmt->bindValue(':status', $status, PDO::PARAM_STR);
         }
 
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

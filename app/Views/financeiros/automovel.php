@@ -1,12 +1,12 @@
 <?php
 
-use App\Config\FinanceiroCategorias;
 use App\Config\SistemaConstantes;
 
 /** @var \App\Models\Veiculo|null $veiculoBusca */
 /** @var \App\Models\FinanceiroAutomovel|null $financeiroAutomovel */
 /** @var array $resumo */
 /** @var float $gastoAtual */
+/** @var array<int, array{idCategoriaFinanceiroVeiculo:int,nome:string}> $categoriasVeiculo */
 
 $tipo = $tipo ?? ($_GET["tipo"] ?? "entrada");
 $tipos = ["entrada", "saida", "periodo"];
@@ -282,23 +282,24 @@ $veAno = $veiculoExiste
                             <!-- Categoria -->
                             <div class="form-group">
                                 <label>Categoria <span class="obrigatorio">*</span></label>
-                                <select name="categoria" required>
-                                    <option value="">Selecione a categoria </option>
-                                    <?php foreach (SistemaConstantes::CATEGORIAS_FIN_AUTO as $categoria): ?>
-                                        <option value="<?= $categoria ?>" <?= $isEditAutomovel && $financeiroAutomovel->getCategoria() === $categoria ? 'selected' : '' ?>>
-                                            <?= $categoria ?>
+
+                                <?php
+                                $categoriaSelecionada = $isEditAutomovel ? $financeiroAutomovel->getIdCategoriaFinanceiroVeiculo(): "";
+                                ?>
+
+                                <select name="idCategoriaFinanceiroVeiculo" required>
+                                    <option value="">Selecione a categoria</option>
+
+                                    <?php foreach ($categoriasVeiculo as $categoria): ?>
+                                        <option value="<?= $categoria['idCategoriaFinanceiroVeiculo'] ?>"
+                                            <?= $categoriaSelecionada == $categoria['idCategoriaFinanceiroVeiculo'] ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($categoria['nome']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
-                            <!-- Fornecedor -->
-                            <div class="form-group">
-                                <label>Fornecedor</label>
 
-                                <input type="text" name="fornecedor" maxlength="100" placeholder="Ex.: Posto Shell"
-                                    value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getFornecedor()) : '' ?>">
-                            </div>
 
                             <!-- Valor -->
                             <div class="form-group">
@@ -345,14 +346,6 @@ $veAno = $veiculoExiste
                                 </select>
                             </div>
 
-                            <!-- Documento Fiscal -->
-                            <div class="form-group">
-                                <label>Documento Fiscal</label>
-
-                                <input type="text" name="documentoFiscal" maxlength="100"
-                                    placeholder="Ex.: NF-e 125487 ou Recibo 4589"
-                                    value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getDocumentoFiscal()) : '' ?>">
-                            </div>
 
                             <!-- Observação -->
                             <div class="form-group span-2">
@@ -400,13 +393,11 @@ $veAno = $veiculoExiste
             </div>
 
 
-
         <?php elseif ($tipo === "saida"): ?>
             <div class="saida-container">
                 <div class="saida-formulario">
 
-
-                    <form id="form-saida" action="/ideal/public/index.php?url=financeiro-automovel/store" method="POST">
+                    <form id="form-saida"   action="/ideal/public/index.php?url=financeiro-automovel/<?= $isEditAutomovel ? 'update' : 'store' ?>" method="POST">
 
                         <input type="hidden" name="tipo" value="saida">
                         <input type="hidden" name="idVeiculo"
@@ -423,25 +414,21 @@ $veAno = $veiculoExiste
                             <!-- Categoria -->
                             <div class="form-group">
                                 <label>Categoria <span class="obrigatorio">*</span></label>
-                                <select name="categoria" required>
+                                <?php $categoriaSelecionada = $isEditAutomovel ? $financeiroAutomovel->getIdCategoriaFinanceiroVeiculo(): "";
+                                ?>
+                             <select name="idCategoriaFinanceiroVeiculo" required>
                                     <option value="">Selecione a categoria</option>
 
-                                    <?php foreach (SistemaConstantes::CATEGORIAS_FIN_AUTO as $categoria): ?>
-                                        <option value="<?= $categoria ?>" <?= $isEditAutomovel && $financeiroAutomovel->getCategoria() === $categoria ? 'selected' : '' ?>>
-                                            <?= $categoria ?>
+                                    <?php foreach ($categoriasVeiculo as $categoria): ?>
+                                        <option value="<?= $categoria['idCategoriaFinanceiroVeiculo'] ?>"
+                                            <?= $categoriaSelecionada == $categoria['idCategoriaFinanceiroVeiculo'] ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($categoria['nome']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
 
                             </div>
-
-                            <!-- Fornecedor -->
-                            <div class="form-group">
-                                <label>Fornecedor</label>
-                                <input type="text" name="fornecedor" maxlength="100" placeholder="Ex.: Posto Shell"
-                                    value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getFornecedor()) : '' ?>">
-                            </div>
-
+                            
                             <!-- Valor -->
                             <div class="form-group">
                                 <label>Valor <span class="obrigatorio">*</span></label>
@@ -486,14 +473,6 @@ $veAno = $veiculoExiste
                                 </select>
                             </div>
 
-                            <!-- Documento -->
-                            <div class="form-group">
-                                <label>Documento Fiscal</label>
-
-                                <input type="text" name="documentoFiscal" maxlength="100" placeholder="Ex.: NF-e 12345"
-                                    value="<?= $isEditAutomovel ? htmlspecialchars($financeiroAutomovel->getDocumentoFiscal()) : '' ?>">
-                            </div>
-
                             <!-- Observação -->
                             <div class="form-group span-2">
                                 <label>Observação</label>
@@ -530,8 +509,8 @@ $veAno = $veiculoExiste
                         <p class="info-descricao">Registre os gastos relacionados ao veículo.</p>
 
                         <ul>
-                            <?php foreach (SistemaConstantes::CATEGORIAS_FIN_AUTO as $categoria): ?>
-                                <li><?= htmlspecialchars($categoria) ?></li>
+                            <?php foreach ($categoriasVeiculo as $categoria): ?>
+                            <li><?= htmlspecialchars($categoria['nome']) ?></li>
                             <?php endforeach; ?>
                         </ul>
 
@@ -656,11 +635,13 @@ $veAno = $veiculoExiste
                                                 action="/ideal/public/index.php?url=financeiro-automovel/delete&id=<?= $l["idFinanceiroAutomovel"] ?>"
                                                 method="POST">
 
-                                                <input type="hidden" name="placa_hidden" value="<?= htmlspecialchars($placaBusca) ?>">
+                                                <input type="hidden" name="placa_hidden"
+                                                    value="<?= htmlspecialchars($placaBusca) ?>">
                                                 <input type="hidden" name="mes_hidden" value="<?= htmlspecialchars($mesBusca) ?>">
                                                 <input type="hidden" name="ano_hidden" value="<?= htmlspecialchars($anoBusca) ?>">
 
-                                                <button type="submit" class="btn-acao excluir" title="Excluir" onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
+                                                <button type="submit" class="btn-acao excluir" title="Excluir"
+                                                    onclick="return confirm('Tem certeza que deseja apagar este lançamento?')">
 
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>

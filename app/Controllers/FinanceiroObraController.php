@@ -27,12 +27,13 @@ class FinanceiroObraController // ✅ NOME CORRETO
     // =========================================================
     //  ── FINANCEIRO OBRA 
     // =========================================================
+
     public function buscarObra()
     {
         $obraModel = new Obra();
         // Retorno após cadastrar um gasto
         if (!empty($_GET['idObra'])) {
-            $obra = $obraModel->buscarPorId(
+            $obra = $obraModel->findById(
                 (int) $_GET['idObra']
             );
         } else {
@@ -44,9 +45,9 @@ class FinanceiroObraController // ✅ NOME CORRETO
                 exit;
             }
             if (ctype_digit($termo)) {
-                $obra = $obraModel->buscarPorId((int) $termo);
+                $obra = $obraModel->findById((int) $termo);
             } else {
-                $obra = $obraModel->buscarPorContrato($termo);
+                $obra = $obraModel->findByContrato($termo);
             }
         }
 
@@ -57,22 +58,17 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $clienteModel = new Cliente();
             $cliente = $clienteModel->findById($obra->getIdCliente());
         }
-        // Busca o funcionario (responsavel) vinculado à obra
-        $responsavel = null;
-
-        if ($obra && $obra->getIdResponsavel()) {
-            $funcionarioModel = new Funcionario();
-            $responsavel = $funcionarioModel->findById(
-                $obra->getIdResponsavel()
-            );
-        }
+       
         // Dados financeiros da obra
         $gastoAtual = 0;
         $saldoDisponivel = 0;
         $lancamentosObra = [];
+        $categoriasObra = [];
 
         if ($obra) {
             $financeiroObraModel = new FinanceiroObra();
+            $categoriasObra = $financeiroObraModel->listarCategorias();
+
             $gastoAtual = $financeiroObraModel->calcularGastoAtual(
                 $obra->getIdObra()
 
@@ -93,7 +89,6 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
-
     public function visualizar()
     {
         $idFinanceiroObra = !empty($_GET['id'])
@@ -115,6 +110,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
         $financeiroObra = $financeiroObraModel->findById(
             $idFinanceiroObra
         );
+        $categoriasObra = $financeiroObraModel->listarCategorias();
 
         if (!$financeiroObra) {
             $_SESSION['mensagem_erro'] = 'Lançamento não localizado.';
@@ -173,7 +169,6 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
-
     public function historico()
     {
         $idObra = !empty($_GET["idObra"])
@@ -183,7 +178,8 @@ class FinanceiroObraController // ✅ NOME CORRETO
         if (!$idObra) {
             $_SESSION["mensagem_erro"] = "Obra inválida.";
             header(
-                "Location: /ideal/public/index.php?url=financeiros&aba=obra");
+                "Location: /ideal/public/index.php?url=financeiros&aba=obra"
+            );
             exit;
         }
 
@@ -193,16 +189,17 @@ class FinanceiroObraController // ✅ NOME CORRETO
         if (!$obra) {
             $_SESSION["mensagem_erro"] = "Obra não localizada.";
             header(
-                "Location: /ideal/public/index.php?url=financeiros&aba=obra" );
+                "Location: /ideal/public/index.php?url=financeiros&aba=obra"
+            );
             exit;
         }
         $financeiroObraModel = new FinanceiroObra();
         $acao = $_GET["acao"] ?? "ultimos";
 
         if ($acao === "historico") {
-            $lancamentosObra = $financeiroObraModel ->findByIdObra($idObra);
+            $lancamentosObra = $financeiroObraModel->findByIdObra($idObra);
         } else {
-            $lancamentosObra = $financeiroObraModel ->findUltimosByIdObra($idObra);
+            $lancamentosObra = $financeiroObraModel->findUltimosByIdObra($idObra);
         }
         $aba = "obra";
         require_once __DIR__ . "/../Views/financeiros/index.php";
@@ -347,19 +344,15 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         exit;
     }
-
     private function popularObra(FinanceiroObra $obj, array $dados): void
     {
         $obj->setIdObra($dados['idObra'] ?? null);
         $obj->setDescricao($dados['descricao'] ?? null);
-        $obj->setCategoria($dados['categoria'] ?? null);
+        $obj->setIdCategoriaFinanceiroObra($dados['idCategoriaFinanceiroObra'] ?? null);
         $obj->setValor($dados['valor'] ?? null);
         $obj->setDataGasto($dados['dataGasto'] ?? null);
         $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
-        $obj->setFornecedor($dados['fornecedor'] ?? null);
-        $obj->setDocumentoFiscal($dados['documentoFiscal'] ?? null);
         $obj->setObservacao($dados['observacao'] ?? null);
     }
 
-   
 }

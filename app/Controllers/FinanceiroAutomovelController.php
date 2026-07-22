@@ -66,12 +66,15 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
         ];
 
         $lancamentos = [];
+        $categoriasVeiculo = [];
+        
 
         if ($veiculo) {
 
             $veiculoBusca = $veiculo;
 
             $financeiroAutomovelModel = new FinanceiroAutomovel();
+            $categoriasVeiculo = $financeiroAutomovelModel->listarCategorias();
 
             $gastoAtual = $financeiroAutomovelModel->calcularGastoAtual(
                 $veiculo->getIdVeiculo()
@@ -110,11 +113,6 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
 
         $aba = 'automovel';
 
-        require_once __DIR__ . '/../Views/financeiros/index.php';
-    }
-
-    public function create()
-    {
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
 
@@ -162,7 +160,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
             $veiculo->getIdVeiculo(),
             4
         );
-
+        $categoriasVeiculo = $model->listarCategorias();
         $editar = isset($_GET['editar']);
 
         if ($editar) {
@@ -179,19 +177,17 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
 
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
-    private function popularAutomovel(FinanceiroAutomovel $obj, array $dados): void
-    {
-        $obj->setIdVeiculo($dados['idVeiculo'] ?? null);
-        $obj->setTipo($dados['tipo'] ?? null);
-        $obj->setCategoria($dados['categoria'] ?? null);
-        $obj->setDescricao($dados['descricao'] ?? null);
-        $obj->setValor($dados['valor'] ?? null);
-        $obj->setDataMovimentacao($dados['dataMovimentacao'] ?? null);
-        $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
-        $obj->setFornecedor($dados['fornecedor'] ?? null);
-        $obj->setDocumentoFiscal($dados['documentoFiscal'] ?? null);
-        $obj->setObservacao($dados['observacao'] ?? null);
-    }
+private function popularAutomovel(FinanceiroAutomovel $obj, array $dados): void
+{
+    $obj->setIdVeiculo($dados['idVeiculo'] ?? null);
+    $obj->setTipo($dados['tipo'] ?? null);
+    $obj->setIdCategoriaFinanceiroVeiculo($dados['idCategoriaFinanceiroVeiculo'] ?? null);
+    $obj->setDescricao($dados['descricao'] ?? null);
+    $obj->setValor($dados['valor'] ?? null);
+    $obj->setDataMovimentacao($dados['dataMovimentacao'] ?? null);
+    $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
+    $obj->setObservacao($dados['observacao'] ?? null);
+}
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -221,9 +217,6 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
         }
     }
 
-    public function edit()
-    {
-    }
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

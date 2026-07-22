@@ -16,8 +16,8 @@ class CredenciaisController
     }
 
     public function index()
-    {
 
+    {
         $login = '';
         $tipoAlteracao = 'senha';
         $usuario = null;
