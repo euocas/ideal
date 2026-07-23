@@ -85,7 +85,6 @@ class ObrasController
         require_once __DIR__ . '/../Views/obras/index.php';
     }
 
-
     private function popularObjeto(Obra $obra, array $dados): void
     {
         $obra->setIdCliente(!empty($dados['idCliente']) ? (int) $dados['idCliente'] : null);

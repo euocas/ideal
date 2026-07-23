@@ -167,15 +167,6 @@ input[type="datetime-local"] {
 /* ==========================================
    CARD CLIENTE
 ========================================== */
-
-/* .cliente-card {
-  background: #f7f8fa;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 20px 24px;
-  width: 100%;
-} */
-
 .cliente-card {
   background: #f7f8fa;
   border: 1px solid #e5e7eb;
@@ -312,6 +303,18 @@ input[type="datetime-local"] {
   margin-top: 16px;
   font-size: 14px;
 }
+input,
+select,
+textarea {
+    font: inherit;
+    font-size: 16px!important;
+    color: var(--text);
+}
+.dica-box{
+   margin: 2px 12px 2px 0;
+}
+
+
 /* ==========================================
    RESPONSIVO
 ========================================== */

@@ -9,11 +9,9 @@ class FinanceiroAutomovel
     // =====================================================
 // 1. ATRIBUTOS
 // =====================================================
-
     private ?int $idFinanceiroAutomovel = null;
 
     private ?int $idVeiculo = null;
-    private ?string $tipo = null;
 
     private ?int $idCategoriaFinanceiroVeiculo = null;
 
@@ -29,6 +27,8 @@ class FinanceiroAutomovel
     private ?string $descricao = null;
 
     private ?string $observacao = null;
+
+    private ?string $tipo = null;
 
     private PDO $pdo;
 
@@ -64,14 +64,6 @@ class FinanceiroAutomovel
         $this->idVeiculo = $id ? (int) $id : null;
     }
 
-    public function getTipo(): ?string
-    {
-        return $this->tipo;
-    }
-    public function setTipo(?string $tipo): void
-    {
-        $this->tipo = $tipo;
-    }
     public function getDescricao(): ?string
     {
         return $this->descricao;
@@ -135,16 +127,26 @@ class FinanceiroAutomovel
         $this->observacao = $obs;
     }
 
+    public function getTipo(): ?string
+    {
+        return $this->tipo;
+    }
+
+    public function setTipo(?string $tipo): void
+    {
+        $this->tipo = $tipo;
+    }
+
     // =====================================================
 // 4. HYDRATE
 // =====================================================
+
     private function hydrate(array $dados): self
     {
         $obj = new self();
 
-        $obj->setIdFinanceiroAutomovel($dados['idFinanceiroAutomovel'] ?? null);
+        $obj->setIdFinanceiroAutomovel($dados['idFinanceiroVeiculo'] ?? null);
         $obj->setIdVeiculo($dados['idVeiculo'] ?? null);
-        $obj->setTipo($dados['tipo'] ?? null);
         $obj->setCategoria($dados['categoria'] ?? null);
         $obj->setIdCategoriaFinanceiroVeiculo($dados['idCategoriaFinanceiroVeiculo'] ?? null);
         $obj->setDescricao($dados['descricao'] ?? null);
@@ -152,6 +154,8 @@ class FinanceiroAutomovel
         $obj->setDataMovimentacao($dados['dataMovimentacao'] ?? null);
         $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
         $obj->setObservacao($dados['observacao'] ?? null);
+        $obj->setCategoria($dados['categoria'] ?? null);
+        $obj->setTipo($dados['tipo'] ?? null);
 
         return $obj;
     }
@@ -163,11 +167,12 @@ class FinanceiroAutomovel
     {
         $sql = "SELECT
                 fa.*,
-                cfv.nome AS categoria
-            FROM financeiroAutomovel fa
+                cfv.nome AS categoria,
+                 cfv.tipo
+            FROM financeiroVeiculo fa
             INNER JOIN categoriaFinanceiroVeiculo cfv
                 ON fa.idCategoriaFinanceiroVeiculo = cfv.idCategoriaFinanceiroVeiculo
-            WHERE fa.idFinanceiroAutomovel = :id";
+            WHERE fa.idFinanceiroVeiculo = :id";
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -183,12 +188,13 @@ class FinanceiroAutomovel
     {
         $sql = "SELECT
                 fa.*,
-                cfv.nome AS categoria
-            FROM financeiroAutomovel fa
+                cfv.nome AS categoria,
+                 cfv.tipo
+            FROM financeiroVeiculo fa
             INNER JOIN categoriaFinanceiroVeiculo cfv
                 ON fa.idCategoriaFinanceiroVeiculo = cfv.idCategoriaFinanceiroVeiculo
             WHERE fa.idVeiculo = :idVeiculo
-            ORDER BY fa.dataMovimentacao DESC";
+            ORDER BY fa.dataMovimentacao DESC, fa.idFinanceiroVeiculo DESC";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':idVeiculo', $idVeiculo, PDO::PARAM_INT);
@@ -207,15 +213,15 @@ class FinanceiroAutomovel
         $sql = "
         SELECT
             fa.*,
-            cfv.nome AS categoria
-        FROM financeiroAutomovel fa
+            cfv.nome AS categoria,
+            cfv.tipo
+        FROM financeiroVeiculo fa
         INNER JOIN categoriaFinanceiroVeiculo cfv
             ON fa.idCategoriaFinanceiroVeiculo = cfv.idCategoriaFinanceiroVeiculo
         WHERE fa.idVeiculo = :idVeiculo
           AND MONTH(fa.dataMovimentacao) = :mes
           AND YEAR(fa.dataMovimentacao) = :ano
-        ORDER BY fa.dataMovimentacao DESC, fa.idFinanceiroAutomovel DESC
-    ";
+        ORDER BY fa.dataMovimentacao DESC, fa.idFinanceiroVeiculo DESC";
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -230,19 +236,19 @@ class FinanceiroAutomovel
 
     public function findUltimosByIdVeiculo(int $idVeiculo, int $limite = 4): array
     {
-
         $limite = max(1, $limite);
 
         $sql = "
         SELECT
             fa.*,
-            cfv.nome AS categoria
-        FROM financeiroAutomovel fa
+            cfv.nome AS categoria,
+             cfv.tipo
+        FROM financeiroVeiculo fa
         INNER JOIN categoriaFinanceiroVeiculo cfv
             ON fa.idCategoriaFinanceiroVeiculo = cfv.idCategoriaFinanceiroVeiculo
         WHERE fa.idVeiculo = :idVeiculo
         ORDER BY fa.dataMovimentacao DESC,
-                 fa.idFinanceiroAutomovel DESC
+                 fa.idFinanceiroVeiculo DESC
         LIMIT {$limite}
     ";
 
@@ -258,15 +264,20 @@ class FinanceiroAutomovel
         );
     }
 
-    public function listarCategorias(): array
+    public function listarCategorias(string $tipo): array
     {
-        $stmt = $this->pdo->query("
+        $sql = "
         SELECT
             idCategoriaFinanceiroVeiculo,
             nome
         FROM categoriaFinanceiroVeiculo
-        ORDER BY nome
-    ");
+        WHERE tipo = :tipo
+          AND ativo = TRUE
+        ORDER BY nome";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':tipo', strtoupper($tipo), PDO::PARAM_STR);
+        $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -275,9 +286,8 @@ class FinanceiroAutomovel
     {
         $sql = "
         SELECT COALESCE(SUM(valor), 0) AS total
-        FROM financeiroAutomovel
+        FROM financeiroVeiculo
         WHERE idVeiculo = :idVeiculo
-          AND tipo = 'Saida'
     ";
 
         $stmt = $this->pdo->prepare($sql);
@@ -290,10 +300,12 @@ class FinanceiroAutomovel
     public function calcularRecebimentos(int $idVeiculo): float
     {
         $sql = "
-        SELECT COALESCE(SUM(valor), 0)
-        FROM financeiroAutomovel
-        WHERE idVeiculo = :idVeiculo
-          AND tipo = 'Entrada'
+        SELECT COALESCE(SUM(fv.valor), 0)
+        FROM financeiroVeiculo fv
+        INNER JOIN categoriaFinanceiroVeiculo cfv
+            ON fv.idCategoriaFinanceiroVeiculo = cfv.idCategoriaFinanceiroVeiculo
+        WHERE fv.idVeiculo = :idVeiculo
+          AND cfv.tipo = 'ENTRADA'
     ";
 
         $stmt = $this->pdo->prepare($sql);
@@ -307,9 +319,8 @@ class FinanceiroAutomovel
     {
         try {
 
-            $sql = "INSERT INTO financeiroAutomovel (
+            $sql = "INSERT INTO financeiroVeiculo (
                     idVeiculo,
-                    tipo,
                     idCategoriaFinanceiroVeiculo,
                     descricao,
                     valor,
@@ -318,7 +329,6 @@ class FinanceiroAutomovel
                     observacao
                 ) VALUES (
                     :idVeiculo,
-                    :tipo,
                     :idCategoriaFinanceiroVeiculo,
                     :descricao,
                     :valor,
@@ -330,7 +340,6 @@ class FinanceiroAutomovel
             $stmt = $this->pdo->prepare($sql);
 
             $stmt->bindValue(':idVeiculo', $this->getIdVeiculo(), PDO::PARAM_INT);
-            $stmt->bindValue(':tipo', $this->getTipo(), PDO::PARAM_STR);
             $stmt->bindValue(
                 ':idCategoriaFinanceiroVeiculo',
                 $this->getIdCategoriaFinanceiroVeiculo(),
@@ -352,9 +361,6 @@ class FinanceiroAutomovel
 
             var_dump($e->getMessage());
             exit;
-
-            // Em produção você pode voltar para:
-            // return false;
         }
     }
 
@@ -366,21 +372,19 @@ class FinanceiroAutomovel
 
         try {
 
-            $sql = "UPDATE financeiroAutomovel SET
+            $sql = "UPDATE financeiroVeiculo SET
                     idVeiculo = :idVeiculo,
-                    tipo = :tipo,
                     idCategoriaFinanceiroVeiculo = :idCategoriaFinanceiroVeiculo,
                     descricao = :descricao,
                     valor = :valor,
                     dataMovimentacao = :dataMovimentacao,
                     formaPagamento = :formaPagamento,
                     observacao = :observacao
-                WHERE idFinanceiroAutomovel = :id";
+                WHERE idFinanceiroVeiculo = :id";
 
             $stmt = $this->pdo->prepare($sql);
 
             $stmt->bindValue(':idVeiculo', $this->getIdVeiculo(), PDO::PARAM_INT);
-            $stmt->bindValue(':tipo', $this->getTipo(), PDO::PARAM_STR);
             $stmt->bindValue(
                 ':idCategoriaFinanceiroVeiculo',
                 $this->getIdCategoriaFinanceiroVeiculo(),
@@ -404,7 +408,7 @@ class FinanceiroAutomovel
 
     public function delete(int $id): bool
     {
-        $stmt = $this->pdo->prepare("DELETE FROM financeiroAutomovel WHERE idFinanceiroAutomovel = :id");
+        $stmt = $this->pdo->prepare("DELETE FROM financeiroVeiculo WHERE idFinanceiroVeiculo = :id");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }

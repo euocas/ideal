@@ -48,25 +48,16 @@ $modoEdicao = isset($cliente);
                             </div>
                         <?php endif; ?>
 
-
-
                         <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
-
                             <div class="input-group">
-
                                 <label>Tipo</label>
-
                                 <select name="tipoDocumento" id="tipoDocumento" onchange="alterarMascaraDocumento()">
-
                                     <option value="cpf">CPF</option>
                                     <option value="cnpj">CNPJ</option>
-
                                 </select>
-
                             </div>
 
                             <div class="input-group">
-
                                 <label id="labelDocumento">
                                     CPF
                                 </label>
@@ -78,7 +69,6 @@ $modoEdicao = isset($cliente);
                             </div>
 
                             <button type="submit" class="btn-buscar">
-                                <i class="bi bi-search"></i>
                                 BUSCAR
                             </button>
 

@@ -17,10 +17,25 @@
 
 /* TESTE DE CORES */
 .busca-box
-{ background:#eef4ff; }
+{ 
+  background:#eef4ff; 
+}
 .dica-box          
-{ background:#f2f2f2; }
+{
+   background:#f2f2f2; 
+}
 
+.dica-box{
+   margin: 2px 12px 2px 0;
+}
+
+input,
+select,
+textarea {
+    font: inherit;
+    font-size: 16px!important;
+    color: var(--text);
+}
 /* ==========================================
    FORMULÁRIO
 ========================================== */

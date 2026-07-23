@@ -7,6 +7,8 @@ use App\Config\SistemaConstantes;
 /** @var array $resumo */
 /** @var float $gastoAtual */
 /** @var array<int, array{idCategoriaFinanceiroVeiculo:int,nome:string}> $categoriasVeiculo */
+/** @var array<int, array{idCategoriaFinanceiroVeiculo:int,nome:string}> $categoriasEntrada */
+/** @var array<int, array{idCategoriaFinanceiroVeiculo:int,nome:string}> $categoriasSaida */
 
 $tipo = $tipo ?? ($_GET["tipo"] ?? "entrada");
 $tipos = ["entrada", "saida", "periodo"];
@@ -290,7 +292,7 @@ $veAno = $veiculoExiste
                                 <select name="idCategoriaFinanceiroVeiculo" required>
                                     <option value="">Selecione a categoria</option>
 
-                                    <?php foreach ($categoriasVeiculo as $categoria): ?>
+                                    <?php foreach ($categoriasEntrada as $categoria): ?>
                                         <option value="<?= $categoria['idCategoriaFinanceiroVeiculo'] ?>"
                                             <?= $categoriaSelecionada == $categoria['idCategoriaFinanceiroVeiculo'] ? 'selected' : '' ?>>
                                             <?= htmlspecialchars($categoria['nome']) ?>
@@ -403,6 +405,11 @@ $veAno = $veiculoExiste
                         <input type="hidden" name="idVeiculo"
                             value="<?= $veiculoExiste ? $veiculoBusca->getIdVeiculo() : "" ?>">
 
+                            <?php if ($isEditAutomovel): ?>
+                            <input type="hidden"  name="idFinanceiroAutomovel" value="<?= $financeiroAutomovel->getIdFinanceiroAutomovel() ?>">
+                            <?php endif; ?>
+                            
+
 
 
                         <input type="hidden" name="placa_hidden" value="<?= htmlspecialchars($placaBusca) ?>">
@@ -419,7 +426,7 @@ $veAno = $veiculoExiste
                              <select name="idCategoriaFinanceiroVeiculo" required>
                                     <option value="">Selecione a categoria</option>
 
-                                    <?php foreach ($categoriasVeiculo as $categoria): ?>
+                                   <?php foreach ($categoriasSaida as $categoria): ?>
                                         <option value="<?= $categoria['idCategoriaFinanceiroVeiculo'] ?>"
                                             <?= $categoriaSelecionada == $categoria['idCategoriaFinanceiroVeiculo'] ? 'selected' : '' ?>>
                                             <?= htmlspecialchars($categoria['nome']) ?>
@@ -485,8 +492,7 @@ $veAno = $veiculoExiste
 
                         <div class="acoes-saida">
                             <button type="submit" class="btn salvar">
-                                <i class="fa-solid <?= $isEditAutomovel ? 'fa-pen' : 'fa-floppy-disk' ?>"></i>
-                                <?= $isEditAutomovel ? 'Atualizar Lançamento' : 'Salvar Saída' ?>
+                                <?= $isEditAutomovel ? 'Atualizar' : 'Salvar Saída' ?>
                             </button>
 
                             <button type="reset" class="btn limpar">
@@ -497,19 +503,19 @@ $veAno = $veiculoExiste
                     </form>
                 </div>
                 <aside class="saida-info ">
-                    <div class="info-card saida recebimentos-auto">
+                   <div class="info-card saida gastos-auto">
 
                         <div class="info-header">
                             <div class="info-icon"><i class="fa-solid fa-arrow-down"></i></div>
                             <div>
-                                <h3>Gastos</h3>
+                                <h3>Gastos </h3>
                             </div>
                         </div>
 
                         <p class="info-descricao">Registre os gastos relacionados ao veículo.</p>
 
                         <ul>
-                            <?php foreach ($categoriasVeiculo as $categoria): ?>
+                            <?php foreach ($categoriasSaida as $categoria): ?>
                             <li><?= htmlspecialchars($categoria['nome']) ?></li>
                             <?php endforeach; ?>
                         </ul>
@@ -597,7 +603,7 @@ $veAno = $veiculoExiste
                                         <?= date("d/m/Y", strtotime($l["dataMovimentacao"])) ?>
                                     </td>
                                     <td>
-                                        <?php if ($l["tipo"] === "Entrada"): ?>
+                                        <?php if ($l["tipo"] === "ENTRADA"): ?>
                                             <span class="badge-entrada">
                                                 <i class="fa-solid fa-arrow-up"></i>
                                                 <?= htmlspecialchars($l["categoria"]) ?>
@@ -615,24 +621,24 @@ $veAno = $veiculoExiste
                                         <?= htmlspecialchars($l["descricao"]) ?>
                                     </td>
 
-                                    <td class="<?= $l["tipo"] === "Entrada"
+                                    <td class="<?= $l["tipo"] === "ENTRADA"
                                         ? "valor-positivo"
                                         : "valor-negativo" ?>">
-                                        <?= $l["tipo"] === "Entrada" ? "+" : "-" ?>
+                                        <?= $l["tipo"] === "ENTRADA" ? "+" : "-" ?>
                                         R$ <?= number_format($l["valor"], 2, ",", ".") ?>
                                     </td>
 
                                     <td class="text-center">
                                         <div class="acoes">
                                             <!-- Editar -->
-                                            <a href="/ideal/public/index.php?url=financeiro-automovel/visualizar&id=<?= $l["idFinanceiroAutomovel"] ?>&editar=1"
+                                            <a href="/ideal/public/index.php?url=financeiro-automovel/visualizar&id=<?= $l["idFinanceiroVeiculo"] ?>&editar=1"
                                                 class="btn-acao editar" title="Editar">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
                                             <!-- Excluir -->
                                             <form
-                                                action="/ideal/public/index.php?url=financeiro-automovel/delete&id=<?= $l["idFinanceiroAutomovel"] ?>"
+                                                action="/ideal/public/index.php?url=financeiro-automovel/delete&id=<?= $l["idFinanceiroVeiculo"] ?>"
                                                 method="POST">
 
                                                 <input type="hidden" name="placa_hidden"

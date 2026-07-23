@@ -345,10 +345,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 oninput="mascaraTelefone(this)" value="<?= htmlspecialchars($whatsappFormatado) ?>">
                         </div>
 
-
-
                         <div class="secao-inferior">
-
                             <!-- DADOS CONTRATAÇÃO -->
                             <div class="card-contratacao">
 

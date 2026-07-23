@@ -67,14 +67,16 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
 
         $lancamentos = [];
         $categoriasVeiculo = [];
-        
+
 
         if ($veiculo) {
 
             $veiculoBusca = $veiculo;
 
             $financeiroAutomovelModel = new FinanceiroAutomovel();
-            $categoriasVeiculo = $financeiroAutomovelModel->listarCategorias();
+
+            $categoriasEntrada = $financeiroAutomovelModel->listarCategorias('ENTRADA');
+            $categoriasSaida = $financeiroAutomovelModel->listarCategorias('SAIDA');
 
             $gastoAtual = $financeiroAutomovelModel->calcularGastoAtual(
                 $veiculo->getIdVeiculo()
@@ -95,7 +97,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
 
                 foreach ($lancamentos as $l) {
 
-                    if ($l['tipo'] === 'Entrada') {
+                    if ($l['tipo'] === 'ENTRADA') {
                         $resumo['entradas'] += $l['valor'];
                     } else {
                         $resumo['saidas'] += $l['valor'];
@@ -160,13 +162,14 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
             $veiculo->getIdVeiculo(),
             4
         );
-        $categoriasVeiculo = $model->listarCategorias();
+        $categoriasEntrada = $model->listarCategorias('ENTRADA');
+        $categoriasSaida = $model->listarCategorias('SAIDA');
         $editar = isset($_GET['editar']);
 
         if ($editar) {
             $tipo = match ($financeiroAutomovel->getTipo()) {
-                'Entrada' => 'entrada',
-                'Saida', 'Saída' => 'saida',
+                'ENTRADA' => 'entrada',
+                'SAIDA' => 'saida',
                 default => 'entrada',
             };
         } else {
@@ -177,17 +180,16 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
 
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
-private function popularAutomovel(FinanceiroAutomovel $obj, array $dados): void
-{
-    $obj->setIdVeiculo($dados['idVeiculo'] ?? null);
-    $obj->setTipo($dados['tipo'] ?? null);
-    $obj->setIdCategoriaFinanceiroVeiculo($dados['idCategoriaFinanceiroVeiculo'] ?? null);
-    $obj->setDescricao($dados['descricao'] ?? null);
-    $obj->setValor($dados['valor'] ?? null);
-    $obj->setDataMovimentacao($dados['dataMovimentacao'] ?? null);
-    $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
-    $obj->setObservacao($dados['observacao'] ?? null);
-}
+    private function popularAutomovel(FinanceiroAutomovel $obj, array $dados): void
+    {
+        $obj->setIdVeiculo($dados['idVeiculo'] ?? null);
+        $obj->setIdCategoriaFinanceiroVeiculo($dados['idCategoriaFinanceiroVeiculo'] ?? null);
+        $obj->setDescricao($dados['descricao'] ?? null);
+        $obj->setValor($dados['valor'] ?? null);
+        $obj->setDataMovimentacao($dados['dataMovimentacao'] ?? null);
+        $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
+        $obj->setObservacao($dados['observacao'] ?? null);
+    }
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -251,37 +253,37 @@ private function popularAutomovel(FinanceiroAutomovel $obj, array $dados): void
         }
     }
 
-public function delete()
-{
-    $id = $_GET['id'] ?? null;
+    public function delete()
+    {
+        $id = $_GET['id'] ?? null;
 
-    if ($id) {
+        if ($id) {
 
-        $placa = urlencode($_POST['placa_hidden'] ?? '');
-        $mes    = $_POST['mes_hidden'] ?? date('n');
-        $ano    = $_POST['ano_hidden'] ?? date('Y');
+            $placa = urlencode($_POST['placa_hidden'] ?? '');
+            $mes = $_POST['mes_hidden'] ?? date('n');
+            $ano = $_POST['ano_hidden'] ?? date('Y');
 
-        $model = new FinanceiroAutomovel();
-        $deletou = $model->delete($id);
+            $model = new FinanceiroAutomovel();
+            $deletou = $model->delete($id);
 
-        if ($deletou) {
-            $_SESSION['mensagem_sucesso'] = "Lançamento financeiro excluído com sucesso!";
-        } else {
-            $_SESSION['mensagem_erro'] = "Erro ao excluir o lançamento financeiro.";
+            if ($deletou) {
+                $_SESSION['mensagem_sucesso'] = "Lançamento financeiro excluído com sucesso!";
+            } else {
+                $_SESSION['mensagem_erro'] = "Erro ao excluir o lançamento financeiro.";
+            }
+
+            header(
+                "Location: /ideal/public/index.php?url=financeiro-automovel/buscar"
+                . "&tipo=periodo"
+                . "&placa={$placa}"
+                . "&mes={$mes}"
+                . "&ano={$ano}"
+            );
+            exit;
         }
 
-        header(
-            "Location: /ideal/public/index.php?url=financeiro-automovel/buscar"
-            . "&tipo=periodo"
-            . "&placa={$placa}"
-            . "&mes={$mes}"
-            . "&ano={$ano}"
-        );
+        $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
+        header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
         exit;
     }
-
-    $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
-    header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
-    exit;
-}
 }

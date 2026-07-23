@@ -544,11 +544,16 @@
   border: 1px solid var(--border-light);
 }
 
-
+/* aside Entrada */
 .info-card.recebimentos-auto ul {
     grid-template-columns: 1fr;
     row-gap: 12px;
-
+}
+/* aside Saída */
+.gastos-auto ul {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+    row-gap: 10px;
 }
 
 .info-card.entrada {

@@ -258,9 +258,9 @@ require_once __DIR__ . '/../includes/header.php';
                         Cadastrar
                     </button>
 
-                    <button type="submit" class="btn salvar" <?= !$modoEdicao ? 'disabled' : '' ?>>
+                    <button type="submit" class="btn alterar" <?= !$modoEdicao ? 'disabled' : '' ?>>
                         <i class="bi bi-floppy"></i>
-                        Salvar
+                        Alterar
                     </button>
 
                     <?php if ($modoEdicao): ?>
