@@ -16,39 +16,67 @@ class Relatorio
     }
 
     /**
-     * Lista todos os registros financeiros (obras, funcionários, veículos)
+     * Lista todos os lançamentos financeiros (obras, funcionários, veículos)
+     * já unificados no formato do relatório.
      */
     public function listarFinanceiro(): array
     {
         $resultados = [];
 
         try {
-            // financeiroObra: valor = valor do gasto, data = dataGasto
-            $sqlObra = "SELECT idFinanceiroObra as id, 'obra' as tipo, descricao, valor, dataGasto as data
-                        FROM financeiroObra ORDER BY dataGasto DESC";
+            // financeiroObra: não tem ENTRADA/SAIDA na categoria, é sempre gasto (SAIDA)
+            $sqlObra = "
+                SELECT
+                    fo.idFinanceiroObra AS id,
+                    'Obra' AS origem,
+                    'SAIDA' AS tipo,
+                    co.nome AS categoria,
+                    fo.descricao,
+                    fo.valor,
+                    fo.dataGasto AS data
+                FROM financeiroObra fo
+                INNER JOIN categoriaFinanceiroObra co
+                    ON co.idCategoriaFinanceiroObra = fo.idCategoriaFinanceiroObra
+            ";
             $stmtObra = $this->pdo->prepare($sqlObra);
             $stmtObra->execute();
             $resultados = array_merge($resultados, $stmtObra->fetchAll(PDO::FETCH_ASSOC));
 
-            // financeiroFuncionario: soma salario + ferias + inss + decimoTerceiro como "valor"
-            $sqlFunc = "SELECT idFinanceiroFuncionario as id, 'funcionario' as tipo,
-                        'Despesas com funcionário' as descricao,
-                        (COALESCE(salario,0) + COALESCE(ferias,0) + COALESCE(inss,0) + COALESCE(decimoTerceiro,0)) as valor,
-                        dataRegistro as data
-                        FROM financeiroFuncionario";
+            // financeiroFuncionario: ENTRADA/SAIDA vem da categoria vinculada
+            $sqlFunc = "
+                SELECT
+                    ff.idFinanceiroFuncionario AS id,
+                    'Funcionário' AS origem,
+                    cf.tipo,
+                    cf.nome AS categoria,
+                    ff.descricao,
+                    ff.valor,
+                    ff.dataReferencia AS data
+                FROM financeiroFuncionario ff
+                INNER JOIN categoriaFinanceiroFuncionario cf
+                    ON cf.idCategoria = ff.idCategoria
+            ";
             $stmtFunc = $this->pdo->prepare($sqlFunc);
             $stmtFunc->execute();
             $resultados = array_merge($resultados, $stmtFunc->fetchAll(PDO::FETCH_ASSOC));
 
-            // financeiroAutomovel: soma combustivel + manutencao + ipva como "valor"
-            $sqlAuto = "SELECT idFinanceiroAutomovel as id, 'automovel' as tipo,
-                        'Despesas com veículo' as descricao,
-                        (COALESCE(combustivel,0) + COALESCE(manutencao,0) + COALESCE(ipva,0)) as valor,
-                        dataRegistro as data
-                        FROM financeiroAutomovel";
-            $stmtAuto = $this->pdo->prepare($sqlAuto);
-            $stmtAuto->execute();
-            $resultados = array_merge($resultados, $stmtAuto->fetchAll(PDO::FETCH_ASSOC));
+            // financeiroVeiculo: ENTRADA/SAIDA vem da categoria vinculada
+            $sqlVeiculo = "
+                SELECT
+                    fv.idFinanceiroVeiculo AS id,
+                    'Veículo' AS origem,
+                    cv.tipo,
+                    cv.nome AS categoria,
+                    fv.descricao,
+                    fv.valor,
+                    fv.dataMovimentacao AS data
+                FROM financeiroVeiculo fv
+                INNER JOIN categoriaFinanceiroVeiculo cv
+                    ON cv.idCategoriaFinanceiroVeiculo = fv.idCategoriaFinanceiroVeiculo
+            ";
+            $stmtVeiculo = $this->pdo->prepare($sqlVeiculo);
+            $stmtVeiculo->execute();
+            $resultados = array_merge($resultados, $stmtVeiculo->fetchAll(PDO::FETCH_ASSOC));
 
             usort($resultados, function ($a, $b) {
                 return strtotime($b['data'] ?? '1970-01-01') - strtotime($a['data'] ?? '1970-01-01');
@@ -62,15 +90,16 @@ class Relatorio
     }
 
     /**
-     * Busca registros financeiros com filtros
+     * Busca lançamentos financeiros com filtros de tipo (entrada/saída) e período.
      */
     public function buscarFinanceiroComFiltros(string $tipoFinanceiro = '', string $dataInicio = '', string $dataFim = ''): array
     {
         $resultados = $this->listarFinanceiro();
 
         if (!empty($tipoFinanceiro)) {
+            $tipoFinanceiro = strtoupper($tipoFinanceiro);
             $resultados = array_filter($resultados, function ($item) use ($tipoFinanceiro) {
-                return $item['tipo'] === $tipoFinanceiro;
+                return strtoupper($item['tipo'] ?? '') === $tipoFinanceiro;
             });
         }
 

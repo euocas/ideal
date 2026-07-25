@@ -31,14 +31,14 @@ require_once __DIR__ . '/../includes/header.php';
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
                 <div class="alert alert-success">
                     ✅ <?= $_SESSION['mensagem_sucesso'];
-                    unset($_SESSION['mensagem_sucesso']); ?>
+                        unset($_SESSION['mensagem_sucesso']); ?>
                 </div>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
                 <div class="alert alert-error">
                     ❌ <?= $_SESSION['mensagem_erro'];
-                    unset($_SESSION['mensagem_erro']); ?>
+                        unset($_SESSION['mensagem_erro']); ?>
                 </div>
             <?php endif; ?>
 
@@ -269,6 +269,9 @@ require_once __DIR__ . '/../includes/header.php';
 
                                                     <tr>
                                                         <th>ID</th>
+                                                        <th>Origem</th>
+                                                        <th>Categoria</th>
+                                                        <th>Descrição</th>
                                                         <th>Tipo</th>
                                                         <th>Valor</th>
                                                         <th>Data</th>
@@ -286,16 +289,16 @@ require_once __DIR__ . '/../includes/header.php';
                                                                 <td><?= htmlspecialchars($linha['idCliente'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
                                                                 <td><?= preg_replace(
-                                                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                    '$1.$2.$3-$4',
-                                                                    $linha['cpf'] ?? ''
-                                                                ) ?></td>
+                                                                        '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                        '$1.$2.$3-$4',
+                                                                        $linha['cpf'] ?? ''
+                                                                    ) ?></td>
 
                                                                 <td><?= preg_replace(
-                                                                    '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-                                                                    '$1.$2.$3/$4-$5',
-                                                                    $linha['cnpj'] ?? ''
-                                                                ) ?>
+                                                                        '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                                                        '$1.$2.$3/$4-$5',
+                                                                        $linha['cnpj'] ?? ''
+                                                                    ) ?>
                                                                 </td>
 
 
@@ -305,10 +308,10 @@ require_once __DIR__ . '/../includes/header.php';
                                                                 <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
                                                                 <td><?= preg_replace(
-                                                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                    '$1.$2.$3-$4',
-                                                                    $linha['cpf'] ?? ''
-                                                                ) ?></td>
+                                                                        '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                        '$1.$2.$3-$4',
+                                                                        $linha['cpf'] ?? ''
+                                                                    ) ?></td>
                                                                 <td><?= htmlspecialchars($linha['cargoFuncao'] ?? '') ?></td>
                                                                 <td>
                                                                     <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
@@ -323,10 +326,10 @@ require_once __DIR__ . '/../includes/header.php';
                                                                 <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
                                                                 <td><?= preg_replace(
-                                                                    '/(\d{4})(\d{6})(\d{1})/',
-                                                                    '$1.$2-$3',
-                                                                    $linha['renavam'] ?? ''
-                                                                ) ?>
+                                                                        '/(\d{4})(\d{6})(\d{1})/',
+                                                                        '$1.$2-$3',
+                                                                        $linha['renavam'] ?? ''
+                                                                    ) ?>
                                                                 </td>
 
                                                                 <td>
@@ -370,9 +373,16 @@ require_once __DIR__ . '/../includes/header.php';
 
                                                             <?php elseif ($relatorio == 'financeiro'): ?>
                                                                 <td><?= htmlspecialchars($linha['id'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($linha['tipo'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($linha['valor'] ?? '') ?></td>
-                                                                <td><?= htmlspecialchars($linha['data'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['origem'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['categoria'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['descricao'] ?? '') ?></td>
+                                                                <td>
+                                                                    <span class="badge-<?= strtolower($linha['tipo'] ?? '') ?>">
+                                                                        <?= ($linha['tipo'] ?? '') === 'ENTRADA' ? 'Entrada' : 'Saída' ?>
+                                                                    </span>
+                                                                </td>
+                                                                <td>R$ <?= number_format((float) ($linha['valor'] ?? 0), 2, ',', '.') ?></td>
+                                                                <td><?= !empty($linha['data']) ? date('d/m/Y', strtotime($linha['data'])) : '' ?></td>
                                                             <?php endif; ?>
                                                         </tr>
                                                     <?php endforeach; ?>
