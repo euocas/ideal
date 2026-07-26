@@ -89,12 +89,12 @@ body {
   color: var(--accent);
 }
 
-.conteudo p {
-  width: 400px;
-  margin-top: 30px;
 
-  color: var(--text-light);
-  font-size: 15px;
+.conteudo p {
+    width: 400px;
+    margin-top: 30px;
+    color: var( --btn-secondary);
+    font-size: 15px;
 }
 
 /* ==========================================

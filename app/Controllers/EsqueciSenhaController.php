@@ -18,10 +18,18 @@ class EsqueciSenhaController
     /**
      * ETAPA 1 - Tela para informar o e-mail
      */
+
     public function index()
     {
         $this->iniciarSessao();
+
         $etapa = 'email';
+
+        $email = $_SESSION['email_digitado'] ?? '';
+
+        unset($_SESSION['recuperacao_email']);
+        unset($_SESSION['recuperacao_verificado']);
+        unset($_SESSION['email_digitado']);
 
         require_once __DIR__ . '/../Views/auth/esqueceuSenha.php';
     }
@@ -55,6 +63,16 @@ class EsqueciSenhaController
 
         $usuarioModel = new Usuario();
         $usuario = $usuarioModel->buscarPorEmail($email);
+
+        if (!$usuario) {
+
+            $_SESSION['email_digitado'] = $email;
+
+            header('Location: index.php?url=esqueci-senha&erro=email');
+
+            exit;
+
+        }
 
         // Não revelamos se o e-mail existe ou não (evita enumeração de contas).
         if ($usuario) {

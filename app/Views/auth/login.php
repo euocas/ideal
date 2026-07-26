@@ -38,8 +38,8 @@
                 </h1>
 
                 <p>
-                    Materiais de alta performance para projetos
-                    que exigem precisão, durabilidade e confiança.
+                    Gerencie obras, equipes e processos com eficiência
+                    em um único ambiente.
                 </p>
 
             </div>
@@ -54,8 +54,7 @@
                 <!-- LOGO -->
                 <div class="logo">
 
-                    <img src="assets/img/logo.png"
-                        alt="Logo">
+                    <img src="assets/img/logo.png" alt="Logo">
 
                 </div>
 
@@ -85,19 +84,19 @@
                         $erros = [
 
                             'credenciais' =>
-                            'E-mail ou senha incorretos.',
+                                'E-mail ou senha incorretos.',
 
                             'campos' =>
-                            'Preencha todos os campos.',
+                                'Preencha todos os campos.',
 
                             'bloqueado' =>
-                            'Muitas tentativas. Tente novamente em ' . (int)($_GET['min'] ?? 15) . ' minuto(s).'
+                                'Muitas tentativas. Tente novamente em ' . (int) ($_GET['min'] ?? 15) . ' minuto(s).'
 
                         ];
 
                         echo htmlspecialchars(
                             $erros[$_GET['erro']]
-                                ?? 'Erro ao fazer login.'
+                            ?? 'Erro ao fazer login.'
                         );
 
                         ?>
@@ -117,13 +116,13 @@
                         $sucessos = [
 
                             'senha' =>
-                            'Senha alterada com sucesso!'
+                                'Senha alterada com sucesso!'
 
                         ];
 
                         echo htmlspecialchars(
                             $sucessos[$_GET['sucesso']]
-                                ?? 'Operação realizada com sucesso.'
+                            ?? 'Operação realizada com sucesso.'
                         );
 
                         ?>
@@ -134,41 +133,31 @@
 
 
                 <!-- FORM -->
-                <form action="/ideal/public/index.php?url=logar"
-                    method="POST"
-                    id="loginForm">
+                <form action="/ideal/public/index.php?url=logar" method="POST" id="loginForm">
 
                     <!-- EMAIL -->
                     <label>E-MAIL</label>
 
-                    <input type="email"
-                        name="email"
-                        placeholder="seu@email.com"
-                        value="<?= htmlspecialchars($_GET['email'] ?? '') ?>"
-                        required>
+                    <input type="email" name="email" placeholder="seu@email.com"
+                        value="<?= htmlspecialchars($_GET['email'] ?? '') ?>" required>
 
                     <!-- SENHA -->
                     <label>SENHA</label>
 
-                    <input type="password"
-                        name="senha"
-                        required>
+                    <input type="password" name="senha" required>
 
                     <!-- OPCOES -->
                     <div class="opcoes-login">
 
                         <label class="manter-conectado">
 
-                            <input type="checkbox"
-                                name="manter_conectado"
-                                value="1">
+                            <input type="checkbox" name="manter_conectado" value="1">
 
                             Manter conectado
 
                         </label>
 
-                        <a href="/ideal/public/index.php?url=esqueci-senha"
-                            class="forgot-password">
+                        <a href="/ideal/public/index.php?url=esqueci-senha" class="forgot-password">
 
                             Esqueceu a senha?
 

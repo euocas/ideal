@@ -71,8 +71,7 @@ body {
 
 .overlay p {
   max-width: 500px;
-
-  color: var(--text-light);
+  color: var( --btn-secondary);
   font-size: 16px;
 }
 
@@ -130,7 +129,6 @@ input {
   width: 100%;
   margin-bottom: 10px;
   padding: 16px;
-
   border: none;
   background: var(--surface-dark);
   color: var(--text-white);
@@ -144,39 +142,46 @@ input:focus {
    BOTÕES
 ========================================== */
 
-button {
-  width: 100%;
-  margin-top: 30px;
-  padding: 18px;
-  border: none;
-  background: var(--accent);
-  color: var(--text-white);;
-  font-weight: bold;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
+.btn-principal,
 .btn-voltar-login {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  padding: 16px;
-  background: var(--accent);
-  color: var(--text-white);
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  transition: var(--transition);
+    width: 100%;
+    margin-top: 30px;
+    padding: 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--accent);
+    color: var(--text-white);
+
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-.btn-voltar-login:hover {
-  background: var(--orange-dark);
+.btn-principal:hover {
+    opacity: .9;
+}
+.btn-secundario{
+    width: 150px;
+    height: 48px;
+    margin-left: 20px;
+    padding: 12px 18px;
+
+    background-color: var(--accent);
+    color: var(--text-white);
+
+    border: none;
+    border-radius: 12px;
+
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
+.btn-secundario:hover{
+    background-color: var(--orange-dark);
+}
 /* ==========================================
    LINKS
 ========================================== */
@@ -212,12 +217,13 @@ a {
 ========================================== */
 
 .mensagem-erro {
-  margin-bottom: 20px;
-  padding: 12px 16px;
+    margin-bottom:18px;
+    padding:10px 14px;
+    font-size:13px;
+    border-radius:6px;
   border: 1px solid var(--danger);
   background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
-  font-size: 14px;
 }
 
 /* ==========================================
@@ -232,17 +238,37 @@ a {
 }
 
 /* ==========================================
-   BOTÃO SECUNDÁRIO (REENVIAR CÓDIGO)
+   AÇÕES DO CÓDIGO
 ========================================== */
-
-.btn-secundario {
-  margin-top: 12px;
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
+.acoes-codigo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+    margin-top:30px;
+}
+.form-reenviar{
+    width:auto;
+    max-width:none;
+    margin:0;
 }
 
-.btn-secundario:hover {
-  background: rgba(255, 90, 31, 0.1);
-  opacity: 1;
+.btn-link{
+    background:none;
+    border:none;
+    padding:0;
+    margin:0;
+
+    color:var(--accent);
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-link:hover{
+    text-decoration:underline;
+}
+
+.link-email{
+    margin:0;
+    text-align:center;
 }
