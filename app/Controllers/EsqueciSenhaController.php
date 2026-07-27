@@ -76,10 +76,17 @@ class EsqueciSenhaController
 
         // Não revelamos se o e-mail existe ou não (evita enumeração de contas).
         if ($usuario) {
+
             $recuperacaoModel = new RecuperacaoSenha();
             $codigo = $recuperacaoModel->gerarCodigo($email);
 
             Mailer::enviarCodigoRecuperacao($email, $codigo);
+
+            // Horário em que o código foi criado
+            $_SESSION['codigo_criado_em'] = time();
+
+            // Horário em que o código irá expirar (10 minutos)
+            $_SESSION['codigo_expira_em'] = time() + 600;
 
             $_SESSION[$chaveLimite] = time();
         }
@@ -142,6 +149,21 @@ class EsqueciSenhaController
 
         if (empty($codigo)) {
             header('Location: index.php?url=esqueci-senha/verificar&erro=campos');
+            exit;
+        }
+
+        // Verifica se o código expirou
+        if (
+            !isset($_SESSION['codigo_expira_em']) ||
+            time() > $_SESSION['codigo_expira_em']
+        ) {
+
+            unset(
+                $_SESSION['codigo_criado_em'],
+                $_SESSION['codigo_expira_em']
+            );
+
+            header('Location: index.php?url=esqueci-senha/verificar&erro=expirado');
             exit;
         }
 

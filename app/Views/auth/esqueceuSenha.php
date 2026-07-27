@@ -8,11 +8,12 @@ $emailAtual = $_SESSION['email_digitado']
 
 $mensagensErro = [
     'campos' => 'Preencha todos os campos corretamente.',
-    'codigo' => 'Código inválido ou expirado. Tente novamente.',
+    'codigo' => 'O código informado é inválido.',
     'diferentes' => 'As senhas não coincidem.',
     'tamanho' => 'A senha precisa ter pelo menos 6 caracteres.',
     'aguarde' => 'Aguarde um minuto antes de pedir um novo código.',
     'email' => 'E-mail não encontrado na base de dados.',
+    'expirado' => 'O código expirou. Clique em "Reenviar código".',
 ];
 ?>
 <!DOCTYPE html>
@@ -78,7 +79,11 @@ $mensagensErro = [
                     <p class="descricao">
                         Enviamos um código de 6 dígitos para
                         <strong><?= htmlspecialchars($emailAtual) ?></strong>.
-                        O código expira em 10 minutos.
+                    </p>
+
+                    <p class="contador">
+                        O código expira em
+                        <span id="tempo-restante"></span>
                     </p>
 
                     <?php if ($erro && isset($mensagensErro[$erro])): ?>
@@ -86,53 +91,68 @@ $mensagensErro = [
                     <?php endif; ?>
 
                     <label>Código de verificação</label>
-                    <input type="text" name="codigo" class="input-codigo" inputmode="numeric" maxlength="6"
-                        placeholder="000000" autocomplete="one-time-code" required>
 
-                    <button type="submit" class="btn-principal">VALIDAR CÓDIGO</button>
-                </form>
+                    <div class="codigo-container">
 
-                <div class="acoes-codigo">
+                        <input type="text" name="codigo" class="input-codigo" inputmode="numeric" maxlength="6"
+                            placeholder="000000" autocomplete="one-time-code" required>
 
-                    <form action="/ideal/public/index.php?url=esqueci-senha/reenviar" method="POST" class="form-reenviar">
 
-                        <button class="btn-secundario">
-                            Reenviar código
+                        <button id="btn-validar" type="submit" class="btn-principal">
+                            VALIDAR CÓDIGO
                         </button>
+
+                        <div class="acoes-codigo">
+
+                            <button type="submit" formaction="/ideal/public/index.php?url=esqueci-senha/reenviar"
+                                formmethod="POST" class="btn-secundario">
+                                Reenviar código
+                            </button>
+
+                            <a href="/ideal/public/index.php?url=esqueci-senha" class="link-email">
+                                ❯ Usar outro e-mail
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                <?php elseif ($etapa === 'nova-senha'): ?>
+
+                    <form action="/ideal/public/index.php?url=redefinir-senha" method="POST">
+                        <h2>REDEFINIR <span>SENHA</span></h2>
+                        <p class="descricao">Código verificado! Agora defina sua nova senha.</p>
+
+                        <?php if ($erro && isset($mensagensErro[$erro])): ?>
+                            <p class="mensagem-erro"><?= htmlspecialchars($mensagensErro[$erro]) ?></p>
+                        <?php endif; ?>
+
+                        <label>Nova senha</label>
+                        <input type="password" name="nova_senha" minlength="6" required>
+
+                        <label>Confirmar nova senha</label>
+                        <input type="password" name="confirmar_senha" minlength="6" required>
+
+                        <button type="submit" class="btn-principal">SALVAR NOVA SENHA</button>
+                        <a href="/ideal/public/index.php?url=login">← Voltar ao login</a>
                     </form>
 
-                    <a href="/ideal/public/index.php?url=esqueci-senha" class="link-email">
-                        ❯ Usar outro e-mail
-                    </a>
-
-                </div>
-
-
-            <?php elseif ($etapa === 'nova-senha'): ?>
-
-                <form action="/ideal/public/index.php?url=redefinir-senha" method="POST">
-                    <h2>REDEFINIR <span>SENHA</span></h2>
-                    <p class="descricao">Código verificado! Agora defina sua nova senha.</p>
-
-                    <?php if ($erro && isset($mensagensErro[$erro])): ?>
-                        <p class="mensagem-erro"><?= htmlspecialchars($mensagensErro[$erro]) ?></p>
-                    <?php endif; ?>
-
-                    <label>Nova senha</label>
-                    <input type="password" name="nova_senha" minlength="6" required>
-
-                    <label>Confirmar nova senha</label>
-                    <input type="password" name="confirmar_senha" minlength="6" required>
-
-                    <button type="submit" class="btn-principal">SALVAR NOVA SENHA</button>
-                    <a href="/ideal/public/index.php?url=login">← Voltar ao login</a>
-                </form>
-
-            <?php endif; ?>
+                <?php endif; ?>
 
         </div>
     </div>
+<?php if ($etapa === 'codigo'): ?>
 
+<script>
+
+    const codigoExpiraEm = <?= $_SESSION['codigo_expira_em'] ?>;
+
+</script>
+
+<?php endif; ?>
+
+    <script src="/ideal/public/assets/js/recuperacaoSenha.js"></script>
 </body>
 
 </html>

@@ -71,7 +71,7 @@ body {
 
 .overlay p {
   max-width: 500px;
-  color: var( --btn-secondary);
+  color: var(--btn-secondary);
   font-size: 16px;
 }
 
@@ -144,43 +144,43 @@ input:focus {
 
 .btn-principal,
 .btn-voltar-login {
-    width: 100%;
-    margin-top: 30px;
-    padding: 18px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 18px;
 
-    border: none;
-    border-radius: 10px;
+  border: none;
+  border-radius: 10px;
 
-    background: var(--accent);
-    color: var(--text-white);
+  background: var(--accent);
+  color: var(--text-white);
 
-    font-weight: bold;
-    cursor: pointer;
-    transition: var(--transition);
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .btn-principal:hover {
-    opacity: .9;
+  opacity: 0.9;
 }
-.btn-secundario{
-    width: 150px;
-    height: 48px;
-    margin-left: 20px;
-    padding: 12px 18px;
+.btn-secundario {
+  width: 150px;
+  height: 48px;
+  margin-left: 20px;
+  padding: 12px 18px;
 
-    background-color: var(--accent);
-    color: var(--text-white);
+  background-color: var(--accent);
+  color: var(--text-white);
 
-    border: none;
-    border-radius: 12px;
+  border: none;
+  border-radius: 12px;
 
-    font-weight: bold;
-    cursor: pointer;
-    transition: var(--transition);
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
-.btn-secundario:hover{
-    background-color: var(--orange-dark);
+.btn-secundario:hover {
+  background-color: var(--orange-dark);
 }
 /* ==========================================
    LINKS
@@ -217,10 +217,10 @@ a {
 ========================================== */
 
 .mensagem-erro {
-    margin-bottom:18px;
-    padding:10px 14px;
-    font-size:13px;
-    border-radius:6px;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  font-size: 13px;
+  border-radius: 6px;
   border: 1px solid var(--danger);
   background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
@@ -240,35 +240,46 @@ a {
 /* ==========================================
    AÇÕES DO CÓDIGO
 ========================================== */
-.acoes-codigo{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:16px;
-    margin-top:30px;
-}
-.form-reenviar{
-    width:auto;
-    max-width:none;
-    margin:0;
+.acoes-codigo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 18px;
+    gap: 12px;
 }
 
-.btn-link{
-    background:none;
-    border:none;
-    padding:0;
-    margin:0;
-
-    color:var(--accent);
-    font-weight:bold;
-    cursor:pointer;
+.form-reenviar {
+  width: auto;
+  max-width: none;
+  margin: 0;
 }
 
-.btn-link:hover{
-    text-decoration:underline;
+.btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--accent);
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.link-email{
-    margin:0;
-    text-align:center;
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.link-email {
+  margin: 0;
+  text-align: center;
+}
+.contador{
+    margin-top: 8px;
+    margin-bottom: 20px;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+#tempo-restante{
+    color: var(--accent);
+    font-weight: bold;
 }
