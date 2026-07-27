@@ -198,17 +198,6 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $obra->getIdCliente()
         );
     }
-
-    // Busca o responsável
-    // $responsavel = null;
-
-    // if ($obra && $obra->getIdResponsavel()) {
-    //     $funcionarioModel = new Funcionario();
-    //     $responsavel = $funcionarioModel->findById(
-    //         $obra->getIdResponsavel()
-    //     );
-    // }
-
     // Dados financeiros
     $financeiroObraModel = new FinanceiroObra();
 

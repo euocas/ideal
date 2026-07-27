@@ -97,7 +97,9 @@ $veAno = $veiculoExiste
         </div>
     </div>
 
-    <form id="form-busca-veiculo" action="/ideal/public/index.php?url=financeiro-automovel/buscar" method="POST">
+<form id="form-busca-veiculo"
+      action="/ideal/public/index.php?url=financeiro-automovel/buscar&tipo=<?= $tipo ?>"
+      method="POST">
 
         <div class="veiculo-topo">
             <div class="grid-busca">
