@@ -58,7 +58,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $clienteModel = new Cliente();
             $cliente = $clienteModel->findById($obra->getIdCliente());
         }
-       
+
         // Dados financeiros da obra
         $gastoAtual = 0;
         $saldoDisponivel = 0;
@@ -127,9 +127,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
         // Busca a obra
         $obraModel = new Obra();
 
-        $obra = $obraModel->buscarPorId(
-            $idObra
-        );
+        $obra = $obraModel->findById($idObra);
 
         // Busca o cliente
         $cliente = null;
@@ -169,41 +167,78 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
-    public function historico()
-    {
-        $idObra = !empty($_GET["idObra"])
-            ? (int) $_GET["idObra"]
-            : null;
+   public function historico()
+{
+    $idObra = !empty($_GET["idObra"])
+        ? (int) $_GET["idObra"]
+        : null;
 
-        if (!$idObra) {
-            $_SESSION["mensagem_erro"] = "Obra inválida.";
-            header(
-                "Location: /ideal/public/index.php?url=financeiros&aba=obra"
-            );
-            exit;
-        }
-
-        $obraModel = new Obra();
-        $obra = $obraModel->buscarPorId($idObra);
-
-        if (!$obra) {
-            $_SESSION["mensagem_erro"] = "Obra não localizada.";
-            header(
-                "Location: /ideal/public/index.php?url=financeiros&aba=obra"
-            );
-            exit;
-        }
-        $financeiroObraModel = new FinanceiroObra();
-        $acao = $_GET["acao"] ?? "ultimos";
-
-        if ($acao === "historico") {
-            $lancamentosObra = $financeiroObraModel->findByIdObra($idObra);
-        } else {
-            $lancamentosObra = $financeiroObraModel->findUltimosByIdObra($idObra);
-        }
-        $aba = "obra";
-        require_once __DIR__ . "/../Views/financeiros/index.php";
+    if (!$idObra) {
+        $_SESSION["mensagem_erro"] = "Obra inválida.";
+        header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
+        exit;
     }
+
+    // Busca a obra
+    $obraModel = new Obra();
+    $obra = $obraModel->findById($idObra);
+
+    if (!$obra) {
+        $_SESSION["mensagem_erro"] = "Obra não localizada.";
+        header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
+        exit;
+    }
+
+    // Busca o cliente
+    $cliente = null;
+
+    if ($obra) {
+        $clienteModel = new Cliente();
+        $cliente = $clienteModel->findById(
+            $obra->getIdCliente()
+        );
+    }
+
+    // Busca o responsável
+    // $responsavel = null;
+
+    // if ($obra && $obra->getIdResponsavel()) {
+    //     $funcionarioModel = new Funcionario();
+    //     $responsavel = $funcionarioModel->findById(
+    //         $obra->getIdResponsavel()
+    //     );
+    // }
+
+    // Dados financeiros
+    $financeiroObraModel = new FinanceiroObra();
+
+    $categoriasObra = $financeiroObraModel->listarCategorias();
+
+    $gastoAtual = $financeiroObraModel->calcularGastoAtual(
+        $idObra
+    );
+
+    $saldoDisponivel =
+        $obra->getValorContratado() - $gastoAtual;
+
+    // Histórico ou últimos lançamentos
+    $acao = $_GET["acao"] ?? "ultimos";
+
+    if ($acao === "historico") {
+        $lancamentosObra = $financeiroObraModel->findByIdObra(
+            $idObra
+        );
+    } else {
+        $lancamentosObra = $financeiroObraModel->findUltimosByIdObra(
+            $idObra,
+            4
+        );
+    }
+
+    $aba = "obra";
+
+    require_once __DIR__ . "/../Views/financeiros/index.php";
+}
     public function store()
     {
 
