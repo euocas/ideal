@@ -8,6 +8,7 @@ use App\Models\Funcionario;
 use App\Models\Obra;
 use App\Models\Veiculo;
 use App\Core\Auth;
+use App\Services\PdfService;
 
 class RelatoriosController
 {
@@ -39,7 +40,6 @@ class RelatoriosController
 
         require_once __DIR__ . '/../Views/relatorios/index.php';
     }
-
     /**
      * Busca os dados do relatório selecionado baseado nos filtros
      */
@@ -67,7 +67,6 @@ class RelatoriosController
 
         return $dados;
     }
-
     /**
      * Gera o relatório de Clientes com filtros
      */
@@ -90,7 +89,6 @@ class RelatoriosController
             'total' => count($clientes ?? [])
         ];
     }
-
     /**
      * Gera o relatório de Funcionários com filtros
      */
@@ -115,7 +113,6 @@ class RelatoriosController
             'total' => count($funcionarios ?? [])
         ];
     }
-
     /**
      * Gera o relatório de Obras com filtros
      */
@@ -127,7 +124,7 @@ class RelatoriosController
 
         // Se houver filtros, aplica; caso contrário, lista todos
         if (!empty($nomeFiltro) || !empty($statusFiltro)) {
-            $obras = $obraModel->buscarComFiltros($nomeFiltro, $statusFiltro);
+            $obras = $obraModel->findByFilters($nomeFiltro, $statusFiltro);
         } else {
             $obras = $obraModel->listar();
         }
@@ -138,7 +135,6 @@ class RelatoriosController
             'total' => count($obras ?? [])
         ];
     }
-
     /**
      * Gera o relatório de Veículos com filtros
      */
@@ -161,7 +157,6 @@ class RelatoriosController
             'total' => count($veiculos ?? [])
         ];
     }
-
     /**
      * Gera o relatório Financeiro com filtros
      */
@@ -185,7 +180,6 @@ class RelatoriosController
             'total' => count($financeiros ?? [])
         ];
     }
-
     /**
      * Exporta o relatório em CSV
      */
@@ -222,16 +216,24 @@ class RelatoriosController
         fclose($output);
         exit;
     }
-
     /**
      * Exporta o relatório em PDF (requer biblioteca como TCPDF ou mPDF)
      * Por enquanto apenas redireciona com mensagem
      */
+
     public function exportarPdf()
     {
-        $relatorio = $_GET['relatorio'] ?? 'funcionarios';
-        header('Location: /ideal/public/index.php?url=relatorios&relatorio=' . $relatorio . '&aviso=pdf_em_desenvolvimento');
-        exit;
+
+        $tipo = $_GET['relatorio'] ?? 'funcionarios';
+
+        $relatorio = $this->buscarRelatorio($tipo);
+
+        PdfService::gerar(
+            'relatorios/pdf/' . $relatorio['tipo'],
+            $relatorio,
+            'relatorio-' . $relatorio['tipo'] . '.pdf'
+        );
     }
+
 }
 

@@ -66,14 +66,6 @@ return [
     'financeiro-funcionario/update' => [FinanceiroFuncionarioController::class, 'update'],
     'financeiro-funcionario/delete' => [FinanceiroFuncionarioController::class, 'delete'],
 
-    // Rotas de Financeiro -> Obra
-    // 'financeiros/createObra' => [FinanceirosController::class, 'createObra'],
-    // 'financeiros/editObra' => [FinanceirosController::class, 'editObra'],
-    // 'financeiros/storeObra' => [FinanceirosController::class, 'storeObra'],
-    // 'financeiros/updateObra' => [FinanceirosController::class, 'updateObra'],
-    // 'financeiros/deleteObra' => [FinanceirosController::class, 'deleteObra'],
-
-
     // Rotas do Financeiro -> Obra
     'financeiro-obra' => [FinanceiroObraController::class, 'index'],
     'financeiro-obra/buscar' => [FinanceiroObraController::class, 'buscarObra'],
@@ -82,7 +74,6 @@ return [
     'financeiro-obra/store' => [FinanceiroObraController::class, 'store'],
     'financeiro-obra/update' => [FinanceiroObraController::class, 'update'],
     'financeiro-obra/delete' => [FinanceiroObraController::class, 'delete'],
-
 
     // Rotas de Financeiro -> Automóvel
     'financeiro-automovel' => [FinanceiroAutomovelController::class, 'index'],
@@ -96,8 +87,7 @@ return [
     'financeiro-obra/historico' => [FinanceiroObraController::class, 'historico'],
 
     'relatorios' => [RelatoriosController::class, 'index'],
-
-
+    'relatorios/exportar-pdf' => [RelatoriosController::class, 'exportarPdf'],
 
     'credenciais' => [CredenciaisController::class, 'index'],
     'credenciais/alterar' => [CredenciaisController::class, 'alterar'],

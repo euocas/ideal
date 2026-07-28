@@ -1,5 +1,8 @@
 <!--HEADER PHP-->
 <?php
+/** @var string $relatorio */
+/** @var string $tipoSelecionado */
+/** @var array $dados */
 
 $titulo = 'Relatórios';
 $favicon = '/ideal/public/assets/icon/relatorio.png';
@@ -31,14 +34,14 @@ require_once __DIR__ . '/../includes/header.php';
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
                 <div class="alert alert-success">
                     ✅ <?= $_SESSION['mensagem_sucesso'];
-                        unset($_SESSION['mensagem_sucesso']); ?>
+                    unset($_SESSION['mensagem_sucesso']); ?>
                 </div>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
                 <div class="alert alert-error">
                     ❌ <?= $_SESSION['mensagem_erro'];
-                        unset($_SESSION['mensagem_erro']); ?>
+                    unset($_SESSION['mensagem_erro']); ?>
                 </div>
             <?php endif; ?>
 
@@ -65,7 +68,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <span><?= $tipoSelecionado ?></span>
                             </h2>
 
-                            <form method="POST"
+                            <form id="formRelatorio" method="POST"
                                 action="/ideal/public/index.php?url=relatorios&relatorio=<?= $relatorio ?>">
 
                                 <!-- FORM DINÂMICO -->
@@ -96,21 +99,31 @@ require_once __DIR__ . '/../includes/header.php';
                                         <!-- FUNCIONÁRIOS -->
                                         <div class="campo">
                                             <label>Nome</label>
-                                            <input type="text" name="nome" placeholder="Digite o nome">
+                                            <input type="text" name="nome" placeholder="Digite o nome"
+                                                value="<?= htmlspecialchars($_POST['nome'] ?? '') ?>">
                                         </div>
 
                                         <div class="campo">
                                             <label>CPF</label>
-                                            <input type="text" name="cpf" placeholder="000.000.000-00">
+                                            <input type="text" name="cpf" placeholder="000.000.000-00"
+                                                value="<?= htmlspecialchars($_POST['cpf'] ?? '') ?>">
                                         </div>
 
                                         <div class="campo">
                                             <label>Status</label>
 
+                                            <?php $statusSelecionado = $_POST['status'] ?? ''; ?>
+
                                             <select name="status">
-                                                <option value="">Selecione</option>
-                                                <option value="Ativo">Ativo</option>
-                                                <option value="Inativo">Inativo</option>
+                                                <option value="" <?= $statusSelecionado === '' ? 'selected' : '' ?>>
+                                                    Selecione
+                                                </option>
+                                                <option value="Ativo" <?= $statusSelecionado === 'Ativo' ? 'selected' : '' ?>>
+                                                    Ativo
+                                                </option>
+                                                <option value="Inativo" <?= $statusSelecionado === 'Inativo' ? 'selected' : '' ?>>
+                                                    Inativo
+                                                </option>
                                             </select>
                                         </div>
 
@@ -289,16 +302,16 @@ require_once __DIR__ . '/../includes/header.php';
                                                                 <td><?= htmlspecialchars($linha['idCliente'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
                                                                 <td><?= preg_replace(
-                                                                        '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                        '$1.$2.$3-$4',
-                                                                        $linha['cpf'] ?? ''
-                                                                    ) ?></td>
+                                                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                    '$1.$2.$3-$4',
+                                                                    $linha['cpf'] ?? ''
+                                                                ) ?></td>
 
                                                                 <td><?= preg_replace(
-                                                                        '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-                                                                        '$1.$2.$3/$4-$5',
-                                                                        $linha['cnpj'] ?? ''
-                                                                    ) ?>
+                                                                    '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                                                    '$1.$2.$3/$4-$5',
+                                                                    $linha['cnpj'] ?? ''
+                                                                ) ?>
                                                                 </td>
 
 
@@ -308,10 +321,10 @@ require_once __DIR__ . '/../includes/header.php';
                                                                 <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
                                                                 <td><?= preg_replace(
-                                                                        '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                        '$1.$2.$3-$4',
-                                                                        $linha['cpf'] ?? ''
-                                                                    ) ?></td>
+                                                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                                    '$1.$2.$3-$4',
+                                                                    $linha['cpf'] ?? ''
+                                                                ) ?></td>
                                                                 <td><?= htmlspecialchars($linha['cargoFuncao'] ?? '') ?></td>
                                                                 <td>
                                                                     <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
@@ -326,10 +339,10 @@ require_once __DIR__ . '/../includes/header.php';
                                                                 <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
                                                                 <td><?= preg_replace(
-                                                                        '/(\d{4})(\d{6})(\d{1})/',
-                                                                        '$1.$2-$3',
-                                                                        $linha['renavam'] ?? ''
-                                                                    ) ?>
+                                                                    '/(\d{4})(\d{6})(\d{1})/',
+                                                                    '$1.$2-$3',
+                                                                    $linha['renavam'] ?? ''
+                                                                ) ?>
                                                                 </td>
 
                                                                 <td>
@@ -381,8 +394,11 @@ require_once __DIR__ . '/../includes/header.php';
                                                                         <?= ($linha['tipo'] ?? '') === 'ENTRADA' ? 'Entrada' : 'Saída' ?>
                                                                     </span>
                                                                 </td>
-                                                                <td>R$ <?= number_format((float) ($linha['valor'] ?? 0), 2, ',', '.') ?></td>
-                                                                <td><?= !empty($linha['data']) ? date('d/m/Y', strtotime($linha['data'])) : '' ?></td>
+                                                                <td>R$
+                                                                    <?= number_format((float) ($linha['valor'] ?? 0), 2, ',', '.') ?>
+                                                                </td>
+                                                                <td><?= !empty($linha['data']) ? date('d/m/Y', strtotime($linha['data'])) : '' ?>
+                                                                </td>
                                                             <?php endif; ?>
                                                         </tr>
                                                     <?php endforeach; ?>
@@ -413,15 +429,15 @@ require_once __DIR__ . '/../includes/header.php';
 
                                         <div class="acoes-exportar">
 
-                                            <button class="btn-excel"
-                                                onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>'">
-                                                <i class="bi bi-filetype-xlsx"></i>
+                                            <button type="submit" form="formRelatorio"
+                                                formaction="/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>"
+                                                class="btn-excel">
                                                 EXPORTAR EXCEL
                                             </button>
 
-                                            <button class="btn-pdf"
-                                                onclick="window.location.href='/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>'">
-                                                <i class="bi bi-filetype-pdf"></i>
+                                            <button type="submit" form="formRelatorio"
+                                                formaction="/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
+                                                formtarget="_blank" class="btn-pdf">
                                                 GERAR PDF
                                             </button>
 

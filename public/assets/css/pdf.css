@@ -1,0 +1,151 @@
+/* ==========================================
+   GERAL
+========================================== */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #374151;
+    margin: 35px;
+}
+
+/* ==========================================
+   CABEÇALHO
+========================================== */
+
+.cabecalho{
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.cabecalho img{
+    width: 170px;
+    height: auto;
+}
+
+/* .titulo{
+    flex: 1;
+    text-align: center;
+} */
+
+.titulo h2{
+    margin: 0;
+    color: var(--navy);
+    font-size: 34px;
+}
+
+.titulo p{
+    margin-top: 8px;
+    color: #666;
+}
+/* ==========================================
+   INFORMAÇÕES
+========================================== */
+
+.info {
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+.info strong {
+    color: #1E3A8A;
+}
+
+/* ==========================================
+   TABELA
+========================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+
+    background: #DBEAFE;
+    color: #1E3A8A;
+
+    border: 1px solid #BFDBFE;
+
+    padding: 10px;
+
+    font-size: 12px;
+
+    text-align: left;
+}
+
+tbody td {
+
+    border: 1px solid #E5E7EB;
+
+    padding: 9px;
+
+    vertical-align: middle;
+
+}
+
+tbody tr:nth-child(even) {
+
+    background: #F9FAFB;
+
+}
+
+tbody tr:hover {
+
+    background: #F3F4F6;
+
+}
+
+/* ==========================================
+   STATUS
+========================================== */
+.titulo{
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 18px;
+
+}
+
+.status.ativo{
+    color: #2E7D32;
+}
+.status.inativo{
+    color: #C62828;
+}
+
+ /* centralizar alguns campos */
+
+/* CPF */
+th:nth-child(2),
+td:nth-child(2){
+    text-align: center;
+}
+/* Cargo */
+th:nth-child(3),
+td:nth-child(3){
+    text-align: center;
+}
+
+/* Status */
+th:nth-child(4),
+td:nth-child(4){
+    text-align: center;
+}
+
+ /* ==========================================
+   RODAPÉ
+========================================== */
+
+.footer {
+    margin-top: 30px;
+    border-top: 1px solid #D1D5DB;
+    padding-top: 10px;
+    text-align: right;
+    color: #6B7280;
+    font-size: 11px;
+}
