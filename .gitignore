@@ -7,4 +7,9 @@ desktop.ini
 # Dependências do Composer
 /vendor/
 
+# Variáveis de ambiente
 .env
+
+# Arquivos temporários do Dompdf
+app/storage/dompdf_tmp/*
+!app/storage/dompdf_tmp/.gitkeep

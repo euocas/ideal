@@ -3,56 +3,71 @@
 ========================================== */
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    color: #374151;
-    margin: 35px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #374151;
+  margin: 35px;
 }
 
 /* ==========================================
    CABEÇALHO
 ========================================== */
 
-.cabecalho{
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
+.cabecalho {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
-.cabecalho img{
-    width: 170px;
-    height: auto;
+.cabecalho img {
+  float: left;
+  width: 170px;
+  height: auto;
+  margin-right: 15px;
 }
 
-/* .titulo{
-    flex: 1;
-    text-align: center;
-} */
-
-.titulo h2{
-    margin: 0;
-    color: var(--navy);
-    font-size: 34px;
+.titulo h2 {
+  margin: 0;
+  color: #0d1b36;
+  font-size: 31px;
 }
 
-.titulo p{
-    margin-top: 8px;
-    color: #666;
+.titulo p {
+  margin-top: 3px;
+  color: #666;
+  font-size: 19px;
 }
+.logo {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  margin-top: -65px;
+}
+.colorA {
+  color: var(--orange);
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 22px;
+  border-bottom: 1px solid #0D1B36;
+  padding-bottom: 0.2px;
+}
+
 /* ==========================================
    INFORMAÇÕES
 ========================================== */
 
 .info {
-    background: #EFF6FF;
-    border: 1px solid #BFDBFE;
-    border-radius: 4px;
-    padding: 12px;
-    margin-bottom: 20px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 20px;
 }
 
 .info strong {
-    color: #1E3A8A;
+  color: #1e3a8a;
 }
 
 /* ==========================================
@@ -60,92 +75,78 @@ body {
 ========================================== */
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 thead th {
+  background: #dbeafe;
+  color: #1e3a8a;
 
-    background: #DBEAFE;
-    color: #1E3A8A;
+  border: 1px solid #bfdbfe;
 
-    border: 1px solid #BFDBFE;
+  padding: 10px;
 
-    padding: 10px;
+  font-size: 12px;
 
-    font-size: 12px;
-
-    text-align: left;
+  text-align: left;
 }
 
 tbody td {
+  border: 1px solid #e5e7eb;
 
-    border: 1px solid #E5E7EB;
+  padding: 9px;
 
-    padding: 9px;
-
-    vertical-align: middle;
-
+  vertical-align: middle;
 }
 
 tbody tr:nth-child(even) {
-
-    background: #F9FAFB;
-
+  background: #f9fafb;
 }
 
 tbody tr:hover {
-
-    background: #F3F4F6;
-
+  background: #f3f4f6;
 }
 
 /* ==========================================
    STATUS
 ========================================== */
-.titulo{
-    text-align: center;
-    margin-bottom: 30px;
-    border-bottom: 3px solid var(--navy);
-    padding-bottom: 18px;
 
+.status.ativo {
+  color: #2e7d32;
+}
+.status.inativo {
+  color: #c62828;
 }
 
-.status.ativo{
-    color: #2E7D32;
-}
-.status.inativo{
-    color: #C62828;
-}
-
- /* centralizar alguns campos */
+/* centralizar alguns campos */
 
 /* CPF */
 th:nth-child(2),
-td:nth-child(2){
-    text-align: center;
+td:nth-child(2) {
+  text-align: center;
 }
 /* Cargo */
 th:nth-child(3),
-td:nth-child(3){
-    text-align: center;
+td:nth-child(3) {
+  text-align: center;
 }
 
 /* Status */
 th:nth-child(4),
-td:nth-child(4){
-    text-align: center;
+td:nth-child(4) {
+  text-align: center;
 }
 
- /* ==========================================
+/* ==========================================
    RODAPÉ
 ========================================== */
 
 .footer {
-    margin-top: 30px;
-    border-top: 1px solid #D1D5DB;
-    padding-top: 10px;
-    text-align: right;
-    color: #6B7280;
-    font-size: 11px;
+  margin-top: 30px;
+  border-top: 1px solid #d1d5db;
+  padding-top: 10px;
+  text-align: right;
+  color: #6b7280;
+  font-size: 11px;
 }

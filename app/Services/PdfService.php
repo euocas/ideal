@@ -14,7 +14,7 @@ class PdfService
         string $orientacao = 'landscape'
     ): void {
 
-       $relatorio = $dados;
+        $relatorio = $dados;
 
         ob_start();
 
@@ -22,9 +22,17 @@ class PdfService
 
         $html = ob_get_clean();
 
+        $logPath = __DIR__ . '/../storage/dompdf_tmp/dompdf.log';
+
         $options = new Options();
         $options->set('defaultFont', 'Arial');
         $options->set('isRemoteEnabled', true);
+        $options->set('tempDir',__DIR__ . '/../storage/dompdf_tmp');
+
+        $options->set('logOutputFile', $logPath);
+        $options->set('debugPng', true);
+        $options->set('debugKeepTemp', true);
+
 
         $dompdf = new Dompdf($options);
 
@@ -33,6 +41,7 @@ class PdfService
         $dompdf->setPaper('A4', $orientacao);
 
         $dompdf->render();
+
 
         $dompdf->stream($nomeArquivo, [
             'Attachment' => false
