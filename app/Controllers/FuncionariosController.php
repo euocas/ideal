@@ -210,23 +210,49 @@ class FuncionariosController
         }
     }
 
-    public function delete()
-    {
-        $id = $_GET['id'] ?? null;
+    // public function delete()
+    // {
+    //     $id = $_GET['id'] ?? null;
 
-        if ($id) {
-            $funcionarioModel = new Funcionario();
-            $deletou = $funcionarioModel->delete($id);
+    //     if ($id) {
+    //         $funcionarioModel = new Funcionario();
+    //         $deletou = $funcionarioModel->delete($id);
 
-            if ($deletou) {
-                $_SESSION['mensagem_sucesso'] = "Funcionário excluído com sucesso!";
-            } else {
-                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o funcionário.";
-            }
-        }
+    //         if ($deletou) {
+    //             $_SESSION['mensagem_sucesso'] = "Funcionário excluído com sucesso!";
+    //         } else {
+    //             $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o funcionário.";
+    //         }
+    //     }
 
-        header("Location: /ideal/public/index.php?url=funcionarios");
+    //     header("Location: /ideal/public/index.php?url=funcionarios");
+    //     exit;
+    // }
+
+    public function delete(): void
+{
+  
+    $id = (int) ($_GET['id'] ?? $_POST['id'] ?? 0);
+
+    $model = new Funcionario();
+
+    if ($model->possuiLancamentos($id)) {
+
+        $_SESSION['mensagem_erro'] =
+            'Não é possível excluir este funcionário, pois existem lançamentos financeiros vinculados a ele.';
+
+        header('Location: /ideal/public/index.php?url=funcionarios/edit&id=' . $id);
         exit;
     }
+
+    if ($model->delete($id)) {
+        $_SESSION['mensagem_sucesso'] = 'Funcionário excluído com sucesso.';
+    } else {
+        $_SESSION['mensagem_erro'] = 'Não foi possível excluir o funcionário.';
+    }
+
+    header('Location: /ideal/public/index.php?url=funcionarios');
+    exit;
+}
 }
 

@@ -392,7 +392,7 @@ class Obra
     }
     public function listar(): array
     {
-        $sql = "SELECT * FROM obra ORDER BY idObra DESC";
+        $sql = "SELECT * FROM obra ORDER BY idObra ASC";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -586,5 +586,18 @@ class Obra
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function possuiLancamentos(int $idObra): bool
+    {
+        $sql = "SELECT COUNT(*)
+            FROM financeiroobra
+            WHERE idObra = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $idObra, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return (int) $stmt->fetchColumn() > 0;
     }
 }

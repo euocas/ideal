@@ -82,21 +82,15 @@ table {
 thead th {
   background: #dbeafe;
   color: #1e3a8a;
-
   border: 1px solid #bfdbfe;
-
   padding: 10px;
-
   font-size: 12px;
-
   text-align: left;
 }
 
 tbody td {
   border: 1px solid #e5e7eb;
-
   padding: 9px;
-
   vertical-align: middle;
 }
 
@@ -111,12 +105,24 @@ tbody tr:hover {
 /* ==========================================
    STATUS
 ========================================== */
-
-.status.ativo {
-  color: #2e7d32;
+.tipo {
+    font-weight: bold;
 }
-.status.inativo {
-  color: #c62828;
+
+.status.ativo,
+.status.em-andamento,
+.tipo.entrada {
+  color:var(--success-dark);
+}
+.status.inativo,
+.status.concluída,
+.status.concluida,
+.tipo.saida {
+  color: var(--danger-dark);
+}
+
+.status.cancelada {
+   color:var(--orange); 
 }
 
 /* centralizar alguns campos */
@@ -132,10 +138,37 @@ td:nth-child(3) {
   text-align: center;
 }
 
-/* Status */
+/* Status ou Marca */
 th:nth-child(4),
 td:nth-child(4) {
   text-align: center;
+}
+
+/* Status */
+th:nth-child(5),
+td:nth-child(5) {
+  text-align: center;
+}
+
+
+/* FINANCEIRO - RESUMO */
+.resumo-financeiro {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.resumo-financeiro td {
+    width: 33.33%;
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.resumo-financeiro strong {
+    display: block;
+    margin-bottom: 5px;
 }
 
 /* ==========================================

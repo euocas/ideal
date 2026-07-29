@@ -43,7 +43,6 @@ class Funcionario
 
     private ?string $chavePix = null;
 
-
     private ?string $observacoes = null;
 
     // Contatos (Tabela Auxiliar)
@@ -314,27 +313,6 @@ class Funcionario
         $this->chavePix = $chavePix;
     }
 
-
-
-    // public function getTelefone(): ?string
-    // {
-    //     return $this->telefone;
-    // }
-    // public function setTelefone(?string $telefone): void
-    // {
-    //     $this->telefone = $telefone;
-    // }
-
-    // public function getWhatsapp(): ?string
-    // {
-    //     return $this->whatsapp;
-    // }
-    // public function setWhatsapp(?string $whatsapp): void
-    // {
-    //     $this->whatsapp = $whatsapp;
-    // }
-
-
     public function getTelefone(): ?string
     {
         return $this->telefone;
@@ -424,7 +402,6 @@ class Funcionario
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
-
     public function findById(int $id): ?self
     {
         $sql = "SELECT f.*, c.telefone, c.whatsapp 
@@ -439,7 +416,6 @@ class Funcionario
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
-
     public function save(): bool
     {
         try {
@@ -579,7 +555,6 @@ class Funcionario
             return false;
         }
     }
-
     public function delete(int $id): bool
     {
         $stmt = $this->pdo->prepare("DELETE FROM funcionario WHERE idFuncionario = :id");
@@ -587,9 +562,8 @@ class Funcionario
         return $stmt->execute();
     }
 
-    /**
-     * Retorna todos os funcionários como array associativo
-     */
+    
+    //  Retorna todos os funcionários como array associativo   
     public function listar(): array
     {
         $sql = "SELECT * FROM funcionario";
@@ -598,9 +572,8 @@ class Funcionario
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Busca funcionários com filtros
-     */
+    //   Busca funcionários com filtros
+    
     public function buscarComFiltros(string $nome = '', string $cargoFuncao = '', string $status = '', string $cpf = ''): array
     {
         $sql = "SELECT * FROM funcionario WHERE 1=1";
@@ -643,4 +616,23 @@ class Funcionario
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+public function possuiLancamentos(int $idFuncionario): bool
+{
+    $sql = "SELECT COUNT(*)
+            FROM financeirofuncionario
+            WHERE idFuncionario = :id";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(':id', $idFuncionario, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $total = (int) $stmt->fetchColumn();
+
+
+
+    return $total > 0;
+}
+
 }

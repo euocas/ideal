@@ -266,6 +266,8 @@ require_once __DIR__ . '/../includes/header.php';
                                                         <th>ID</th>
                                                         <th>Placa</th>
                                                         <th>Renavam</th>
+                                                        <th>Modelo</th>
+                                                        <th>Marca</th>
                                                         <th>Status</th>
                                                     </tr>
 
@@ -342,9 +344,11 @@ require_once __DIR__ . '/../includes/header.php';
                                                                     '/(\d{4})(\d{6})(\d{1})/',
                                                                     '$1.$2-$3',
                                                                     $linha['renavam'] ?? ''
-                                                                ) ?>
+                                                                    ) ?>
                                                                 </td>
-
+                                                                <td><?= htmlspecialchars($linha['modelo'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['marca'] ?? '') ?></td>
+                                                                
                                                                 <td>
                                                                     <?php $status = strtolower(trim($linha['statusVeiculo'] ?? ''));
                                                                     $classeStatus = str_replace(' ', '-', $status);

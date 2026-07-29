@@ -328,9 +328,8 @@ class Veiculo
         return $veiculos;
     }
 
-    /**
-     * Retorna todos os veículos como array associativo
-     */
+    // Retorna todos os veículos como array associativo
+     
     public function listar(): array
     {
         $sql = "SELECT * FROM veiculo";
@@ -339,9 +338,8 @@ class Veiculo
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Busca veículos com filtros
-     */
+    // Busca veículos com filtros
+    
     public function buscarComFiltros(string $placa = '', string $statusVeiculo = ''): array
     {
         $sql = "SELECT * FROM veiculo WHERE 1=1";
@@ -367,4 +365,17 @@ class Veiculo
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function possuiLancamentos(int $idVeiculo): bool
+{
+    $sql = "SELECT COUNT(*)
+            FROM financeiroVeiculo
+            WHERE idVeiculo = :id";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(':id', $idVeiculo, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return (int) $stmt->fetchColumn() > 0;
+}
 }

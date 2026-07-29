@@ -110,8 +110,8 @@ $modoEdicao = isset($cliente);
                     <?php endif; ?>
 
                     <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                        <div class="alert alert-error">
-                            <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+                       <div class="alert alert-error">
+                            ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
                         </div>
                         <?php unset($_SESSION['mensagem_erro']); ?>
                     <?php endif; ?>

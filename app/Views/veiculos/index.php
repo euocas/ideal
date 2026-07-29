@@ -74,11 +74,11 @@ require_once __DIR__ . '/../includes/header.php';
                         <h2>🚘 BUSCAR VEÍCULO</h2>
                         <?php if (isset($_SESSION['mensagem_erro'])): ?>
                             <div class="alert alert-error">
-                                 <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
+                                ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
                             </div>
                             <?php unset($_SESSION['mensagem_erro']); ?>
                         <?php endif; ?>
-                         
+
                         <form class="form-busca" action="/ideal/public/index.php?url=veiculos" method="POST">
                             <div class="input-group">
                                 <label>PLACA</label>
@@ -264,16 +264,15 @@ require_once __DIR__ . '/../includes/header.php';
                     </button>
 
                     <?php if ($modoEdicao): ?>
-                        <form action="/ideal/public/index.php?url=veiculos/delete" method="POST" style="display:inline;"
-                            onsubmit="return confirm('Excluir este veículo?');">
+                        <input type="hidden" name="id" value="<?= $veiculo->getIdVeiculo() ?>">
 
-                            <input type="hidden" name="id" value="<?= $veiculo->getIdVeiculo() ?>">
 
-                            <button type="submit" class="btn excluir">
-                                <i class="bi bi-trash"></i>
-                                Excluir
-                            </button>
-                        </form>
+                        <button type="submit" class="btn excluir" formaction="/ideal/public/index.php?url=veiculos/delete"
+                            formmethod="POST" onclick="return confirm('Excluir este veículo?');">
+                            <i class="bi bi-trash"></i>
+                            Excluir
+                        </button>
+
                     <?php else: ?>
                         <button type="button" class="btn excluir" disabled>
                             <i class="bi bi-trash"></i>

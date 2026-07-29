@@ -319,4 +319,18 @@ class Cliente
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function possuiObras(int $idCliente): bool
+{
+    $sql = "SELECT COUNT(*)
+            FROM obra
+            WHERE idCliente = :id";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->bindValue(':id', $idCliente, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return (int) $stmt->fetchColumn() > 0;
+}
+
 }

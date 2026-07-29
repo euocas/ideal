@@ -23,8 +23,6 @@ class ClientesController
         require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
-
-    // private function buscar()
     // {
     //     $documentoDigitado = (string) ($_POST['documento'] ?? '');
     //     $documentoLimpo = preg_replace('/[^0-9]/', '', $documentoDigitado);
@@ -85,8 +83,6 @@ class ClientesController
         header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
         exit;
     }
-
-
     public function create()
     {
         $documentoBusca = $_GET['documento'] ?? '';
@@ -114,7 +110,6 @@ class ClientesController
         }
         require_once __DIR__ . '/../Views/clientes/index.php';
     }
-
     public function edit()
     {
         $id = $_GET['id'] ?? null;
@@ -134,7 +129,6 @@ class ClientesController
 
         require_once __DIR__ . '/../Views/clientes/index.php';
     }
-
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -182,10 +176,9 @@ class ClientesController
             header("Location: /ideal/public/index.php?url=clientes");
             exit;
 
- 
+
         }
     }
-
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -241,22 +234,37 @@ class ClientesController
             exit;
         }
     }
-
     public function delete()
     {
-        $id = $_GET['id'] ?? null;
+        $id = (int) ($_GET['id'] ?? 0);
 
         if ($id) {
+
             $clienteModel = new Cliente();
-            $deletou = $clienteModel->delete((int) $id);
+
+            if ($clienteModel->possuiObras($id)) {
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $_SESSION['mensagem_erro'] =
+                    "Não é possível excluir este cliente, pois existem obras vinculadas a ele.";
+
+                header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $id);
+                exit;
+            }
+
+            $deletou = $clienteModel->delete($id);
 
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
+
             if ($deletou) {
                 $_SESSION['mensagem_sucesso'] = "Cliente excluído com sucesso!";
             } else {
-                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o cliente. Verifique se ele não possui obras vinculadas.";
+                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o cliente.";
             }
         }
 
@@ -295,7 +303,6 @@ class ClientesController
         $cliente->setNumero(null);
         $cliente->setComplemento(null);
     }
-
     private function retornarComErro(string $mensagem, string $rota): void
     {
         if (session_status() === PHP_SESSION_NONE) {

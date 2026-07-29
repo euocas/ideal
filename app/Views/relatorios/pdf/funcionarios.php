@@ -5,22 +5,6 @@ $titulo = 'Relatório de Funcionários';
 
 require __DIR__ . '/../../includes/headerPdf.php';
 
-/*
-|--------------------------------------------------------------------------
-| Logo da empresa (PNG em Base64)
-|--------------------------------------------------------------------------
-|
-| Em vez de usar $_SERVER['DOCUMENT_ROOT'] (que depende da configuração
-| do servidor e pode variar dependendo de como o script é chamado),
-| montamos o caminho a partir de __DIR__, que é sempre relativo a este
-| arquivo. Ajuste o número de "/.." conforme a posição real deste
-| arquivo dentro do projeto.
-|
-*/
-
-// Este arquivo está em: app/Views/relatorios/pdf/funcionarios.php
-// então subimos 4 níveis para chegar na raiz do projeto e então
-// descemos até public/assets/img/.
 $logo = __DIR__ . '/../../../../public/assets/img/logopdf.png';
 
 $logoBase64 = '';
@@ -42,8 +26,9 @@ if (file_exists($logo)) {
 | Ordenação alfabética
 |--------------------------------------------------------------------------
 */
+$funcionarios = $relatorio['dados'];
 
-usort($relatorio['dados'], function ($a, $b) {
+usort($funcionarios, function ($a, $b) {
     return strcasecmp($a['nome'], $b['nome']);
 });
 ?>
@@ -51,12 +36,9 @@ usort($relatorio['dados'], function ($a, $b) {
 <div class="cabecalho">
 
     <?php if ($logoBase64 !== ''): ?>
-        <!-- <img src="<?= $logoBase64 ?>" class="logo" alt="Logo IDEAL"> -->
 
    <img src="<?= $logoBase64 ?>" class="logo" alt="Logo IDEAL">
 
-    <?php else: ?>
-        <!-- Logo não encontrado - verifique o caminho em $logo -->
     <?php endif; ?>
 
     <div class="titulo">
@@ -83,7 +65,7 @@ usort($relatorio['dados'], function ($a, $b) {
 
     <tbody>
 
-        <?php foreach ($relatorio['dados'] as $funcionario): ?>
+       <?php foreach ($funcionarios as $funcionario): ?>
 
             <tr>
 

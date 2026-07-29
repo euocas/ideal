@@ -126,7 +126,6 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         // Busca a obra
         $obraModel = new Obra();
-
         $obra = $obraModel->findById($idObra);
 
         // Busca o cliente
@@ -137,17 +136,6 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
             $cliente = $clienteModel->findById(
                 $obra->getIdCliente()
-            );
-        }
-
-        // Busca o responsável
-        $responsavel = null;
-
-        if ($obra && $obra->getIdResponsavel()) {
-            $funcionarioModel = new Funcionario();
-
-            $responsavel = $funcionarioModel->findById(
-                $obra->getIdResponsavel()
             );
         }
 
@@ -167,67 +155,67 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
-   public function historico()
-{
-    $idObra = !empty($_GET["idObra"])
-        ? (int) $_GET["idObra"]
-        : null;
+    public function historico()
+    {
+        $idObra = !empty($_GET["idObra"])
+            ? (int) $_GET["idObra"]
+            : null;
 
-    if (!$idObra) {
-        $_SESSION["mensagem_erro"] = "Obra inválida.";
-        header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
-        exit;
-    }
+        if (!$idObra) {
+            $_SESSION["mensagem_erro"] = "Obra inválida.";
+            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
+            exit;
+        }
 
-    // Busca a obra
-    $obraModel = new Obra();
-    $obra = $obraModel->findById($idObra);
+        // Busca a obra
+        $obraModel = new Obra();
+        $obra = $obraModel->findById($idObra);
 
-    if (!$obra) {
-        $_SESSION["mensagem_erro"] = "Obra não localizada.";
-        header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
-        exit;
-    }
+        if (!$obra) {
+            $_SESSION["mensagem_erro"] = "Obra não localizada.";
+            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
+            exit;
+        }
 
-    // Busca o cliente
-    $cliente = null;
+        // Busca o cliente
+        $cliente = null;
 
-    if ($obra) {
-        $clienteModel = new Cliente();
-        $cliente = $clienteModel->findById(
-            $obra->getIdCliente()
-        );
-    }
-    // Dados financeiros
-    $financeiroObraModel = new FinanceiroObra();
+        if ($obra) {
+            $clienteModel = new Cliente();
+            $cliente = $clienteModel->findById(
+                $obra->getIdCliente()
+            );
+        }
+        // Dados financeiros
+        $financeiroObraModel = new FinanceiroObra();
 
-    $categoriasObra = $financeiroObraModel->listarCategorias();
+        $categoriasObra = $financeiroObraModel->listarCategorias();
 
-    $gastoAtual = $financeiroObraModel->calcularGastoAtual(
-        $idObra
-    );
-
-    $saldoDisponivel =
-        $obra->getValorContratado() - $gastoAtual;
-
-    // Histórico ou últimos lançamentos
-    $acao = $_GET["acao"] ?? "ultimos";
-
-    if ($acao === "historico") {
-        $lancamentosObra = $financeiroObraModel->findByIdObra(
+        $gastoAtual = $financeiroObraModel->calcularGastoAtual(
             $idObra
         );
-    } else {
-        $lancamentosObra = $financeiroObraModel->findUltimosByIdObra(
-            $idObra,
-            4
-        );
+
+        $saldoDisponivel =
+            $obra->getValorContratado() - $gastoAtual;
+
+        // Histórico ou últimos lançamentos
+        $acao = $_GET["acao"] ?? "ultimos";
+
+        if ($acao === "historico") {
+            $lancamentosObra = $financeiroObraModel->findByIdObra(
+                $idObra
+            );
+        } else {
+            $lancamentosObra = $financeiroObraModel->findUltimosByIdObra(
+                $idObra,
+                4
+            );
+        }
+
+        $aba = "obra";
+
+        require_once __DIR__ . "/../Views/financeiros/index.php";
     }
-
-    $aba = "obra";
-
-    require_once __DIR__ . "/../Views/financeiros/index.php";
-}
     public function store()
     {
 
@@ -322,8 +310,9 @@ class FinanceiroObraController // ✅ NOME CORRETO
     }
     public function delete()
     {
-        $idFinanceiroObra = !empty($_GET['id'])
-            ? (int) $_GET['id']
+
+        $idFinanceiroObra = !empty($_POST['idFinanceiroObra'])
+            ? (int) $_POST['idFinanceiroObra']
             : null;
 
         if (!$idFinanceiroObra) {

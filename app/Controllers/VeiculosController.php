@@ -19,7 +19,7 @@ class VeiculosController
             return $this->buscar();
         }
 
-     
+
         require_once __DIR__ . '/../Views/veiculos/index.php';
     }
 
@@ -166,21 +166,41 @@ class VeiculosController
             exit;
         }
     }
-
     public function delete()
     {
         $id = (int) ($_POST['id'] ?? 0);
 
         if ($id > 0) {
+
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
             $veiculoModel = new Veiculo();
+
+            if ($veiculoModel->possuiLancamentos($id)) {
+
+                $_SESSION['mensagem_erro'] =
+                    "Não é possível excluir este veículo, pois existem lançamentos financeiros vinculados a ele.";
+
+                header("Location: /ideal/public/index.php?url=veiculos/edit&id=" . $id);
+                exit;
+            }
+
             $deletou = $veiculoModel->delete($id);
 
             if ($deletou) {
                 $_SESSION['mensagem_sucesso'] = "Veículo excluído com sucesso!";
             } else {
-                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o veículo. Verifique se ele não possui vínculos.";
+                $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o veículo.";
             }
+
         } else {
+
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
             $_SESSION['mensagem_erro'] = "Veículo inválido para exclusão.";
         }
 

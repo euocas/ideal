@@ -248,6 +248,16 @@ class ObrasController
         }
 
         $obraModel = new Obra();
+
+        if ($obraModel->possuiLancamentos($id)) {
+
+            $_SESSION['mensagem_erro'] =
+                "Não é possível excluir esta obra, pois existem lançamentos financeiros vinculados a ela.";
+
+            header("Location: /ideal/public/index.php?url=obras/edit&id=" . $id);
+            exit;
+        }
+
         $deletou = $obraModel->delete($id);
 
         if ($deletou) {

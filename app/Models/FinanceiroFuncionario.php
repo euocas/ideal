@@ -310,10 +310,12 @@ class FinanceiroFuncionario
 
         return (float) $stmt->fetchColumn();
     }
+
+
     // =====================================================
     // 6. CRUD
     // =====================================================
-    
+
     public function save(): bool
     {
         try {

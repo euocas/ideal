@@ -222,18 +222,23 @@ class RelatoriosController
      */
 
     public function exportarPdf()
-    {
+{
+    $tipo = $_GET['relatorio'] ?? 'funcionarios';
 
-        $tipo = $_GET['relatorio'] ?? 'funcionarios';
+    $relatorio = $this->buscarRelatorio($tipo);
 
-        $relatorio = $this->buscarRelatorio($tipo);
+    $view = $relatorio['tipo'];
 
-        PdfService::gerar(
-            'relatorios/pdf/' . $relatorio['tipo'],
-            $relatorio,
-            'relatorio-' . $relatorio['tipo'] . '.pdf'
-        );
+    if ($view === 'financeiro') {
+        $view = 'financeiros';
     }
+
+    PdfService::gerar(
+        'relatorios/pdf/' . $view,
+        $relatorio,
+        'relatorio-' . $relatorio['tipo'] . '.pdf'
+    );
+}
 
 }
 

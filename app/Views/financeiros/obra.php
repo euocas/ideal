@@ -282,52 +282,67 @@ $actionObra = $isEditObra
             <?php endif; ?>
 
             <form id="form-obra" action="<?= $actionObra ?>" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="idObra" value="<?= isset(
-                    $obra,
-                )
-                    ? $obra->getIdObra()
-                    : "" ?>">
+
+                <input type="hidden" name="idObra" value="<?= isset($obra) ? $obra->getIdObra() : "" ?>">
+
+                <?php if ($isEditObra): ?>
+                    <input type="hidden" name="idFinanceiroObra" value="<?= $financeiroObra->getIdFinanceiroObra() ?>">
+                <?php endif; ?>
+
                 <div class="formulario-grid">
 
                     <!-- Categoria -->
                     <div class="form-group">
                         <label>Categoria <span class="obrigatorio">*</span></label>
+
                         <?php
                         $categoriaSelecionada = $isEditObra
-                            ? $financeiroObra->getIdCategoriaFinanceiroObra() : ""; ?>
+                            ? $financeiroObra->getIdCategoriaFinanceiroObra()
+                            : "";
+                        ?>
+
                         <select name="idCategoriaFinanceiroObra" required>
                             <option value="">Selecione</option>
+
                             <?php foreach ($categoriasObra as $categoria): ?>
                                 <option value="<?= $categoria['idCategoriaFinanceiroObra'] ?>"
                                     <?= $categoriaSelecionada == $categoria['idCategoriaFinanceiroObra'] ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($categoria['nome']) ?>
                                 </option>
                             <?php endforeach; ?>
+
                         </select>
                     </div>
 
                     <!-- Valor -->
                     <div class="form-group">
                         <label>Valor <span class="obrigatorio">*</span></label>
+
                         <div class="input-prefixo">
                             <span class="prefixo">R$</span>
-                            <input type="number" name="valor" step="0.01" min="0" placeholder="0,00" value="<?= $isEditObra
-                                ? htmlspecialchars((string) $financeiroObra->getValor(), ) : "" ?>" required>
+
+                            <input type="number" name="valor" step="0.01" min="0" placeholder="0,00"
+                                value="<?= $isEditObra ? htmlspecialchars((string) $financeiroObra->getValor()) : "" ?>"
+                                required>
                         </div>
                     </div>
 
                     <!-- Data -->
                     <div class="form-group">
                         <label>Data do Gasto <span class="obrigatorio">*</span></label>
+
                         <input type="date" name="dataGasto"
-                            value="<?= $isEditObra ? htmlspecialchars($financeiroObra->getDataGasto(), ) : "" ?>"
+                            value="<?= $isEditObra ? htmlspecialchars($financeiroObra->getDataGasto()) : "" ?>"
                             required>
                     </div>
+
                     <!-- Forma de Pagamento -->
                     <?php
-                    $formaPagamentoSelecionada = $isEditObra ? $financeiroObra->getFormaPagamento() : "";
+                    $formaPagamentoSelecionada = $isEditObra
+                        ? $financeiroObra->getFormaPagamento()
+                        : "";
                     ?>
-                    <!-- Forma de Pagamento -->
+
                     <div class="form-group">
                         <label>
                             Forma de Pagamento
@@ -335,32 +350,38 @@ $actionObra = $isEditObra
                         </label>
 
                         <select name="formaPagamento" required>
+
                             <option value="">Selecione</option>
 
                             <?php foreach (SistemaConstantes::FORMAS_PAGAMENTO as $formaPagamento): ?>
                                 <option value="<?= htmlspecialchars($formaPagamento) ?>"
-                                    <?= $formaPagamentoSelecionada === $formaPagamento ? "selected" : "" ?>>
+                                    <?= $formaPagamentoSelecionada === $formaPagamento ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($formaPagamento) ?>
                                 </option>
                             <?php endforeach; ?>
+
                         </select>
                     </div>
-
 
                     <!-- Descrição -->
                     <div class="form-group span-2">
                         <label>Descrição <span class="obrigatorio">*</span></label>
+
                         <input type="text" name="descricao" maxlength="100" placeholder="Descrição do gasto"
                             value="<?= $isEditObra ? htmlspecialchars($financeiroObra->getDescricao()) : "" ?>"
                             required>
                     </div>
+
                 </div>
+
                 <!-- Observação -->
                 <div class="form-group span-2">
                     <label>Observação</label>
+
                     <textarea name="observacao" maxlength="200"
                         placeholder="Observações adicionais"><?= $isEditObra ? htmlspecialchars($financeiroObra->getObservacao() ?? "") : "" ?></textarea>
                 </div>
+
             </form>
         </div>
     </div>
@@ -466,26 +487,34 @@ $actionObra = $isEditObra
 <div class="formulario-acoes">
 
     <?php if (!$isEditObra): ?>
+
         <button type="submit" form="form-obra" class="btn salvar">
             <i class="bi bi-floppy"></i>
             Registrar Gasto
         </button>
 
     <?php else: ?>
+
         <button type="submit" form="form-obra" class="btn alterar">
             <i class="bi bi-pencil-square"></i>
             Alterar
         </button>
 
-        <a href="/ideal/public/index.php?url=financeiro-obra/delete&id=<?= $financeiroObra->getIdFinanceiroObra() ?>"
-            class="btn excluir" onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+        <input type="hidden" name="idFinanceiroObra" value="<?= $financeiroObra->getIdFinanceiroObra() ?>">
+
+        <button type="submit" form="form-obra" formaction="/ideal/public/index.php?url=financeiro-obra/delete"
+            formmethod="POST" class="btn excluir"
+            onclick="return confirm('Tem certeza que deseja excluir este registro?');">
+
             <i class="bi bi-trash"></i>
             Excluir
-        </a>
+        </button>
+
     <?php endif; ?>
 
     <button type="reset" form="form-obra" class="btn limpar">
         <i class="bi bi-eraser"></i>
         Limpar
     </button>
+
 </div>
