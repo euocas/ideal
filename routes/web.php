@@ -88,6 +88,7 @@ return [
 
     'relatorios' => [RelatoriosController::class, 'index'],
     'relatorios/exportar-pdf' => [RelatoriosController::class, 'exportarPdf'],
+    'relatorios/exportar-excel' => [RelatoriosController::class, 'exportarExcel'],
 
     'credenciais' => [CredenciaisController::class, 'index'],
     'credenciais/alterar' => [CredenciaisController::class, 'alterar'],

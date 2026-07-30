@@ -1190,6 +1190,10 @@ SELECT * FROM financeiroObra;
 SELECT * FROM usuario WHERE idUsuario = 2;
 SELECT * FROM financeiroVeiculo;
 
+SELECT *
+FROM financeirofuncionario
+WHERE idFuncionario = 1;
+
 
 SELECT idObra, contrato, valorContratado
 FROM obra;

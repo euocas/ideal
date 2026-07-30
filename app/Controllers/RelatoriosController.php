@@ -8,7 +8,15 @@ use App\Models\Funcionario;
 use App\Models\Obra;
 use App\Models\Veiculo;
 use App\Core\Auth;
+// Abaixo para o PDF
 use App\Services\PdfService;
+// Abaixo para o Excel
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 
 class RelatoriosController
 {
@@ -40,9 +48,7 @@ class RelatoriosController
 
         require_once __DIR__ . '/../Views/relatorios/index.php';
     }
-    /**
-     * Busca os dados do relatório selecionado baseado nos filtros
-     */
+    //Busca os dados do relatório selecionado baseado nos filtros 
     private function buscarRelatorio(string $tipo): array
     {
         $dados = [];
@@ -67,9 +73,7 @@ class RelatoriosController
 
         return $dados;
     }
-    /**
-     * Gera o relatório de Clientes com filtros
-     */
+    // Gera o relatório de Clientes com filtros 
     private function gerarRelatorioClientes(): array
     {
         $clienteModel = new Cliente();
@@ -89,9 +93,7 @@ class RelatoriosController
             'total' => count($clientes ?? [])
         ];
     }
-    /**
-     * Gera o relatório de Funcionários com filtros
-     */
+    // Gera o relatório de Funcionários com filtros
     private function gerarRelatorioFuncionarios(): array
     {
         $funcionarioModel = new Funcionario();
@@ -113,9 +115,8 @@ class RelatoriosController
             'total' => count($funcionarios ?? [])
         ];
     }
-    /**
-     * Gera o relatório de Obras com filtros
-     */
+
+    //Gera o relatório de Obras com filtros
     private function gerarRelatorioObras(): array
     {
         $obraModel = new Obra();
@@ -183,37 +184,131 @@ class RelatoriosController
     /**
      * Exporta o relatório em CSV
      */
-    public function exportarCsv()
+    public function exportarExcel()
     {
         $relatorio = $_GET['relatorio'] ?? 'funcionarios';
         $dados = $this->buscarRelatorio($relatorio);
+
+        $planilha = new Spreadsheet(); //cria uma planilha vazia.
+        $sheet = $planilha->getActiveSheet(); //pega a primeira aba da planilha.
+
+        $sheet->setCellValue('A1', 'Relatório de Funcionários - Sistema IDEAL • Soluções Elétricas');
+        // Junta as células A1 até E1 em uma única célula (mesclar)
+        $sheet->mergeCells('A1:E1');
+        //largura do cabeçalho em 35
+        $sheet->getRowDimension(1)->setRowHeight(35);
+        // Fonte do cabeçalho em 16
+        $sheet->getStyle('A1')->getFont()->setSize(16);
+
+        $sheet->setCellValue('A2', 'ID');
+        $sheet->setCellValue('B2', 'Nome');
+        $sheet->setCellValue('C2', 'CPF');
+        $sheet->setCellValue('D2', 'Cargo');
+        $sheet->setCellValue('E2', 'Status');
+
+        // Colocar as linhas iniciais em negrito (cabeçalho)
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true);
+        $sheet->getStyle('A2:E2')->getFont()->setBold(true);
+
+        // Colorir primeira linha em azul (cabeçalho)
+        $sheet->getStyle('A1:E1')
+            ->getFill()
+            ->setFillType(Fill::FILL_SOLID) // pinta a célula inteira
+            ->getStartColor()
+            ->setARGB('4472C4'); // cor azul
+
+        // Colorir segunda linha em azul (cabeçalho)
+        $sheet->getStyle('A2:E2')
+            ->getFill()
+            ->setFillType(Fill::FILL_SOLID) // pinta a célula inteira
+            ->getStartColor()
+            ->setARGB('4472C4'); // cor azul
+
+        // Colorir texto da primeira linha de branco (cabeçalho)
+        $sheet->getStyle('A1:E1')
+            ->getFont()
+            ->getColor()
+            ->setARGB('FFFFFF');
+
+        // Colorir texto da segunda linha de branco 
+        $sheet->getStyle('A2:E2')
+            ->getFont()
+            ->getColor()
+            ->setARGB('FFFFFF');
+
+        // Centralizar primeira linha (cabeçalho)
+        $sheet->getStyle('A1:E1')
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER)
+            ->setVertical(Alignment::VERTICAL_CENTER);
+
+        // Centralizar segunda linha
+        $sheet->getStyle('A2:E2')
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // tamanho da célula no excel
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+
+        // Congela o cabeçalho
+        $sheet->freezePane('A3');
+
+        //Aplica filtro
+        $sheet->setAutoFilter('B2:E2');
+
+        $linha = 3;
+
+        foreach ($dados['dados'] as $funcionario) {
+
+            $sheet->setCellValue('A' . $linha, $funcionario['idFuncionario']);
+            $sheet->setCellValue('b' . $linha, $funcionario['nome']);
+            $cpf = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "$1.$2.$3-$4", $funcionario['cpf']);
+            $sheet->setCellValue('C' . $linha, $cpf);
+            $sheet->setCellValue('D' . $linha, $funcionario['cargoFuncao']);
+            $sheet->setCellValue('E' . $linha, $funcionario['status']);
+
+            $linha++;
+
+        }
+
+        //Formatação da planilha: A2,C2 e E2 estão centralizadas
+        $sheet->getStyle('A3:A' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('C3:C' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('E3:E' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Adicionar borda
+        $sheet->getStyle('A1:E' . ($linha - 1))
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(Border::BORDER_THIN);
+
 
         if (empty($dados['dados'])) {
             header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
             exit;
         }
 
-        // Define o header para download de arquivo CSV
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.csv"');
+        // Define o header para download de arquivo Excel
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
 
-        // Abre o output como um arquivo
-        $output = fopen('php://output', 'w');
+        // Cria o responsável por gravar a planilha
+        $writer = new Xlsx($planilha);
 
-        // Escreve o BOM UTF-8 para Excel ler corretamente
-        fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-        // Cabeçalho do CSV
-        if (!empty($dados['dados']) && is_array($dados['dados'][0] ?? null)) {
-            fputcsv($output, array_keys($dados['dados'][0]), ';');
-
-            // Dados do CSV
-            foreach ($dados['dados'] as $linha) {
-                fputcsv($output, $linha, ';');
-            }
-        }
-
-        fclose($output);
+        $writer->save('php://output');
         exit;
     }
     /**
@@ -222,23 +317,22 @@ class RelatoriosController
      */
 
     public function exportarPdf()
-{
-    $tipo = $_GET['relatorio'] ?? 'funcionarios';
+    {
+        $tipo = $_GET['relatorio'] ?? 'funcionarios';
 
-    $relatorio = $this->buscarRelatorio($tipo);
+        $relatorio = $this->buscarRelatorio($tipo);
 
-    $view = $relatorio['tipo'];
+        $view = $relatorio['tipo'];
 
-    if ($view === 'financeiro') {
-        $view = 'financeiros';
+        if ($view === 'financeiro') {
+            $view = 'financeiros';
+        }
+
+        PdfService::gerar(
+            'relatorios/pdf/' . $view,
+            $relatorio,
+            'relatorio-' . $relatorio['tipo'] . '.pdf'
+        );
     }
-
-    PdfService::gerar(
-        'relatorios/pdf/' . $view,
-        $relatorio,
-        'relatorio-' . $relatorio['tipo'] . '.pdf'
-    );
-}
-
 }
 

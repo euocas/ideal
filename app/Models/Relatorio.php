@@ -15,10 +15,8 @@ class Relatorio
         $this->pdo = $conexao->getConnection();
     }
 
-    /**
-     * Lista todos os lançamentos financeiros (obras, funcionários, veículos)
-     * já unificados no formato do relatório.
-     */
+    // Lista todos os lançamentos financeiros (obras, funcionários, veículos) já unificados no formato do relatório.
+     
     public function listarFinanceiro(): array
     {
         $resultados = [];
@@ -89,9 +87,8 @@ class Relatorio
         }
     }
 
-    /**
-     * Busca lançamentos financeiros com filtros de tipo (entrada/saída) e período.
-     */
+      // Busca lançamentos financeiros com filtros de tipo (entrada/saída) e período.
+     
     public function buscarFinanceiroComFiltros(string $tipoFinanceiro = '', string $dataInicio = '', string $dataFim = ''): array
     {
         $resultados = $this->listarFinanceiro();

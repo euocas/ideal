@@ -434,7 +434,7 @@ require_once __DIR__ . '/../includes/header.php';
                                         <div class="acoes-exportar">
 
                                             <button type="submit" form="formRelatorio"
-                                                formaction="/ideal/public/index.php?url=relatorios/exportar-csv&relatorio=<?= $relatorio ?>"
+                                                formaction="/ideal/public/index.php?url=relatorios/exportar-excel&relatorio=<?= $relatorio ?>"
                                                 class="btn-excel">
                                                 EXPORTAR EXCEL
                                             </button>
