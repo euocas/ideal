@@ -276,7 +276,10 @@ require_once __DIR__ . '/../includes/header.php';
                                                     <tr>
                                                         <th>ID</th>
                                                         <th>Contrato</th>
+                                                        <th>Cliente</th>
                                                         <th>Cidade</th>
+                                                        <th>Início</th>
+                                                        <th>Fim</th>
                                                         <th>Status</th>
                                                     </tr>
 
@@ -344,11 +347,11 @@ require_once __DIR__ . '/../includes/header.php';
                                                                     '/(\d{4})(\d{6})(\d{1})/',
                                                                     '$1.$2-$3',
                                                                     $linha['renavam'] ?? ''
-                                                                    ) ?>
+                                                                ) ?>
                                                                 </td>
                                                                 <td><?= htmlspecialchars($linha['modelo'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['marca'] ?? '') ?></td>
-                                                                
+
                                                                 <td>
                                                                     <?php $status = strtolower(trim($linha['statusVeiculo'] ?? ''));
                                                                     $classeStatus = str_replace(' ', '-', $status);
@@ -358,24 +361,27 @@ require_once __DIR__ . '/../includes/header.php';
                                                                     </span>
                                                                 </td>
 
-
                                                             <?php elseif ($relatorio == 'obras'): ?>
                                                                 <td><?= htmlspecialchars($linha['idObra'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['contrato'] ?? '') ?></td>
+                                                                <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
                                                                 <td><?= htmlspecialchars($linha['cidade'] ?? '') ?></td>
 
-                                                                <!-- <td>
-
-                                                                <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
-                                                                <span class="status <?= $status ?>">
-                                                                    <?= ucfirst($status) ?>
-
-                                                                </span>
-
-                                                            </td> -->
+                                                                <td>
+                                                                    <?= !empty($linha['dataInicio'])
+                                                                        ? date('d/m/Y', strtotime($linha['dataInicio']))
+                                                                        : '' ?>
+                                                                </td>
 
                                                                 <td>
-                                                                    <?php $status = strtolower(trim($linha['status'] ?? ''));
+                                                                    <?= !empty($linha['dataFim'])
+                                                                        ? date('d/m/Y', strtotime($linha['dataFim']))
+                                                                        : '' ?>
+                                                                </td>
+
+                                                                <td>
+                                                                    <?php
+                                                                    $status = strtolower(trim($linha['status'] ?? ''));
                                                                     $classeStatus = str_replace(' ', '-', $status);
                                                                     ?>
                                                                     <span class="status <?= $classeStatus ?>">

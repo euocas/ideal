@@ -392,7 +392,8 @@ class Obra
     }
     public function listar(): array
     {
-        $sql = "SELECT * FROM obra ORDER BY idObra ASC";
+        $sql = "SELECT o.*, c.nomeCliente FROM obra o
+        INNER JOIN cliente c ON o.idCliente = c.idCliente ORDER BY o.idObra";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -561,17 +562,20 @@ class Obra
 
     public function findByFilters(string $contrato = '', string $status = ''): array
     {
-        $sql = "SELECT * FROM obra WHERE 1=1";
+        $sql = "SELECT o.*, c.nomeCliente
+            FROM obra o
+            INNER JOIN cliente c ON o.idCliente = c.idCliente
+            WHERE 1=1";
 
         if (!empty($contrato)) {
-            $sql .= " AND contrato LIKE :contrato";
+            $sql .= " AND o.contrato LIKE :contrato";
         }
 
         if (!empty($status)) {
-            $sql .= " AND status = :status";
+            $sql .= " AND o.status = :status";
         }
 
-        $sql .= " ORDER BY idObra DESC";
+        $sql .= " ORDER BY o.idObra DESC";
 
         $stmt = $this->pdo->prepare($sql);
 

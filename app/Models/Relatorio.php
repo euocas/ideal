@@ -16,7 +16,7 @@ class Relatorio
     }
 
     // Lista todos os lançamentos financeiros (obras, funcionários, veículos) já unificados no formato do relatório.
-     
+
     public function listarFinanceiro(): array
     {
         $resultados = [];
@@ -76,8 +76,22 @@ class Relatorio
             $stmtVeiculo->execute();
             $resultados = array_merge($resultados, $stmtVeiculo->fetchAll(PDO::FETCH_ASSOC));
 
+            // usort($resultados, function ($a, $b) {
+            //     return strtotime($b['data'] ?? '1970-01-01') - strtotime($a['data'] ?? '1970-01-01');
+            // });
+
+            // usort($resultados, function ($a, $b) {
+            //     return $a['id'] <=> $b['id'];
+            // });
+
+            // ORDEM DE ENTRADA E SAÍDA
             usort($resultados, function ($a, $b) {
-                return strtotime($b['data'] ?? '1970-01-01') - strtotime($a['data'] ?? '1970-01-01');
+
+                if ($a['tipo'] === $b['tipo']) {
+                    return strtotime($b['data']) <=> strtotime($a['data']);
+                }
+
+                return strcmp($a['tipo'], $b['tipo']);
             });
 
             return $resultados;
@@ -87,8 +101,8 @@ class Relatorio
         }
     }
 
-      // Busca lançamentos financeiros com filtros de tipo (entrada/saída) e período.
-     
+    // Busca lançamentos financeiros com filtros de tipo (entrada/saída) e período.
+
     public function buscarFinanceiroComFiltros(string $tipoFinanceiro = '', string $dataInicio = '', string $dataFim = ''): array
     {
         $resultados = $this->listarFinanceiro();

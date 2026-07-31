@@ -54,7 +54,10 @@ $obras = $relatorio['dados'];
     <thead>
         <tr>
             <th>Contrato</th>
+            <th>Cliente</th>
             <th>Cidade</th>
+            <th>Início</th>
+            <th>Fim</th>
             <th>Status</th>
         </tr>
     </thead>
@@ -76,7 +79,21 @@ $obras = $relatorio['dados'];
 
                 <td><?= htmlspecialchars($obra['contrato']) ?></td>
 
+                <td><?= htmlspecialchars($obra['nomeCliente']) ?></td>
+
                 <td><?= htmlspecialchars($obra['cidade']) ?></td>
+
+                <td>
+                    <?= !empty($obra['dataInicio'])
+                        ? date('d/m/Y', strtotime($obra['dataInicio']))
+                        : '' ?>
+                </td>
+
+                <td>
+                    <?= !empty($obra['dataFim'])
+                        ? date('d/m/Y', strtotime($obra['dataFim']))
+                        : '' ?>
+                </td>
 
                 <td class="status <?= strtolower(str_replace(' ', '-', $obra['status'])) ?>">
                     <?= htmlspecialchars($status) ?>
