@@ -14,12 +14,16 @@
     <title><?= $titulo ?? 'Sistema'; ?></title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/variables.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/forms.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css?v=<?= time() ?>">
 
+    <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
+    <link rel="stylesheet" href="/ideal/public/assets/css/base.css">
+    <link rel="stylesheet" href="/ideal/public/assets/css/component.css">
+    <link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
+    <link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
+    <link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+    <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css?v=<?= time() ?>">
+
+  
     <script>
         window.addEventListener("unload", function () {
             // força o navegador a invalidar BFCache

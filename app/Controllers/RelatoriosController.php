@@ -347,429 +347,434 @@ class RelatoriosController
         exit;
     }
     public function exportarExcelClientes()
-{
-    $relatorio = 'clientes';
-    $dados = $this->buscarRelatorio($relatorio);
+    {
+        $relatorio = 'clientes';
+        $dados = $this->buscarRelatorio($relatorio);
 
-    // Cria a planilha
-    [$planilha, $sheet] = $this->criarPlanilha(
-        'Relatório de Clientes - Sistema IDEAL • Soluções Elétricas',
-        'D'
-    );
+        // Cria a planilha
+        [$planilha, $sheet] = $this->criarPlanilha(
+            'Relatório de Clientes - Sistema IDEAL • Soluções Elétricas',
+            'D'
+        );
 
-    // Cabeçalho da tabela
-    $sheet->setCellValue('A2', 'ID');
-    $sheet->setCellValue('B2', 'Nome');
-    $sheet->setCellValue('C2', 'CPF');
-    $sheet->setCellValue('D2', 'CNPJ');
+        // Cabeçalho da tabela
+        $sheet->setCellValue('A2', 'ID');
+        $sheet->setCellValue('B2', 'Nome');
+        $sheet->setCellValue('C2', 'CPF');
+        $sheet->setCellValue('D2', 'CNPJ');
 
-    // Formatação padrão do cabeçalho
-    $this->formatarCabecalho($sheet, 'D');
+        // Formatação padrão do cabeçalho
+        $this->formatarCabecalho($sheet, 'D');
 
-    // Tamanho das colunas
-    $sheet->getColumnDimension('B')->setAutoSize(true);
-    $sheet->getColumnDimension('C')->setAutoSize(true);
-    $sheet->getColumnDimension('D')->setAutoSize(true);
+        // Tamanho das colunas
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
 
-    // Congela o cabeçalho
-    $sheet->freezePane('A3');
+        // Congela o cabeçalho
+        $sheet->freezePane('A3');
 
-    // Aplica filtro
-    $sheet->setAutoFilter('A2:D2');
+        // Aplica filtro
+        $sheet->setAutoFilter('A2:D2');
 
-    $linha = 3;
+        $linha = 3;
 
-    foreach ($dados['dados'] as $cliente) {
+        foreach ($dados['dados'] as $cliente) {
 
-        $sheet->setCellValue('A' . $linha, $cliente['idCliente']);
-        $sheet->setCellValue('B' . $linha, $cliente['nomeCliente']);
+            $sheet->setCellValue('A' . $linha, $cliente['idCliente']);
+            $sheet->setCellValue('B' . $linha, $cliente['nomeCliente']);
 
-        $cpf = '';
+            $cpf = '';
 
-        if (!empty($cliente['cpf'])) {
-            $cpf = preg_replace(
-                "/(\d{3})(\d{3})(\d{3})(\d{2})/",
-                "$1.$2.$3-$4",
-                $cliente['cpf']
-            );
+            if (!empty($cliente['cpf'])) {
+                $cpf = preg_replace(
+                    "/(\d{3})(\d{3})(\d{3})(\d{2})/",
+                    "$1.$2.$3-$4",
+                    $cliente['cpf']
+                );
+            }
+
+            $cnpj = '';
+
+            if (!empty($cliente['cnpj'])) {
+                $cnpj = preg_replace(
+                    "/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/",
+                    "$1.$2.$3/$4-$5",
+                    $cliente['cnpj']
+                );
+            }
+
+            $sheet->setCellValue('C' . $linha, $cpf);
+            $sheet->setCellValue('D' . $linha, $cnpj);
+
+            $linha++;
         }
 
-        $cnpj = '';
+        // Alinhamentos específicos
+        $sheet->getStyle('A3:A' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        if (!empty($cliente['cnpj'])) {
-            $cnpj = preg_replace(
-                "/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/",
-                "$1.$2.$3/$4-$5",
-                $cliente['cnpj']
-            );
+        $sheet->getStyle('C3:C' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('D3:D' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Borda
+        $sheet->getStyle('A1:D' . ($linha - 1))
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(Border::BORDER_THIN);
+
+        // Finalização (por enquanto continua igual)
+        if (empty($dados['dados'])) {
+            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            exit;
         }
 
-        $sheet->setCellValue('C' . $linha, $cpf);
-        $sheet->setCellValue('D' . $linha, $cnpj);
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
 
-        $linha++;
-    }
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
 
-    // Alinhamentos específicos
-    $sheet->getStyle('A3:A' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    $sheet->getStyle('C3:C' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    $sheet->getStyle('D3:D' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    // Borda
-    $sheet->getStyle('A1:D' . ($linha - 1))
-        ->getBorders()
-        ->getAllBorders()
-        ->setBorderStyle(Border::BORDER_THIN);
-
-    // Finalização (por enquanto continua igual)
-    if (empty($dados['dados'])) {
-        header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+        $writer = new Xlsx($planilha);
+        $writer->save('php://output');
         exit;
     }
+    public function exportarExcelObras()
+    {
+        $relatorio = 'obras';
+        $dados = $this->buscarRelatorio($relatorio);
 
-    if (ob_get_length()) {
-        ob_end_clean();
-    }
+        // Cria a planilha
+        [$planilha, $sheet] = $this->criarPlanilha(
+            'Relatório de Obras - Sistema IDEAL • Soluções Elétricas',
+            'G'
+        );
 
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
+        // Cabeçalho
+        $sheet->setCellValue('A2', 'ID');
+        $sheet->setCellValue('B2', 'Contrato');
+        $sheet->setCellValue('C2', 'Cliente');
+        $sheet->setCellValue('D2', 'Cidade');
+        $sheet->setCellValue('E2', 'Início');
+        $sheet->setCellValue('F2', 'Fim');
+        $sheet->setCellValue('G2', 'Status');
 
-    $writer = new Xlsx($planilha);
-    $writer->save('php://output');
-    exit;
-}
-   public function exportarExcelObras()
-{
-    $relatorio = 'obras';
-    $dados = $this->buscarRelatorio($relatorio);
+        // Formatação padrão do cabeçalho
+        $this->formatarCabecalho($sheet, 'G');
 
-    // Cria a planilha
-    [$planilha, $sheet] = $this->criarPlanilha(
-        'Relatório de Obras - Sistema IDEAL • Soluções Elétricas',
-        'G'
-    );
+        // Largura das colunas
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
 
-    // Cabeçalho
-    $sheet->setCellValue('A2', 'ID');
-    $sheet->setCellValue('B2', 'Contrato');
-    $sheet->setCellValue('C2', 'Cliente');
-    $sheet->setCellValue('D2', 'Cidade');
-    $sheet->setCellValue('E2', 'Início');
-    $sheet->setCellValue('F2', 'Fim');
-    $sheet->setCellValue('G2', 'Status');
+        // Congela o cabeçalho
+        $sheet->freezePane('A3');
 
-    // Formatação padrão do cabeçalho
-    $this->formatarCabecalho($sheet, 'G');
+        // Filtro
+        $sheet->setAutoFilter('A2:G2');
 
-    // Largura das colunas
-    $sheet->getColumnDimension('B')->setAutoSize(true);
-    $sheet->getColumnDimension('C')->setAutoSize(true);
-    $sheet->getColumnDimension('D')->setAutoSize(true);
-    $sheet->getColumnDimension('E')->setAutoSize(true);
-    $sheet->getColumnDimension('F')->setAutoSize(true);
-    $sheet->getColumnDimension('G')->setAutoSize(true);
+        $linha = 3;
 
-    // Congela o cabeçalho
-    $sheet->freezePane('A3');
+        foreach ($dados['dados'] as $obra) {
 
-    // Filtro
-    $sheet->setAutoFilter('A2:G2');
+            $sheet->setCellValue('A' . $linha, $obra['idObra']);
+            $sheet->setCellValue('B' . $linha, $obra['contrato']);
+            $sheet->setCellValue('C' . $linha, $obra['nomeCliente']);
+            $sheet->setCellValue('D' . $linha, $obra['cidade']);
 
-    $linha = 3;
-
-    foreach ($dados['dados'] as $obra) {
-
-        $sheet->setCellValue('A' . $linha, $obra['idObra']);
-        $sheet->setCellValue('B' . $linha, $obra['contrato']);
-        $sheet->setCellValue('C' . $linha, $obra['nomeCliente']);
-        $sheet->setCellValue('D' . $linha, $obra['cidade']);
-
-        $sheet->setCellValue(
-            'E' . $linha,
-            !empty($obra['dataInicio'])
+            $sheet->setCellValue(
+                'E' . $linha,
+                !empty($obra['dataInicio'])
                 ? date('d/m/Y', strtotime($obra['dataInicio']))
                 : ''
-        );
+            );
 
-        $sheet->setCellValue(
-            'F' . $linha,
-            !empty($obra['dataFim'])
+            $sheet->setCellValue(
+                'F' . $linha,
+                !empty($obra['dataFim'])
                 ? date('d/m/Y', strtotime($obra['dataFim']))
                 : ''
-        );
+            );
 
-        $sheet->setCellValue('G' . $linha, $obra['status']);
+            $sheet->setCellValue('G' . $linha, $obra['status']);
 
-        $linha++;
-    }
+            $linha++;
+        }
 
-    // Alinhamentos
-    $sheet->getStyle('A3:A' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        // Alinhamentos
+        $sheet->getStyle('A3:A' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('B3:B' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('B3:B' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('D3:D' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('D3:D' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('E3:F' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('E3:F' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('G3:G' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('G3:G' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    // Borda
-    $sheet->getStyle('A1:G' . ($linha - 1))
-        ->getBorders()
-        ->getAllBorders()
-        ->setBorderStyle(Border::BORDER_THIN);
+        // Borda
+        $sheet->getStyle('A1:G' . ($linha - 1))
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(Border::BORDER_THIN);
 
-    // Finalização (continua igual por enquanto)
-    if (empty($dados['dados'])) {
-        header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+        // Finalização (continua igual por enquanto)
+        if (empty($dados['dados'])) {
+            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            exit;
+        }
+
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
+
+        $writer = new Xlsx($planilha);
+        $writer->save('php://output');
         exit;
     }
+    public function exportarExcelVeiculos()
+    {
+        $relatorio = 'veiculos';
+        $dados = $this->buscarRelatorio($relatorio);
 
-    if (ob_get_length()) {
-        ob_end_clean();
-    }
-
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
-
-    $writer = new Xlsx($planilha);
-    $writer->save('php://output');
-    exit;
-}
-   public function exportarExcelVeiculos()
-{
-    $relatorio = 'veiculos';
-    $dados = $this->buscarRelatorio($relatorio);
-
-    // Cria a planilha
-    [$planilha, $sheet] = $this->criarPlanilha(
-        'Relatório de Veículos - Sistema IDEAL • Soluções Elétricas',
-        'F'
-    );
-
-    // Cabeçalho
-    $sheet->setCellValue('A2', 'ID');
-    $sheet->setCellValue('B2', 'Placa');
-    $sheet->setCellValue('C2', 'Renavam');
-    $sheet->setCellValue('D2', 'Modelo');
-    $sheet->setCellValue('E2', 'Marca');
-    $sheet->setCellValue('F2', 'Status');
-
-    // Formatação padrão do cabeçalho
-    $this->formatarCabecalho($sheet, 'F');
-
-    // Tamanho das colunas
-    $sheet->getColumnDimension('B')->setAutoSize(true);
-    $sheet->getColumnDimension('C')->setAutoSize(true);
-    $sheet->getColumnDimension('D')->setAutoSize(true);
-    $sheet->getColumnDimension('E')->setAutoSize(true);
-    $sheet->getColumnDimension('F')->setAutoSize(true);
-
-    // Congela o cabeçalho
-    $sheet->freezePane('A3');
-
-    // Aplica filtro
-    $sheet->setAutoFilter('A2:F2');
-
-    $linha = 3;
-
-    foreach ($dados['dados'] as $veiculo) {
-
-        $sheet->setCellValue('A' . $linha, $veiculo['idVeiculo']);
-        $sheet->setCellValue('B' . $linha, $veiculo['placa']);
-        $sheet->setCellValue('C' . $linha, $veiculo['renavam']);
-        $sheet->setCellValue('D' . $linha, $veiculo['modelo']);
-        $sheet->setCellValue('E' . $linha, $veiculo['marca']);
-        $sheet->setCellValue('F' . $linha, $veiculo['statusVeiculo']);
-
-        $linha++;
-    }
-
-    // Alinhamentos
-    $sheet->getStyle('A3:A' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    $sheet->getStyle('B3:B' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    $sheet->getStyle('C3:C' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    $sheet->getStyle('D3:D' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    $sheet->getStyle('E3:E' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    $sheet->getStyle('F3:F' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
-
-    // Bordas
-    $sheet->getStyle('A1:F' . ($linha - 1))
-        ->getBorders()
-        ->getAllBorders()
-        ->setBorderStyle(Border::BORDER_THIN);
-
-    // Finalização (por enquanto continua igual)
-    if (empty($dados['dados'])) {
-        header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
-        exit;
-    }
-
-    if (ob_get_length()) {
-        ob_end_clean();
-    }
-
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
-
-    $writer = new Xlsx($planilha);
-    $writer->save('php://output');
-    exit;
-}
-   public function exportarExcelFinanceiros()
-{
-    $relatorio = 'financeiro';
-    $dados = $this->buscarRelatorio($relatorio);
-
-    // Cria a planilha
-    [$planilha, $sheet] = $this->criarPlanilha(
-        'Relatório do Financeiro da Empresa - Sistema IDEAL • Soluções Elétricas',
-        'G'
-    );
-
-    // Cabeçalho
-    $sheet->setCellValue('A2', 'ID');
-    $sheet->setCellValue('B2', 'Origem');
-    $sheet->setCellValue('C2', 'Categoria');
-    $sheet->setCellValue('D2', 'Descrição');
-    $sheet->setCellValue('E2', 'Tipo');
-    $sheet->setCellValue('F2', 'Valor');
-    $sheet->setCellValue('G2', 'Data');
-
-    // Formatação padrão do cabeçalho
-    $this->formatarCabecalho($sheet, 'G');
-
-    // Tamanho das colunas
-    $sheet->getColumnDimension('B')->setAutoSize(true);
-    $sheet->getColumnDimension('C')->setAutoSize(true);
-    $sheet->getColumnDimension('D')->setWidth(45);
-    $sheet->getColumnDimension('E')->setAutoSize(true);
-    $sheet->getColumnDimension('F')->setAutoSize(true);
-    $sheet->getColumnDimension('G')->setAutoSize(true);
-
-    // Congela o cabeçalho
-    $sheet->freezePane('A3');
-
-    // Aplica filtro
-    $sheet->setAutoFilter('A2:G2');
-
-    $linha = 3;
-
-    foreach ($dados['dados'] as $financeiro) {
-
-        $sheet->setCellValue('A' . $linha, $financeiro['id']);
-        $sheet->setCellValue('B' . $linha, $financeiro['origem']);
-        $sheet->setCellValue('C' . $linha, $financeiro['categoria']);
-        $sheet->setCellValue('D' . $linha, $financeiro['descricao']);
-        $sheet->setCellValue('E' . $linha, $financeiro['tipo']);
-
-        $sheet->setCellValue(
-            'F' . $linha,
-            'R$ ' . number_format($financeiro['valor'], 2, ',', '.')
+        // Cria a planilha
+        [$planilha, $sheet] = $this->criarPlanilha(
+            'Relatório de Veículos - Sistema IDEAL • Soluções Elétricas',
+            'F'
         );
 
-        $sheet->setCellValue(
-            'G' . $linha,
-            !empty($financeiro['data'])
+        // Cabeçalho
+        $sheet->setCellValue('A2', 'ID');
+        $sheet->setCellValue('B2', 'Placa');
+        $sheet->setCellValue('C2', 'Renavam');
+        $sheet->setCellValue('D2', 'Modelo');
+        $sheet->setCellValue('E2', 'Marca');
+        $sheet->setCellValue('F2', 'Status');
+
+        // Formatação padrão do cabeçalho
+        $this->formatarCabecalho($sheet, 'F');
+
+        // Tamanho das colunas
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setAutoSize(true);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+
+        // Congela o cabeçalho
+        $sheet->freezePane('A3');
+
+        // Aplica filtro
+        $sheet->setAutoFilter('A2:F2');
+
+        $linha = 3;
+
+        foreach ($dados['dados'] as $veiculo) {
+
+            $sheet->setCellValue('A' . $linha, $veiculo['idVeiculo']);
+            $sheet->setCellValue('B' . $linha, $veiculo['placa']);
+            $sheet->setCellValue('C' . $linha, $veiculo['renavam']);
+            $sheet->setCellValue('D' . $linha, $veiculo['modelo']);
+            $sheet->setCellValue('E' . $linha, $veiculo['marca']);
+            $sheet->setCellValue('F' . $linha, $veiculo['statusVeiculo']);
+
+            $linha++;
+        }
+
+        // Alinhamentos
+        $sheet->getStyle('A3:A' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('B3:B' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('C3:C' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('D3:D' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('E3:E' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('F3:F' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Bordas
+        $sheet->getStyle('A1:F' . ($linha - 1))
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(Border::BORDER_THIN);
+
+        // Finalização (por enquanto continua igual)
+        if (empty($dados['dados'])) {
+            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            exit;
+        }
+
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
+
+        $writer = new Xlsx($planilha);
+        $writer->save('php://output');
+        exit;
+    }
+    public function exportarExcelFinanceiros()
+    {
+        $relatorio = 'financeiro';
+        $dados = $this->buscarRelatorio($relatorio);
+
+        // Cria a planilha
+        [$planilha, $sheet] = $this->criarPlanilha(
+            'Relatório do Financeiro da Empresa - Sistema IDEAL • Soluções Elétricas',
+            'G'
+        );
+
+        // Cabeçalho
+        $sheet->setCellValue('A2', 'ID');
+        $sheet->setCellValue('B2', 'Origem');
+        $sheet->setCellValue('C2', 'Categoria');
+        $sheet->setCellValue('D2', 'Descrição');
+        $sheet->setCellValue('E2', 'Tipo');
+        $sheet->setCellValue('F2', 'Valor');
+        $sheet->setCellValue('G2', 'Data');
+
+        // Formatação padrão do cabeçalho
+        $this->formatarCabecalho($sheet, 'G');
+
+        // Tamanho das colunas
+        $sheet->getColumnDimension('B')->setAutoSize(true);
+        $sheet->getColumnDimension('C')->setAutoSize(true);
+        $sheet->getColumnDimension('D')->setWidth(45);
+        $sheet->getColumnDimension('E')->setAutoSize(true);
+        $sheet->getColumnDimension('F')->setAutoSize(true);
+        $sheet->getColumnDimension('G')->setAutoSize(true);
+
+        // Congela o cabeçalho
+        $sheet->freezePane('A3');
+
+        // Aplica filtro
+        $sheet->setAutoFilter('A2:G2');
+
+        $linha = 3;
+
+        foreach ($dados['dados'] as $financeiro) {
+
+            $sheet->setCellValue('A' . $linha, $financeiro['id']);
+            $sheet->setCellValue('B' . $linha, $financeiro['origem']);
+            $sheet->setCellValue('C' . $linha, $financeiro['categoria']);
+            $sheet->setCellValue('D' . $linha, $financeiro['descricao']);
+            $sheet->setCellValue('E' . $linha, $financeiro['tipo']);
+
+            $sheet->setCellValue(
+                'F' . $linha,
+                'R$ ' . number_format($financeiro['valor'], 2, ',', '.')
+            );
+
+            $sheet->setCellValue(
+                'G' . $linha,
+                !empty($financeiro['data'])
                 ? date('d/m/Y', strtotime($financeiro['data']))
                 : ''
-        );
+            );
 
-        $linha++;
-    }
+            $linha++;
+        }
 
-    // Formatar valor como moeda
-    $sheet->getStyle('F3:F' . ($linha - 1))
-        ->getNumberFormat()
-        ->setFormatCode('"R$" #,##0.00');
+        // Formatar valor como moeda
+        $sheet->getStyle('F3:F' . ($linha - 1))
+            ->getNumberFormat()
+            ->setFormatCode('"R$" #,##0.00');
 
-    // Alinhamentos
-    $sheet->getStyle('A3:A' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        // Alinhamentos
+        $sheet->getStyle('A3:A' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('B3:B' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('B3:B' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('C3:C' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('C3:C' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('D3:D' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('D3:D' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('E3:E' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('E3:E' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('F3:F' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('F3:F' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    $sheet->getStyle('G3:G' . ($linha - 1))
-        ->getAlignment()
-        ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('G3:G' . ($linha - 1))
+            ->getAlignment()
+            ->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-    // Bordas
-    $sheet->getStyle('A1:G' . ($linha - 1))
-        ->getBorders()
-        ->getAllBorders()
-        ->setBorderStyle(Border::BORDER_THIN);
+        // Bordas
+        $sheet->getStyle('A1:G' . ($linha - 1))
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(Border::BORDER_THIN);
 
-    // Finalização (por enquanto continua igual)
-    if (empty($dados['dados'])) {
-        header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+        // Finalização (por enquanto continua igual)
+        if (empty($dados['dados'])) {
+            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            exit;
+        }
+
+        if (ob_get_length()) {
+            ob_end_clean();
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
+
+        $writer = new Xlsx($planilha);
+        $writer->save('php://output');
         exit;
     }
 
-    if (ob_get_length()) {
-        ob_end_clean();
-    }
-
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="relatorio_' . $relatorio . '_' . date('d_m_Y') . '.xlsx"');
-
-    $writer = new Xlsx($planilha);
-    $writer->save('php://output');
-    exit;
+    public function loading()
+{
+    require_once __DIR__ . '/../Views/relatorios/loading.php';
 }
 
     //Exporta o relatório em PDF
@@ -791,5 +796,7 @@ class RelatoriosController
             'relatorio-' . $relatorio['tipo'] . '.pdf'
         );
     }
+
+
 }
 

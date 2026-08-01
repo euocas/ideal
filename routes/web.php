@@ -87,7 +87,6 @@ return [
     'financeiro-obra/historico' => [FinanceiroObraController::class, 'historico'],
 
     'relatorios' => [RelatoriosController::class, 'index'],
-
     'relatorios/exportar-pdf' => [RelatoriosController::class, 'exportarPdf'],
     'relatorios/exportar-excel' => [RelatoriosController::class, 'exportarExcel'],
 
