@@ -439,16 +439,6 @@ require_once __DIR__ . '/../includes/header.php';
                                         GERAR PDF
                                     </button>
 
-
-
-                                    <!-- Overlay de carregamento -->
-                                    <div id="loading" class="loading">
-                                        <div class="spinner"></div>
-
-                                        <p>Processando… Aguarde alguns instantes.</p>
-
-                                    </div>
-
                                 </div>
 
                             </div>
