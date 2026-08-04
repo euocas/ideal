@@ -23,12 +23,8 @@
     <link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
     <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css?v=<?= time() ?>">
 
-  
-    <script>
-        window.addEventListener("unload", function () {
-            // força o navegador a invalidar BFCache
-        });
 
+    <script>
         window.addEventListener("pageshow", function (event) {
             if (event.persisted || performance.navigation.type === 2) {
                 window.location.reload();
@@ -38,3 +34,9 @@
 </head>
 
 <body>
+
+    <button class="menu-toggle" id="menuToggle">
+
+        <i class="fa-solid fa-bars"></i>
+
+    </button>

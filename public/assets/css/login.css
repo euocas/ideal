@@ -19,10 +19,10 @@ body {
 ========================================== */
 
 .container {
-  display: flex;
-  height: 100vh;
+    display: flex;
+    min-height: 100vh;   /* Compatibilidade */
+    min-height: 100dvh;  /* Navegadores modernos */
 }
-
 /* ==========================================
    LADO ESQUERDO
 ========================================== */
@@ -253,4 +253,61 @@ a.forgot-password:visited {
 
 a.forgot-password:hover {
   color: var(--orange);
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+========================================== */
+
+@media (max-width: 1024px) {
+    .left{
+        width:60%;
+        padding:50px;
+    }
+    .right{
+        width:40%;
+    }
+    .conteudo h1{
+        font-size:60px;
+        line-height:60px;
+    }
+    .conteudo p{
+        width:100%;
+    }
+}
+
+@media (max-width:768px){
+    .container{
+        flex-direction: column;
+    }
+    .left{
+        width:100%;
+        min-height:45vh;
+        padding:30px;
+    }
+    .right{
+        width:100%;
+        min-height:auto;
+        padding:30px 20px;
+    }
+}
+@media (max-width:480px){
+    .login-box{
+        width:92%;
+    }
+
+    .login-box h2{
+        font-size:28px;
+    }
+    .login-box .logo img{
+        width:180px;
+    }
+
+    .login-box input{
+        height:46px;
+    }
+
+    .login-box button{
+        height:46px;
+    }
 }
