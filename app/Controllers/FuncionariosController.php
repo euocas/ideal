@@ -44,10 +44,10 @@ class FuncionariosController
 
         if ($funcionario) {
             // Como agora é um objeto, pegamos o ID usando o Getter
-            header("Location: /ideal/public/index.php?url=funcionarios/edit&id=" . $funcionario->getIdFuncionario());
+            header("Location: " . BASE_URL . "/index.php?url=funcionarios/edit&id=" . $funcionario->getIdFuncionario());
             exit;
         } else {
-            header("Location: /ideal/public/index.php?url=funcionarios/create&cpf=" . $cpfLimpo . "&novo=1");
+            header("Location: " . BASE_URL . "/index.php?url=funcionarios/create&cpf=" . $cpfLimpo . "&novo=1");
             exit;
         }
     }
@@ -98,7 +98,7 @@ class FuncionariosController
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=funcionarios");
+            header("Location: " . BASE_URL . "/index.php?url=funcionarios");
             exit;
         }
 
@@ -106,7 +106,7 @@ class FuncionariosController
         $funcionario = $funcionarioModel->findById($id);
 
         if (!$funcionario) {
-            header("Location: /ideal/public/index.php?url=funcionarios");
+            header("Location: " . BASE_URL . "/index.php?url=funcionarios");
             exit;
         }
 
@@ -176,7 +176,7 @@ class FuncionariosController
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
 
-            header("Location: /ideal/public/index.php?url=funcionarios");
+            header("Location: " . BASE_URL . "/index.php?url=funcionarios");
             exit;
         }
     }
@@ -205,7 +205,7 @@ class FuncionariosController
                 }
             }
 
-            header("Location: /ideal/public/index.php?url=funcionarios");
+            header("Location: " . BASE_URL . "/index.php?url=funcionarios");
             exit;
         }
     }
@@ -225,7 +225,7 @@ class FuncionariosController
     //         }
     //     }
 
-    //     header("Location: /ideal/public/index.php?url=funcionarios");
+    //     header("Location: " . BASE_URL . "/index.php?url=funcionarios");
     //     exit;
     // }
 
@@ -241,7 +241,7 @@ class FuncionariosController
         $_SESSION['mensagem_erro'] =
             'Não é possível excluir este funcionário, pois existem lançamentos financeiros vinculados a ele.';
 
-        header('Location: /ideal/public/index.php?url=funcionarios/edit&id=' . $id);
+        header('Location: ' . BASE_URL . '/index.php?url=funcionarios/edit&id=' . $id);
         exit;
     }
 
@@ -251,7 +251,7 @@ class FuncionariosController
         $_SESSION['mensagem_erro'] = 'Não foi possível excluir o funcionário.';
     }
 
-    header('Location: /ideal/public/index.php?url=funcionarios');
+    header('Location: ' . BASE_URL . '/index.php?url=funcionarios');
     exit;
 }
 }

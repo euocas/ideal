@@ -7,9 +7,10 @@
 use App\Config\SistemaConstantes;
 
 $isEditObra = isset($financeiroObra) && is_object($financeiroObra);
+
 $actionObra = $isEditObra
-    ? "/ideal/public/index.php?url=financeiro-obra/update&id={$financeiroObra->getIdFinanceiroObra()}"
-    : "/ideal/public/index.php?url=financeiro-obra/store";
+    ? BASE_URL . "/index.php?url=financeiro-obra/update&id={$financeiroObra->getIdFinanceiroObra()}"
+    : BASE_URL . "/index.php?url=financeiro-obra/store";
 ?>
 
 <div class="obra-topo">
@@ -43,7 +44,7 @@ $actionObra = $isEditObra
                     <?php unset($_SESSION["mensagem_erro"]); ?>
                 <?php endif; ?>
 
-                <form class="form-busca" action="/ideal/public/index.php?url=financeiro-obra/buscar&aba=obra"
+                <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=financeiro-obra/buscar&aba=obra"
                     method="POST">
 
                     <div class="input-group">
@@ -392,10 +393,10 @@ $actionObra = $isEditObra
                 </h3>
                 <?php $exibindoHistorico = ($_GET["acao"] ?? "") === "historico"; ?>
                 <?php if ($exibindoHistorico): ?>
-                    <a href="/ideal/public/index.php?url=financeiro-obra/historico&aba=obra&idObra=<?= $obra->getIdObra() ?>&acao=ultimos"
+                    <a href="<?= BASE_URL ?>/index.php?url=financeiro-obra/historico&aba=obra&idObra=<?= $obra->getIdObra() ?>&acao=ultimos"
                         class="btn-historico"> Ver Últimos </a>
                 <?php else: ?>
-                    <a href="/ideal/public/index.php?url=financeiro-obra/historico&aba=obra&idObra=<?= $obra->getIdObra() ?>&acao=historico"
+                    <a href="<?= BASE_URL ?>/index.php?url=financeiro-obra/historico&aba=obra&idObra=<?= $obra->getIdObra() ?>&acao=historico"
                         class="btn-historico"> Ver Todos</a>
                 <?php endif; ?>
             </div>
@@ -434,7 +435,7 @@ $actionObra = $isEditObra
                                         R$ <?= number_format($lancamento->getValor(), 2, ",", ".", ) ?>
                                     </td>
                                     <td class="acoes-historico">
-                                        <a href="/ideal/public/index.php?url=financeiro-obra/visualizar&aba=obra&id=<?= $lancamento->getIdFinanceiroObra() ?>"
+                                        <a href="<?= BASE_URL ?>/index.php?url=financeiro-obra/visualizar&aba=obra&id=<?= $lancamento->getIdFinanceiroObra() ?>"
                                             class="btn-icon" title="Editar lançamento">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
@@ -502,7 +503,7 @@ $actionObra = $isEditObra
 
         <input type="hidden" name="idFinanceiroObra" value="<?= $financeiroObra->getIdFinanceiroObra() ?>">
 
-        <button type="submit" form="form-obra" formaction="/ideal/public/index.php?url=financeiro-obra/delete"
+        <button type="submit" form="form-obra" formaction="<?= BASE_URL ?>/index.php?url=financeiro-obra/delete"
             formmethod="POST" class="btn excluir"
             onclick="return confirm('Tem certeza que deseja excluir este registro?');">
 

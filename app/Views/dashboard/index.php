@@ -1,7 +1,7 @@
 <?php
 // TÍTULO DA PÁGINA
 $titulo = 'Home';
-$favicon = '/ideal/public/assets/icon/home.png';
+$favicon = BASE_URL . '/assets/icon/home.png';
 /*-----------------------------------------------
         ARRAY DE BANNER
  * ----------------------------------------------*/

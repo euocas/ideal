@@ -41,7 +41,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $termo = trim($_POST['buscaObra'] ?? '');
             if ($termo === '') {
                 $_SESSION['mensagem_erro'] = 'Digite o código ou contrato da obra.';
-                header('Location: /ideal/public/index.php?url=financeiros&aba=obra');
+                header('Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra');
                 exit;
             }
             if (ctype_digit($termo)) {
@@ -99,7 +99,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $_SESSION['mensagem_erro'] = 'Lançamento inválido.';
 
             header(
-                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                'Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra'
             );
 
             exit;
@@ -116,9 +116,8 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $_SESSION['mensagem_erro'] = 'Lançamento não localizado.';
 
             header(
-                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                'Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra'
             );
-
             exit;
         }
 
@@ -163,7 +162,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         if (!$idObra) {
             $_SESSION["mensagem_erro"] = "Obra inválida.";
-            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=obra");
             exit;
         }
 
@@ -173,7 +172,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
         if (!$obra) {
             $_SESSION["mensagem_erro"] = "Obra não localizada.";
-            header("Location: /ideal/public/index.php?url=financeiros&aba=obra");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=obra");
             exit;
         }
 
@@ -228,7 +227,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
             if (!$idObra) {
                 $_SESSION['mensagem_erro'] = 'Nenhuma obra foi selecionada.';
 
-                header('Location: /ideal/public/index.php?url=financeiros&aba=obra');
+                header('Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra');
                 exit;
             }
 
@@ -247,9 +246,11 @@ class FinanceiroObraController // ✅ NOME CORRETO
 
             header(
 
-                'Location: /ideal/public/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
+                'Location: ' . BASE_URL . '/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
 
             );
+
+            exit;
 
             exit;
         }
@@ -266,7 +267,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
                 $_SESSION['mensagem_erro'] = 'Lançamento financeiro inválido.';
 
                 header(
-                    'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                    'Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra'
                 );
                 exit;
             }
@@ -281,7 +282,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
                 $_SESSION['mensagem_erro'] = 'Lançamento financeiro não localizado.';
 
                 header(
-                    'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                    'Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra'
                 );
                 exit;
             }
@@ -302,7 +303,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
             }
 
             header(
-                'Location: /ideal/public/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
+                'Location: ' . BASE_URL . '/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
             );
 
             exit;
@@ -319,7 +320,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $_SESSION['mensagem_erro'] = 'Lançamento financeiro inválido.';
 
             header(
-                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                'Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra'
             );
             exit;
         }
@@ -334,7 +335,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
             $_SESSION['mensagem_erro'] = 'Lançamento financeiro não localizado.';
 
             header(
-                'Location: /ideal/public/index.php?url=financeiros&aba=obra'
+                'Location: ' . BASE_URL . '/index.php?url=financeiros&aba=obra'
             );
             exit;
         }
@@ -352,7 +353,7 @@ class FinanceiroObraController // ✅ NOME CORRETO
         }
 
         header(
-            'Location: /ideal/public/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
+            'Location: ' . BASE_URL . '/index.php?url=financeiro-obra/buscar&aba=obra&idObra=' . $idObra
         );
 
         exit;

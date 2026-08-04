@@ -93,7 +93,7 @@ $fnBanco = $funcModelExiste
         </div>
     </div>
 
-    <form id="form-busca-func" action="/ideal/public/index.php?url=financeiro-funcionario/buscar&tipo=<?= $tipo ?>"
+    <form id="form-busca-func" action="<?= BASE_URL ?>/index.php?url=financeiro-funcionario/buscar&tipo=<?= $tipo ?>"
         method="POST">
         <div class="financeiro-topo">
             <div class="grid-busca">
@@ -247,7 +247,7 @@ $fnBanco = $funcModelExiste
                 <div class="entrada-formulario">
 
                     <form id="form-entrada"
-                        action="/ideal/public/index.php?url=financeiro-funcionario/<?= $isEditFuncionario ? 'update' : 'store' ?>"
+                        action="<?= BASE_URL ?>/index.php?url=financeiro-funcionario/<?= $isEditFuncionario ? 'update' : 'store' ?>"
                         method="POST">
                         <input type="hidden" name="tipo" value="entrada">
                         <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste
@@ -383,7 +383,7 @@ $fnBanco = $funcModelExiste
             <div class="saida-container">
                 <div class="saida-formulario">
                     <form id="form-saida"
-                        action="/ideal/public/index.php?url=financeiro-funcionario/<?= $isEditFuncionario ? 'update' : 'store' ?>"
+                        action="<?= BASE_URL ?>/index.php?url=financeiro-funcionario/<?= $isEditFuncionario ? 'update' : 'store' ?>"
                         method="POST">
                         <input type="hidden" name="tipo" value="saida">
                         <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste
@@ -613,14 +613,14 @@ $fnBanco = $funcModelExiste
                                         <div class="acoes">
 
                                             <!-- Editar -->
-                                            <a href="/ideal/public/index.php?url=financeiro-funcionario/visualizar&id=<?= $l->getIdFinanceiroFuncionario() ?>&editar=1"
+                                            <a href="<?= BASE_URL ?>/index.php?url=financeiro-funcionario/visualizar&id=<?= $l->getIdFinanceiroFuncionario() ?>&editar=1"
                                                 class="btn-acao editar" title="Editar">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
                                             <!-- Excluir -->
                                             <form
-                                                action="/ideal/public/index.php?url=financeiro-funcionario/delete&id=<?= $l->getIdFinanceiroFuncionario() ?>"
+                                                action="<?= BASE_URL ?>/index.php?url=financeiro-funcionario/delete&id=<?= $l->getIdFinanceiroFuncionario() ?>"
                                                 method="POST">
 
                                                 <input type="hidden" name="cpf_hidden" value="<?= htmlspecialchars($cpfBusca) ?>">

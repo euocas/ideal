@@ -45,7 +45,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
             // Busca pela placa ou ID
             if ($placaBusca === '') {
                 $_SESSION['mensagem_erro'] = 'Digite a placa do veículo.';
-                header('Location: /ideal/public/index.php?url=financeiros&aba=automovel');
+                header('Location: ' . BASE_URL . '/index.php?url=financeiros&aba=automovel');
                 exit;
             }
 
@@ -123,7 +123,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=automovel");
             exit;
         }
 
@@ -132,7 +132,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
 
 
         if (!$financeiroAutomovel) {
-            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=automovel");
             exit;
         }
 
@@ -214,7 +214,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
             $mes = $_POST['mes_hidden'] ?? date('n');
             $ano = $_POST['ano_hidden'] ?? date('Y');
 
-            header("Location: /ideal/public/index.php?url=financeiro-automovel/buscar" . "&tipo=periodo" . "&placa={$placa}" . "&mes={$mes}" . "&ano={$ano}");
+            header("Location: " . BASE_URL . "/index.php?url=financeiro-automovel/buscar" . "&tipo=periodo" . "&placa={$placa}" . "&mes={$mes}" . "&ano={$ano}");
             exit;
         }
     }
@@ -242,13 +242,13 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
                     $mes = $_POST['mes_hidden'] ?? date('n');
                     $ano = $_POST['ano_hidden'] ?? date('Y');
 
-                    header("Location: /ideal/public/index.php?url=financeiro-automovel/buscar" . "&tipo=periodo" . "&placa={$placa}" . "&mes={$mes}" . "&ano={$ano}");
+                    header("Location: " . BASE_URL . "/index.php?url=financeiro-automovel/buscar" . "&tipo=periodo" . "&placa={$placa}" . "&mes={$mes}" . "&ano={$ano}");
                     exit;
                 }
             }
 
             $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
-            header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=automovel");
             exit;
         }
     }
@@ -273,7 +273,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
             }
 
             header(
-                "Location: /ideal/public/index.php?url=financeiro-automovel/buscar"
+                "Location: " . BASE_URL . "/index.php?url=financeiro-automovel/buscar"
                 . "&tipo=periodo"
                 . "&placa={$placa}"
                 . "&mes={$mes}"
@@ -283,7 +283,7 @@ class FinanceiroAutomovelController // ✅ NOME CORRETO
         }
 
         $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
-        header("Location: /ideal/public/index.php?url=financeiros&aba=automovel");
+        header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=automovel");
         exit;
     }
 }

@@ -23,8 +23,8 @@ $mensagensErro = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redefinir Senha</title>
-    <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/redefinirSenha.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/redefinirSenha.css">
 </head>
 
 <body>
@@ -46,12 +46,12 @@ $mensagensErro = [
                 <div class="mensagem-sucesso">
                     <h2>SENHA <span>ALTERADA!</span></h2>
                     <p class="descricao">Sua senha foi redefinida com sucesso.</p>
-                    <a href="/ideal/public/index.php?url=login" class="btn-voltar-login">VOLTAR PARA LOGIN</a>
+                    <a href="<?= BASE_URL ?>/index.php?url=login" class="btn-voltar-login">VOLTAR PARA LOGIN</a>
                 </div>
 
             <?php elseif ($etapa === 'email'): ?>
 
-                <form action="/ideal/public/index.php?url=esqueci-senha/enviar" method="POST">
+                <form action="<?= BASE_URL ?>/index.php?url=esqueci-senha/enviar" method="POST">
                     <h2>ESQUECI <span>MINHA SENHA</span></h2>
                     <p class="descricao">
                         Informe seu e-mail cadastrado. Vamos enviar um código
@@ -69,12 +69,12 @@ $mensagensErro = [
                     <?php unset($_SESSION['email_digitado']); ?>
 
                     <button type="submit" class="btn-principal">ENVIAR CÓDIGO</button>
-                    <a href="/ideal/public/index.php?url=login">← Voltar ao login</a>
+                    <a href="<?= BASE_URL ?>/index.php?url=login">← Voltar ao login</a>
                 </form>
 
             <?php elseif ($etapa === 'codigo'): ?>
 
-                <form action="/ideal/public/index.php?url=esqueci-senha/validar" method="POST">
+                <form action="<?= BASE_URL ?>/index.php?url=esqueci-senha/validar" method="POST">
                     <h2>VERIFIQUE <span>SEU E-MAIL</span></h2>
                     <p class="descricao">
                         Enviamos um código de 6 dígitos para
@@ -104,12 +104,12 @@ $mensagensErro = [
 
                         <div class="acoes-codigo">
 
-                            <button type="submit" formaction="/ideal/public/index.php?url=esqueci-senha/reenviar"
+                            <button type="submit" formaction="<?= BASE_URL ?>/index.php?url=esqueci-senha/reenviar"
                                 formmethod="POST" class="btn-secundario">
                                 Reenviar código
                             </button>
 
-                            <a href="/ideal/public/index.php?url=esqueci-senha" class="link-email">
+                            <a href="<?= BASE_URL ?>/index.php?url=esqueci-senha" class="link-email">
                                 ❯ Usar outro e-mail
                             </a>
 
@@ -120,7 +120,7 @@ $mensagensErro = [
 
                 <?php elseif ($etapa === 'nova-senha'): ?>
 
-                    <form action="/ideal/public/index.php?url=redefinir-senha" method="POST">
+                    <form action="<?= BASE_URL ?>/index.php?url=redefinir-senha" method="POST">
                         <h2>REDEFINIR <span>SENHA</span></h2>
                         <p class="descricao">Código verificado! Agora defina sua nova senha.</p>
 
@@ -135,7 +135,7 @@ $mensagensErro = [
                         <input type="password" name="confirmar_senha" minlength="6" required>
 
                         <button type="submit" class="btn-principal">SALVAR NOVA SENHA</button>
-                        <a href="/ideal/public/index.php?url=login">← Voltar ao login</a>
+                        <a href="<?= BASE_URL ?>/index.php?url=login">← Voltar ao login</a>
                     </form>
 
                 <?php endif; ?>
@@ -152,7 +152,7 @@ $mensagensErro = [
 
 <?php endif; ?>
 
-    <script src="/ideal/public/assets/js/recuperacaoSenha.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/recuperacaoSenha.js"></script>
 </body>
 
 </html>

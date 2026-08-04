@@ -9,7 +9,10 @@ $cpfBusca = $cpfBusca ?? '';
 // Lógica para definir se estamos no modo de Edição (agora validando se é Objeto)
 $isEdit = isset($funcionario) && is_object($funcionario);
 
-$actionUrl = $isEdit ? "/ideal/public/index.php?url=funcionarios/update&id={$funcionario->getIdFuncionario()}" : "/ideal/public/index.php?url=funcionarios/store";
+$actionUrl = $isEdit
+
+    ? BASE_URL . "/index.php?url=funcionarios/update&id={$funcionario->getIdFuncionario()}"
+    : BASE_URL . "/index.php?url=funcionarios/store";
 
 $cpfValue = $isEdit ? $funcionario->getCpf() : ($cpfBusca ?? '');
 
@@ -18,7 +21,7 @@ $whatsappValue = $isEdit ? $funcionario->getWhatsapp() : '';
 
 // TÍTULO DA PÁGINA
 $titulo = 'Funcionários';
-$favicon = '/ideal/public/assets/icon/funcionario2.png';
+$favicon = BASE_URL . "/assets/icon/funcionario2.png";
 
 // Estado da tela
 $isNovo = isset($_GET['novo']);
@@ -32,16 +35,16 @@ use App\Config\FuncionarioConstantes;
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
 
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
 
-<link rel="stylesheet" href="/ideal/public/assets/css/funcionarios.css?v=<?= time() ?>">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/funcionarios.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -67,7 +70,7 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
                         <?php endif; ?>
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=funcionarios" method="POST">
+                        <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=funcionarios" method="POST">
 
                             <div class="input-group">
                                 <label>CPF</label>
@@ -435,13 +438,13 @@ require_once __DIR__ . '/../includes/header.php';
             <div class="acoes">
 
                 <button type="submit" form="form-dados" class="btn novo"
-                    formaction="/ideal/public/index.php?url=funcionarios/store" <?= $isNovo ? '' : 'disabled' ?>>
+                    formaction="<?= BASE_URL ?>/index.php?url=funcionarios/store" <?= $isNovo ? '' : 'disabled' ?>>
                     <i class="bi bi-plus-lg"></i>
                     Cadastrar
                 </button>
 
                 <button type="submit" form="form-dados" class="btn alterar"
-                    formaction="/ideal/public/index.php?url=funcionarios/update&id=<?= $isEdit ? $funcionario->getIdFuncionario() : '' ?>"
+                    formaction="<?= BASE_URL ?>/index.php?url=funcionarios/update&id=<?= $isEdit ? $funcionario->getIdFuncionario() : '' ?>"
                     <?= $isEdit ? '' : 'disabled' ?>>
 
                     <i class="bi bi-pencil-square"></i>
@@ -449,7 +452,7 @@ require_once __DIR__ . '/../includes/header.php';
                 </button>
 
                 <button type="submit" form="form-dados" class="btn excluir"
-                    formaction="/ideal/public/index.php?url=funcionarios/delete&id=<?= $isEdit ? $funcionario->getIdFuncionario() : '' ?>"
+                    formaction="<?= BASE_URL ?>/index.php?url=funcionarios/delete&id=<?= $isEdit ? $funcionario->getIdFuncionario() : '' ?>"
                     onclick="return confirm('Tem certeza que deseja excluir este funcionário?');" <?= $isEdit ? '' : 'disabled' ?>>
 
                     <i class="bi bi-trash"></i>
@@ -466,7 +469,7 @@ require_once __DIR__ . '/../includes/header.php';
 
         </main>
     </div>
-    <script src="/ideal/public/assets/js/mascaras.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>/assets/js/mascaras.js?v=<?= time() ?>"></script>
 </body>
 
 </html>

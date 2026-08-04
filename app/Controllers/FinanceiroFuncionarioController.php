@@ -42,7 +42,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
             // Busca pelo CPF
             if ($cpfBusca === '') {
                 $_SESSION['mensagem_erro'] = 'Digite o CPF do funcionário.';
-                header('Location: /ideal/public/index.php?url=financeiros&aba=funcionario');
+                header('Location: ' . BASE_URL . '/index.php?url=financeiros&aba=funcionario');
                 exit;
             }
             $funcionario = $funcionarioModel->findByCpf($cpfBusca);
@@ -97,7 +97,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
             exit;
         }
         $model = new FinanceiroFuncionario();
@@ -105,7 +105,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
 
 
         if (!$financeiroFuncionario) {
-            header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
             exit;
         }
 
@@ -198,7 +198,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
             $ano = $_POST['ano_hidden'] ?? date('Y');
 
             header(
-                "Location: /ideal/public/index.php?url=financeiro-funcionario/buscar"
+                "Location: " . BASE_URL . "/index.php?url=financeiro-funcionario/buscar"
                 . "&tipo=periodo"
                 . "&cpf={$cpf}"
                 . "&mes={$mes}"
@@ -232,7 +232,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
                     $ano = $_POST['ano_hidden'] ?? date('Y');
 
                     header(
-                        "Location: /ideal/public/index.php?url=financeiro-funcionario/buscar"
+                        "Location: " . BASE_URL . "/index.php?url=financeiro-funcionario/buscar"
                         . "&tipo=periodo"
                         . "&cpf={$cpf}"
                         . "&mes={$mes}"
@@ -243,7 +243,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
             }
 
             $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
-            header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
             exit;
         }
     }
@@ -270,7 +270,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
             }
 
             header(
-                "Location: /ideal/public/index.php?url=financeiro-funcionario/buscar"
+                "Location: " . BASE_URL . "/index.php?url=financeiro-funcionario/buscar"
                 . "&tipo=periodo"
                 . "&cpf={$cpf}"
                 . "&mes={$mes}"
@@ -280,7 +280,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         }
 
         $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
-        header("Location: /ideal/public/index.php?url=financeiros&aba=funcionario");
+        header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
         exit;
     }
 }

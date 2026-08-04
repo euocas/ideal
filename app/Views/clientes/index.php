@@ -3,7 +3,7 @@
 use App\Config\SistemaConstantes;
 // TÍTULO DA PÁGINA
 $titulo = 'Clientes';
-$favicon = '/ideal/public/assets/icon/cliente.png';
+$favicon = BASE_URL . '/assets/icon/cliente.png';
 require_once __DIR__ . '/../includes/header.php';
 
 // Estado da tela
@@ -11,15 +11,15 @@ $modoNovo = isset($_GET['novo']);
 $modoEdicao = isset($cliente);
 ?>
 
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
-<link rel="shortcut icon" href="/ideal/public/assets/icons/clientes2.png" type="image/x-icon">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+<link rel="shortcut icon" href="<?= BASE_URL ?>/assets/icons/clientes2.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/cliente.css?v=<?= time() ?>">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/cliente.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -48,7 +48,7 @@ $modoEdicao = isset($cliente);
                             </div>
                         <?php endif; ?>
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=clientes" method="POST">
+                        <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=clientes" method="POST">
                             <div class="input-group">
                                 <label>Tipo</label>
                                 <select name="tipoDocumento" id="tipoDocumento" onchange="alterarMascaraDocumento()">
@@ -306,24 +306,24 @@ $modoEdicao = isset($cliente);
             <div class="acoes">
 
                 <button type="submit" form="form-dados" class="btn novo"
-                    formaction="/ideal/public/index.php?url=clientes/store" <?= $modoNovo ? '' : 'disabled' ?>>
+                    formaction="<?= BASE_URL ?>/index.php?url=clientes/store" <?= $modoNovo ? '' : 'disabled' ?>>
                     Cadastrar
                 </button>
 
                 <button type="submit" form="form-dados" class="btn alterar"
-                    formaction="/ideal/public/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                    formaction="<?= BASE_URL ?>/index.php?url=clientes/update&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
                     <?= $modoEdicao ? '' : 'disabled' ?>>
                     Alterar
                 </button>
 
                 <button type="submit" form="form-dados" class="btn excluir"
-                    formaction="/ideal/public/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
+                    formaction="<?= BASE_URL ?>/index.php?url=clientes/delete&id=<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>"
                     onclick="return confirm('Tem certeza que deseja excluir este cliente?');" <?= $modoEdicao ? '' : 'disabled' ?>>
                     Excluir
                 </button>
 
                 <button type="button" class="btn limpar"
-                    onclick="window.location.href='/ideal/public/index.php?url=clientes'">
+                    onclick="window.location.href='<?= BASE_URL ?>/index.php?url=clientes'">
                     Limpar
                 </button>
 
@@ -333,7 +333,7 @@ $modoEdicao = isset($cliente);
 
     </div>
 
-    <script src="/ideal/public/assets/js/mascaras.js?v=<?= time() ?>"></script>
+    <script src="<?= BASE_URL ?>/assets/js/mascaras.js?v=<?= time() ?>"></script>
 
     <script>
         function mascaraCEP(input) {

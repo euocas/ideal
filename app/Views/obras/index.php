@@ -4,7 +4,7 @@ use App\Config\FuncionarioConstantes;
 /** @var \App\Models\Obra|null $obra */
 $obra ??= null;
 
-$actionUrl ??= '/ideal/public/index.php?url=obras/store';
+$actionUrl ??= BASE_URL . "/index.php?url=obras/store";
 $titulo = 'Obras';
 $favicon = '/ideal/public/assets/icon/obra2.png';
 
@@ -23,15 +23,15 @@ $modoEdicao = isset($obra);
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
 
-<link rel="stylesheet" href="/ideal/public/assets/css/obras.css?v=<?= time() ?>">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/obras.css?v=<?= time() ?>">
 </head>
 
 <body>
@@ -71,7 +71,7 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
                         <?php endif; ?>
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=obras" method="POST">
+                        <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=obras" method="POST">
                             <div class="input-group">
                                 <label>Contrato</label>
                                 <input type="text" name="contratoBusca" placeholder="Digite o número do contrato">
@@ -472,20 +472,20 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="acoes">
 
                     <button type="submit" form="form-dados" class="btn novo"
-                        formaction="/ideal/public/index.php?url=obras/store" <?= $modoNovo ? '' : 'disabled' ?>>
+                        formaction="<?= BASE_URL ?>/index.php?url=obras/store" <?= $modoNovo ? '' : 'disabled' ?>>
                         <i class="bi bi-plus-lg"></i>
                         Cadastrar
                     </button>
 
                     <button type="submit" form="form-dados" class="btn alterar"
-                        formaction="/ideal/public/index.php?url=obras/update&id=<?= $modoEdicao ? $obra->getIdObra() : '' ?>"
+                        formaction="<?= BASE_URL ?>/index.php?url=obras/update&id=<?= $modoEdicao ? $obra->getIdObra() : '' ?>"
                         <?= $modoEdicao ? '' : 'disabled' ?>>
                         <i class="bi bi-pencil-square"></i>
                         Alterar
                     </button>
 
                     <button type="submit" form="form-dados" class="btn excluir"
-                        formaction="/ideal/public/index.php?url=obras/delete&id=<?= $modoEdicao ? $obra->getIdObra() : '' ?>"
+                        formaction="<?= BASE_URL ?>/index.php?url=obras/delete&id=<?= $modoEdicao ? $obra->getIdObra() : '' ?>"
                         onclick="return confirm('Tem certeza que deseja excluir esta obra?');" <?= $modoEdicao ? '' : 'disabled' ?>>
                         <i class="bi bi-trash"></i>
                         Excluir
@@ -501,7 +501,7 @@ require_once __DIR__ . '/../includes/header.php';
             </form>
         </main>
     </div>
-    <script src="/ideal/public/assets/js/mascara.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/mascara.js"></script>
     <script>
         // Lógica de Funcionários e Tabela
         let indiceFuncionario = <?= isset($indiceFuncionario) ? $indiceFuncionario : 0 ?>;

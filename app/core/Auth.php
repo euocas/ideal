@@ -22,7 +22,7 @@ class Auth
         // Validação da sessão
         if (!isset($_SESSION['usuario'])) {
 
-            header('Location: /ideal/public/index.php?url=login');
+            header('Location: ' . BASE_URL . '/index.php?url=login');
 
             exit;
 

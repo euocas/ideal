@@ -205,7 +205,7 @@ class RelatoriosController
             case 'financeiro':
                 return $this->exportarExcelFinanceiros();
             default:
-                header('Location: /ideal/public/index.php?url=relatorios&erro=relatorio_invalido');
+                header('Location: ' . BASE_URL . '/index.php?url=relatorios&erro=relatorio_invalido');
                 exit;
 
 
@@ -331,7 +331,7 @@ class RelatoriosController
 
         // Finalização (por enquanto continua igual)
         if (empty($dados['dados'])) {
-            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            header('Location: ' . BASE_URL . '/index.php?url=relatorios&erro=sem_dados');
             exit;
         }
 
@@ -431,7 +431,7 @@ class RelatoriosController
 
         // Finalização (por enquanto continua igual)
         if (empty($dados['dados'])) {
-            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            header('Location: ' . BASE_URL . '/index.php?url=relatorios&erro=sem_dados');
             exit;
         }
 
@@ -540,7 +540,7 @@ class RelatoriosController
 
         // Finalização (continua igual por enquanto)
         if (empty($dados['dados'])) {
-            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            header('Location: ' . BASE_URL . '/index.php?url=relatorios&erro=sem_dados');
             exit;
         }
 
@@ -637,7 +637,7 @@ class RelatoriosController
 
         // Finalização (por enquanto continua igual)
         if (empty($dados['dados'])) {
-            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            header('Location: ' . BASE_URL . '/index.php?url=relatorios&erro=sem_dados');
             exit;
         }
 
@@ -756,7 +756,7 @@ class RelatoriosController
 
         // Finalização (por enquanto continua igual)
         if (empty($dados['dados'])) {
-            header('Location: /ideal/public/index.php?url=relatorios&erro=sem_dados');
+            header('Location: ' . BASE_URL . '/index.php?url=relatorios&erro=sem_dados');
             exit;
         }
 

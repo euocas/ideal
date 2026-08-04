@@ -15,13 +15,13 @@
 
     <!-- CSS -->
 
-    <link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
-    <link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css?v=<?= time() ?>">
 
 
     <script>

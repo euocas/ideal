@@ -7,8 +7,11 @@ date_default_timezone_set('America/Sao_Paulo');
 
 require_once __DIR__ . '/../vendor/autoload.php';
 $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+
 $dotenv->safeLoad();
 $rotas = require_once __DIR__ . '/../Routes/web.php';
+
+define('BASE_URL', rtrim($_ENV['APP_URL'] ?? '', '/'));
 
 $url = $_GET['url'] ?? 'login';
 

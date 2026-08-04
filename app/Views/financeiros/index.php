@@ -4,7 +4,7 @@ ini_set("display_startup_errors", 1);
 error_reporting(E_ALL);
 
 $titulo = "Financeiro";
-$favicon = "/ideal/public/assets/icon/financeiro3.png";
+$favicon = BASE_URL . "/assets/icon/financeiro3.png";
 require_once __DIR__ . "/../includes/header.php";
 $aba = $aba ?? ($_GET["aba"] ?? "funcionario");
 $abas = ["funcionario", "obra", "automovel"];
@@ -12,14 +12,14 @@ if (!in_array($aba, $abas)) {
     $aba = "funcionario";
 }
 ?>
-<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/financeiro.css?v=<?= time() ?>">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/financeiro.css?v=<?= time() ?>">
 </head>
 
 <body>

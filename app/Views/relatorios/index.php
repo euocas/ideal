@@ -10,8 +10,8 @@ $favicon = '/ideal/public/assets/icon/relatorio.png';
 require_once __DIR__ . '/../includes/header.php';
 
 ?>
-<link rel="stylesheet" href="/ideal/public/assets/css/relatorios.css?v=<?= time() ?>">
-<link rel="stylesheet" href="/ideal/public/assets/css/loading.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/relatorios.css?v=<?= time() ?>">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loading.css">
 
 <div class="dashboard-container">
 
@@ -58,7 +58,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </h2>
 
                         <form id="formRelatorio" method="POST"
-                            action="/ideal/public/index.php?url=relatorios&relatorio=<?= $relatorio ?>">
+                            action="<?= BASE_URL ?>/index.php?url=relatorios&relatorio=<?= $relatorio ?>">
 
                             <!-- FORM DINÂMICO -->
                             <div class="filtros-grid">
@@ -428,13 +428,13 @@ require_once __DIR__ . '/../includes/header.php';
                                 <div class="acoes-exportar">
 
                                     <button type="submit" form="formRelatorio"
-                                        formaction="/ideal/public/index.php?url=relatorios/exportar-excel&relatorio=<?= $relatorio ?>"
+                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-excel&relatorio=<?= $relatorio ?>"
                                         class="btn-excel">
                                         EXPORTAR EXCEL
                                     </button>
 
                                     <button type="submit" form="formRelatorio"
-                                        formaction="/ideal/public/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
+                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
                                         formtarget="_blank" class="btn-pdf">
                                         GERAR PDF
                                     </button>
@@ -452,9 +452,9 @@ require_once __DIR__ . '/../includes/header.php';
                 <aside class="sidebar-relatorios">
 
                     <!-- CLIENTES -->
-                    <a href="/ideal/public/index.php?url=relatorios&relatorio=clientes" class="card-relatorio">
+                    <a href="<?= BASE_URL ?>/index.php?url=relatorios&relatorio=clientes" class="card-relatorio">
 
-                        <img src="/ideal/public/assets/icon/cliente.png" alt="Clientes">
+                        <img src="<?= BASE_URL ?>/assets/icon/cliente.png" alt="Clientes">
 
                         <div>
 
@@ -469,9 +469,9 @@ require_once __DIR__ . '/../includes/header.php';
                     </a>
 
                     <!-- FUNCIONÁRIOS -->
-                    <a href="/ideal/public/index.php?url=relatorios&relatorio=funcionarios" class="card-relatorio">
+                    <a href="<?= BASE_URL ?>/index.php?url=relatorios&relatorio=funcionarios" class="card-relatorio">
 
-                        <img src="/ideal/public/assets/icon/funcionario2.png" alt="Funcionários">
+                        <img src="<?= BASE_URL ?>/assets/icon/funcionario2.png" alt="Funcionários">
 
                         <div>
 
@@ -486,9 +486,9 @@ require_once __DIR__ . '/../includes/header.php';
                     </a>
 
                     <!-- OBRAS -->
-                    <a href="/ideal/public/index.php?url=relatorios&relatorio=obras" class="card-relatorio">
+                    <a href="<?= BASE_URL ?>/index.php?url=relatorios&relatorio=obras" class="card-relatorio">
 
-                        <img src="/ideal/public/assets/icon/obra2.png" alt="Obras">
+                        <img src="<?= BASE_URL ?>/assets/icon/obra2.png" alt="Obras">
 
                         <div>
 
@@ -503,9 +503,9 @@ require_once __DIR__ . '/../includes/header.php';
                     </a>
 
                     <!-- VEÍCULOS -->
-                    <a href="/ideal/public/index.php?url=relatorios&relatorio=veiculos" class="card-relatorio">
+                    <a href="<?= BASE_URL ?>/index.php?url=relatorios&relatorio=veiculos" class="card-relatorio">
 
-                        <img src="/ideal/public/assets/icon/veiculo.png" alt="Veículos">
+                        <img src="<?= BASE_URL ?>/assets/icon/veiculo.png" alt="Veículos">
 
                         <div>
 
@@ -520,9 +520,9 @@ require_once __DIR__ . '/../includes/header.php';
                     </a>
 
                     <!-- FINANCEIRO -->
-                    <a href="/ideal/public/index.php?url=relatorios&relatorio=financeiro" class="card-relatorio">
+                    <a href="<?= BASE_URL ?>/index.php?url=relatorios&relatorio=financeiro" class="card-relatorio">
 
-                        <img src="/ideal/public/assets/icon/financeiro3.png" alt="Financeiro">
+                        <img src="<?= BASE_URL ?>/assets/icon/financeiro3.png" alt="Financeiro">
 
                         <div>
 

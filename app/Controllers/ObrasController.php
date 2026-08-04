@@ -20,7 +20,7 @@ class ObrasController
         $obra = null;
         $cliente = null;
 
-        $actionUrl = "/ideal/public/index.php?url=obras/store";
+        $actionUrl = BASE_URL . "/index.php?url=obras/store";
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -32,7 +32,7 @@ class ObrasController
                 $obra = $obraModel->findByContrato($contrato);
 
                 if ($obra) {
-                    $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
+                    $actionUrl = BASE_URL . "/index.php?url=obras/update&id=" . $obra->getIdObra();
 
                     if ($obra->getIdCliente()) {
                         $clienteModel = new Cliente();
@@ -41,7 +41,7 @@ class ObrasController
 
                 } else {
 
-                    header("Location: /ideal/public/index.php?url=obras/create&contrato=" . urlencode($contrato) . "&novo=1");
+                    header("Location: " . BASE_URL . "/index.php?url=obras/create&contrato=" . urlencode($contrato) . "&novo=1");
                     exit;
 
                 }
@@ -68,7 +68,7 @@ class ObrasController
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
 
@@ -76,11 +76,11 @@ class ObrasController
         $obra = $obraModel->findById($id);
 
         if (!$obra) {
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
 
-        $actionUrl = "/ideal/public/index.php?url=obras/update&id=" . $obra->getIdObra();
+        $actionUrl = BASE_URL . "/index.php?url=obras/update&id=" . $obra->getIdObra();
 
         require_once __DIR__ . '/../Views/obras/index.php';
     }
@@ -139,7 +139,7 @@ class ObrasController
 
             if (!$cliente) {
                 $_SESSION['mensagem_erro'] = "Cliente não encontrado. Verifique o CPF/CNPJ informado.";
-                header("Location: /ideal/public/index.php?url=obras");
+                header("Location: " . BASE_URL . "/index.php?url=obras");
                 exit;
             }
 
@@ -155,7 +155,7 @@ class ObrasController
 
             if ((float) $valorContratado <= 0) {
                 $_SESSION['mensagem_erro'] = "Informe um valor contratado maior que zero.";
-                header("Location: /ideal/public/index.php?url=obras");
+                header("Location: " . BASE_URL . "/index.php?url=obras");
                 exit;
             }
 
@@ -170,7 +170,7 @@ class ObrasController
                 $_SESSION['mensagem_erro'] = "Erro ao cadastrar a obra.";
             }
 
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
     }
@@ -178,7 +178,7 @@ class ObrasController
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
 
@@ -190,14 +190,14 @@ class ObrasController
 
         if (!$id) {
             $_SESSION['mensagem_erro'] = "ID da obra não informado.";
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
 
         // ✅ Valida se o cliente foi selecionado
         if (empty($_POST['idCliente'])) {
             $_SESSION['mensagem_erro'] = "Selecione um cliente válido antes de atualizar a obra.";
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
 
@@ -206,7 +206,7 @@ class ObrasController
 
         if ((float) $valorContratado <= 0) {
             $_SESSION['mensagem_erro'] = "Informe um valor contratado maior que zero.";
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
 
@@ -230,7 +230,7 @@ class ObrasController
             error_log($e->getMessage());
         }
 
-        header("Location: /ideal/public/index.php?url=obras");
+        header("Location: " . BASE_URL . "/index.php?url=obras");
         exit;
     }
 
@@ -239,7 +239,7 @@ class ObrasController
         $id = (int) ($_GET['id'] ?? 0);
 
         if ($id <= 0) {
-            header("Location: /ideal/public/index.php?url=obras");
+            header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
 
@@ -254,7 +254,7 @@ class ObrasController
             $_SESSION['mensagem_erro'] =
                 "Não é possível excluir esta obra, pois existem lançamentos financeiros vinculados a ela.";
 
-            header("Location: /ideal/public/index.php?url=obras/edit&id=" . $id);
+            header("Location: " . BASE_URL . "/index.php?url=obras/edit&id=" . $id);
             exit;
         }
 
@@ -266,7 +266,7 @@ class ObrasController
             $_SESSION['mensagem_erro'] = "Erro ao excluir a obra.";
         }
 
-        header("Location: /ideal/public/index.php?url=obras");
+        header("Location: " . BASE_URL . "/index.php?url=obras");
         exit;
     }
 }

@@ -134,7 +134,7 @@
 
 
                 <!-- FORM -->
-                <form action="/ideal/public/index.php?url=logar" method="POST" id="loginForm">
+                <form action="<?= BASE_URL ?>/index.php?url=logar" method="POST" id="loginForm">
 
                     <!-- EMAIL -->
                     <label>E-MAIL</label>
@@ -158,10 +158,8 @@
 
                         </label>
 
-                        <a href="/ideal/public/index.php?url=esqueci-senha" class="forgot-password">
-
+                        <a href="<?= BASE_URL ?>/index.php?url=esqueci-senha" class="forgot-password">
                             Esqueceu a senha?
-
                         </a>
 
                     </div>

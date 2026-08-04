@@ -89,7 +89,7 @@ class CredenciaisController
         // NOVA VALIDAÇÃO
         if (empty($tipoAlteracao)) {
             $_SESSION['mensagem_erro'] = 'Informe pelo menos uma alteração para continuar.';
-            header('Location: /ideal/public/index.php?url=credenciais');
+            header('Location: ' . BASE_URL . '/index.php?url=credenciais');
             exit;
         }
 
@@ -101,7 +101,7 @@ class CredenciaisController
                 $_SESSION['mensagem_erro'] = "Não foi possível identificar o usuário logado.";
             }
 
-            header('Location: /ideal/public/index.php?url=credenciais');
+            header('Location: ' . BASE_URL . '/index.php?url=credenciais');
             exit;
         }
 
@@ -156,7 +156,7 @@ class CredenciaisController
             $_SESSION['mensagem_sucesso'] = "Dados atualizados com sucesso!";
         }
 
-        header('Location: /ideal/public/index.php?url=credenciais');
+        header('Location: ' . BASE_URL . '/index.php?url=credenciais');
         exit;
     }
 }

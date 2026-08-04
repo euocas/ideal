@@ -2,20 +2,21 @@
 
 // TÍTULO
 $titulo = 'Credenciais';
-$favicon = '/ideal/public/assets/icon/chave.png';
+$favicon = BASE_URL . '/assets/icon/chave.png';
 
 require_once __DIR__ . '/../includes/header.php';
 
 ?>
 
-<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/credenciais.css?v=<?= time() ?>">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/credenciais.css?v=<?= time() ?>">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -40,7 +41,7 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             <?php endif; ?>
 
-            <form action="/ideal/public/index.php?url=credenciais/alterar" method="POST" id="formCredenciais">
+            <form action="<?= BASE_URL ?>/index.php?url=credenciais/alterar" method="POST" id="formCredenciais">
 
                 <input type="hidden" name="idUsuario" value="<?= $usuario['id'] ?? '' ?>">
 
@@ -84,7 +85,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 </div>
 
                                 <button type="submit" class="btn-buscar"
-                                    formaction="/ideal/public/index.php?url=credenciais">
+                                    formaction="<?= BASE_URL ?>/index.php?url=credenciais">
 
                                     Buscar
 
@@ -210,7 +211,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </button>
 
                     <button type="button" class="btn-limpar"
-                        onclick="window.location.href='/ideal/public/index.php?url=credenciais'">
+                        onclick="window.location.href='<?= BASE_URL ?>/index.php?url=credenciais'">
                         Limpar
                     </button>
                 </div>
@@ -255,7 +256,7 @@ require_once __DIR__ . '/../includes/header.php';
             const formData = new FormData();
             formData.append('login', usuarioDigitado);
 
-            fetch('/ideal/public/index.php?url=credenciais/buscar', {
+            fetch('<?= BASE_URL ?>/index.php?url=credenciais/buscar', {
                 method: 'POST',
                 body: formData
             })

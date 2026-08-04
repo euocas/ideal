@@ -41,10 +41,10 @@ class VeiculosController
         $veiculo = $veiculoModel->findByPlaca($placaLimpa);
 
         if ($veiculo) {
-            header("Location: /ideal/public/index.php?url=veiculos/edit&id=" . $veiculo->getIdVeiculo());
+            header("Location: " . BASE_URL . "/index.php?url=veiculos/edit&id=" . $veiculo->getIdVeiculo());
             exit;
         } else {
-            header("Location: /ideal/public/index.php?url=veiculos/create&placa=" . $placaLimpa . "&novo=1");
+            header("Location: " . BASE_URL . "/index.php?url=veiculos/create&placa=" . $placaLimpa . "&novo=1");
             exit;
         }
     }
@@ -74,7 +74,7 @@ class VeiculosController
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=veiculos");
+            header("Location: " . BASE_URL . "/index.php?url=veiculos");
             exit;
         }
 
@@ -82,7 +82,7 @@ class VeiculosController
         $veiculo = $veiculoModel->findById((int) $id);
 
         if (!$veiculo) {
-            header("Location: /ideal/public/index.php?url=veiculos");
+            header("Location: " . BASE_URL . "/index.php?url=veiculos");
             exit;
         }
 
@@ -133,7 +133,7 @@ class VeiculosController
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
             }
 
-            header("Location: /ideal/public/index.php?url=veiculos");
+            header("Location: " . BASE_URL . "/index.php?url=veiculos");
             exit;
         }
     }
@@ -162,7 +162,7 @@ class VeiculosController
                 }
             }
 
-            header("Location: /ideal/public/index.php?url=veiculos");
+            header("Location: " . BASE_URL . "/index.php?url=veiculos");
             exit;
         }
     }
@@ -183,7 +183,7 @@ class VeiculosController
                 $_SESSION['mensagem_erro'] =
                     "Não é possível excluir este veículo, pois existem lançamentos financeiros vinculados a ele.";
 
-                header("Location: /ideal/public/index.php?url=veiculos/edit&id=" . $id);
+                header("Location: " . BASE_URL . "/index.php?url=veiculos/edit&id=" . $id);
                 exit;
             }
 
@@ -204,7 +204,7 @@ class VeiculosController
             $_SESSION['mensagem_erro'] = "Veículo inválido para exclusão.";
         }
 
-        header("Location: /ideal/public/index.php?url=veiculos");
+        header("Location: " . BASE_URL . "/index.php?url=veiculos");
         exit;
     }
 }

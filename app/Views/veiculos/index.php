@@ -49,16 +49,16 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 
-<link rel="stylesheet" href="/ideal/public/assets/css/variables.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/base.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/component.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/forms.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/alerts.css">
-<link rel="stylesheet" href="/ideal/public/assets/css/tables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
 
-<link rel="stylesheet" href="/ideal/public/assets/css/dashboard.css">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
 
-<link rel="stylesheet" href="/ideal/public/assets/css/veiculos.css?v=<?= time() ?>">
+<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/veiculos.css?v=<?= time() ?>">
 
 </head>
 
@@ -79,7 +79,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <?php unset($_SESSION['mensagem_erro']); ?>
                         <?php endif; ?>
 
-                        <form class="form-busca" action="/ideal/public/index.php?url=veiculos" method="POST">
+                        <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=veiculos" method="POST">
                             <div class="input-group">
                                 <label>PLACA</label>
                                 <input type="text" name="placa"
@@ -267,7 +267,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <input type="hidden" name="id" value="<?= $veiculo->getIdVeiculo() ?>">
 
 
-                        <button type="submit" class="btn excluir" formaction="/ideal/public/index.php?url=veiculos/delete"
+                        <button type="submit" class="btn excluir" formaction="<?= BASE_URL ?>/index.php?url=veiculos/delete"
                             formmethod="POST" onclick="return confirm('Excluir este veículo?');">
                             <i class="bi bi-trash"></i>
                             Excluir

@@ -23,28 +23,6 @@ class ClientesController
         require_once __DIR__ . '/../Views/clientes/index.php';
     }
 
-    // {
-    //     $documentoDigitado = (string) ($_POST['documento'] ?? '');
-    //     $documentoLimpo = preg_replace('/[^0-9]/', '', $documentoDigitado);
-
-    //     if (empty($documentoLimpo)) {
-    //         $mensagem = "Por favor, digite um documento para realizar a busca.";
-    //         require_once __DIR__ . '/../Views/clientes/index.php';
-    //         return;
-    //     }
-
-    //     $clienteModel = new Cliente();
-    //     $cliente = $clienteModel->findByDocumento($documentoLimpo);
-
-    //     if ($cliente) {
-    //         header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $cliente->getIdCliente());
-    //         exit;
-    //     } else {
-    //         header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
-    //         exit;
-    //     }
-    // }
-
     private function buscar()
     {
 
@@ -76,11 +54,11 @@ class ClientesController
         $cliente = $clienteModel->findByDocumento($documentoLimpo);
 
         if ($cliente) {
-            header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $cliente->getIdCliente());
+            header("Location: " . BASE_URL . "/index.php?url=clientes/edit&id=" . $cliente->getIdCliente());
             exit;
         }
 
-        header("Location: /ideal/public/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
+        header("Location: " . BASE_URL . "/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
         exit;
     }
     public function create()
@@ -115,7 +93,7 @@ class ClientesController
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
-            header("Location: /ideal/public/index.php?url=clientes");
+            header("Location: " . BASE_URL . "/index.php?url=clientes");
             exit;
         }
 
@@ -123,7 +101,7 @@ class ClientesController
         $cliente = $clienteModel->findById((int) $id);
 
         if (!$cliente) {
-            header("Location: /ideal/public/index.php?url=clientes");
+            header("Location: " . BASE_URL . "/index.php?url=clientes");
             exit;
         }
 
@@ -173,7 +151,7 @@ class ClientesController
                 $_SESSION['mensagem_erro'] = "Erro BD: " . $cliente->dbError;
             }
 
-            header("Location: /ideal/public/index.php?url=clientes");
+            header("Location: " . BASE_URL . "/index.php?url=clientes");
             exit;
 
 
@@ -230,7 +208,7 @@ class ClientesController
                 }
             }
 
-            header("Location: /ideal/public/index.php?url=clientes");
+            header("Location: " . BASE_URL . "/index.php?url=clientes");
             exit;
         }
     }
@@ -251,7 +229,7 @@ class ClientesController
                 $_SESSION['mensagem_erro'] =
                     "Não é possível excluir este cliente, pois existem obras vinculadas a ele.";
 
-                header("Location: /ideal/public/index.php?url=clientes/edit&id=" . $id);
+                header("Location: " . BASE_URL . "/index.php?url=clientes/edit&id=" . $id);
                 exit;
             }
 
@@ -268,7 +246,7 @@ class ClientesController
             }
         }
 
-        header("Location: /ideal/public/index.php?url=clientes");
+        header("Location: " . BASE_URL . "/index.php?url=clientes");
         exit;
     }
 
@@ -309,7 +287,7 @@ class ClientesController
             session_start();
         }
         $_SESSION['mensagem_erro'] = $mensagem;
-        header("Location: /ideal/public/index.php?url=" . $rota);
+        header("Location: " . BASE_URL . "/index.php?url=" . $rota);
         exit;
     }
 

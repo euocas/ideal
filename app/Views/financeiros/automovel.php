@@ -98,7 +98,7 @@ $veAno = $veiculoExiste
     </div>
 
 <form id="form-busca-veiculo"
-      action="/ideal/public/index.php?url=financeiro-automovel/buscar&tipo=<?= $tipo ?>"
+      action="<?= BASE_URL ?>/index.php?url=financeiro-automovel/buscar&tipo=<?= $tipo ?>"
       method="POST">
 
         <div class="veiculo-topo">
@@ -235,17 +235,17 @@ $veAno = $veiculoExiste
 <section class="card">
 
     <div class="subabas-container">
-        <a href="/ideal/public/index.php?url=financeiro-automovel/buscar&tipo=entrada&placa=<?= urlencode($placaBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
+        <a href="<?= BASE_URL ?>/index.php?url=financeiro-automovel/buscar&tipo=entrada&placa=<?= urlencode($placaBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
             class="subaba entrada <?= $tipo === "entrada" ? "ativa" : "" ?>">
             <i class="fa-solid fa-plus"></i> Nova Entrada (Recebimentos)
         </a>
 
-        <a href="/ideal/public/index.php?url=financeiro-automovel/buscar&tipo=saida&placa=<?= urlencode($placaBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
+        <a href="<?= BASE_URL ?>/index.php?url=financeiro-automovel/buscar&tipo=saida&placa=<?= urlencode($placaBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
             class="subaba saida <?= $tipo === "saida" ? "ativa" : "" ?>">
             <i class="fa-solid fa-minus"></i> Nova Saída (Gastos)
         </a>
 
-        <a href="/ideal/public/index.php?url=financeiro-automovel/buscar&tipo=periodo&placa=<?= urlencode($placaBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
+        <a href="<?= BASE_URL ?>/index.php?url=financeiro-automovel/buscar&tipo=periodo&placa=<?= urlencode($placaBusca) ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
             class="subaba periodo <?= $tipo === "periodo" ? "ativa" : "" ?>">
             <i class="fa-solid fa-list"></i> Lançamentos do Período
         </a>
@@ -263,7 +263,7 @@ $veAno = $veiculoExiste
 
 
                     <form id="form-entrada"
-                        action="/ideal/public/index.php?url=financeiro-automovel/<?= $isEditAutomovel ? 'update' : 'store' ?>"
+                        action="<?= BASE_URL ?>/index.php?url=financeiro-automovel/<?= $isEditAutomovel ? 'update' : 'store' ?>"
                         method="POST">
 
                         <input type="hidden" name="tipo" value="entrada">
@@ -401,7 +401,7 @@ $veAno = $veiculoExiste
             <div class="saida-container">
                 <div class="saida-formulario">
 
-                    <form id="form-saida"   action="/ideal/public/index.php?url=financeiro-automovel/<?= $isEditAutomovel ? 'update' : 'store' ?>" method="POST">
+                    <form id="form-saida"   action="<?= BASE_URL ?>/index.php?url=financeiro-automovel/<?= $isEditAutomovel ? 'update' : 'store' ?>" method="POST">
 
                         <input type="hidden" name="tipo" value="saida">
                         <input type="hidden" name="idVeiculo"
@@ -633,14 +633,14 @@ $veAno = $veiculoExiste
                                     <td class="text-center">
                                         <div class="acoes">
                                             <!-- Editar -->
-                                            <a href="/ideal/public/index.php?url=financeiro-automovel/visualizar&id=<?= $l["idFinanceiroVeiculo"] ?>&editar=1"
+                                            <a href="<?= BASE_URL ?>/index.php?url=financeiro-automovel/visualizar&id=<?= $l["idFinanceiroVeiculo"] ?>&editar=1"
                                                 class="btn-acao editar" title="Editar">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
                                             <!-- Excluir -->
                                             <form
-                                                action="/ideal/public/index.php?url=financeiro-automovel/delete&id=<?= $l["idFinanceiroVeiculo"] ?>"
+                                                action="<?= BASE_URL ?>/index.php?url=financeiro-automovel/delete&id=<?= $l["idFinanceiroVeiculo"] ?>"
                                                 method="POST">
 
                                                 <input type="hidden" name="placa_hidden"
