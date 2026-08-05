@@ -6,9 +6,17 @@
 
     <title><?= $titulo ?? 'Relatório'; ?></title>
 
+    <?php
+
+    $cssBase = is_dir(__DIR__ . '/../../../public/assets/css')
+        ? __DIR__ . '/../../../public/assets/css'
+        : __DIR__ . '/../../../assets/css';
+
+    ?>
+
     <style>
-        <?= file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/ideal/public/assets/css/variables.css'); ?>
-        <?= file_get_contents(__DIR__ . '/../../../public/assets/css/pdf.css'); ?>
+        <?= file_get_contents($cssBase . '/variables.css'); ?>
+        <?= file_get_contents($cssBase . '/pdf.css'); ?>
     </style>
 
 </head>

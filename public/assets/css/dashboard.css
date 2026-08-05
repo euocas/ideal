@@ -739,3 +739,53 @@
     font-size: 11px;
   }
 }
+/* Ajustes para notebooks e telas menores */
+/* Notebook 13" e 14" */
+@media (min-width: 1025px) and (max-width: 1600px) {
+
+    .content {
+        padding: 28px;
+    }
+
+    .dashboard-header {
+        margin-bottom: 20px;
+    }
+
+    .dashboard-header-info h1 {
+        font-size: 28px;
+    }
+
+    .painel-titulo {
+        font-size: 20px;
+    }
+
+    .card-dashboard {
+        padding: 16px;
+    }
+
+    .card-dashboard h3 {
+        font-size: 24px;
+    }
+
+    .card-dashboard p {
+        font-size: 16px;
+    }
+
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    .banner-carrossel {
+        height: 320px;
+    }
+
+    .banner-slide__titulo {
+        font-size: 32px;
+    }
+
+    .indicador__valor {
+        font-size: 38px;
+    }
+}

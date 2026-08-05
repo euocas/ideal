@@ -5,7 +5,11 @@ $titulo = 'Relatório de Clientes';
 
 require __DIR__ . '/../../includes/headerPdf.php';
 
-$logo = __DIR__ . '/../../../../public/assets/img/logopdf.png';
+$assetsBase = is_dir(__DIR__ . '/../../../../public/assets')
+    ? __DIR__ . '/../../../../public/assets'
+    : __DIR__ . '/../../../../assets';
+
+$logo = $assetsBase . '/img/logopdf.png';
 
 $logoBase64 = '';
 
