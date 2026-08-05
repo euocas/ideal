@@ -8,12 +8,12 @@
 
     <title>Login</title>
 
-    <link rel="stylesheet" href="assets/css/variables.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/forms.css">
-    <link rel="stylesheet" href="assets/css/alerts.css">
-    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/components.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/login.css">
 
 </head>
 
@@ -55,7 +55,7 @@
                 <!-- LOGO -->
                 <div class="logo">
 
-                    <img src="assets/img/logo.png" alt="Logo">
+                    <img src="<?= BASE_URL ?>/assets/img/logo.png" alt="Logo">
 
                 </div>
 

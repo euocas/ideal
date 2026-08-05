@@ -192,6 +192,6 @@ require_once __DIR__ . '/../includes/header.php';
 
         </div>
     </div>
-    <script src="assets/js/dashboard.js"></script>
+   <script src="<?= BASE_URL ?>/assets/js/dashboard.js"></script>
 
 </body>
