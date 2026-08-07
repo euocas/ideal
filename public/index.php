@@ -11,7 +11,7 @@ $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->safeLoad();
 $rotas = require_once __DIR__ . '/../Routes/web.php';
 
-define('BASE_URL', rtrim($_ENV['APP_URL'] ?? '', '/'));
+define('BASE_URL', '/ideal/public');
 
 $url = $_GET['url'] ?? 'login';
 
@@ -24,6 +24,6 @@ if (array_key_exists($url, $rotas)) {
     echo "Página não encontrada";
 
 }
-
+l
 ?>
 
