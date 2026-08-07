@@ -1,22 +1,144 @@
 /* ===================================================
    RESPONSIVE.CSS
    Sistema Ideal
-=================================================== */
+   =================================================== */
 
-/* ==========================================
-   Até 1200px
-========================================== */
 
-@media (max-width: 1200px) {
+/* ===================================================
+   NOTEBOOKS (1025px até 1600px)
+   =================================================== */
+
+@media (min-width: 1025px) and (max-width: 1600px) {
+
+    /* ===== Layout ===== */
+
+    .content {
+        padding: 28px;
+    }
+
+    /* ===== Dashboard ===== */
+
+    .dashboard-header {
+        margin-bottom: 20px;
+    }
+
+    .dashboard-header-info h1 {
+        font-size: 28px;
+    }
+
+    .painel-titulo {
+        font-size: 20px;
+    }
+
+    /* ===== Cards ===== */
+
+    .card-dashboard {
+        padding: 16px;
+    }
+
+    .card-dashboard h3 {
+        font-size: 24px;
+    }
+
+    .card-dashboard p {
+        font-size: 16px;
+    }
+
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+
+    /* ===== Banner ===== */
+
+    .banner-carrossel {
+        height: 320px;
+    }
+
+    .banner-slide__titulo {
+        font-size: 32px;
+    }
+
+    /* ===== Indicadores ===== */
+
+    .indicador__valor {
+        font-size: 38px;
+    }
 
 }
 
 
-/* ==========================================
-   Até 992px
-========================================== */
+/* ===================================================
+   TABLETS GRANDES (até 1200px)
+   =================================================== */
+
+@media (max-width: 1200px) {
+
+    /* Reservado */
+
+}
+
+
+/* ===================================================
+   TABLETS (até 1024px)
+   =================================================== */
+
+@media (max-width: 1024px) {
+
+    /* ===== Layout ===== */
+
+    .content {
+        padding: 25px;
+    }
+
+    /* ===== Sidebar ===== */
+
+    .sidebar {
+        width: 190px;
+    }
+
+    .logo img {
+        width: 160px;
+    }
+
+    /* ===== Dashboard ===== */
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .dashboard-header-brand {
+        text-align: left;
+    }
+
+    .dashboard-header-info h1 {
+        font-size: 28px;
+    }
+
+    /* ===== Cards ===== */
+
+    .cards-dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .card-dashboard {
+        padding: 16px;
+    }
+
+}
+
+
+/* ===================================================
+   TABLETS PEQUENOS (até 992px)
+   =================================================== */
 
 @media (max-width: 992px) {
+
+    /* ===== Layout ===== */
 
     .content {
         padding: 25px;
@@ -25,30 +147,165 @@
 }
 
 
-/* ==========================================
-   Até 768px
-========================================== */
+/* ===================================================
+   iPad Vertical (até 900px)
+   =================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
-    
+    /* ===== Cards ===== */
 
-    .content {
-        width: 100%;
-        padding: 15px;
+    .cards-dashboard {
+        grid-template-columns: 1fr;
     }
 
 }
 
 
-/* ==========================================
-   Até 480px
-========================================== */
+/* ===================================================
+   TABLETS / MOBILE (até 780px)
+   =================================================== */
+
+@media (max-width: 780px) {
+
+    /* ===== Banner ===== */
+
+    .banner-carrossel {
+        height: 280px;
+    }
+
+    .banner-slide__content {
+        padding: 32px 28px;
+        max-width: 100%;
+    }
+
+    .banner-slide__titulo {
+        font-size: 28px;
+    }
+
+    .banner-slide__overlay {
+        background: linear-gradient(
+            180deg,
+            rgba(15, 15, 15, 0.85) 0%,
+            rgba(15, 15, 15, 0.6) 100%
+        );
+    }
+
+}
+
+
+/* ===================================================
+   CELULARES (até 768px)
+   =================================================== */
+
+@media (max-width: 768px) {
+
+    /* ===== Layout ===== */
+
+    .layout {
+        display: block;
+    }
+
+    .content {
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* ===== Sidebar ===== */
+
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        width: 45px;
+        height: 45px;
+        border: none;
+        border-radius: 8px;
+        background: var(--orange-dark);
+        color: var(--text-white);
+        font-size: 22px;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -260px;
+        width: 260px;
+        height: 100vh;
+        padding-top: 80px;
+        z-index: 1000;
+        transition: left .3s ease;
+    }
+
+    .sidebar.ativo {
+        left: 0;
+    }
+
+    .logo img {
+        width: 140px;
+    }
+
+    .menu li a {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    /* ===== Dashboard ===== */
+
+    .dashboard-header-info h1 {
+        font-size: 24px;
+    }
+
+    .dashboard-header-brand h2 {
+        font-size: 18px;
+    }
+
+    .subtitulo-sistema {
+        font-size: 15px;
+    }
+
+}
+
+
+/* ===================================================
+   CELULARES PEQUENOS (até 480px)
+   =================================================== */
 
 @media (max-width: 480px) {
 
+    /* ===== Layout ===== */
+
     .content {
+        padding: 15px;
+    }
+
+    /* ===== Sidebar ===== */
+
+    .sidebar {
+        width: 165px;
+    }
+
+    .logo img {
+        width: 120px;
+    }
+
+    .menu li a {
+        gap: 8px;
         padding: 10px;
+        font-size: 12px;
+    }
+
+    .user-info h3 {
+        font-size: 13px;
+    }
+
+    .user-info span {
+        font-size: 11px;
     }
 
 }
