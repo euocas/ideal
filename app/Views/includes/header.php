@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css?v=<?= time() ?>">
-
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css?v=<?= time() ?>">
 
     <script>
         window.addEventListener("pageshow", function (event) {
