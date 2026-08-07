@@ -24,6 +24,6 @@ if (array_key_exists($url, $rotas)) {
     echo "Página não encontrada";
 
 }
-l
+
 ?>
 
