@@ -29,17 +29,13 @@ if (!in_array($aba, $abas)) {
         <main class="main-content">
 
             <div class="abas-container">
-                <a href="?url=financeiros&aba=funcionario" class="aba <?= $aba ===
-                    "funcionario"
-                    ? "ativa"
+                <a href="?url=financeiros&aba=funcionario" class="aba <?= $aba === "funcionario"? "ativa"
                     : "" ?>"><i class="fa-solid fa-user-tie"></i> Funcionário</a>
-                <a href="?url=financeiros&aba=obra" class="aba <?= $aba ===
-                    "obra"
-                    ? "ativa"
+
+                <a href="?url=financeiros&aba=obra" class="aba <?= $aba === "obra"? "ativa"
                     : "" ?>"><i class="fa-solid fa-hard-hat"></i> Obra</a>
-                <a href="?url=financeiros&aba=automovel" class="aba <?= $aba ===
-                    "automovel"
-                    ? "ativa"
+
+                <a href="?url=financeiros&aba=automovel" class="aba <?= $aba === "automovel"? "ativa"
                     : "" ?>"><i class="fa-solid fa-car"></i> Automóvel</a>
             </div>
 
@@ -57,15 +53,13 @@ if (!in_array($aba, $abas)) {
             <?php endif; ?>
 
             <?php if ($aba === "funcionario"): ?>
-
                 <?php require __DIR__ . "/funcionario.php"; ?>
+                <script src="<?= BASE_URL ?>/assets/js/financeiroFuncionario.js?v=<?= time() ?>"></script>
 
             <?php elseif ($aba === "obra"): ?>
-
                 <?php require __DIR__ . "/obra.php"; ?>
 
             <?php elseif ($aba === "automovel"): ?>
-
                 <?php require __DIR__ . "/automovel.php"; ?>
 
             <?php endif; ?>

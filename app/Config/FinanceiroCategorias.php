@@ -111,10 +111,8 @@ class FinanceiroCategorias
     ];
 
     public const CONTAS_PAGAMENTO = [
-    'Conta Corrente Empresa',
-    'Conta Poupança Empresa',
-    'Caixa',
-    'PIX',
+    'Conta Corrente da Empresa',
+    'Conta Poupança da Empresa',
 ];
 
 }

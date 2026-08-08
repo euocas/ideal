@@ -226,17 +226,16 @@ $fnBanco = $funcModelExiste
 <section class="card">
     <div class="subabas-container">
         <a href="?url=financeiros&aba=funcionario&tipo=entrada&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
-            class="subaba entrada <?= $tipo === "entrada"
-                ? "ativa"
+            class="subaba entrada <?= $tipo === "entrada" ? "ativa"
                 : "" ?>"><i class="fa-solid fa-plus"></i> Novo Lançamento (Proventos)</a>
+
         <a href="?url=financeiros&aba=funcionario&tipo=saida&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
-            class="subaba saida <?= $tipo === "saida"
-                ? "ativa"
+            class="subaba saida <?= $tipo === "saida" ? "ativa"
                 : "" ?>"><i class="fa-solid fa-minus"></i>
             Nova Saída (Descontos)</a>
+
         <a href="?url=financeiros&aba=funcionario&tipo=periodo&cpf=<?= $cpfBusca ?>&mes=<?= $mesBusca ?>&ano=<?= $anoBusca ?>"
-            class="subaba periodo <?= $tipo === "periodo"
-                ? "ativa"
+            class="subaba periodo <?= $tipo === "periodo" ? "ativa"
                 : "" ?>"><i class="fa-solid fa-list"></i> Lançamentos do Período</a>
     </div>
 
@@ -251,8 +250,7 @@ $fnBanco = $funcModelExiste
                         method="POST">
                         <input type="hidden" name="tipo" value="entrada">
                         <input type="hidden" name="idFuncionario" value="<?= $funcModelExiste
-                            ? $funcionarioBusca->getIdFuncionario()
-                            : "" ?>">
+                            ? $funcionarioBusca->getIdFuncionario() : "" ?>">
                         <input type="hidden" name="cpf_hidden" value="<?= htmlspecialchars(
                             $cpfBusca,
                         ) ?>">
@@ -297,15 +295,13 @@ $fnBanco = $funcModelExiste
 
                             <div class="form-group">
                                 <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
-                                <select name="formaPagamento" required>
+                                <select name="formaPagamento" id="formaPagamentoFuncionario" required>
                                     <option value="">Selecione</option>
-
                                     <?php
                                     $formaSelecionada = $isEditFuncionario
                                         ? $financeiroFuncionario->getFormaPagamento()
                                         : '';
                                     ?>
-
                                     <?php foreach (FinanceiroCategorias::FORMAS_PAGAMENTO as $forma): ?>
                                         <option value="<?= htmlspecialchars($forma) ?>" <?= $formaSelecionada === $forma ? 'selected' : '' ?>>
                                             <?= htmlspecialchars($forma) ?>
@@ -314,9 +310,12 @@ $fnBanco = $funcModelExiste
                                 </select>
                             </div>
 
+
+
+
                             <div class="form-group">
-                                <label for="contaPagamento">Conta Pagamento</label>
-                                <select name="contaPagamento" required>
+                                <label for="contaPagamentoFuncionario">Conta Pagamento</label>
+                                <select name="contaPagamento" id="contaPagamentoFuncionario" required>
                                     <option value="">Selecione</option>
 
                                     <?php
@@ -332,6 +331,18 @@ $fnBanco = $funcModelExiste
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+
+
+                            <div class="recibo-container" id="reciboContainerFuncionario">
+
+                                <button type="button" id="btnGerarReciboFuncionario" class="btn-gerar-recibo">
+                                    <i class="fa-solid fa-receipt"></i>
+                                    GERAR RECIBO
+                                </button>
+
+                            </div>
+
+
 
                             <div class="form-group">
                                 <label>Valor <span class="obrigatorio">*</span></label>
@@ -433,7 +444,7 @@ $fnBanco = $funcModelExiste
 
                             <div class="form-group">
                                 <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
-                                <select name="formaPagamento" required>
+                                <select name="formaPagamento" id="formaPagamentoFuncionario" required>
                                     <option value="">Selecione</option>
                                     <?php
                                     $formaSelecionada = $isEditFuncionario
@@ -448,10 +459,13 @@ $fnBanco = $funcModelExiste
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label for="contaPagamento">Conta Pagamento</label>
 
-                                <select name="contaPagamento" required>
+
+
+                            <div class="form-group">
+                                <label for="contaPagamentoFuncionario">Conta Pagamento</label>
+
+                                <select name="contaPagamento" id="contaPagamentoFuncionario" required>
 
                                     <option value="">Selecione</option>
 
@@ -467,6 +481,15 @@ $fnBanco = $funcModelExiste
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                            </div>
+
+                            <div class="recibo-container" id="reciboContainerFuncionario">
+
+                                <button type="button" id="btnGerarReciboFuncionario" class="btn-gerar-recibo">
+                                    <i class="fa-solid fa-receipt"></i>
+                                    GERAR RECIBO
+                                </button>
+
                             </div>
 
                             <div class="form-group">
