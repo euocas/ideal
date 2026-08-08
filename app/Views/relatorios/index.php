@@ -131,12 +131,12 @@ require_once __DIR__ . '/../includes/header.php';
 
                                     <div class="campo">
                                         <label>Status</label>
-
                                         <select name="statusVeiculo">
                                             <option value="">Selecione</option>
-                                            <option value="Disponível">Disponível</option>
-                                            <option value="Em uso">Em uso</option>
-                                            <option value="Manutenção">Manutenção</option>
+                                            <option value="Ativo">Ativo</option>
+                                            <option value="Em manutenção">Em manutenção</option>
+                                            <option value="Inativo">Inativo</option>
+                                            <option value="Vendido">Vendido</option>
                                         </select>
                                     </div>
 
@@ -144,8 +144,8 @@ require_once __DIR__ . '/../includes/header.php';
                                     <!-- OBRAS -->
 
                                     <div class="campo">
-                                        <label>Nome da Obra</label>
-                                        <input type="text" name="nomeObra" placeholder="Digite o nome da obra">
+                                        <label>Contrato</label>
+                                        <input type="text" name="nomeObra" placeholder="Digite o contrato">
                                     </div>
 
                                     <div class="campo">
@@ -209,23 +209,29 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
                     <!-- PRÉ-VISUALIZAÇÃO -->
                     <div class="card card-preview">
-                        <h2>
-                            Pré-visualização do Relatório
-                        </h2>
+                        <div class="preview-cabecalho">
+                            <div class="preview-titulo">
+                                <h2>
+                                    Pré-visualização do Relatório
+                                </h2>
+                            </div>
                             <div class="acoes-exportar">
 
-                                    <button type="submit" form="formRelatorio"
-                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-excel&relatorio=<?= $relatorio ?>"
-                                        class="btn-excel">
-                                        EXPORTAR EXCEL
-                                    </button>
+                                <button type="submit" form="formRelatorio"
+                                    formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-excel&relatorio=<?= $relatorio ?>"
+                                    class="btn-excel">
+                                    <i class="fa-solid fa-file-excel"></i>
+                                    EXPORTAR EXCEL
+                                </button>
 
-                                    <button type="submit" form="formRelatorio"
-                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
-                                        formtarget="_blank" class="btn-pdf">
-                                        GERAR PDF
-                                    </button>
-                                </div>
+                                <button type="submit" form="formRelatorio"
+                                    formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
+                                    formtarget="_blank" class="btn-pdf">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                    GERAR PDF
+                                </button>
+                            </div>
+                        </div>
 
                         <div class="alerta-preview">
                             Exibindo pré-visualização dos dados que serão exportados.
@@ -406,10 +412,12 @@ require_once __DIR__ . '/../includes/header.php';
                                                     <?php endif; ?>
                                                 </tr>
                                             <?php endforeach; ?>
+
+
                                         <?php else: ?>
                                             <tr>
-                                                <td colspan="5" style="text-align:center; padding: 20px;">
-                                                    Clique em "GERAR TODOS" para carregar os dados.
+                                                <td colspan="7" style="text-align:center; padding: 20px;">
+                                                    Não há dados para os filtros selecionados.
                                                 </td>
                                             </tr>
                                         <?php endif; ?>

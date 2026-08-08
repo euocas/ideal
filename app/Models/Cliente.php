@@ -24,7 +24,7 @@ class Cliente
     private ?string $cep = null;
     private ?string $estado = null;
     private ?string $observacoes = null;
-    
+
     private ?string $telefone = null;
 
     public string $dbError = ''; // Adicionado para capturar o erro real do BD
@@ -44,56 +44,140 @@ class Cliente
     // 3. GETTERS E SETTERS
     // =====================================================
 
-    public function getIdCliente(): ?int { return $this->idCliente; }
-    public function setIdCliente(?int $id): void { $this->idCliente = $id; }
-
-    public function getNomeCliente(): ?string { return $this->nomeCliente; }
-    public function setNomeCliente(?string $nome): void { $this->nomeCliente = $nome; }
-
-    public function getCpf(): ?string { return $this->cpf; }
-    public function setCpf(?string $cpf): void { 
-        $this->cpf = $cpf ? preg_replace('/[^0-9]/', '', $cpf) : null; 
+    public function getIdCliente(): ?int
+    {
+        return $this->idCliente;
+    }
+    public function setIdCliente(?int $id): void
+    {
+        $this->idCliente = $id;
     }
 
-    public function getCnpj(): ?string { return $this->cnpj; }
-    public function setCnpj(?string $cnpj): void { 
-        $this->cnpj = $cnpj ? preg_replace('/[^0-9]/', '', $cnpj) : null; 
+    public function getNomeCliente(): ?string
+    {
+        return $this->nomeCliente;
+    }
+    public function setNomeCliente(?string $nome): void
+    {
+        $this->nomeCliente = $nome;
     }
 
-    public function getEmail(): ?string { return $this->email; }
-    public function setEmail(?string $email): void { $this->email = $email; }
-
-    public function getTipoCliente(): ?string { return $this->tipoCliente; }
-    public function setTipoCliente(?string $tipoCliente): void { $this->tipoCliente = $tipoCliente; }
-
-    public function getTipoLogradouro(): ?string { return $this->tipoLogradouro; }
-    public function setTipoLogradouro(?string $tipoLogradouro): void { $this->tipoLogradouro = $tipoLogradouro; }
-
-    public function getNomeLogradouro(): ?string { return $this->nomeLogradouro; }
-    public function setNomeLogradouro(?string $nomeLogradouro): void { $this->nomeLogradouro = $nomeLogradouro; }
-
-    public function getNumero(): ?string { return $this->numero; }
-    public function setNumero(?string $numero): void { $this->numero = $numero; }
-
-    public function getComplemento(): ?string { return $this->complemento; }
-    public function setComplemento(?string $complemento): void { $this->complemento = $complemento; }
-
-    public function getCidade(): ?string { return $this->cidade; }
-    public function setCidade(?string $cidade): void { $this->cidade = $cidade; }
-
-    public function getCep(): ?string { return $this->cep; }
-    public function setCep(?string $cep): void { 
-        $this->cep = $cep ? preg_replace('/[^0-9]/', '', $cep) : null; 
+    public function getCpf(): ?string
+    {
+        return $this->cpf;
+    }
+    public function setCpf(?string $cpf): void
+    {
+        $this->cpf = $cpf ? preg_replace('/[^0-9]/', '', $cpf) : null;
     }
 
-    public function getEstado(): ?string { return $this->estado; }
-    public function setEstado(?string $estado): void { $this->estado = $estado; }
+    public function getCnpj(): ?string
+    {
+        return $this->cnpj;
+    }
+    public function setCnpj(?string $cnpj): void
+    {
+        $this->cnpj = $cnpj ? preg_replace('/[^0-9]/', '', $cnpj) : null;
+    }
 
-    public function getObservacoes(): ?string { return $this->observacoes; }
-    public function setObservacoes(?string $observacoes): void { $this->observacoes = $observacoes; }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
 
-    public function getTelefone(): ?string { return $this->telefone; }
-    public function setTelefone(?string $telefone): void { $this->telefone = $telefone; }
+    public function getTipoCliente(): ?string
+    {
+        return $this->tipoCliente;
+    }
+    public function setTipoCliente(?string $tipoCliente): void
+    {
+        $this->tipoCliente = $tipoCliente;
+    }
+
+    public function getTipoLogradouro(): ?string
+    {
+        return $this->tipoLogradouro;
+    }
+    public function setTipoLogradouro(?string $tipoLogradouro): void
+    {
+        $this->tipoLogradouro = $tipoLogradouro;
+    }
+
+    public function getNomeLogradouro(): ?string
+    {
+        return $this->nomeLogradouro;
+    }
+    public function setNomeLogradouro(?string $nomeLogradouro): void
+    {
+        $this->nomeLogradouro = $nomeLogradouro;
+    }
+
+    public function getNumero(): ?string
+    {
+        return $this->numero;
+    }
+    public function setNumero(?string $numero): void
+    {
+        $this->numero = $numero;
+    }
+
+    public function getComplemento(): ?string
+    {
+        return $this->complemento;
+    }
+    public function setComplemento(?string $complemento): void
+    {
+        $this->complemento = $complemento;
+    }
+
+    public function getCidade(): ?string
+    {
+        return $this->cidade;
+    }
+    public function setCidade(?string $cidade): void
+    {
+        $this->cidade = $cidade;
+    }
+
+    public function getCep(): ?string
+    {
+        return $this->cep;
+    }
+    public function setCep(?string $cep): void
+    {
+        $this->cep = $cep ? preg_replace('/[^0-9]/', '', $cep) : null;
+    }
+
+    public function getEstado(): ?string
+    {
+        return $this->estado;
+    }
+    public function setEstado(?string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+    public function getObservacoes(): ?string
+    {
+        return $this->observacoes;
+    }
+    public function setObservacoes(?string $observacoes): void
+    {
+        $this->observacoes = $observacoes;
+    }
+
+    public function getTelefone(): ?string
+    {
+        return $this->telefone;
+    }
+    public function setTelefone(?string $telefone): void
+    {
+        $this->telefone = $telefone;
+    }
 
     // =====================================================
     // 4. MÉTODOS DE BANCO DE DADOS (CRUD)
@@ -144,7 +228,7 @@ class Cliente
                     )";
 
             $stmt = $this->pdo->prepare($sql);
-            
+
             $stmt->bindValue(':nomeCliente', $this->getNomeCliente() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':cpf', $this->getCpf(), $this->getCpf() ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $stmt->bindValue(':cnpj', $this->getCnpj(), $this->getCnpj() ? PDO::PARAM_STR : PDO::PARAM_NULL);
@@ -182,7 +266,8 @@ class Cliente
 
     public function update(): bool
     {
-        if (!$this->getIdCliente()) return false; 
+        if (!$this->getIdCliente())
+            return false;
 
         try {
             $this->pdo->beginTransaction();
@@ -195,7 +280,7 @@ class Cliente
                     WHERE idCliente = :id";
 
             $stmt = $this->pdo->prepare($sql);
-            
+
             $stmt->bindValue(':nomeCliente', $this->getNomeCliente() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':cpf', $this->getCpf(), $this->getCpf() ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $stmt->bindValue(':cnpj', $this->getCnpj(), $this->getCnpj() ? PDO::PARAM_STR : PDO::PARAM_NULL);
@@ -249,7 +334,7 @@ class Cliente
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':doc', $docLimpo, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
@@ -260,7 +345,7 @@ class Cliente
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
         return $dados ? $this->hydrate($dados) : null;
     }
@@ -270,7 +355,7 @@ class Cliente
         $sql = "SELECT * FROM cliente";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        
+
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $clientes = [];
         foreach ($resultados as $linha) {
@@ -279,9 +364,8 @@ class Cliente
         return $clientes;
     }
 
-    /**
-     * Retorna todos os clientes como array associativo
-     */
+     //Retorna todos os clientes como array associativo
+     
     public function listar(): array
     {
         $sql = "SELECT * FROM cliente";
@@ -290,47 +374,65 @@ class Cliente
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Busca clientes com filtros
-     */
-    public function buscarComFiltros(string $nome = '', string $documento = ''): array
-    {
+    public function buscarComFiltros(string $nome = '',string $cpf = '',string $cnpj = '' ): array {
         $sql = "SELECT * FROM cliente WHERE 1=1";
-        
+
         if (!empty($nome)) {
             $sql .= " AND nomeCliente LIKE :nome";
         }
-        
-        if (!empty($documento)) {
-            $docLimpo = preg_replace('/[^0-9]/', '', $documento);
-            $sql .= " AND (cpf = :doc OR cnpj = :doc)";
+
+        if (!empty($cpf)) {
+            $cpfLimpo = preg_replace('/\D/', '', $cpf);
+            $sql .= " AND cpf = :cpf";
         }
-        
+
+        if (!empty($cnpj)) {
+            $cnpjLimpo = preg_replace('/\D/', '', $cnpj);
+            $sql .= " AND cnpj = :cnpj";
+        }
+
         $stmt = $this->pdo->prepare($sql);
-        
+
         if (!empty($nome)) {
-            $stmt->bindValue(':nome', '%' . $nome . '%', PDO::PARAM_STR);
+            $stmt->bindValue(
+                ':nome',
+                '%' . $nome . '%',
+                PDO::PARAM_STR
+            );
         }
-        
-        if (!empty($documento)) {
-            $stmt->bindValue(':doc', $docLimpo, PDO::PARAM_STR);
+
+        if (!empty($cpf)) {
+            $stmt->bindValue(
+                ':cpf',
+                $cpfLimpo,
+                PDO::PARAM_STR
+            );
         }
-        
+
+        if (!empty($cnpj)) {
+            $stmt->bindValue(
+                ':cnpj',
+                $cnpjLimpo,
+                PDO::PARAM_STR
+            );
+        }
+
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function possuiObras(int $idCliente): bool
-{
-    $sql = "SELECT COUNT(*)
+    {
+        $sql = "SELECT COUNT(*)
             FROM obra
             WHERE idCliente = :id";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(':id', $idCliente, PDO::PARAM_INT);
-    $stmt->execute();
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $idCliente, PDO::PARAM_INT);
+        $stmt->execute();
 
-    return (int) $stmt->fetchColumn() > 0;
-}
+        return (int) $stmt->fetchColumn() > 0;
+    }
 
 }

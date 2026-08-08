@@ -78,12 +78,21 @@ class RelatoriosController
     private function gerarRelatorioClientes(): array
     {
         $clienteModel = new Cliente();
-        $nomeFiltro = $_POST['nomeCliente'] ?? '';
-        $documentoFiltro = $_POST['documento'] ?? '';
 
-        // Se houver filtros, aplica; caso contrário, lista todos
-        if (!empty($nomeFiltro) || !empty($documentoFiltro)) {
-            $clientes = $clienteModel->buscarComFiltros($nomeFiltro, $documentoFiltro);
+        $nomeFiltro = $_POST['nomeCliente'] ?? '';
+        $cpfFiltro = $_POST['cpf'] ?? '';
+        $cnpjFiltro = $_POST['cnpj'] ?? '';
+
+        if (
+            !empty($nomeFiltro) ||
+            !empty($cpfFiltro) ||
+            !empty($cnpjFiltro)
+        ) {
+            $clientes = $clienteModel->buscarComFiltros(
+                $nomeFiltro,
+                $cpfFiltro,
+                $cnpjFiltro
+            );
         } else {
             $clientes = $clienteModel->listar();
         }
@@ -94,6 +103,7 @@ class RelatoriosController
             'total' => count($clientes ?? [])
         ];
     }
+
     // Gera o relatório de Funcionários com filtros
     private function gerarRelatorioFuncionarios(): array
     {
@@ -118,15 +128,25 @@ class RelatoriosController
     }
 
     //Gera o relatório de Obras com filtros
+
     private function gerarRelatorioObras(): array
     {
         $obraModel = new Obra();
+
         $nomeFiltro = $_POST['nomeObra'] ?? '';
+        $cidadeFiltro = $_POST['cidade'] ?? '';
         $statusFiltro = $_POST['statusObra'] ?? '';
 
-        // Se houver filtros, aplica; caso contrário, lista todos
-        if (!empty($nomeFiltro) || !empty($statusFiltro)) {
-            $obras = $obraModel->findByFilters($nomeFiltro, $statusFiltro);
+        if (
+            !empty($nomeFiltro) ||
+            !empty($cidadeFiltro) ||
+            !empty($statusFiltro)
+        ) {
+            $obras = $obraModel->findByFilters(
+                $nomeFiltro,
+                $cidadeFiltro,
+                $statusFiltro
+            );
         } else {
             $obras = $obraModel->listar();
         }
@@ -137,9 +157,9 @@ class RelatoriosController
             'total' => count($obras ?? [])
         ];
     }
-    /**
-     * Gera o relatório de Veículos com filtros
-     */
+
+    // Gera o relatório de Veículos com filtros
+
     private function gerarRelatorioVeiculos(): array
     {
         $veiculoModel = new Veiculo();
@@ -773,9 +793,9 @@ class RelatoriosController
     }
 
     public function loading()
-{
-    require_once __DIR__ . '/../Views/relatorios/loading.php';
-}
+    {
+        require_once __DIR__ . '/../Views/relatorios/loading.php';
+    }
 
     //Exporta o relatório em PDF
     public function exportarPdf()

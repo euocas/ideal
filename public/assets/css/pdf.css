@@ -50,7 +50,7 @@ body {
 .titulo {
   text-align: center;
   margin-bottom: 22px;
-  border-bottom: 1px solid #0D1B36;
+  border-bottom: 1px solid #0d1b36;
   padding-bottom: 0.2px;
 }
 
@@ -67,7 +67,7 @@ body {
 }
 
 .info strong {
-  color: #1e3a8a;
+  color: var(--report-blue);
 }
 
 /* ==========================================
@@ -81,7 +81,7 @@ table {
 
 thead th {
   background: #dbeafe;
-  color: #1e3a8a;
+  color: var(--report-blue);
   border: 1px solid #bfdbfe;
   padding: 10px;
   font-size: 12px;
@@ -106,13 +106,13 @@ tbody tr:hover {
    STATUS
 ========================================== */
 .tipo {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .status.ativo,
 .status.em-andamento,
 .tipo.entrada {
-  color:var(--success-dark);
+  color: var(--success-dark);
 }
 .status.inativo,
 .status.concluída,
@@ -122,7 +122,7 @@ tbody tr:hover {
 }
 
 .status.cancelada {
-   color:var(--orange); 
+  color: var(--orange);
 }
 
 /* centralizar alguns campos */
@@ -150,25 +150,24 @@ td:nth-child(5) {
   text-align: center;
 }
 
-
 /* FINANCEIRO - RESUMO */
 .resumo-financeiro {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
 }
 
 .resumo-financeiro td {
-    width: 33.33%;
-    text-align: center;
-    padding: 12px;
-    border: 1px solid #ddd;
-    font-size: 14px;
+  width: 33.33%;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
 }
 
 .resumo-financeiro strong {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 
 /* ==========================================

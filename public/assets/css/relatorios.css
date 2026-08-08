@@ -38,6 +38,14 @@
   flex: 1;
 }
 
+.card-preview table.table th {
+
+    /* background-color: var(--report-blue); */
+
+    color: var(--report-blue);
+
+}
+
 /* ==========================================
    CARDS
 ========================================== */
@@ -97,6 +105,20 @@
 /* ==========================================
    BOTÕES
 ========================================== */
+.btn-excel,
+.btn-pdf {
+    width: 180px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+.btn-excel i,
+.btn-pdf i {
+    font-size: 18px;
+}
 
 .btn-limpar,
 .btn-gerar,
@@ -132,16 +154,6 @@
   color: var(--text);
 }
 
-.btn-excel {
-  background: var(--surface);
-  border: 1px solid var(--border-light);
-}
-
-.btn-pdf {
-  background: var(--surface-dark);
-  color: var(--text-white);
-}
-
 .btn-limpar:hover,
 .btn-gerar:hover,
 .btn-excel:hover,
@@ -158,12 +170,61 @@
   margin-top: 25px;
 }
 
+.btn-excel {
+  background-color: var(--success-dark);
+  color: #fff;
+}
+
+.btn-pdf {
+  background-color: #222;
+  color: #fff;
+}
+.acoes-exportar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+
 /* ==========================================
    PREVIEW
 ========================================== */
 
-.card-preview h2 {
+.preview-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.preview-titulo h2 {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding-bottom: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Detalhe abaixo do título */
+.preview-titulo h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 89px;
+  height: 3px;
+  background: var(--report-blue);
+  border-radius: 3px;
+}
+
+.acoes-exportar {
+  display: flex;
+  gap: 15px;
 }
 
 .alerta-preview {
@@ -174,49 +235,132 @@
   color: var(--primary);
   font-size: 16px;
   text-align: center;
-  
 }
 
 /* ==========================================
    STATUS
 ========================================== */
 
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Ponto indicador */
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+/* ATIVO */
 .status.ativo,
 .status.em-andamento {
   background: var(--success-light);
   color: var(--success-dark);
 }
 
+.status.ativo::before,
+.status.em-andamento::before {
+  background: var(--success-dark);
+}
+
+/* INATIVO */
 .status.inativo,
 .status.concluida {
   background: var(--danger-light);
   color: var(--danger-dark);
 }
 
+.status.inativo::before,
+.status.concluida::before {
+  background: var(--danger-dark);
+}
+
+/* MANUTENÇÃO / VENDIDO */
 .status.em-manutencao,
 .status.vendido {
   background: var(--warning-light);
   color: var(--warning-dark);
 }
 
+.status.em-manutencao::before,
+.status.vendido::before {
+  background: var(--warning-dark);
+}
+
+/* ==========================================
+   BADGES DE TIPO (RELATÓRIO FINANCEIRO)
+========================================== */
+
+/* ENTRADA */
+.card-preview table.table span.badge-entrada {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--success-light);
+  color: var(--success-dark);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.card-preview table.table span.badge-entrada::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success-dark);
+}
+
+/* SAÍDA */
+.card-preview table.table span.badge-saida {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--danger-light);
+  color: var(--danger-dark);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.card-preview table.table span.badge-saida::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--danger-dark);
+}
 
 /* ==========================================
    FOOTER
 ========================================== */
-
 .footer-preview {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
+  display: block;
+  width: 100%;
   margin-top: 20px;
+  color: var(--report-blue);
+  text-align: left;
 }
 
-.acoes-exportar {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 15px;
-  gap: 15px;
+.footer-preview p {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+    font-size: 15px;
+  font-weight: 600;
 }
 
 /* ==========================================
@@ -225,7 +369,6 @@
 
 .sidebar-relatorios {
   width: 300px;
-
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -274,6 +417,7 @@
   color: var(--text-light);
 }
 
+
 /* ==========================================
    RESPONSIVO
 ========================================== */
@@ -304,16 +448,4 @@
   }
 }
 
-/* ==========================================
-   BADGES DE TIPO (RELATÓRIO FINANCEIRO)
-========================================== */
 
-.card-preview table.table span.badge-entrada {
-  color: var(--success-dark);
-  font-weight: 600;
-}
-
-.card-preview table.table span.badge-saida {
-  color: var(--danger-dark);
-  font-weight: 600;
-}
