@@ -1213,6 +1213,12 @@ INNER JOIN cliente c
     ON o.idCliente = c.idCliente;
 
 SELECT * FROM funcionario WHERE cpf='58058711063'; 
+
+ 
+SELECT idFinanceiroObra, idObra, descricao, valor, dataGasto 
+FROM financeiroObra 
+ORDER BY idFinanceiroObra DESC LIMIT 1;
+
 -- =====================================================
 -- CONTADOR 
 -- =====================================================
@@ -1249,7 +1255,3 @@ SHOW COLUMNS FROM financeiroObra;
 
 SHOW TABLES;
 
- 
-SELECT idFinanceiroObra, idObra, descricao, valor, dataGasto 
-FROM financeiroObra 
-ORDER BY idFinanceiroObra DESC LIMIT 1;

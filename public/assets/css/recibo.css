@@ -1,0 +1,380 @@
+/* =====================================================
+   RECIBO
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 40px 20px;
+    background: #f2f4f5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+}
+
+
+/* =====================================================
+   DOCUMENTO
+   ===================================================== */
+
+.recibo {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 45px 55px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =====================================================
+   CABEÇALHO
+   ===================================================== */
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 25px;
+
+    border-bottom: 2px solid #e85d04;
+}
+
+.logo {
+    width: 180px;
+    height: auto;
+}
+
+.titulo {
+    text-align: right;
+}
+
+.titulo h1 {
+    margin: 0;
+
+    font-size: 30px;
+
+    color: #333;
+
+    letter-spacing: 1px;
+}
+
+.titulo p {
+    margin: 6px 0 0;
+
+    font-size: 13px;
+
+    color: #777;
+}
+
+
+/* =====================================================
+   IDENTIFICAÇÃO
+   ===================================================== */
+
+.identificacao {
+    margin-top: 30px;
+    padding: 20px;
+
+    background: #f7f8f9;
+
+    border-radius: 6px;
+}
+
+.identificacao h2,
+.lancamento h2 {
+    margin: 0 0 15px;
+
+    font-size: 17px;
+
+    color: #333;
+}
+
+.dados-funcionario {
+    display: grid;
+
+    grid-template-columns: 2fr 1fr;
+
+    gap: 20px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.campo-label {
+    font-size: 11px;
+
+    font-weight: bold;
+
+    color: #777;
+
+    text-transform: uppercase;
+}
+
+.campo-valor {
+    font-size: 15px;
+
+    color: #333;
+}
+
+
+/* =====================================================
+   LANÇAMENTO
+   ===================================================== */
+
+.lancamento {
+    margin-top: 35px;
+}
+
+.dados-lancamento {
+    overflow: hidden;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+}
+
+.linha {
+    display: grid;
+
+    grid-template-columns: 190px 1fr;
+
+    min-height: 48px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.linha:last-child {
+    border-bottom: none;
+}
+
+.linha-label {
+    padding: 14px 16px;
+
+    background: #f7f8f9;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.linha-valor {
+    padding: 14px 16px;
+
+    font-size: 14px;
+}
+
+.valor-destaque {
+    font-size: 20px;
+
+    font-weight: bold;
+
+    color: #e85d04;
+}
+
+
+/* =====================================================
+   OBSERVAÇÃO
+   ===================================================== */
+
+.observacao {
+    margin-top: 25px;
+    padding: 15px 18px;
+
+    background: #fafafa;
+
+    border-left: 4px solid #ddd;
+}
+
+.observacao strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 12px;
+
+    color: #777;
+
+    text-transform: uppercase;
+}
+
+.observacao p {
+    margin: 0;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   DECLARAÇÃO
+   ===================================================== */
+
+.declaracao {
+    margin-top: 35px;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    text-align: justify;
+}
+
+
+/* =====================================================
+   ASSINATURA
+   ===================================================== */
+
+.assinatura {
+    width: 300px;
+
+    margin: 80px auto 0;
+
+    text-align: center;
+}
+
+.linha-assinatura {
+    padding-top: 8px;
+
+    border-top: 1px solid #333;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   RODAPÉ
+   ===================================================== */
+
+.rodape {
+    margin-top: 50px;
+    padding-top: 15px;
+
+    border-top: 1px solid #ddd;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    color: #888;
+}
+
+
+/* =====================================================
+   AÇÕES
+   ===================================================== */
+
+.acoes {
+    max-width: 850px;
+
+    margin: 20px auto 0;
+
+    text-align: center;
+}
+
+.btn-imprimir {
+    padding: 12px 25px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #333;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.btn-imprimir:hover {
+    opacity: 0.9;
+}
+
+
+/* =====================================================
+   IMPRESSÃO
+   ===================================================== */
+
+@media print {
+
+    body {
+        padding: 0;
+
+        background: #fff;
+    }
+
+    .recibo {
+        max-width: none;
+
+        padding: 25px;
+
+        border: none;
+
+        box-shadow: none;
+    }
+
+    .acoes {
+        display: none;
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .recibo {
+        padding: 25px;
+    }
+
+    .cabecalho {
+        flex-direction: column;
+
+        gap: 20px;
+
+        text-align: center;
+    }
+
+    .titulo {
+        text-align: center;
+    }
+
+    .dados-funcionario {
+        grid-template-columns: 1fr;
+    }
+
+    .linha {
+        grid-template-columns: 1fr;
+    }
+
+    .linha-label {
+        border-bottom: 1px solid #eee;
+    }
+
+    .assinatura {
+        width: 80%;
+    }
+
+}

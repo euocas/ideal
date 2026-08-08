@@ -65,6 +65,7 @@ return [
     'financeiro-funcionario/store' => [FinanceiroFuncionarioController::class, 'store'],
     'financeiro-funcionario/update' => [FinanceiroFuncionarioController::class, 'update'],
     'financeiro-funcionario/delete' => [FinanceiroFuncionarioController::class, 'delete'],
+    'financeiro-funcionario/recibo' => [FinanceiroFuncionarioController::class, 'gerarRecibo'],
 
     // Rotas do Financeiro -> Obra
     'financeiro-obra' => [FinanceiroObraController::class, 'index'],
@@ -93,6 +94,5 @@ return [
     'credenciais' => [CredenciaisController::class, 'index'],
     'credenciais/alterar' => [CredenciaisController::class, 'alterar'],
     'clientes/buscarPorCnpj' => [ClientesController::class, 'buscarPorCnpj'],
-
 
 ];

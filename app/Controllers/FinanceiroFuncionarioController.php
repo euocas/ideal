@@ -25,6 +25,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         $funcionario = null;
         $funcionarioBusca = null;
 
+
         $cpfBusca = preg_replace('/\D/', '', $_POST['cpf'] ?? $_GET['cpf'] ?? '');
         $mesBusca = $_POST['mes'] ?? $_GET['mes'] ?? date('n');
         $anoBusca = $_POST['ano'] ?? $_GET['ano'] ?? date('Y');
@@ -56,11 +57,18 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
 
         ];
         $lancamentos = [];
+        $lancamentoRecibo = null;
 
         if ($funcionario) {
             $funcionarioBusca = $funcionario;
 
+            // Lançamento recém-cadastrado
             $financeiroFuncionarioModel = new FinanceiroFuncionario();
+            if (!empty($_GET['recibo'])) {
+                $lancamentoRecibo = $financeiroFuncionarioModel->findById(
+                    (int) $_GET['recibo']
+                );
+            }
 
             $ultimosLancamentos = $financeiroFuncionarioModel->findUltimosByIdFuncionario(
                 $funcionario->getIdFuncionario(),
@@ -89,6 +97,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
             $_SESSION['mensagem_erro'] = 'Funcionário não encontrado.';
         }
         $aba = 'funcionario';
+
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
 
@@ -159,14 +168,11 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         require_once __DIR__ . '/../Views/financeiros/index.php';
     }
 
-    // public function create()
-    // {
-    //     require_once __DIR__ . '/../Views/financeiros/index.php';
-    // }
-
     private function popularFuncionario(FinanceiroFuncionario $obj, array $dados): void
     {
-        $obj->setIdFuncionario($dados['idFuncionario'] ?? null);
+        $obj->setIdFuncionario(
+            isset($dados['idFuncionario']) ? (int) $dados['idFuncionario'] : null
+        );
 
         $idCategoria = $obj->buscarIdCategoriaPorNome($dados['categoria'] ?? '');
         $obj->setIdCategoria($idCategoria);
@@ -178,6 +184,7 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         $obj->setContaPagamento($dados['contaPagamento'] ?? null);
         $obj->setObservacao($dados['observacao'] ?? null);
     }
+
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -189,24 +196,36 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
 
             if ($salvou) {
                 $_SESSION['mensagem_sucesso'] = "Lançamento financeiro cadastrado com sucesso!";
+
+                $idRecibo = $obj->getIdFinanceiroFuncionario();
+                $idFuncionario = $obj->getIdFuncionario();
+
             } else {
                 $_SESSION['mensagem_erro'] = "Ocorreu um erro ao cadastrar no banco de dados.";
+
+                $idRecibo = null;
+                $idFuncionario = $_POST['idFuncionario'] ?? null;
             }
 
-            $cpf = preg_replace('/\D/', '', $_POST['cpf_hidden'] ?? '');
             $mes = $_POST['mes_hidden'] ?? date('n');
             $ano = $_POST['ano_hidden'] ?? date('Y');
 
-            header(
-                "Location: " . BASE_URL . "/index.php?url=financeiro-funcionario/buscar"
-                . "&tipo=periodo"
-                . "&cpf={$cpf}"
+            $url = BASE_URL . "/index.php?url=financeiro-funcionario/buscar"
+                . "&tipo=entrada"
+                . "&idFuncionario={$idFuncionario}"
                 . "&mes={$mes}"
-                . "&ano={$ano}"
-            );
+                . "&ano={$ano}";
+
+            if ($idRecibo !== null) {
+                $url .= "&recibo={$idRecibo}";
+            }
+
+            header("Location: " . $url);
             exit;
         }
     }
+
+
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -248,8 +267,6 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         }
     }
 
-
-
     public function delete()
     {
         $id = $_GET['id'] ?? null;
@@ -282,5 +299,46 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         $_SESSION['mensagem_erro'] = "Lançamento não encontrado.";
         header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
         exit;
+    }
+
+    public function gerarRecibo()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
+            exit;
+        }
+
+        $model = new FinanceiroFuncionario();
+
+        $financeiroFuncionario = $model->findById((int) $id);
+
+        if (!$financeiroFuncionario) {
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
+            exit;
+        }
+
+        $funcionarioModel = new Funcionario();
+
+        $funcionario = $funcionarioModel->findById(
+            $financeiroFuncionario->getIdFuncionario()
+        );
+
+        if (!$funcionario) {
+            header("Location: " . BASE_URL . "/index.php?url=financeiros&aba=funcionario");
+            exit;
+        }
+
+        // Dados disponíveis para o recibo
+        $categoria = $financeiroFuncionario->getCategoria();
+        $descricao = $financeiroFuncionario->getDescricao();
+        $valor = $financeiroFuncionario->getValor();
+        $dataReferencia = $financeiroFuncionario->getDataReferencia();
+        $formaPagamento = $financeiroFuncionario->getFormaPagamento();
+        $contaPagamento = $financeiroFuncionario->getContaPagamento();
+        $observacao = $financeiroFuncionario->getObservacao();
+
+        require_once __DIR__ . '/../Views/financeiros/recibo.php';
     }
 }
