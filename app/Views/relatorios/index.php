@@ -187,12 +187,9 @@ require_once __DIR__ . '/../includes/header.php';
                                     </div>
 
                                 <?php endif; ?>
-
                             </div>
-
                             <!-- BOTÕES -->
                             <div class="acoes-filtros">
-
                                 <button type="reset" class="btn-limpar">
                                     <i class="bi bi-eraser"></i>
                                     LIMPAR
@@ -210,18 +207,28 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
                         </form>
                     </div>
-
                     <!-- PRÉ-VISUALIZAÇÃO -->
                     <div class="card card-preview">
-
                         <h2>
                             Pré-visualização do Relatório
                         </h2>
+                            <div class="acoes-exportar">
+
+                                    <button type="submit" form="formRelatorio"
+                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-excel&relatorio=<?= $relatorio ?>"
+                                        class="btn-excel">
+                                        EXPORTAR EXCEL
+                                    </button>
+
+                                    <button type="submit" form="formRelatorio"
+                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
+                                        formtarget="_blank" class="btn-pdf">
+                                        GERAR PDF
+                                    </button>
+                                </div>
 
                         <div class="alerta-preview">
-
                             Exibindo pré-visualização dos dados que serão exportados.
-
                         </div>
 
                         <!-- TABELA DINÂMICA -->
@@ -424,22 +431,6 @@ require_once __DIR__ . '/../includes/header.php';
                                         Exibindo registros do relatório de <?= $tipoSelecionado ?>
                                     <?php endif; ?>
                                 </p>
-
-                                <div class="acoes-exportar">
-
-                                    <button type="submit" form="formRelatorio"
-                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-excel&relatorio=<?= $relatorio ?>"
-                                        class="btn-excel">
-                                        EXPORTAR EXCEL
-                                    </button>
-
-                                    <button type="submit" form="formRelatorio"
-                                        formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
-                                        formtarget="_blank" class="btn-pdf">
-                                        GERAR PDF
-                                    </button>
-
-                                </div>
 
                             </div>
 
