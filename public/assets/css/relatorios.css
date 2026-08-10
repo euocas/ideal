@@ -101,6 +101,9 @@
   background: var(--surface);
   outline: none;
 }
+input[type="date"] {
+  font-family: var(--font-primary);
+}
 
 /* ==========================================
    BOTÕES

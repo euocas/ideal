@@ -791,12 +791,6 @@ class RelatoriosController
         $writer->save('php://output');
         exit;
     }
-
-    public function loading()
-    {
-        require_once __DIR__ . '/../Views/relatorios/loading.php';
-    }
-
     //Exporta o relatório em PDF
     public function exportarPdf()
     {

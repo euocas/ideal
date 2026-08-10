@@ -7,8 +7,9 @@
 $titulo = 'Relatórios';
 $favicon = '/ideal/public/assets/icon/relatorio.png';
 $pageStyles = [
+    BASE_URL . '/assets/css/variables.css',
     BASE_URL . '/assets/css/relatorios.css?v=' . time(),
-    BASE_URL . '/assets/css/loading.css',
+    BASE_URL . '/assets/css/relatorio-loading.css',
 ];
 
 require_once __DIR__ . '/../includes/header.php';
@@ -16,11 +17,7 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 <div class="layout">
 
-    <button
-        type="button"
-        class="menu-toggle"
-        id="menuToggle"
-        aria-label="Abrir menu">
+    <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
         <i class="fa-solid fa-bars"></i>
     </button>
 
@@ -34,14 +31,14 @@ require_once __DIR__ . '/../includes/header.php';
 
             <div class="alert alert-success">
                 ✅ <?= $_SESSION['mensagem_sucesso'];
-                    unset($_SESSION['mensagem_sucesso']); ?>
+                unset($_SESSION['mensagem_sucesso']); ?>
             </div>
         <?php endif; ?>
 
         <?php if (isset($_SESSION['mensagem_erro'])): ?>
             <div class="alert alert-error">
                 ❌ <?= $_SESSION['mensagem_erro'];
-                    unset($_SESSION['mensagem_erro']); ?>
+                unset($_SESSION['mensagem_erro']); ?>
             </div>
         <?php endif; ?>
 
@@ -237,7 +234,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                                 <button type="submit" form="formRelatorio"
                                     formaction="<?= BASE_URL ?>/index.php?url=relatorios/exportar-pdf&relatorio=<?= $relatorio ?>"
-                                    formtarget="_blank" class="btn-pdf">
+                                    class="btn-pdf">
                                     <i class="fa-solid fa-file-pdf"></i>
                                     GERAR PDF
                                 </button>
@@ -322,16 +319,16 @@ require_once __DIR__ . '/../includes/header.php';
                                                         <td><?= htmlspecialchars($linha['idCliente'] ?? '') ?></td>
                                                         <td><?= htmlspecialchars($linha['nomeCliente'] ?? '') ?></td>
                                                         <td><?= preg_replace(
-                                                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                '$1.$2.$3-$4',
-                                                                $linha['cpf'] ?? ''
-                                                            ) ?></td>
+                                                            '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                            '$1.$2.$3-$4',
+                                                            $linha['cpf'] ?? ''
+                                                        ) ?></td>
 
                                                         <td><?= preg_replace(
-                                                                '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-                                                                '$1.$2.$3/$4-$5',
-                                                                $linha['cnpj'] ?? ''
-                                                            ) ?>
+                                                            '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                                            '$1.$2.$3/$4-$5',
+                                                            $linha['cnpj'] ?? ''
+                                                        ) ?>
                                                         </td>
 
 
@@ -341,10 +338,10 @@ require_once __DIR__ . '/../includes/header.php';
                                                         <td><?= htmlspecialchars($linha['idFuncionario'] ?? '') ?></td>
                                                         <td><?= htmlspecialchars($linha['nome'] ?? '') ?></td>
                                                         <td><?= preg_replace(
-                                                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                                                '$1.$2.$3-$4',
-                                                                $linha['cpf'] ?? ''
-                                                            ) ?></td>
+                                                            '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                                            '$1.$2.$3-$4',
+                                                            $linha['cpf'] ?? ''
+                                                        ) ?></td>
                                                         <td><?= htmlspecialchars($linha['cargoFuncao'] ?? '') ?></td>
                                                         <td>
                                                             <?php $status = strtolower(trim($linha['status'] ?? '')); ?>
@@ -359,10 +356,10 @@ require_once __DIR__ . '/../includes/header.php';
                                                         <td><?= htmlspecialchars($linha['idVeiculo'] ?? '') ?></td>
                                                         <td><?= htmlspecialchars($linha['placa'] ?? '') ?></td>
                                                         <td><?= preg_replace(
-                                                                '/(\d{4})(\d{6})(\d{1})/',
-                                                                '$1.$2-$3',
-                                                                $linha['renavam'] ?? ''
-                                                            ) ?>
+                                                            '/(\d{4})(\d{6})(\d{1})/',
+                                                            '$1.$2-$3',
+                                                            $linha['renavam'] ?? ''
+                                                        ) ?>
                                                         </td>
                                                         <td><?= htmlspecialchars($linha['modelo'] ?? '') ?></td>
                                                         <td><?= htmlspecialchars($linha['marca'] ?? '') ?></td>
@@ -553,7 +550,7 @@ require_once __DIR__ . '/../includes/header.php';
     </main>
 
 </div>
-
+<script src="<?= BASE_URL ?>/assets/js/relatorio-loading.js"></script>
 </body>
 
 </html>
