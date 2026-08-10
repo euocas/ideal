@@ -409,6 +409,17 @@ textarea {
 
   .indicador {
     min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .indicador__dados {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
   }
 
   .grid-form,
