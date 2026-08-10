@@ -3,29 +3,30 @@
 // TÍTULO
 $titulo = 'Credenciais';
 $favicon = BASE_URL . '/assets/icon/chave.png';
+$pageStyles = [
+    'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css',
+    BASE_URL . '/assets/css/credenciais.css?v=' . time(),
+];
 
 require_once __DIR__ . '/../includes/header.php';
 
 ?>
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/credenciais.css?v=<?= time() ?>">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-
-<body>
     <div class="layout">
-        <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
-        <div class="content">
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <aside class="sidebar" id="sidebar">
+            <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+        </aside>
+
+        <main class="content">
 
             <?php if (isset($_SESSION['mensagem_erro'])): ?>
                 <div class="alert alert-error">
@@ -111,7 +112,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
                 <?php endif; ?>
 
-          
+
                 <!-- FORMULÁRIO PRINCIPAL -->
                 <div class="card-formulario">
 
@@ -217,7 +218,7 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
 
             </form>
-        </div>
+    </div>
     </div>
 
     <script>
@@ -245,7 +246,7 @@ require_once __DIR__ . '/../includes/header.php';
         tipoAlteracao.addEventListener('change', atualizarCampos);
         atualizarCampos();
 
-        document.getElementById('btnBuscar').addEventListener('click', function () {
+        document.getElementById('btnBuscar').addEventListener('click', function() {
             const usuarioDigitado = document.getElementById('inputBuscaUsuario').value;
 
             if (usuarioDigitado.trim() === '') {
@@ -257,9 +258,9 @@ require_once __DIR__ . '/../includes/header.php';
             formData.append('login', usuarioDigitado);
 
             fetch('<?= BASE_URL ?>/index.php?url=credenciais/buscar', {
-                method: 'POST',
-                body: formData
-            })
+                    method: 'POST',
+                    body: formData
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data && data.id) {

@@ -121,18 +121,6 @@
 /* ==========================================
    FORMULÁRIO
 ========================================== */
-.content form {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 15px;
-  margin-bottom: 40px;
-  padding: 25px;
-  background: var(--surface);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-}
-
 .content input[type="text"] {
   flex: 1;
   min-width: 180px;
@@ -147,21 +135,6 @@
 }
 .content input[type="text"]:focus {
   border-bottom-color: var(--orange-dark);
-}
-.content button[type="submit"] {
-  padding: 10px 25px;
-  background: var(--btn-dark);
-  border: none;
-  border-radius: var(--radius-sm);
-  color: var(--text-white);
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--transition);
-}
-.content button[type="submit"]:hover {
-  background: var(--orange-dark);
 }
 .titulo-pagina {
   color: var(--text);

@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css?v=<?= time() ?>">
+
+    <?php foreach (($pageStyles ?? []) as $pageStyle): ?>
+        <link rel="stylesheet" href="<?= htmlspecialchars($pageStyle, ENT_QUOTES, 'UTF-8') ?>">
+    <?php endforeach; ?>
+
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css?v=<?= time() ?>">
 
     <script>
@@ -31,6 +36,7 @@
             }
         });
     </script>
+    <script src="<?= BASE_URL ?>/assets/js/menu.js" defer></script>
 </head>
 
 <body>

@@ -42,6 +42,9 @@ header("Expires: 0");
 // TÍTULO
 $titulo = 'Veículos';
 $favicon = '/ideal/public/assets/icon/veiculo.png';
+$pageStyles = [
+    BASE_URL . '/assets/css/veiculos.css?v=' . time(),
+];
 
 // HEADER
 require_once __DIR__ . '/../includes/header.php';
@@ -49,24 +52,21 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
+    <div class="layout">
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/veiculos.css?v=<?= time() ?>">
+        <aside class="sidebar" id="sidebar">
+            <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+        </aside>
 
-</head>
-
-<body onunload="">
-    <div class="dashboard-container">
-        <?php include __DIR__ . '/../includes/sidebar.php'; ?>
-
-        <main class="main-content">
+        <main class="content">
 
             <section class="card">
                 <div class="grid-busca">

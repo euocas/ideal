@@ -5,6 +5,9 @@ error_reporting(E_ALL);
 
 $titulo = "Financeiro";
 $favicon = BASE_URL . "/assets/icon/financeiro3.png";
+$pageStyles = [
+    BASE_URL . '/assets/css/financeiro.css?v=' . time(),
+];
 require_once __DIR__ . "/../includes/header.php";
 $aba = $aba ?? ($_GET["aba"] ?? "funcionario");
 $abas = ["funcionario", "obra", "automovel"];
@@ -12,31 +15,31 @@ if (!in_array($aba, $abas)) {
     $aba = "funcionario";
 }
 ?>
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/financeiro.css?v=<?= time() ?>">
-</head>
+    <div class="layout">
 
-<body>
-    <div class="dashboard-container">
-        <?php include __DIR__ . "/../includes/sidebar.php"; ?>
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-        <main class="main-content">
+        <aside class="sidebar" id="sidebar">
+            <?php include_once __DIR__ . "/../includes/sidebar.php"; ?>
+        </aside>
+
+        <main class="content">
 
             <div class="abas-container">
-                <a href="?url=financeiros&aba=funcionario" class="aba <?= $aba === "funcionario"? "ativa"
-                    : "" ?>"><i class="fa-solid fa-user-tie"></i> Funcionário</a>
+                <a href="?url=financeiros&aba=funcionario" class="aba <?= $aba === "funcionario" ? "ativa"
+                                                                            : "" ?>"><i class="fa-solid fa-user-tie"></i> Funcionário</a>
 
-                <a href="?url=financeiros&aba=obra" class="aba <?= $aba === "obra"? "ativa"
-                    : "" ?>"><i class="fa-solid fa-hard-hat"></i> Obra</a>
+                <a href="?url=financeiros&aba=obra" class="aba <?= $aba === "obra" ? "ativa"
+                                                                    : "" ?>"><i class="fa-solid fa-hard-hat"></i> Obra</a>
 
-                <a href="?url=financeiros&aba=automovel" class="aba <?= $aba === "automovel"? "ativa"
-                    : "" ?>"><i class="fa-solid fa-car"></i> Automóvel</a>
+                <a href="?url=financeiros&aba=automovel" class="aba <?= $aba === "automovel" ? "ativa"
+                                                                        : "" ?>"><i class="fa-solid fa-car"></i> Automóvel</a>
             </div>
 
             <?php if (isset($_SESSION["mensagem_sucesso"])): ?>

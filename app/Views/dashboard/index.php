@@ -38,9 +38,21 @@ require_once __DIR__ . '/../includes/header.php';
 
 
     <div class="layout">
-        <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
 
-        <div class="content">
+    <button
+        type="button"
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <aside class="sidebar" id="sidebar">
+        <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+    </aside>
+
+    <div class="content">
+            
             <div class="dashboard-header">
 
                 <div class="dashboard-header-info">

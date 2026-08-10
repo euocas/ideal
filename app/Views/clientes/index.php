@@ -4,6 +4,10 @@ use App\Config\SistemaConstantes;
 // TÍTULO DA PÁGINA
 $titulo = 'Clientes';
 $favicon = BASE_URL . '/assets/icon/cliente.png';
+$pageStyles = [
+    'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css',
+    BASE_URL . '/assets/css/cliente.css?v=' . time(),
+];
 require_once __DIR__ . '/../includes/header.php';
 
 // Estado da tela
@@ -11,24 +15,23 @@ $modoNovo = isset($_GET['novo']);
 $modoEdicao = isset($cliente);
 ?>
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
 <link rel="shortcut icon" href="<?= BASE_URL ?>/assets/icons/clientes2.png" type="image/x-icon">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/cliente.css?v=<?= time() ?>">
-</head>
 
-<body>
+    <div class="layout">
 
-    <div class="dashboard-container">
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-        <?php include __DIR__ . '/../includes/sidebar.php'; ?>
+        <aside class="sidebar" id="sidebar">
+            <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+        </aside>
 
-        <main class="main-content">
+        <main class="content">
 
 
             <section class="card">
@@ -110,7 +113,7 @@ $modoEdicao = isset($cliente);
                     <?php endif; ?>
 
                     <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                       <div class="alert alert-error">
+                        <div class="alert alert-error">
                             ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
                         </div>
                         <?php unset($_SESSION['mensagem_erro']); ?>
@@ -196,7 +199,6 @@ $modoEdicao = isset($cliente);
                                         '($1) $2-$3',
                                         $telefone
                                     );
-
                                 } elseif (strlen($telefone) === 10) {
 
                                     // Telefone fixo

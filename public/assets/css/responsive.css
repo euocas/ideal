@@ -3,309 +3,716 @@
    Sistema Ideal
    =================================================== */
 
+html,
+body {
+  min-width: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.layout,
+.dashboard-container {
+  width: 100%;
+  min-width: 0;
+}
+
+.content,
+.main-content {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.table-container,
+.tabela-funcionarios,
+.table-responsive,
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-container table,
+.tabela-funcionarios table,
+.table-responsive table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 100%;
+}
 
 /* ===================================================
    NOTEBOOKS (1025px até 1600px)
    =================================================== */
 
 @media (min-width: 1025px) and (max-width: 1600px) {
+  .content {
+    padding: 28px;
+  }
 
-    /* ===== Layout ===== */
+  .dashboard-header {
+    margin-bottom: 20px;
+  }
 
-    .content {
-        padding: 28px;
-    }
+  .dashboard-header-info h1 {
+    font-size: 28px;
+  }
 
-    /* ===== Dashboard ===== */
+  .painel-titulo,
+  .preview-titulo h2,
+  .fin-header h1,
+  .titulo-card {
+    font-size: 20px;
+  }
 
-    .dashboard-header {
-        margin-bottom: 20px;
-    }
+  .card-dashboard {
+    padding: 16px;
+  }
 
-    .dashboard-header-info h1 {
-        font-size: 28px;
-    }
+  .card-dashboard h3 {
+    font-size: 24px;
+  }
 
-    .painel-titulo {
-        font-size: 20px;
-    }
+  .card-dashboard p {
+    font-size: 16px;
+  }
 
-    /* ===== Cards ===== */
+  .card-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
 
-    .card-dashboard {
-        padding: 16px;
-    }
+  .banner-carrossel {
+    height: 320px;
+  }
 
-    .card-dashboard h3 {
-        font-size: 24px;
-    }
+  .banner-slide__titulo {
+    font-size: 32px;
+  }
 
-    .card-dashboard p {
-        font-size: 16px;
-    }
-
-    .card-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 28px;
-    }
-
-    /* ===== Banner ===== */
-
-    .banner-carrossel {
-        height: 320px;
-    }
-
-    .banner-slide__titulo {
-        font-size: 32px;
-    }
-
-    /* ===== Indicadores ===== */
-
-    .indicador__valor {
-        font-size: 38px;
-    }
-
+  .indicador__valor {
+    font-size: 38px;
+  }
 }
-
 
 /* ===================================================
    TABLETS GRANDES (até 1200px)
    =================================================== */
 
 @media (max-width: 1200px) {
+  .content {
+    padding: 25px;
+  }
 
-    /* Reservado */
+  .sidebar {
+    width: 190px;
+  }
 
+  .logo img {
+    width: 160px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .dashboard-header-brand {
+    text-align: left;
+  }
+
+  .dashboard-header-info h1 {
+    font-size: 28px;
+  }
+
+  .cards-dashboard {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .card-dashboard {
+    padding: 16px;
+  }
+
+  .conteudo-relatorios {
+    flex-wrap: wrap;
+  }
+
+  .sidebar-relatorios,
+  .card-filtros,
+  .card-preview,
+  .painel-relatorio {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .filtros-grid {
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+  }
 }
-
 
 /* ===================================================
    TABLETS (até 1024px)
    =================================================== */
 
 @media (max-width: 1024px) {
+  .content {
+    padding: 25px;
+  }
 
-    /* ===== Layout ===== */
+  .grid-form {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+  }
 
-    .content {
-        padding: 25px;
-    }
+  .grid-busca,
+  .financeiro-topo,
+  .cliente-area,
+  .grid-topo-obra,
+  .grid-funcionario,
+  .grupo-datas,
+  .grid-endereco,
+  .table-wrapper,
+  .filtros-grid,
+  .conteudo-relatorios {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
 
-    /* ===== Sidebar ===== */
+  .cards-dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .sidebar {
-        width: 190px;
-    }
-
-    .logo img {
-        width: 160px;
-    }
-
-    /* ===== Dashboard ===== */
-
-    .dashboard-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .dashboard-header-brand {
-        text-align: left;
-    }
-
-    .dashboard-header-info h1 {
-        font-size: 28px;
-    }
-
-    /* ===== Cards ===== */
-
-    .cards-dashboard {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-    }
-
-    .card-dashboard {
-        padding: 16px;
-    }
-
+  .aba {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 140px;
+  }
 }
-
 
 /* ===================================================
    TABLETS PEQUENOS (até 992px)
    =================================================== */
 
 @media (max-width: 992px) {
+  .content {
+    padding: 22px;
+  }
 
-    /* ===== Layout ===== */
+  .grid-form,
+  .grid-busca,
+  .filtros-grid,
+  .financeiro-topo,
+  .cliente-area,
+  .grid-topo-obra,
+  .grid-funcionario,
+  .grupo-datas,
+  .grid-endereco,
+  .conteudo-relatorios {
+    grid-template-columns: 1fr;
+  }
 
-    .content {
-        padding: 25px;
-    }
+  .aba {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
 
+  .acoes-filtros,
+  .acoes {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .painel-opcoes,
+  .card,
+  .card-filtros,
+  .preview-cabecalho {
+    padding: 18px;
+  }
 }
-
 
 /* ===================================================
    iPad Vertical (até 900px)
    =================================================== */
 
 @media (max-width: 900px) {
+  .cards-dashboard {
+    grid-template-columns: 1fr;
+  }
 
-    /* ===== Cards ===== */
-
-    .cards-dashboard {
-        grid-template-columns: 1fr;
-    }
-
+  .banner-slide__content {
+    padding: 28px 24px;
+    max-width: 100%;
+  }
 }
-
 
 /* ===================================================
    TABLETS / MOBILE (até 780px)
    =================================================== */
 
 @media (max-width: 780px) {
+  .banner-carrossel {
+    height: 280px;
+  }
 
-    /* ===== Banner ===== */
+  .banner-slide__content {
+    padding: 26px 20px;
+  }
 
-    .banner-carrossel {
-        height: 280px;
-    }
+  .banner-slide__titulo {
+    font-size: 28px;
+  }
 
-    .banner-slide__content {
-        padding: 32px 28px;
-        max-width: 100%;
-    }
-
-    .banner-slide__titulo {
-        font-size: 28px;
-    }
-
-    .banner-slide__overlay {
-        background: linear-gradient(
-            180deg,
-            rgba(15, 15, 15, 0.85) 0%,
-            rgba(15, 15, 15, 0.6) 100%
-        );
-    }
-
+  .banner-slide__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(15, 15, 15, 0.85) 0%,
+      rgba(15, 15, 15, 0.6) 100%
+    );
+  }
 }
-
 
 /* ===================================================
    CELULARES (até 768px)
    =================================================== */
 
 @media (max-width: 768px) {
+  .layout,
+  .dashboard-container {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
 
-    /* ===== Layout ===== */
+  .content,
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-x: hidden;
+  }
 
-    .layout {
-        display: block;
-    }
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 8px;
+    background: var(--orange-dark);
+    color: var(--text-white);
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 1001;
+  }
 
-    .content {
-        width: 100%;
-        padding: 20px;
-    }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -260px;
+    width: 260px;
+    min-height: 100dvh;
+    height: 100vh;
+    padding-top: 80px;
+    z-index: 1000;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+  }
 
-    /* ===== Sidebar ===== */
+  .sidebar.ativo {
+    left: 0;
+  }
 
-    .menu-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        width: 45px;
-        height: 45px;
-        border: none;
-        border-radius: 8px;
-        background: var(--orange-dark);
-        color: var(--text-white);
-        font-size: 22px;
-        cursor: pointer;
-        z-index: 1001;
-    }
+  .logo img {
+    width: 140px;
+  }
 
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: -260px;
-        width: 260px;
-        height: 100vh;
-        padding-top: 80px;
-        z-index: 1000;
-        transition: left .3s ease;
-    }
+  .menu li a {
+    padding: 12px;
+    font-size: 13px;
+  }
 
-    .sidebar.ativo {
-        left: 0;
-    }
+  .dashboard-header,
+  .preview-cabecalho,
+  .card-titulo,
+  .fin-header,
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 
-    .logo img {
-        width: 140px;
-    }
+  .dashboard-header {
+    padding-top: 65px;
+  }
 
-    .menu li a {
-        padding: 12px;
-        font-size: 13px;
-    }
+  .dashboard-header-brand,
+  .dashboard-header-info {
+    width: 100%;
+    text-align: left;
+  }
 
-    /* ===== Dashboard ===== */
+  .dashboard-header-info h1 {
+    font-size: 24px;
+  }
 
-    .dashboard-header-info h1 {
-        font-size: 24px;
-    }
+  .dashboard-header-brand h2 {
+    font-size: 18px;
+  }
 
-    .dashboard-header-brand h2 {
-        font-size: 18px;
-    }
+  .subtitulo-sistema {
+    font-size: 15px;
+  }
 
-    .subtitulo-sistema {
-        font-size: 15px;
-    }
+  .dashboard-header .dashboard-header-brand,
+  .dashboard-header .dashboard-header-info {
+    width: 100%;
+  }
 
+  .cards-dashboard {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .card-dashboard {
+    padding: 16px;
+  }
+
+  .indicadores {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .indicador {
+    min-width: 0;
+  }
+
+  .grid-form,
+  .grid-busca,
+  .filtros-grid,
+  .financeiro-topo,
+  .cliente-area,
+  .grid-topo-obra,
+  .grid-funcionario,
+  .grupo-datas,
+  .grid-endereco,
+  .conteudo-relatorios {
+    grid-template-columns: 1fr;
+  }
+
+  .grupo-conta,
+  .cliente-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .observacao {
+    grid-column: span 1;
+  }
+
+  .endereco-cidade,
+  .endereco-logradouro,
+  .endereco-endereco,
+  .endereco-complemento,
+  .endereco-observacoes {
+    grid-column: span 1;
+  }
+
+  .form-busca {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .acoes-filtros,
+  .acoes {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .acoes button,
+  .btn-buscar,
+  .btn-excel,
+  .btn-pdf,
+  .btn-filtrar,
+  .btn-todos,
+  .btn-limpar {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .aba {
+    flex: 1 1 calc(50% - 10px);
+    white-space: nowrap;
+    min-width: 140px;
+  }
+
+  .conteudo-relatorios {
+    flex-direction: column;
+  }
+
+  .sidebar-relatorios {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cliente-card,
+  .card-busca,
+  .card-dica,
+  .card-formulario,
+  .painel-relatorio,
+  .card-preview,
+  .filtros-grid,
+  .tabela-funcionarios {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .content *,
+  .main-content * {
+    max-width: 100%;
+  }
 }
 
+/* ===================================================
+   TABLETS PEQUENOS (até 600px)
+   =================================================== */
+
+@media (max-width: 600px) {
+  .content {
+    padding: 16px;
+  }
+
+  .grid-form,
+  .grid-busca,
+  .filtros-grid,
+  .financeiro-topo,
+  .cliente-area,
+  .grid-topo-obra,
+  .grid-funcionario,
+  .grupo-datas,
+  .grid-endereco,
+  .conteudo-relatorios {
+    grid-template-columns: 1fr;
+  }
+
+  .form-busca {
+    gap: 12px;
+  }
+
+  .aba {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .acoes-filtros {
+    justify-content: stretch;
+  }
+
+  .painel-opcoes,
+  .card,
+  .card-filtros,
+  .preview-cabecalho {
+    padding: 18px;
+  }
+}
 
 /* ===================================================
-   CELULARES PEQUENOS (até 480px)
+   CELULARES (até 480px)
    =================================================== */
 
 @media (max-width: 480px) {
+  .content {
+    padding: 15px;
+  }
 
-    /* ===== Layout ===== */
+  .sidebar {
+    width: 220px;
+  }
 
-    .content {
-        padding: 15px;
-    }
+  .logo img {
+    width: 120px;
+  }
 
-    /* ===== Sidebar ===== */
+  .menu li a {
+    gap: 8px;
+    padding: 10px;
+    font-size: 12px;
+  }
 
-    .sidebar {
-        width: 165px;
-    }
+  .user-info h3 {
+    font-size: 13px;
+  }
 
-    .logo img {
-        width: 120px;
-    }
+  .user-info span {
+    font-size: 11px;
+  }
 
-    .menu li a {
-        gap: 8px;
-        padding: 10px;
-        font-size: 12px;
-    }
+  .painel-titulo,
+  .preview-titulo h2,
+  .titulo-card {
+    font-size: 20px;
+  }
 
-    .user-info h3 {
-        font-size: 13px;
-    }
+  .filtros-grid {
+    gap: 12px;
+  }
 
-    .user-info span {
-        font-size: 11px;
-    }
+  .preview-cabecalho {
+    gap: 10px;
+  }
+}
 
+/* ===================================================
+   CELULARES PEQUENOS (até 400px)
+   =================================================== */
+
+@media (max-width: 400px) {
+  .content {
+    padding: 12px;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .btn,
+  .btn-buscar,
+  .btn-excel,
+  .btn-pdf,
+  .btn-filtrar,
+  .btn-todos,
+  .btn-limpar {
+    font-size: 13px;
+  }
+
+  .menu li a {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .painel-opcoes,
+  .card,
+  .card-filtros {
+    padding: 16px;
+  }
+
+  .dashboard-header {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content,
+  .main-content {
+    padding-top: 75px;
+  }
+
+  .dashboard-header {
+    padding-top: 0;
+  }
+
+  .abas-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .aba {
+    min-width: 0;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 4px;
+    font-size: 12px;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .subabas-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border-bottom: none;
+  }
+
+  .subaba {
+    bottom: 0;
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    padding: 12px;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .entrada-container,
+  .saida-container,
+  .veiculo-topo,
+  .obra-busca,
+  .obra-lancamentos,
+  .grid-entrada,
+  .grid-saida,
+  .formulario-grid,
+  .filtros-lancamentos,
+  .obra-informacoes,
+  .obra-resumo {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-entrada .span-2,
+  .grid-entrada .span-3,
+  .grid-saida .span-2,
+  .grid-saida .span-3,
+  .formulario-grid .span-2,
+  .formulario-observacao {
+    grid-column: span 1;
+  }
+
+  .acoes-entrada,
+  .acoes-saida,
+  .formulario-acoes,
+  .resumo-lancamentos,
+  .lancamentos-footer {
+    flex-direction: column;
+  }
+
+  .acoes-entrada .btn,
+  .acoes-saida .btn,
+  .formulario-acoes .btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .tabela-lancamentos {
+    overflow-x: auto;
+  }
+
+  .tabela-lancamentos table {
+    min-width: 600px;
+  }
 }

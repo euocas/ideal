@@ -22,6 +22,9 @@ $whatsappValue = $isEdit ? $funcionario->getWhatsapp() : '';
 // TÍTULO DA PÁGINA
 $titulo = 'Funcionários';
 $favicon = BASE_URL . "/assets/icon/funcionario2.png";
+$pageStyles = [
+    BASE_URL . '/assets/css/funcionarios.css?v=' . time(),
+];
 
 // Estado da tela
 $isNovo = isset($_GET['novo']);
@@ -35,24 +38,21 @@ use App\Config\FuncionarioConstantes;
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
+    <div class="layout">
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/funcionarios.css?v=<?= time() ?>">
-</head>
+        <aside class="sidebar" id="sidebar">
+            <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+        </aside>
 
-<body>
-    <div class="dashboard-container">
-
-        <?php include __DIR__ . '/../includes/sidebar.php'; ?>
-
-        <main class="main-content">
+        <main class="content">
 
             <section class="card">
 
@@ -202,7 +202,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 $cargos = FuncionarioConstantes::CARGOS;
                                 sort($cargos);
                                 foreach ($cargos as $item):
-                                    ?>
+                                ?>
                                     <option value="<?= $item ?>" <?= $cargo === $item ? 'selected' : '' ?>>
                                         <?= $item ?>
                                     </option>

@@ -2,8 +2,6 @@
 $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
 ?>
 
-<aside class="sidebar">
-
     <!-- LOGO -->
     <div class="logo">
         <a href="<?= BASE_URL ?>/index.php?url=dashboard">
@@ -102,5 +100,3 @@ $nomeUsuario = $_SESSION['usuario']['nome'] ?? 'Usuário';
         </div>
 
     </div>
-
-</aside>

@@ -1,12 +1,17 @@
 <?php
+
 use App\Config\SistemaConstantes;
 use App\Config\FuncionarioConstantes;
+
 /** @var \App\Models\Obra|null $obra */
 $obra ??= null;
 
 $actionUrl ??= BASE_URL . "/index.php?url=obras/store";
 $titulo = 'Obras';
 $favicon = '/ideal/public/assets/icon/obra2.png';
+$pageStyles = [
+    BASE_URL . '/assets/css/obras.css?v=' . time(),
+];
 
 // Instanciando os Models diretamente para contornar a alteração do Controller
 $modelFuncionario = new \App\Models\Funcionario();
@@ -23,24 +28,22 @@ $modoEdicao = isset($obra);
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/base.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/component.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/forms.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/alerts.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/tables.css">
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dashboard.css">
 
-<link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/obras.css?v=<?= time() ?>">
-</head>
+    <div class="layout">
 
-<body>
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
 
-    <div class="dashboard-container">
+        <aside class="sidebar" id="sidebar">
+            <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+        </aside>
 
-        <?php include __DIR__ . '/../includes/sidebar.php'; ?>
-
-        <main class="main-content">
+        <main class="content">
 
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
                 <div class="alert alert-success">
@@ -182,14 +185,12 @@ require_once __DIR__ . '/../includes/header.php';
                                         '$1.$2.$3-$4',
                                         $documento
                                     );
-
                                 } elseif (strlen($documento) === 14) {
                                     $documentoFormatado = preg_replace(
                                         '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
                                         '$1.$2.$3/$4-$5',
                                         $documento
                                     );
-
                                 } else {
                                     $documentoFormatado = '';
                                 }
@@ -324,9 +325,9 @@ require_once __DIR__ . '/../includes/header.php';
                         <div class="form-group endereco-observacoes">
                             <label>Observações</label>
                             <textarea name="observacoes" placeholder="Digite as observações (opcional)"><?= isset($obra)
-                                ? htmlspecialchars($obra->getObservacoes() ?? '')
-                                : ''
-                                ?></textarea>
+                                                                                                            ? htmlspecialchars($obra->getObservacoes() ?? '')
+                                                                                                            : ''
+                                                                                                        ?></textarea>
 
                         </div>
                     </div>
@@ -425,7 +426,7 @@ require_once __DIR__ . '/../includes/header.php';
                                         $idFunc = $func['idFuncionario'];
                                         $idVeic = $func['idVeiculo'] ?? '';
                                         $ehResponsavel = !empty($func['isResponsavel']);
-                                        ?>
+                                ?>
                                         <tr>
                                             <td class="responsavel-tabela">
                                                 <input type="radio" name="idResponsavel" value="<?= $idFunc ?>"
@@ -456,7 +457,7 @@ require_once __DIR__ . '/../includes/header.php';
                                                 </button>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                         $indiceFuncionario++;
                                     endforeach;
                                 endif;
@@ -584,9 +585,6 @@ require_once __DIR__ . '/../includes/header.php';
         function removerFuncionarioDaTabela(botao) {
             botao.closest('tr').remove();
         }
-
-
-
     </script>
 </body>
 
