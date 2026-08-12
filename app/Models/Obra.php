@@ -20,8 +20,9 @@ class Obra
     private ?string $estado = null;
     private ?string $cidade = null;
     private ?string $cep = null;
-    private ?string $logradouro = null;
-    private ?string $endereco = null;
+    private ?string $bairro = null;
+    private ?string $tipoLogradouro = null;
+    private ?string $nomeLogradouro = null;
     private ?string $numero = null;
     private ?string $complemento = null;
     private ?string $observacoes = null;
@@ -142,24 +143,34 @@ class Obra
         $this->cep = $cep;
     }
 
-    public function getLogradouro(): ?string
+    public function getBairro(): ?string
     {
-        return $this->logradouro;
+        return $this->bairro;
     }
 
-    public function setLogradouro(?string $logradouro): void
+    public function setBairro(?string $bairro): void
     {
-        $this->logradouro = $logradouro;
+        $this->bairro = $bairro;
     }
 
-    public function getEndereco(): ?string
+    public function getTipoLogradouro(): ?string
     {
-        return $this->endereco;
+        return $this->tipoLogradouro;
     }
 
-    public function setEndereco(?string $endereco): void
+    public function setTipoLogradouro(?string $tipoLogradouro): void
     {
-        $this->endereco = $endereco;
+        $this->tipoLogradouro = $tipoLogradouro;
+    }
+
+    public function getNomeLogradouro(): ?string
+    {
+        return $this->nomeLogradouro;
+    }
+
+    public function setNomeLogradouro(?string $nomeLogradouro): void
+    {
+        $this->nomeLogradouro = $nomeLogradouro;
     }
 
     public function getNumero(): ?string
@@ -244,9 +255,10 @@ class Obra
         $obra->setStatus($dados['status'] ?? null);
         $obra->setEstado($dados['estado'] ?? null);
         $obra->setCidade($dados['cidade'] ?? null);
+        $obra->setBairro($dados['bairro'] ?? null);
         $obra->setCep($dados['cep'] ?? null);
-        $obra->setLogradouro($dados['logradouro'] ?? null);
-        $obra->setEndereco($dados['endereco'] ?? null);
+        $obra->setTipoLogradouro($dados['tipoLogradouro'] ?? null);
+        $obra->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
         $obra->setNumero($dados['numero'] ?? null);
         $obra->setComplemento($dados['complemento'] ?? null);
         $obra->setContrato($dados['contrato'] ?? null);
@@ -310,9 +322,9 @@ class Obra
             $this->pdo->beginTransaction();
 
             // 1. SALVA A OBRA
-            $sql = "INSERT INTO obra (idCliente, dataInicio, dataFim, status,estado,cidade,cep,logradouro,endereco,numero,complemento,contrato,valorContratado, observacoes) 
+            $sql = "INSERT INTO obra (idCliente, dataInicio, dataFim, status,estado,cidade,bairro,cep,tipoLogradouro,nomeLogradouro,numero,complemento,contrato,valorContratado, observacoes) 
             VALUES 
-            (:idCliente,:dataInicio,:dataFim,:status,:estado,:cidade,:cep,:logradouro,:endereco,:numero,:complemento,:contrato,:valorContratado,:observacoes)";
+            (:idCliente,:dataInicio,:dataFim,:status,:estado,:cidade,:bairro,:cep,:tipoLogradouro,:nomeLogradouro,:numero,:complemento,:contrato,:valorContratado,:observacoes)";
 
             $stmt = $this->pdo->prepare($sql);
 
@@ -323,9 +335,10 @@ class Obra
                 ':status' => $this->status,
                 ':estado' => $this->estado,
                 ':cidade' => $this->cidade,
+                ':bairro' => $this->bairro,
                 ':cep' => $this->cep,
-                ':logradouro' => $this->logradouro,
-                ':endereco' => $this->endereco,
+                ':tipoLogradouro' => $this->tipoLogradouro,
+                ':nomeLogradouro' => $this->nomeLogradouro,
                 ':numero' => $this->numero,
                 ':complemento' => $this->complemento,
                 ':contrato' => $this->contrato,
@@ -455,9 +468,10 @@ class Obra
             status           = :status,
             estado           = :estado,
             cidade           = :cidade,
+            bairro           = :bairro,
             cep              = :cep,
-            logradouro       = :logradouro,
-            endereco         = :endereco,
+            tipoLogradouro   = :tipoLogradouro,
+            nomeLogradouro   = :nomeLogradouro,
             numero           = :numero,
             complemento      = :complemento,
             contrato         = :contrato,
@@ -474,9 +488,10 @@ class Obra
                 ':status' => $this->status,
                 ':estado' => $this->estado,
                 ':cidade' => $this->cidade,
+                ':bairro' => $this->bairro,
                 ':cep' => $this->cep,
-                ':logradouro' => $this->logradouro,
-                ':endereco' => $this->endereco,
+                ':tipoLogradouro' => $this->tipoLogradouro,
+                ':nomeLogradouro' => $this->nomeLogradouro,
                 ':numero' => $this->numero,
                 ':complemento' => $this->complemento,
                 ':contrato' => $this->contrato,
@@ -545,7 +560,6 @@ class Obra
             $this->pdo->commit();
             return true;
 
-
         } catch (\Exception $e) {
             if ($this->pdo->inTransaction()) {
                 $this->pdo->rollBack();
@@ -553,17 +567,6 @@ class Obra
             error_log("Erro no Update de Obra: " . $e->getMessage());
             return false;
         }
-
-        // } catch (\Exception $e) {
-
-        //     if ($this->pdo->inTransaction()) {
-
-        //         $this->pdo->rollBack();
-
-        //     }
-
-        //     throw $e;
-        // }
     }
 
     public function delete(int $id): bool

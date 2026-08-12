@@ -54,10 +54,19 @@ input[type="datetime-local"] {
   color: var(--text-secondary);
 }
 
-.input-prefixo input {
-  flex: 1;
-  border-radius: 0 10px 10px 0;
+
+.input-prefix input {
+    flex: 1;
+    border-radius: 0 10px 10px 0;
+    padding-left: 9px !important;
 }
+
+.obrigatorio {
+    color: var(--danger);
+    font-size: 15px;
+    font-weight: 700;
+}
+
 
 /* ==========================================
   CARD FUNCIONÁRIOS  
@@ -276,39 +285,61 @@ input[type="datetime-local"] {
 /* ==========================================
    CARD ENDEREÇO
 ========================================== */
+
 .grid-endereco {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 20px;
 }
+
 /* Linha 1 */
 .endereco-cep {
-  grid-column: span 1;
+  grid-column: span 2;
+}
+
+.endereco-cidade {
+  grid-column: span 4;
+}
+.endereco-bairro {
+  grid-column: span 4;
 }
 .endereco-estado {
-  grid-column: span 1;
+  grid-column: span 2;
 }
-.endereco-cidade {
-  grid-column: span 5;
-}
-.endereco-logradouro {
-  grid-column: span 5;
-}
+
 /* Linha 2 */
-.endereco-endereco {
+.endereco-tipo-logradouro {
+  grid-column: span 2;
+}
+
+.endereco-nome-logradouro {
   grid-column: span 6;
 }
+
 .endereco-numero {
   grid-column: span 1;
 }
+
 .endereco-complemento {
-  grid-column: span 5;
+  grid-column: span 3;
+  align-self: start;
 }
+
 /* Linha 3 */
 .endereco-observacoes {
   grid-column: 1 / -1;
   font: var(--text);
 }
+
+.endereco-item label {
+  margin-bottom: 8px;
+}
+
+.endereco-item input,
+.endereco-item textarea {
+  width: 100%;
+}
+
 
 .endereco-item label {
   margin-bottom: 8px;

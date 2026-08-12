@@ -73,7 +73,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=obras" method="POST">
                         <div class="input-group">
                             <label>Contrato</label>
-                            <input type="text" name="contratoBusca" placeholder="Digite o número do contrato">
+                            <input type="text" name="contratoBusca" placeholder="Digite o número ou o nome do contrato">
                         </div>
                         <button type="submit" class="btn-buscar">
                             <i class="bi bi-search"></i> BUSCAR
@@ -113,24 +113,64 @@ require_once __DIR__ . '/../includes/header.php';
                         : ($contratoBusca ?? '');
                     ?>
                     <div class="form-group">
-                        <label>Contrato</label>
+                        <label>Contrato <span class="obrigatorio">*</label>
                         <input type="text" name="contrato" maxlength="45" placeholder="Digite o contrato"
                             value="<?= htmlspecialchars($contratoValue) ?>">
                     </div>
 
-
                     <div class="form-group">
-                        <label>Status da Obra</label>
+                        <label>Status da Obra <span class="obrigatorio">*</span></label>
+
                         <select name="status" required>
-                            <option value="">Selecione</option>
-                            <option value="Em andamento" <?= isset($obra) && $obra->getStatus() === 'Em andamento' ? 'selected' : '' ?>>Em andamento</option>
-                            <option value="Concluida" <?= isset($obra) && $obra->getStatus() === 'Concluida' ? 'selected' : '' ?>>Concluída</option>
-                            <option value="Cancelada" <?= isset($obra) && $obra->getStatus() === 'Cancelada' ? 'selected' : '' ?>>Cancelada</option>
+
+                            <?php if (!isset($obra) || !$obra->getIdObra()): ?>
+
+                                <!-- Nova obra -->
+                                <option value="Em andamento" selected>
+                                    Em andamento
+                                </option>
+
+                            <?php else: ?>
+
+                                <?php $statusAtual = $obra->getStatus(); ?>
+
+                                <?php if ($statusAtual === 'Em andamento'): ?>
+
+                                    <!-- Obra existente em andamento -->
+                                    <option value="Em andamento" selected>
+                                        Em andamento
+                                    </option>
+
+                                    <option value="Concluida">
+                                        Concluída
+                                    </option>
+
+                                    <option value="Cancelada">
+                                        Cancelada
+                                    </option>
+
+                                <?php else: ?>
+
+                                    <!-- Obra já concluída ou cancelada -->
+                                    <option value="Concluida" <?= $statusAtual === 'Concluida' ? 'selected' : '' ?>>
+                                        Concluída
+                                    </option>
+
+                                    <option value="Cancelada" <?= $statusAtual === 'Cancelada' ? 'selected' : '' ?>>
+                                        Cancelada
+                                    </option>
+
+                                <?php endif; ?>
+
+                            <?php endif; ?>
+
                         </select>
                     </div>
 
+
+
                     <div class="form-group">
-                        <label>Data de Início</label>
+                        <label>Data de Início <span class="obrigatorio">*</span></label>
                         <input type="datetime-local" name="dataInicio"
                             value="<?= isset($obra) && $obra->getDataInicio() ? $obra->getDataInicio()->format('Y-m-d\TH:i') : '' ?>"
                             required>
@@ -172,7 +212,7 @@ require_once __DIR__ . '/../includes/header.php';
                         ?>
 
                         <div class="form-group">
-                            <label>CNPJ / CPF Cliente</label>
+                            <label>CNPJ / CPF Cliente <span class="obrigatorio">*</span> </label>
 
                             <?php
                             $documento = preg_replace('/\D/', '', $docCliente);
@@ -199,18 +239,14 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
 
                         <div class="form-group">
-                            <label>
-                                Valor Contratado
-                                <span class="obrigatorio">*</span>
-                            </label>
-
+                            <label> Valor Contratado <span class="obrigatorio">*</span></label>
                             <div class="input-prefixo">
                                 <span class="prefixo">R$</span>
 
                                 <input type="text" name="valorContratado" id="valorContratado" placeholder="0,00"
-                                    maxlength="15" inputmode="decimal"
+                                    maxlength="15" inputmode="numeric"
                                     value="<?= $obra ? number_format($obra->getValorContratado(), 2, ',', '.') : '0,00' ?>"
-                                    oninput="mascaraMoeda(this)" required>
+                                    onfocus="iniciarEdicaoMoeda(this)" onkeydown="editarMoeda(event, this)" required>
                             </div>
                         </div>
 
@@ -233,7 +269,7 @@ require_once __DIR__ . '/../includes/header.php';
                             </div>
 
                             <div class="cliente-info">
-                                <span>CPF/CNPJ</span>
+                                <span>CPF/CNPJ </span>
                                 <strong id="clienteCnpj">
                                     <?= htmlspecialchars($documentoFormatado ?: '-') ?>
                                 </strong>
@@ -288,17 +324,24 @@ require_once __DIR__ . '/../includes/header.php';
                         )
                         : '';
                     ?>
-                    <div class="form-group endereco-cep"><label>CEP</label><input type="text" name="cep"
-                            value="<?= htmlspecialchars($cepFormatado) ?>" placeholder="00000-000" maxlength="9"
-                            oninput="mascaraCEP(this)" required>
+                    <div class="form-group endereco-cep"><label>CEP <span class="obrigatorio">*</span> </label><input
+                            type="text" name="cep" value="<?= htmlspecialchars($cepFormatado) ?>"
+                            placeholder="00000-000" maxlength="9" oninput="mascaraCEP(this)" required>
                     </div>
 
-                    <div class="form-group endereco-cidade"><label>Cidade</label><input type="text" name="cidade"
+                    <div class="form-group endereco-cidade"><label>Cidade <span
+                                class="obrigatorio">*</span></label><input type="text" name="cidade"
                             placeholder="Digite a cidade" value="<?= isset($obra) ? $obra->getCidade() : '' ?>">
                     </div>
-                    <div class="form-group endereco-estado">
-                        <label>Estado</label>
 
+                    <div class="form-group endereco-bairro">
+                        <label>Bairro <span class="obrigatorio">*</span></label>
+                        <input type="text" name="bairro" placeholder="Digite o bairro"
+                            value="<?= isset($obra) ? $obra->getBairro() : '' ?>">
+                    </div>
+
+                    <div class="form-group endereco-estado">
+                        <label>Estado <span class="obrigatorio">*</span></label>
                         <select name="estado">
                             <option value="">UF</option>
                             <?php
@@ -307,29 +350,33 @@ require_once __DIR__ . '/../includes/header.php';
                                     ? 'selected'
                                     : '';
                                 ?>
-
                                 <option value="<?= $uf ?>" <?= $selected ?>>
                                     <?= $uf ?>
                                 </option>
-
                                 <?php
                             }
                             ?>
-
                         </select>
-
                     </div>
 
+                    <div class="form-group endereco-tipo-logradouro">
+                        <label>Tipo de Logradouro <span class="obrigatorio">*</span></label>
 
-                    <div class="form-group endereco-logradouro"><label>Logradouro</label><input type="text"
-                            name="logradouro" placeholder="Rua, Avenida, Alameda..."
-                            value="<?= isset($obra) ? $obra->getLogradouro() : '' ?>">
+                        <input type="text" name="tipoLogradouro" placeholder="Ex.: Rua, Avenida, Alameda..."
+                            value="<?= isset($obra) ? htmlspecialchars($obra->getTipoLogradouro() ?? '') : '' ?>"
+                            required>
                     </div>
-                    <div class="form-group endereco-endereco"><label>Endereço</label><input type="text" name="endereco"
-                            placeholder="Digite o endereço" value="<?= isset($obra) ? $obra->getEndereco() : '' ?>">
+
+                    <div class="form-group endereco-nome-logradouro">
+                        <label>Logradouro <span class="obrigatorio">*</span></label>
+                        <input type="text" name="nomeLogradouro"
+                            placeholder="Digite o nome da Rua/Avenida/Alameda/Viela"
+                            value="<?= isset($obra) ? htmlspecialchars($obra->getNomeLogradouro() ?? '') : '' ?>"
+                            required>
                     </div>
-                    <div class="form-group endereco-numero"><label>Número</label><input type="text" name="numero"
-                            placeholder="1234" value="<?= isset($obra) ? $obra->getNumero() : '' ?>">
+                    <div class="form-group endereco-numero"><label>Número <span
+                                class="obrigatorio">*</span></label><input type="text" name="numero" placeholder="1234"
+                            value="<?= isset($obra) ? $obra->getNumero() : '' ?>">
                     </div>
                     <div class="form-group endereco-complemento"><label>Complemento</label><input type="text"
                             name="complemento" placeholder="Apartamento, bloco, sala..."
@@ -344,17 +391,10 @@ require_once __DIR__ . '/../includes/header.php';
 
                     <div class="form-group endereco-observacoes">
                         <label>Observações</label>
-
                         <textarea name="observacoes" placeholder="Digite as observações (opcional)" maxlength="500"><?= $observacoes ?>
-                                         </textarea>
+                        </textarea>
                     </div>
-
-
-                </div>
             </section>
-
-
-
 
             <section class="card">
 
@@ -366,7 +406,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="grid-funcionario">
 
                     <div class="form-group">
-                        <label>Funcionário</label>
+                        <label>Funcionário <span class="obrigatorio">*</span></label>
 
                         <select name="idFuncionario" id="idFuncionarioSelect">
                             <option value="">Selecione</option>
@@ -382,7 +422,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label>Função</label>
+                        <label>Função <span class="obrigatorio">*</span></label>
 
                         <?php
                         $cargos = FuncionarioConstantes::CARGOS;
@@ -426,7 +466,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label>Data Início</label>
+                        <label>Data Início <span class="obrigatorio">*</span></label>
 
                         <input type="date" name="dataInicioFuncionario" id="dataInicioFuncionario">
                     </div>
@@ -569,6 +609,7 @@ require_once __DIR__ . '/../includes/header.php';
                     Informe o veículo utilizado pelo funcionário para deslocamento até a obra.
                 </div>
 
+                <label class="obrigatorio">* Campos de preenchimento obrigatório.</label>
             </section>
 
 
@@ -604,7 +645,7 @@ require_once __DIR__ . '/../includes/header.php';
         </form>
     </main>
 </div>
-<script src="<?= BASE_URL ?>/assets/js/mascara.js?v=<?= time() ?>"></script>
+<script src="<?= BASE_URL ?>/assets/js/mascaras.js?v=<?= time() ?>"></script>
 <script>
     // Lógica de Funcionários e Tabela
     let indiceFuncionario = <?= isset($indiceFuncionario) ? $indiceFuncionario : 0 ?>;

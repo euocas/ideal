@@ -1000,43 +1000,31 @@
 ========================================== */
 
 .input-prefixo {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
-  min-width: 0;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
 }
 
-.input-prefixo:focus-within {
-  border-color: var(--orange);
-  box-shadow: var(--shadow-focus-orange);
-}
-
-.prefixo {
-  display: flex;
-  align-items: center;
-
-  height: 46px;
-  padding: 0 12px;
-
-  background: var(--surface-alt);
-  border-right: 1px solid var(--border);
-
-  color: var(--text-light);
-  font-size: 14px;
-  font-weight: 600;
-
-  white-space: nowrap;
+.input-prefixo .prefixo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    background: #eef4ff;
+    border: 1px solid #d8dee9;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    font-weight: 600;
+    color: #666;
 }
 
 .input-prefixo input {
-  flex: 1;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+    flex: 1;
+    border-radius: 0 10px 10px 0;
+    padding-left: 9px !important;
 }
+
+
 
 /* ==========================================
    RESUMO TOTAL
