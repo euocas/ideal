@@ -63,26 +63,6 @@ textarea {
    RESPONSIVO
 ========================================== */
 
-/* @media (max-width: 1100px) {
-  .grid-form {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .observacoes {
-    grid-column: span 2;
-  }
-
-}
-
-
-  .grid-form {
-    grid-template-columns: 1fr;
-  }
-
-  .observacoes {
-    grid-column: span 1;
-  } */
-
   @media (max-width: 1100px) {
 
     .grid-form {

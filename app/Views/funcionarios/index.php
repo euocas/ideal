@@ -207,15 +207,29 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label for="endereco">Endereço <span class="obrigatorio">*</span></label>
-                        <input type="text" name="nomeLogradouro"
-                            value="<?= htmlspecialchars($isEdit ? $funcionario->getNomeLogradouro() : '') ?>"
-                            minlength="3" title="Digite apenas letras"
-                            placeholder="Digite apenas o nome da Rua/Avenida/Alameda/Viela">
+                        <label for="tipoLogradouro">
+                            Tipo de Logradouro <span class="obrigatorio">*</span>
+                        </label>
+
+                        <input type="text" name="tipoLogradouro" id="tipoLogradouro"
+                            value="<?= htmlspecialchars($isEdit ? $funcionario->getTipoLogradouro() : '') ?>"
+                            minlength="3" title="Digite o tipo de logradouro"
+                            placeholder="Ex.: Rua, Avenida, Alameda, Viela" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Número</label>
+                        <label for="nomeLogradouro">
+                            Logradouro <span class="obrigatorio">*</span>
+                        </label>
+
+                        <input type="text" name="nomeLogradouro" id="nomeLogradouro"
+                            value="<?= htmlspecialchars($isEdit ? $funcionario->getNomeLogradouro() : '') ?>"
+                            minlength="3" title="Digite o nome do logradouro" placeholder="Ex.: Avenida Ana Costa"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número <span class="obrigatorio">*</span></label>
                         <input type="text" name="numero"
                             value="<?= htmlspecialchars($isEdit ? $funcionario->getNumero() : '') ?>" pattern="[0-9]+"
                             placeholder="Somente números">
@@ -229,7 +243,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label>Cidade</label>
+                        <label>Cidade <span class="obrigatorio">*</span></label>
                         <input type="text" name="cidade"
                             value="<?= htmlspecialchars($isEdit ? $funcionario->getCidade() : '') ?>" minlength="3"
                             pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras"
@@ -237,7 +251,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label>CEP</label>
+                        <label>CEP <span class="obrigatorio">*</span></label>
                         <?php
                         $cepFormatado = '';
                         if ($isEdit && !empty($funcionario->getCep())) {
@@ -254,7 +268,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label>Estado</label>
+                        <label>Estado <span class="obrigatorio">*</span></label>
                         <?php $estado = $isEdit ? $funcionario->getEstado() : ''; ?>
                         <select name="estado">
                             <option value="">Selecione</option>
@@ -275,7 +289,7 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="form-group">
-                        <label>Tipo de Contrato</label>
+                        <label>Tipo de Contrato <span class="obrigatorio">*</span></label>
                         <?php $tipoContrato = $isEdit ? $funcionario->getTipoContrato() : ''; ?>
 
                         <select name="tipoContrato">
@@ -333,7 +347,7 @@ require_once __DIR__ . '/../includes/header.php';
                     ?>
 
                     <div class="form-group">
-                        <label>Telefone</label>
+                        <label>Telefone <span class="obrigatorio">*</span></label>
                         <input type="text" name="telefone" placeholder="(XX) 0000-0000" oninput="mascaraTelefone(this)"
                             value="<?= htmlspecialchars($telefoneFormatado) ?>">
                     </div>
@@ -351,7 +365,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <h2><i class="fa-solid fa-file-signature icone-titulo"></i> Dados de Contratação</h2>
                             <div class="grupo-datas">
                                 <div class="form-group">
-                                    <label>Admissão</label>
+                                    <label>Admissão <span class="obrigatorio">*</span></label>
 
                                     <input type="date" name="dataAdmissao"
                                         value="<?= htmlspecialchars($isEdit ? $funcionario->getDataAdmissao() : '') ?>">
@@ -427,6 +441,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </div>
 
                     </div>
+                           <label class="obrigatorio">* Campos de preenchimento obrigatório.</label>
                 </div>
             </form>
 

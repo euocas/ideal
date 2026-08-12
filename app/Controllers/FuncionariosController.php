@@ -125,7 +125,8 @@ class FuncionariosController
         $funcionario->setDataNascimento($dados['dataNascimento'] ?? null);
         $funcionario->setNaturalidade($dados['naturalidade'] ?? null);
         $funcionario->setEstadoNascimento($dados['estadoNascimento'] ?? null);
-        $funcionario->setTipoLogradouro($dados['tipoLogradouro'] ?? 'Rua');
+        $funcionario->setTipoLogradouro($dados['tipoLogradouro'] ?? null);
+        $funcionario->setTipoContrato($dados['tipoContrato'] ?? null);
         $funcionario->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
         $funcionario->setNumero($dados['numero'] ?? null);
         $funcionario->setComplemento($dados['complemento'] ?? null);
@@ -134,7 +135,6 @@ class FuncionariosController
         $funcionario->setEstado($dados['estado'] ?? null);
         $funcionario->setEmail($dados['email'] ?? null);
         $funcionario->setCargoFuncao($dados['cargoFuncao'] ?? null);
-        $funcionario->setTipoContrato($dados['tipoContrato'] ?? null);
         $funcionario->setStatus($dados['status'] ?? null);
         $funcionario->setDataAdmissao(
             !empty($dados['dataAdmissao']) ? $dados['dataAdmissao'] : null
@@ -210,49 +210,30 @@ class FuncionariosController
         }
     }
 
-    // public function delete()
-    // {
-    //     $id = $_GET['id'] ?? null;
-
-    //     if ($id) {
-    //         $funcionarioModel = new Funcionario();
-    //         $deletou = $funcionarioModel->delete($id);
-
-    //         if ($deletou) {
-    //             $_SESSION['mensagem_sucesso'] = "Funcionário excluído com sucesso!";
-    //         } else {
-    //             $_SESSION['mensagem_erro'] = "Erro ao tentar excluir o funcionário.";
-    //         }
-    //     }
-
-    //     header("Location: " . BASE_URL . "/index.php?url=funcionarios");
-    //     exit;
-    // }
-
     public function delete(): void
-{
-  
-    $id = (int) ($_GET['id'] ?? $_POST['id'] ?? 0);
+    {
 
-    $model = new Funcionario();
+        $id = (int) ($_GET['id'] ?? $_POST['id'] ?? 0);
 
-    if ($model->possuiLancamentos($id)) {
+        $model = new Funcionario();
 
-        $_SESSION['mensagem_erro'] =
-            'Não é possível excluir este funcionário, pois existem lançamentos financeiros vinculados a ele.';
+        if ($model->possuiLancamentos($id)) {
 
-        header('Location: ' . BASE_URL . '/index.php?url=funcionarios/edit&id=' . $id);
+            $_SESSION['mensagem_erro'] =
+                'Não é possível excluir este funcionário, pois existem lançamentos financeiros vinculados a ele.';
+
+            header('Location: ' . BASE_URL . '/index.php?url=funcionarios/edit&id=' . $id);
+            exit;
+        }
+
+        if ($model->delete($id)) {
+            $_SESSION['mensagem_sucesso'] = 'Funcionário excluído com sucesso.';
+        } else {
+            $_SESSION['mensagem_erro'] = 'Não foi possível excluir o funcionário.';
+        }
+
+        header('Location: ' . BASE_URL . '/index.php?url=funcionarios');
         exit;
     }
-
-    if ($model->delete($id)) {
-        $_SESSION['mensagem_sucesso'] = 'Funcionário excluído com sucesso.';
-    } else {
-        $_SESSION['mensagem_erro'] = 'Não foi possível excluir o funcionário.';
-    }
-
-    header('Location: ' . BASE_URL . '/index.php?url=funcionarios');
-    exit;
-}
 }
 

@@ -17,7 +17,7 @@ class Funcionario
     private ?string $dataNascimento = null;
     private ?string $naturalidade = null;
     private ?string $estadoNascimento = null;
-    private string $tipoLogradouro = 'Rua'; // Valor padrão
+    private ?string $tipoLogradouro = null;
     private ?string $nomeLogradouro = null;
     private ?string $numero = null;
     private ?string $complemento = null;
@@ -26,7 +26,7 @@ class Funcionario
     private ?string $estado = null;
     private ?string $email = null;
     private ?string $cargoFuncao = null;
-    private string $tipoContrato = 'CLT'; // Valor padrão
+    private ?string $tipoContrato = null;
     private string $status = 'ativo'; // Valor padrão
 
     // novos campos add
@@ -129,13 +129,14 @@ class Funcionario
         $this->estadoNascimento = $estado;
     }
 
-    public function getTipoLogradouro(): string
+    public function getTipoLogradouro(): ?string
     {
         return $this->tipoLogradouro;
     }
-    public function setTipoLogradouro(string $tipo): void
+
+    public function setTipoLogradouro(?string $tipo): void
     {
-        $this->tipoLogradouro = $tipo ?: 'Rua';
+        $this->tipoLogradouro = $tipo;
     }
 
     public function getNomeLogradouro(): ?string
@@ -202,6 +203,7 @@ class Funcionario
         $this->email = $email;
     }
 
+
     public function getCargoFuncao(): ?string
     {
         return $this->cargoFuncao;
@@ -211,13 +213,14 @@ class Funcionario
         $this->cargoFuncao = $cargo;
     }
 
-    public function getTipoContrato(): string
+    public function getTipoContrato(): ?string
     {
         return $this->tipoContrato;
     }
+
     public function setTipoContrato(?string $tipo): void
     {
-        $this->tipoContrato = $tipo ?: 'CLT';
+        $this->tipoContrato = $tipo;
     }
 
     public function getStatus(): string
@@ -238,7 +241,6 @@ class Funcionario
         $this->observacoes = $obs;
     }
 
-    //novos campos add 
     public function getDataAdmissao(): ?string
     {
         return $this->dataAdmissao;
@@ -268,10 +270,6 @@ class Funcionario
     {
         $this->feriasProgramadas = $data ?: null;
     }
-    // novos dados add acima (data de adm, data de deslig e férias)
-
-
-    // novos campos
 
     public function getAgencia(): ?string
     {
@@ -355,7 +353,7 @@ class Funcionario
         $funcionario->setDataNascimento($dados['dataNascimento'] ?? null);
         $funcionario->setNaturalidade($dados['naturalidade'] ?? null);
         $funcionario->setEstadoNascimento($dados['estadoNascimento'] ?? null);
-        $funcionario->setTipoLogradouro($dados['tipoLogradouro'] ?? 'Rua');
+        $funcionario->setTipoLogradouro($dados['tipoLogradouro'] ?? null);
         $funcionario->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
         $funcionario->setNumero($dados['numero'] ?? null);
         $funcionario->setComplemento($dados['complemento'] ?? null);
@@ -489,7 +487,7 @@ class Funcionario
 
             // atualizado o UPDATE com os novos dados da tabela (data adm, data de desliga e férias)
             $sql = "UPDATE funcionario SET 
-                    nome = :nome, sexo = :sexo, dataNascimento = :dataNascimento, naturalidade = :naturalidade, estadoNascimento = :estadoNascimento, 
+                    nome = :nome, sexo = :sexo, dataNascimento = :dataNascimento, naturalidade = :naturalidade, estadoNascimento = :estadoNascimento, tipoLogradouro = :tipoLogradouro,
                     nomeLogradouro = :nomeLogradouro, numero = :numero, complemento = :complemento, cidade = :cidade, cep = :cep, estado = :estado, 
                     email = :email, cargoFuncao = :cargoFuncao, tipoContrato = :tipoContrato, status = :status, dataAdmissao = :dataAdmissao,
                     dataDesligamento = :dataDesligamento, feriasProgramadas = :feriasProgramadas,agencia = :agencia,conta = :conta,tipoConta = :tipoConta,chavePix = :chavePix, 
@@ -502,6 +500,7 @@ class Funcionario
             $stmt->bindValue(':dataNascimento', $this->getDataNascimento(), PDO::PARAM_STR);
             $stmt->bindValue(':naturalidade', $this->getNaturalidade(), PDO::PARAM_STR);
             $stmt->bindValue(':estadoNascimento', $this->getEstadoNascimento(), PDO::PARAM_STR);
+            $stmt->bindValue(':tipoLogradouro', $this->getTipoLogradouro(), PDO::PARAM_STR);
             $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), PDO::PARAM_STR);
             $stmt->bindValue(':numero', $this->getNumero(), PDO::PARAM_STR);
             $stmt->bindValue(':complemento', $this->getComplemento(), PDO::PARAM_STR);
@@ -562,7 +561,7 @@ class Funcionario
         return $stmt->execute();
     }
 
-    
+
     //  Retorna todos os funcionários como array associativo   
     public function listar(): array
     {
@@ -573,7 +572,7 @@ class Funcionario
     }
 
     //   Busca funcionários com filtros
-    
+
     public function buscarComFiltros(string $nome = '', string $cargoFuncao = '', string $status = '', string $cpf = ''): array
     {
         $sql = "SELECT * FROM funcionario WHERE 1=1";
@@ -618,21 +617,21 @@ class Funcionario
     }
 
 
-public function possuiLancamentos(int $idFuncionario): bool
-{
-    $sql = "SELECT COUNT(*)
+    public function possuiLancamentos(int $idFuncionario): bool
+    {
+        $sql = "SELECT COUNT(*)
             FROM financeirofuncionario
             WHERE idFuncionario = :id";
 
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->bindValue(':id', $idFuncionario, PDO::PARAM_INT);
-    $stmt->execute();
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':id', $idFuncionario, PDO::PARAM_INT);
+        $stmt->execute();
 
-    $total = (int) $stmt->fetchColumn();
+        $total = (int) $stmt->fetchColumn();
 
 
 
-    return $total > 0;
-}
+        return $total > 0;
+    }
 
 }
