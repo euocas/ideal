@@ -33,6 +33,30 @@ input[type="datetime-local"] {
     gap:18px;
 }
 
+.input-prefixo {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-prefixo .prefixo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    background: #eef4ff;
+    border: 1px solid #d8dee9;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    font-weight: 600;
+    color: #666;
+}
+
+.input-prefixo input {
+    flex: 1;
+    border-radius: 0 10px 10px 0;
+}
+
 /* ==========================================
   CARD FUNCIONÁRIOS  
 ========================================== */
@@ -319,7 +343,7 @@ textarea {
    RESPONSIVO
 ========================================== */
 
-@media (max-width: 1100px) {
+/* @media (max-width: 1100px) {
   .grid-form {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -347,4 +371,4 @@ textarea {
   flex: 1;
   min-height: 46px;
   height: 46px;
-}
+} */

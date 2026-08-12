@@ -416,16 +416,29 @@ class Obra
 
     public function findByContrato(string $contrato): ?self
     {
-        $sql = "SELECT * FROM obra WHERE contrato = :contrato LIMIT 1";
+        $contrato = trim($contrato);
+
+        $sql = "SELECT * 
+            FROM obra 
+            WHERE contrato = :contrato
+               OR contrato LIKE :busca
+            LIMIT 1";
+
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':contrato' => $contrato]);
+
+        $stmt->bindValue(':contrato', $contrato, PDO::PARAM_STR);
+        $stmt->bindValue(':busca', '%' . $contrato . '%', PDO::PARAM_STR);
+
+        $stmt->execute();
+
         $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($dados) {
             $obra = $this->hydrate($dados);
-            $obra->carregarFuncionariosVinculados(); // Carrega a tabela
+            $obra->carregarFuncionariosVinculados();
             return $obra;
         }
+
         return null;
     }
 
@@ -559,57 +572,58 @@ class Obra
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }
-   
-    public function findByFilters(string $nome = '',string $cidade = '',string $status = ''): array {
-    $sql = "SELECT o.*, c.nomeCliente
+
+    public function findByFilters(string $nome = '', string $cidade = '', string $status = ''): array
+    {
+        $sql = "SELECT o.*, c.nomeCliente
             FROM obra o
             INNER JOIN cliente c ON o.idCliente = c.idCliente
             WHERE 1=1";
 
-    if (!empty($nome)) {
-        $sql .= " AND o.contrato LIKE :nome";
+        if (!empty($nome)) {
+            $sql .= " AND o.contrato LIKE :nome";
+        }
+
+        if (!empty($cidade)) {
+            $sql .= " AND o.cidade LIKE :cidade";
+        }
+
+        if (!empty($status)) {
+            $sql .= " AND o.status = :status";
+        }
+
+        $sql .= " ORDER BY o.idObra DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        if (!empty($nome)) {
+            $stmt->bindValue(
+                ':nome',
+                '%' . $nome . '%',
+                PDO::PARAM_STR
+            );
+        }
+
+        if (!empty($cidade)) {
+            $stmt->bindValue(
+                ':cidade',
+                '%' . $cidade . '%',
+                PDO::PARAM_STR
+            );
+        }
+
+        if (!empty($status)) {
+            $stmt->bindValue(
+                ':status',
+                $status,
+                PDO::PARAM_STR
+            );
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    if (!empty($cidade)) {
-        $sql .= " AND o.cidade LIKE :cidade";
-    }
-
-    if (!empty($status)) {
-        $sql .= " AND o.status = :status";
-    }
-
-    $sql .= " ORDER BY o.idObra DESC";
-
-    $stmt = $this->pdo->prepare($sql);
-
-    if (!empty($nome)) {
-        $stmt->bindValue(
-            ':nome',
-            '%' . $nome . '%',
-            PDO::PARAM_STR
-        );
-    }
-
-    if (!empty($cidade)) {
-        $stmt->bindValue(
-            ':cidade',
-            '%' . $cidade . '%',
-            PDO::PARAM_STR
-        );
-    }
-
-    if (!empty($status)) {
-        $stmt->bindValue(
-            ':status',
-            $status,
-            PDO::PARAM_STR
-        );
-    }
-
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
     public function possuiLancamentos(int $idObra): bool
     {
         $sql = "SELECT COUNT(*)
