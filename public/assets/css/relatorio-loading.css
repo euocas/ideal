@@ -1,39 +1,36 @@
 .relatorio-loading {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Arial, sans-serif;
 }
 
 .relatorio-loading__spinner {
-    width: 70px;
-    height: 70px;
-    margin-bottom: 20px;
-    border: 8px solid #ddd;
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: relatorio-loading-girar 1s linear infinite;  
+  width: 70px;
+  height: 70px;
+  margin-bottom: 20px;
+  border: 8px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: relatorio-loading-girar 1s linear infinite;
 }
 
-
 .relatorio-loading h2 {
-    margin: 0 0 8px;
-    font-size: 20px;
+  margin: 0 0 8px;
+  font-size: 20px;
 }
 
 .relatorio-loading p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
 @keyframes relatorio-loading-girar {
-
-    to {
-        transform: rotate(360deg);
-    }
-
+  to {
+    transform: rotate(360deg);
+  }
 }

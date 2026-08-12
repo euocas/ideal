@@ -13,9 +13,22 @@
 ========================================== */
 
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-primary);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-primary);
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-primary);
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--text-white);
 }
 
 /* ==========================================

@@ -9,9 +9,9 @@
 body {
     margin: 0;
     padding: 40px 20px;
-    background: #f2f4f5;
+    background: var(--bg);
     font-family: Arial, Helvetica, sans-serif;
-    color: #333;
+    color: var(--text);
 }
 
 
@@ -24,8 +24,8 @@ body {
     max-width: 850px;
     margin: 0 auto;
     padding: 45px 55px;
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--surface);
+    border: 1px solid var(--border);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
@@ -41,7 +41,7 @@ body {
 
     padding-bottom: 25px;
 
-    border-bottom: 2px solid #e85d04;
+    border-bottom: 2px solid var(--orange);
 }
 
 .logo {
@@ -58,7 +58,7 @@ body {
 
     font-size: 30px;
 
-    color: #333;
+    color: var(--text);
 
     letter-spacing: 1px;
 }
@@ -68,7 +68,7 @@ body {
 
     font-size: 13px;
 
-    color: #777;
+    color: var(--text-secondary);
 }
 
 
@@ -80,7 +80,7 @@ body {
     margin-top: 30px;
     padding: 20px;
 
-    background: #f7f8f9;
+    background: var(--surface-alt);
 
     border-radius: 6px;
 }
@@ -91,7 +91,7 @@ body {
 
     font-size: 17px;
 
-    color: #333;
+    color: var(--text);
 }
 
 .dados-funcionario {
@@ -114,7 +114,7 @@ body {
 
     font-weight: bold;
 
-    color: #777;
+    color: var(--text-secondary);
 
     text-transform: uppercase;
 }
@@ -122,12 +122,7 @@ body {
 .campo-valor {
     font-size: 15px;
 
-    color: #333;
-}
-
-
-/* =====================================================
-   LANÇAMENTO
+    color: var(--text);
    ===================================================== */
 
 .lancamento {
@@ -137,7 +132,7 @@ body {
 .dados-lancamento {
     overflow: hidden;
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
 
     border-radius: 6px;
 }
@@ -149,7 +144,7 @@ body {
 
     min-height: 48px;
 
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border);
 }
 
 .linha:last-child {
@@ -159,7 +154,7 @@ body {
 .linha-label {
     padding: 14px 16px;
 
-    background: #f7f8f9;
+    background: var(--surface-alt);
 
     font-size: 13px;
 
@@ -177,7 +172,7 @@ body {
 
     font-weight: bold;
 
-    color: #e85d04;
+    color: var(--orange);
 }
 
 
@@ -189,9 +184,9 @@ body {
     margin-top: 25px;
     padding: 15px 18px;
 
-    background: #fafafa;
+    background: var(--surface-muted);
 
-    border-left: 4px solid #ddd;
+    border-left: 4px solid var(--border);
 }
 
 .observacao strong {
@@ -201,7 +196,7 @@ body {
 
     font-size: 12px;
 
-    color: #777;
+color: var(--text-secondary);
 
     text-transform: uppercase;
 }
@@ -245,7 +240,7 @@ body {
 .linha-assinatura {
     padding-top: 8px;
 
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--border);
 
     font-size: 13px;
 
@@ -261,7 +256,7 @@ body {
     margin-top: 50px;
     padding-top: 15px;
 
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--border);
 
     text-align: center;
 
@@ -290,9 +285,9 @@ body {
 
     border-radius: 5px;
 
-    background: #333;
+background: var(--text);
 
-    color: #fff;
+  color: var(--text-white);
 
     font-size: 14px;
 
@@ -315,7 +310,7 @@ body {
     body {
         padding: 0;
 
-        background: #fff;
+        background: var(--surface);
     }
 
     .recibo {

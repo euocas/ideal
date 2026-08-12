@@ -1,7 +1,7 @@
 .card {
   padding: 25px;
   margin-bottom: 15px;
-  background: var(--surface);
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
@@ -88,6 +88,14 @@
   background: var(--btn-dark-hover);
 }
 
+.btn {
+  background: var(--btn-primary);
+}
+
+.btn.limpar {
+  background: var(--btn-secondary);
+}
+
 @media (max-width: 700px) {
   .acoes {
     flex-direction: column;
@@ -107,7 +115,6 @@
   grid-template-columns: 58% 42%;
   gap: 20px;
   align-items: stretch;
-
 }
 
 .busca-box {

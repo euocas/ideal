@@ -13,6 +13,16 @@
 
     <title><?= $titulo ?? 'Sistema'; ?></title>
 
+    <script>
+        (function() {
+            var theme = localStorage.getItem('theme');
+            if (theme !== 'dark' && theme !== 'light') {
+                theme = 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
     <!-- CSS -->
 
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/variables.css">
@@ -30,7 +40,7 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css?v=<?= time() ?>">
 
     <script>
-        window.addEventListener("pageshow", function (event) {
+        window.addEventListener("pageshow", function(event) {
             if (event.persisted || performance.navigation.type === 2) {
                 window.location.reload();
             }

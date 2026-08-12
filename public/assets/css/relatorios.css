@@ -39,11 +39,9 @@
 }
 
 .card-preview table.table th {
+  /* background-color: var(--report-blue); */
 
-    /* background-color: var(--report-blue); */
-
-    color: var(--report-blue);
-
+  color: var(--report-blue);
 }
 
 /* ==========================================
@@ -110,17 +108,17 @@ input[type="date"] {
 ========================================== */
 .btn-excel,
 .btn-pdf {
-    width: 180px;
-    height: 50px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    white-space: nowrap;
+  width: 180px;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 .btn-excel i,
 .btn-pdf i {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .btn-limpar,
@@ -175,12 +173,12 @@ input[type="date"] {
 
 .btn-excel {
   background-color: var(--success-dark);
-  color: #fff;
+  color: var(--text-white);
 }
 
 .btn-pdf {
-  background-color: #222;
-  color: #fff;
+  background-color: var(--btn-dark);
+  color: var(--text-white);
 }
 .acoes-exportar {
   display: flex;
@@ -189,7 +187,6 @@ input[type="date"] {
   margin-top: 20px;
   margin-bottom: 15px;
 }
-
 
 /* ==========================================
    PREVIEW
@@ -362,7 +359,7 @@ input[type="date"] {
   width: 100%;
   margin: 0;
   text-align: center;
-    font-size: 15px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -389,7 +386,7 @@ input[type="date"] {
   min-height: 150px;
   padding: 28px;
   background: var(--surface);
-  border: 1.7px solid rgba(249, 115, 22, 0.25);
+  border: 1.7px solid var(--warning-muted);
   border-radius: var(--radius-lg);
   text-decoration: none;
   color: inherit;
@@ -400,12 +397,17 @@ input[type="date"] {
 
 .card-relatorio:hover {
   transform: translateY(-4px);
-  border-color: rgba(249, 115, 22, 0.45);
-  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.2);
+  border-color: var(--warning);
+  box-shadow: var(--warning-shadow);
 }
 
 .card-relatorio img {
   width: 50px;
+}
+
+/* Forçar ícones das cartas para branco apenas no tema escuro */
+[data-theme="dark"] .card-relatorio img {
+  filter: invert(1) brightness(2) saturate(0);
 }
 
 .card-relatorio h3 {
@@ -419,7 +421,6 @@ input[type="date"] {
   line-height: 1.5;
   color: var(--text-light);
 }
-
 
 /* ==========================================
    RESPONSIVO
@@ -450,5 +451,3 @@ input[type="date"] {
     gap: 15px;
   }
 }
-
-
