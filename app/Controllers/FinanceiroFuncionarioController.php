@@ -178,7 +178,15 @@ class FinanceiroFuncionarioController // ✅ NOME CORRETO
         $obj->setIdCategoria($idCategoria);
 
         $obj->setDescricao($dados['descricao'] ?? null);
-        $obj->setValor($dados['valor'] ?? null);
+
+        $valor = str_replace(
+            ',',
+            '.',
+            str_replace('.', '', $dados['valor'] ?? '0')
+        );
+
+        $obj->setValor((float) $valor);
+
         $obj->setDataReferencia($dados['dataReferencia'] ?? null);
         $obj->setFormaPagamento($dados['formaPagamento'] ?? null);
         $obj->setContaPagamento($dados['contaPagamento'] ?? null);

@@ -37,21 +37,21 @@ CREATE TABLE funcionario (
     idFuncionario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     dataNascimento DATE NOT NULL,
-    sexo ENUM('Masculino', 'Feminino', 'Outro'),
-    naturalidade VARCHAR(100),
-    estadoNascimento VARCHAR(10),
+    sexo ENUM('Masculino', 'Feminino', 'Outro') NOT NULL,
+    naturalidade VARCHAR(100) NOT NULL,
+    estadoNascimento VARCHAR(10)NOT NULL,
     cpf CHAR(11) UNIQUE NOT NULL,
     tipoLogradouro VARCHAR(15) NOT NULL,
     nomeLogradouro VARCHAR(100) NOT NULL,
     numero VARCHAR(6) NOT NULL,
     complemento VARCHAR(30),
-    cidade VARCHAR(100),
-    cep CHAR(8),
-    estado CHAR(2),
-    email VARCHAR(150) NOT NULL,
-    cargoFuncao VARCHAR(100),
+    cidade VARCHAR(100)NOT NULL,
+    cep CHAR(8)NOT NULL,
+    estado CHAR(2)NOT NULL,
+    email VARCHAR(150),
+    cargoFuncao VARCHAR(100) NOT NULL,
     tipoContrato ENUM('CLT', 'CONTRATO TEMPORARIO', 'PESSOA JURÍDICA', 'TERCEIRIZADO') NOT NULL,
-    dataAdmissao DATE,
+    dataAdmissao DATE NOT NULL, 
     dataDesligamento DATE,
     feriasProgramadas DATE,
     agencia VARCHAR(5),
@@ -154,9 +154,10 @@ CREATE TABLE obra (
     status ENUM('Em andamento', 'Concluida', 'Cancelada') NOT NULL,
     estado CHAR(2) NOT NULL,
     cidade VARCHAR(45) NOT NULL,
+    bairro VARCHAR(60) NOT NULL,
     cep CHAR(8) NOT NULL,
-    logradouro VARCHAR(80) NOT NULL,
-    endereco VARCHAR(50) NOT NULL,
+    tipoLogradouro VARCHAR(15) NOT NULL,
+    nomeLogradouro VARCHAR(100) NOT NULL,
     numero CHAR(4) NOT NULL,
     complemento VARCHAR(45),
     contrato VARCHAR(45),
@@ -543,69 +544,88 @@ INSERT INTO veiculo (
 
 
 -- =====================================================
--- INSERÇAO DE DADOS DE OBRA
+-- INSERÇÃO DE DADOS DE OBRA
 -- =====================================================
+
 INSERT INTO obra (
-    idCliente,dataInicio,dataFim,status,estado,cidade,cep,
-    logradouro,endereco,numero,complemento,contrato, valorContratado,observacoes
-) VALUES
+    idCliente,dataInicio,dataFim, status, estado,cidade,bairro,cep,tipoLogradouro,
+    nomeLogradouro,numero,complemento,contrato,valorContratado,observacoes
+    ) VALUES
 
 -- Cliente 1
-(1, '2026-01-15 08:00:00', NULL, 'Em andamento', 'SP', 'Suzano', '08512000',
-'Rua Americana', 'Galpão Industrial Moralles', '88', NULL, 'Obra 1',85000.00,'Ampliação da rede elétrica da área fabril.'),
+(1, '2026-01-15 08:00:00', NULL, 'Em andamento',
+'SP', 'Suzano', 'Centro', '08512000','Rua', 'Americana', '88', NULL, 
+'Obra 1',85000.00,'Ampliação da rede elétrica da área fabril.'),
 
 -- Cliente 2
-(2, '2025-09-10 07:30:00', '2026-03-20 17:00:00', 'Concluída', 'SP', 'Mogi Mirim', '13800005','Avenida Lunares', 'Centro Administrativo Guimarães', '888', NULL, 'Obra 2',
-125000.00,'Modernização elétrica com troca de quadros e cabeamento.'),
+(2, '2025-09-10 07:30:00', '2026-03-20 17:00:00', 'Concluida',
+'SP', 'Mogi Mirim', 'Centro', '13800005','Avenida', 'Lunares', '888', NULL, 
+'Obra 2',125000.00,'Modernização elétrica com troca de quadros e cabeamento.'),
 
 -- Cliente 3
-(3, '2026-05-01 09:00:00', NULL, 'Em andamento', 'SP', 'Bertioga', '11250000','Avenida Riviera', 'Condomínio Riviera Business', '108', 'Bloco B', 'Obra 3',98000.00,'Expansão da infraestrutura elétrica de novo bloco comercial.'),
+(3, '2026-05-01 09:00:00', NULL, 'Em andamento',
+'SP', 'Bertioga', 'Riviera', '11250000','Avenida', 'Riviera', '108', 'Bloco B', 
+'Obra 3',98000.00,'Expansão da infraestrutura elétrica de novo bloco comercial.'),
 
 -- Cliente 4
-(4, '2026-04-10 08:00:00', NULL, 'Em andamento', 'SP', 'Guarujá', '11410002','Rua da Praia das Astúrias', 'Residência Particular', '10', NULL, 'Obra 4',42000.00,'Reforma elétrica completa da residência de praia.'),
+(4, '2026-04-10 08:00:00', NULL, 'Em andamento',
+'SP', 'Guarujá', 'Astúrias', '11410002','Rua', 'da Praia das Astúrias', '10', NULL, 
+'Obra 4',42000.00,'Reforma elétrica completa da residência de praia.'),
 
 -- Cliente 5
-(5, '2026-02-03 08:30:00', NULL, 'Em andamento', 'SP', 'Americana', '13145560',
-'Avenida Solares', 'Parque Empresarial Norton', '108', NULL, 'Obra 5',310000.00,'Construção de subestação elétrica para expansão industrial.'),
+(5, '2026-02-03 08:30:00', NULL, 'Em andamento',
+'SP', 'Americana', 'Centro', '13145560','Avenida', 'Solares', '108', NULL, 
+'Obra 5',310000.00,'Construção de subestação elétrica para expansão industrial.'),
 
 -- Cliente 6
-(6, '2026-03-12 08:00:00', NULL, 'Em andamento', 'SP', 'Santos', '11055000','Rua das Palmeiras', 'Centro Comercial Antunes', '120', NULL, 'Obra 6',165000.00,'Instalação elétrica completa de prédio comercial.'),
+(6, '2026-03-12 08:00:00', NULL, 'Em andamento',
+'SP', 'Santos', 'Gonzaga', '11055000','Rua', 'das Palmeiras', '120', NULL,
+'Obra 6',165000.00,'Instalação elétrica completa de prédio comercial.'),
 
 -- Cliente 7
-(7, '2025-11-18 07:30:00', '2026-04-28 17:30:00', 'Concluída', 'SP', 'Santos', '11045002',
-'Avenida Conselheiro Nébias', 'Edifício Souza Empresarial', '450', 'Sala 4', 'Obra 7',93000.00,'Substituição dos quadros elétricos e adequação à NR-10.'),
+(7, '2025-11-18 07:30:00', '2026-04-28 17:30:00', 'Concluida',
+'SP', 'Santos', 'Vila Mathias', '11045002','Avenida', 'Conselheiro Nébias', '450','Edifício Souza Empresarial - Sala 4',
+'Obra 7',93000.00,'Substituição dos quadros elétricos e adequação à NR-10.'),
 
 -- Cliente 8
-(8, '2026-06-02 08:30:00', NULL, 'Em andamento', 'SP', 'São Vicente', '11320000','Rua Dom Pedro II', 'Galpão Brasil Logística', '98', NULL, 'Obra 8',
-118000.00,'Instalação de iluminação industrial em centro logístico.'),
+(8, '2026-06-02 08:30:00', NULL, 'Em andamento',
+'SP', 'São Vicente', 'Centro', '11320000','Rua', 'Dom Pedro II', '98','Galpão Brasil Logística',
+'Obra 8',118000.00,'Instalação de iluminação industrial em centro logístico.'),
 
 -- Cliente 9
-(9, '2026-02-20 09:00:00', NULL, 'Em andamento', 'SP', 'Praia Grande', '11701000',
-'Avenida Presidente Wilson', 'Escola Rosa', '765', NULL, 'Obra 9',76000.00,'Reforma das instalações elétricas e iluminação da escola.'),
+(9, '2026-02-20 09:00:00', NULL, 'Em andamento',
+'SP', 'Praia Grande', 'Boqueirão', '11701000','Avenida', 'Presidente Wilson', '765','Escola Rosa',
+'Obra 9',76000.00,'Reforma das instalações elétricas e iluminação da escola.'),
 
 -- Cliente 10
-(10, '2026-05-15 08:00:00', '2026-06-05 16:30:00', 'Concluída', 'SP', 'Guarujá', '11430000',
-'Rua das Acácias', 'Residência Poliana', '55', NULL, 'Obra 10',38500.00,'Reforma elétrica residencial com instalação de novos circuitos.'),
+(10, '2026-05-15 08:00:00', '2026-06-05 16:30:00', 'Concluida',
+'SP', 'Guarujá', 'Enseada', '11430000','Rua', 'das Acácias', '55','Residência Poliana',
+'Obra 10',38500.00,'Reforma elétrica residencial com instalação de novos circuitos.'),
 
 -- Cliente 11
-(11, '2026-07-01 08:00:00', NULL, 'Em andamento', 'SP', 'Cubatão', '11510020',
-'Rua Professor Toledo', 'Centro Empresarial Gonçalves', '230', NULL, 'Obra 11',247000.00,'Execução da infraestrutura elétrica de prédio corporativo.'),
+(11, '2026-07-01 08:00:00', NULL, 'Em andamento',
+'SP', 'Cubatão', 'Centro', '11510020','Rua', 'Professor Toledo', '230','Centro Empresarial Gonçalves',
+'Obra 11',247000.00,'Execução da infraestrutura elétrica de prédio corporativo.'),
 
 -- Cliente 12
-(12, '2026-03-25 08:00:00', '2026-04-15 17:00:00', 'Concluída', 'SP', 'Santos', '11010000',
-'Avenida Marechal Deodoro', 'Residência Ramon Gonzallez', '1020', 'Casa', 'Obra 12',29500.00,'Modernização da instalação elétrica residencial.'),
+(12, '2026-03-25 08:00:00', '2026-04-15 17:00:00', 'Concluida',
+'SP', 'Santos', 'Centro', '11010000','Avenida', 'Marechal Deodoro', '1020','Residência Ramon Gonzallez - Casa',
+'Obra 12',29500.00,'Modernização da instalação elétrica residencial.'),
 
 -- Cliente 13
-(13, '2026-08-10 07:30:00', NULL, 'Em andamento', 'SP', 'São Vicente', '11310010',
-'Rua XV de Novembro', 'Complexo Empresarial Leo Santos', '315', NULL, 'Obra 13',189000.00,'Instalação elétrica e iluminação de novo centro comercial.'),
+(13, '2026-08-10 07:30:00', NULL, 'Em andamento',
+'SP', 'São Vicente', 'Centro', '11310010','Rua', 'XV de Novembro', '315','Complexo Empresarial Leo Santos',
+'Obra 13',189000.00,'Instalação elétrica e iluminação de novo centro comercial.'),
 
 -- Cliente 14
-(14, '2026-09-05 08:30:00', NULL, 'Em andamento', 'SP', 'Santos', '11060002',
-'Avenida Ana Costa', 'Edifício Novaes', '890', 'Sala 10', 'Obra 14',97000.00,'Montagem da infraestrutura elétrica e sistema de emergência.'),
+(14, '2026-09-05 08:30:00', NULL, 'Em andamento',
+'SP', 'Santos', 'Gonzaga', '11060002','Avenida', 'Ana Costa', '890','Edifício Novaes - Sala 10',
+'Obra 14',97000.00,'Montagem da infraestrutura elétrica e sistema de emergência.'),
 
 -- Cliente 15
-(15, '2026-10-01 08:00:00', NULL, 'Em andamento', 'SP', 'Praia Grande', '11702000',
-'Rua Rio Branco', 'Centro Comercial Shin', '500', NULL, 'Obra 15',156000.00,'Instalação elétrica completa para centro comercial de médio porte.');
+(15, '2026-10-01 08:00:00', NULL, 'Em andamento',
+'SP', 'Praia Grande', 'Boqueirão', '11702000','Rua', 'Rio Branco', '500','Centro Comercial Shin',
+'Obra 15',156000.00,'Instalação elétrica completa para centro comercial de médio porte.');
 
 -- =====================================================
 -- INSERÇAO DE DADOS DE OBRA FUNCIONÁRIO
@@ -1176,6 +1196,7 @@ VALUES
 
 SELECT * FROM usuario;
 SELECT * FROM cliente;
+SELECT * FROM contatoCliente;
 SELECT * FROM obra;
 SELECT * FROM veiculo;
 SELECT * FROM funcionario;

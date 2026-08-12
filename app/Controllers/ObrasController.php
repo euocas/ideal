@@ -100,12 +100,13 @@ class ObrasController
         $obra->setStatus($dados['status'] ?? null);
         $obra->setEstado($dados['estado'] ?? null);
         $obra->setCidade($dados['cidade'] ?? null);
+        $obra->setBairro($dados['bairro'] ?? null);
 
         $cep = preg_replace('/\D/', '', $dados['cep'] ?? '');
         $obra->setCep($cep);
 
-        $obra->setLogradouro($dados['logradouro'] ?? null);
-        $obra->setEndereco($dados['endereco'] ?? null);
+        $obra->setTipoLogradouro($dados['tipoLogradouro'] ?? null);
+        $obra->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
         $obra->setNumero($dados['numero'] ?? null);
         $obra->setComplemento($dados['complemento'] ?? null);
         $obra->setObservacoes($dados['observacoes'] ?? null);
@@ -123,6 +124,7 @@ class ObrasController
         $obra->setFuncionariosVinculados($funcionarios);
 
     }
+
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -159,6 +161,9 @@ class ObrasController
                 exit;
             }
 
+            // Nova obra sempre inicia como "Em andamento"
+            $_POST['status'] = 'Em andamento';
+
             $obra = new Obra();
             $this->popularObjeto($obra, $_POST);
 
@@ -185,7 +190,6 @@ class ObrasController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
         $id = $_GET['id'] ?? null;
 
         if (!$id) {
@@ -194,7 +198,7 @@ class ObrasController
             exit;
         }
 
-        // ✅ Valida se o cliente foi selecionado
+        // Valida se o cliente foi selecionado
         if (empty($_POST['idCliente'])) {
             $_SESSION['mensagem_erro'] = "Selecione um cliente válido antes de atualizar a obra.";
             header("Location: " . BASE_URL . "/index.php?url=obras");
@@ -206,6 +210,44 @@ class ObrasController
 
         if ((float) $valorContratado <= 0) {
             $_SESSION['mensagem_erro'] = "Informe um valor contratado maior que zero.";
+            header("Location: " . BASE_URL . "/index.php?url=obras");
+            exit;
+        }
+
+        // Busca a obra atual no banco
+        $obraExistente = new Obra();
+        $obraExistente = $obraExistente->findById($id);
+
+        if (!$obraExistente) {
+            $_SESSION['mensagem_erro'] = "Obra não encontrada.";
+            header("Location: " . BASE_URL . "/index.php?url=obras");
+            exit;
+        }
+
+        // Valida o status da obra
+        $status = $_POST['status'] ?? '';
+        $statusAtual = $obraExistente->getStatus();
+
+        if ($statusAtual === 'Em andamento') {
+
+            // Obra em andamento pode continuar em andamento ou ser encerrada
+            $statusPermitidos = [
+                'Em andamento',
+                'Concluida',
+                'Cancelada'
+            ];
+
+        } else {
+
+            // Obra concluída ou cancelada não pode voltar para andamento
+            $statusPermitidos = [
+                'Concluida',
+                'Cancelada'
+            ];
+        }
+
+        if (!in_array($status, $statusPermitidos, true)) {
+            $_SESSION['mensagem_erro'] = "Status inválido para esta obra.";
             header("Location: " . BASE_URL . "/index.php?url=obras");
             exit;
         }
