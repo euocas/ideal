@@ -256,12 +256,24 @@ class ClientesController
 
     private function popularObjeto(Cliente $cliente, array $dados): void
     {
-        $cliente->setNomeCliente(!empty($dados['nomeCliente']) ? $dados['nomeCliente'] : '');
-        $cliente->setCpf(!empty($dados['cpf']) ? $dados['cpf'] : null);
-        $cliente->setCnpj(!empty($dados['cnpj']) ? $dados['cnpj'] : null);
-        $cliente->setEmail(!empty($dados['email']) ? $dados['email'] : '');
+        $cliente->setNomeCliente(
+            !empty($dados['nomeCliente']) ? $dados['nomeCliente'] : ''
+        );
+
+        $cliente->setCpf(
+            !empty($dados['cpf']) ? $dados['cpf'] : null
+        );
+
+        $cliente->setCnpj(
+            !empty($dados['cnpj']) ? $dados['cnpj'] : null
+        );
+
+        $cliente->setEmail(
+            !empty($dados['email']) ? $dados['email'] : ''
+        );
 
         $tipoForm = $dados['tipoCliente'] ?? '';
+
         if ($tipoForm === 'PESSOA_FISICA') {
             $cliente->setTipoCliente('Pessoa Física');
         } elseif ($tipoForm === 'PESSOA_JURIDICA') {
@@ -270,17 +282,50 @@ class ClientesController
             $cliente->setTipoCliente('Pessoa Física');
         }
 
-        $cliente->setCidade(!empty($dados['cidade']) ? $dados['cidade'] : '');
-        $cliente->setCep(!empty($dados['cep']) ? $dados['cep'] : '');
-        $cliente->setEstado(!empty($dados['estado']) ? $dados['estado'] : '');
-        $cliente->setObservacoes(!empty($dados['observacoes']) ? $dados['observacoes'] : null);
-        $cliente->setTelefone(!empty($dados['telefone']) ? $dados['telefone'] : null);
+        // Endereço
+        $cliente->setTipoLogradouro(
+            !empty($dados['tipoLogradouro']) ? $dados['tipoLogradouro'] : null
+        );
 
-        $cliente->setTipoLogradouro(null);
-        $cliente->setNomeLogradouro(null);
-        $cliente->setNumero(null);
-        $cliente->setComplemento(null);
+        $cliente->setNomeLogradouro(
+            !empty($dados['nomeLogradouro']) ? $dados['nomeLogradouro'] : null
+        );
+
+        $cliente->setNumero(
+            !empty($dados['numero']) ? $dados['numero'] : null
+        );
+
+        $cliente->setComplemento(
+            !empty($dados['complemento']) ? $dados['complemento'] : null
+        );
+
+        $cliente->setCidade(
+            !empty($dados['cidade']) ? $dados['cidade'] : null
+        );
+
+        $cliente->setCep(
+            !empty($dados['cep']) ? $dados['cep'] : null
+        );
+
+        $cliente->setEstado(
+            !empty($dados['estado']) ? $dados['estado'] : null
+        );
+
+        // Contato
+        $cliente->setTelefone(
+            !empty($dados['telefone']) ? $dados['telefone'] : null
+        );
+
+        $cliente->setWhatsapp(
+            !empty($dados['whatsapp']) ? $dados['whatsapp'] : null
+        );
+
+        // Outros dados
+        $cliente->setObservacoes(
+            !empty($dados['observacoes']) ? $dados['observacoes'] : null
+        );
     }
+
     private function retornarComErro(string $mensagem, string $rota): void
     {
         if (session_status() === PHP_SESSION_NONE) {

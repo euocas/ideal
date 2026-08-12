@@ -95,7 +95,6 @@ $modoEdicao = isset($cliente);
         </section>
 
         <section class="card">
-
             <h2><i class="fa-regular fa-clipboard icone-titulo"> </i> Dados do Cliente</h2>
 
             <form id="form-dados" method="POST">
@@ -117,22 +116,18 @@ $modoEdicao = isset($cliente);
 
                 <input type="hidden" name="idCliente" value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
 
+
                 <div class="grid-form">
 
                     <div class="form-group">
-
                         <label>Nome do Cliente <span class="obrigatorio">*</span></label>
-
                         <input type="text" name="nomeCliente" minlength="3" maxlength="45"
                             placeholder="Digite o nome do cliente" required
                             value="<?= isset($cliente) ? htmlspecialchars($cliente->getNomeCliente() ?? '') : '' ?>">
-
                     </div>
 
                     <div class="form-group">
-
                         <label>CPF</span></label>
-
                         <?php
                         $cpfValue = isset($cliente)
                             ? $cliente->getCpf()
@@ -175,72 +170,6 @@ $modoEdicao = isset($cliente);
                     </div>
 
                     <h2 class="subtitulo-form">
-                        Contato
-                    </h2>
-
-                    <div class="form-group">
-
-                        <label>Telefone <span class="obrigatorio">*</label>
-
-                        <?php
-                        $telefoneValue = isset($cliente) ? $cliente->getTelefone() : '';
-                        $telefoneFormatado = '';
-                        if (!empty($telefoneValue)) {
-                            $telefone = preg_replace('/\D/', '', $telefoneValue);
-                            if (strlen($telefone) === 11) {
-                                // Celular
-                                $telefoneFormatado = preg_replace(
-                                    '/(\d{2})(\d{5})(\d{4})/',
-                                    '($1) $2-$3',
-                                    $telefone
-                                );
-                            } elseif (strlen($telefone) === 10) {
-
-                                // Telefone fixo
-                                $telefoneFormatado = preg_replace(
-                                    '/(\d{2})(\d{4})(\d{4})/',
-                                    '($1) $2-$3',
-                                    $telefone
-                                );
-                            }
-                        }
-                        ?>
-
-                        <input type="text" name="telefone" placeholder="(00) 00000-0000" maxlength="15"
-                            oninput="mascaraTelefone(this)" value="<?= htmlspecialchars($telefoneFormatado) ?>">
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>E-mail</label>
-
-                        <input type="email" name="email" placeholder="cliente@email.com"
-                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getEmail() ?? '') : '' ?>">
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>Tipo de Cliente <span class="obrigatorio">*</label>
-
-                        <select name="tipoCliente">
-
-                            <option value="">Selecione</option>
-
-                            <option value="PESSOA_FISICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Física' || $cliente->getTipoCliente() === 'PESSOA_FISICA')) ? 'selected' : '' ?>>
-                                Pessoa Física
-                            </option>
-
-                            <option value="PESSOA_JURIDICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Jurídica' || $cliente->getTipoCliente() === 'PESSOA_JURIDICA')) ? 'selected' : '' ?>>
-                                Pessoa Jurídica
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <h2 class="subtitulo-form">
                         Endereço
                     </h2>
 
@@ -258,7 +187,6 @@ $modoEdicao = isset($cliente);
                         ?>
                         <input type="text" name="cep" placeholder="00000-000" maxlength="9" oninput="mascaraCEP(this)"
                             value="<?= htmlspecialchars($cepValue) ?>">
-
                     </div>
 
                     <div class="form-group">
@@ -271,22 +199,104 @@ $modoEdicao = isset($cliente);
                     </div>
 
                     <div class="form-group">
-                        <label>Estado <span class="obrigatorio">*</label>
-                        <?php $estadoAtual = isset($cliente) ? $cliente->getEstado() : ''; ?>
+                        <label>Tipo de Logradouro <span class="obrigatorio">*</span></label>
+                        <?php $tipoLogradouroAtual = isset($cliente) ? $cliente->getTipoLogradouro() : ''; ?>
+                        <input type="text" name="tipoLogradouro" id="tipoLogradouro"
+                            placeholder="Ex.: Rua, Avenida, Alameda, Viela"
+                            value="<?= htmlspecialchars($tipoLogradouroAtual) ?>">
+                    </div>
 
-                        <select name="estado" id="estado">
+                    <div class="form-group">
+                        <label>Logradouro <span class="obrigatorio">*</span></label>
+                        <?php $nomeLogradouroAtual = isset($cliente) ? $cliente->getNomeLogradouro() : ''; ?>
+                        <input type="text" name="nomeLogradouro" id="nomeLogradouro"
+                            placeholder="Digite o nome da Rua/Avenida/Alameda/Viela"
+                            value="<?= htmlspecialchars($nomeLogradouroAtual) ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Número <span class="obrigatorio">*</span></label>
+                        <?php $numeroAtual = isset($cliente) ? $cliente->getNumero() : ''; ?>
+                        <input type="text" name="numero" id="numero" placeholder="Somente números"
+                            value="<?= htmlspecialchars($numeroAtual) ?>">
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Complemento</label>
+
+                        <?php $complementoAtual = isset($cliente) ? ($cliente->getComplemento() ?? '') : ''; ?>
+
+                        <input type="text" name="complemento" id="complemento" placeholder="Ex.: Apto 101, Bloco A"
+                            value="<?= htmlspecialchars($complementoAtual) ?>">
+
+                    </div>
+
+                    <h2 class="subtitulo-form">
+                        Contato
+                    </h2>
+
+                    <div class="form-group">
+                        <label>Telefone <span class="obrigatorio">*</span></label>
+
+                        <?php
+                        $telefoneAtual = isset($cliente) ? ($cliente->getTelefone() ?? '') : '';
+                        if ($telefoneAtual) {
+                            $telefoneAtual = preg_replace(
+                                '/(\d{2})(\d{5})(\d{4})/',
+                                '($1) $2-$3',
+                                $telefoneAtual
+                            );
+                        }
+                        ?>
+
+                        <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" maxlength="15"
+                            value="<?= htmlspecialchars($telefoneAtual) ?>">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>WhatsApp</label>
+                        <?php
+                        $whatsappAtual = isset($cliente) ? ($cliente->getWhatsapp() ?? '') : '';
+                        if ($whatsappAtual) {
+                            $whatsappAtual = preg_replace(
+                                '/(\d{2})(\d{5})(\d{4})/',
+                                '($1) $2-$3',
+                                $whatsappAtual
+                            );
+                        }
+                        ?>
+
+                        <input type="text" name="whatsapp" id="whatsapp" placeholder="(00) 00000-0000" maxlength="15"
+                            value="<?= htmlspecialchars($whatsappAtual) ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" name="email" placeholder="cliente@email.com"
+                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getEmail() ?? '') : '' ?>">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Tipo de Cliente <span class="obrigatorio">*</label>
+                        <select name="tipoCliente">
                             <option value="">Selecione</option>
-                            <?php foreach (SistemaConstantes::ESTADOS as $sigla => $nome): ?>
-                                <option value="<?= $sigla ?>" <?= $estadoAtual === $sigla ? 'selected' : '' ?>>
-                                    <?= $sigla ?> - <?= $nome ?>
-                                </option>
-                            <?php endforeach; ?>
+
+                            <option value="PESSOA_FISICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Física' || $cliente->getTipoCliente() === 'PESSOA_FISICA')) ? 'selected' : '' ?>>
+                                Pessoa Física
+                            </option>
+
+                            <option value="PESSOA_JURIDICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Jurídica' || $cliente->getTipoCliente() === 'PESSOA_JURIDICA')) ? 'selected' : '' ?>>
+                                Pessoa Jurídica
+                            </option>
+
                         </select>
 
                     </div>
 
                     <div class="form-group observacao">
-
                         <label>Observações</label>
 
                         <textarea
@@ -294,7 +304,8 @@ $modoEdicao = isset($cliente);
 
                     </div>
 
-                    <label class="obrigatorio">* Campos de preenchimento obrigatório. Informe o CPF e/ou CNPJ do cliente.  </label>
+                    <label class="obrigatorio">* Campos de preenchimento obrigatório. Informe o CPF e/ou CNPJ do
+                        cliente. </label>
 
                 </div>
 

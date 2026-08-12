@@ -27,6 +27,8 @@ class Cliente
 
     private ?string $telefone = null;
 
+    private ?string $whatsapp = null;
+
     public string $dbError = ''; // Adicionado para capturar o erro real do BD
 
     private PDO $pdo;
@@ -176,8 +178,32 @@ class Cliente
     }
     public function setTelefone(?string $telefone): void
     {
-        $this->telefone = $telefone;
+
+        $this->telefone = $telefone
+
+            ? preg_replace('/[^0-9]/', '', $telefone)
+
+            : null;
+
     }
+
+    public function getWhatsapp(): ?string
+    {
+        return $this->whatsapp;
+    }
+
+    public function setWhatsapp(?string $whatsapp): void
+    {
+
+        $this->whatsapp = $whatsapp
+
+            ? preg_replace('/[^0-9]/', '', $whatsapp)
+
+            : null;
+
+    }
+
+
 
     // =====================================================
     // 4. MÉTODOS DE BANCO DE DADOS (CRUD)
@@ -202,12 +228,21 @@ class Cliente
         $cliente->setObservacoes($dados['observacoes'] ?? null);
 
         if (isset($dados['idCliente'])) {
-            $stmtTel = $this->pdo->prepare("SELECT telefone FROM contatoCliente WHERE idCliente = :id LIMIT 1");
-            $stmtTel->bindValue(':id', $dados['idCliente'], PDO::PARAM_INT);
-            $stmtTel->execute();
-            $contato = $stmtTel->fetch(PDO::FETCH_ASSOC);
+            $stmtContato = $this->pdo->prepare("
+        SELECT telefone, whatsapp
+        FROM contatoCliente
+        WHERE idCliente = :id
+        LIMIT 1
+    ");
+
+            $stmtContato->bindValue(':id', $dados['idCliente'], PDO::PARAM_INT);
+            $stmtContato->execute();
+
+            $contato = $stmtContato->fetch(PDO::FETCH_ASSOC);
+
             if ($contato) {
-                $cliente->setTelefone($contato['telefone']);
+                $cliente->setTelefone($contato['telefone'] ?? null);
+                $cliente->setWhatsapp($contato['whatsapp'] ?? null);
             }
         }
 
@@ -247,11 +282,21 @@ class Cliente
             $this->idCliente = (int) $this->pdo->lastInsertId();
 
             if ($this->getTelefone()) {
-                $sqlTel = "INSERT INTO contatoCliente (idCliente, telefone) VALUES (:idCliente, :telefone)";
-                $stmtTel = $this->pdo->prepare($sqlTel);
-                $stmtTel->bindValue(':idCliente', $this->idCliente, PDO::PARAM_INT);
-                $stmtTel->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
-                $stmtTel->execute();
+                $sqlContato = "
+                      INSERT INTO contatoCliente (idCliente, telefone, whatsapp)
+                     VALUES (:idCliente, :telefone, :whatsapp)";
+
+                $stmtContato = $this->pdo->prepare($sqlContato);
+
+                $stmtContato->bindValue(':idCliente', $this->idCliente, PDO::PARAM_INT);
+                $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
+                $stmtContato->bindValue(
+                    ':whatsapp',
+                    $this->getWhatsapp(),
+                    $this->getWhatsapp() ? PDO::PARAM_STR : PDO::PARAM_NULL
+                );
+
+                $stmtContato->execute();
             }
 
             $this->pdo->commit();
@@ -303,11 +348,21 @@ class Cliente
             $stmtDel->execute();
 
             if ($this->getTelefone()) {
-                $sqlTel = "INSERT INTO contatoCliente (idCliente, telefone) VALUES (:idCliente, :telefone)";
-                $stmtTel = $this->pdo->prepare($sqlTel);
-                $stmtTel->bindValue(':idCliente', $this->getIdCliente(), PDO::PARAM_INT);
-                $stmtTel->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
-                $stmtTel->execute();
+                $sqlContato = "
+             INSERT INTO contatoCliente (idCliente, telefone, whatsapp)
+             VALUES (:idCliente, :telefone, :whatsapp)";
+
+                $stmtContato = $this->pdo->prepare($sqlContato);
+
+                $stmtContato->bindValue(':idCliente', $this->getIdCliente(), PDO::PARAM_INT);
+                $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
+                $stmtContato->bindValue(
+                    ':whatsapp',
+                    $this->getWhatsapp(),
+                    $this->getWhatsapp() ? PDO::PARAM_STR : PDO::PARAM_NULL
+                );
+
+                $stmtContato->execute();
             }
 
             $this->pdo->commit();
@@ -364,8 +419,8 @@ class Cliente
         return $clientes;
     }
 
-     //Retorna todos os clientes como array associativo
-     
+    //Retorna todos os clientes como array associativo
+
     public function listar(): array
     {
         $sql = "SELECT * FROM cliente";
@@ -374,7 +429,8 @@ class Cliente
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscarComFiltros(string $nome = '',string $cpf = '',string $cnpj = '' ): array {
+    public function buscarComFiltros(string $nome = '', string $cpf = '', string $cnpj = ''): array
+    {
         $sql = "SELECT * FROM cliente WHERE 1=1";
 
         if (!empty($nome)) {

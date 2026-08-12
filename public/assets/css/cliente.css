@@ -4,13 +4,15 @@
   font-size: 20px;
 }
 
-.subtitulo-form {
+.card h2.subtitulo-form {
     grid-column: 1 / -1;
-    margin-top: 10px;
-    padding-top: 15px;
+    margin: 10px 0 5px;
+    padding-top: 10px;
     border-top: 1px solid var(--border-light);
     font-size: 18px;
+    font-weight: 600;
 }
+
 .icone-titulo {
   color: var(--orange-dark);
 }
@@ -53,7 +55,7 @@ textarea {
 }
 
 .observacao {
-  grid-column: span 3;
+  grid-column: span 2;
 }
 
 
