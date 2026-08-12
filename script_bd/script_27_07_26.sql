@@ -81,23 +81,23 @@ CREATE TABLE contatoFuncionario (
 -- =====================================================
 -- CLIENTE
 -- =====================================================
-
 CREATE TABLE cliente (
     idCliente INT AUTO_INCREMENT PRIMARY KEY,
     nomeCliente VARCHAR(45) NOT NULL,
     cpf CHAR(11) UNIQUE,
     cnpj CHAR(14) UNIQUE,
     email VARCHAR(150),
-    tipoCliente ENUM('Pessoa Física', 'Pessoa Jurídica'),
-    tipoLogradouro VARCHAR(15),
-    nomeLogradouro VARCHAR(100),
-    numero VARCHAR(6),
+    tipoCliente ENUM('Pessoa Física', 'Pessoa Jurídica') NOT NULL,
+    tipoLogradouro VARCHAR(15) NOT NULL,
+    nomeLogradouro VARCHAR(100) NOT NULL,
+    numero VARCHAR(6) NOT NULL,
     complemento VARCHAR(30),
-    cidade VARCHAR(100),
-    cep CHAR(8),
-    estado CHAR(2),
+    cidade VARCHAR(100) NOT NULL,
+    cep CHAR(8) NOT NULL,
+    estado CHAR(2) NOT NULL,
     observacoes TEXT,
-    CONSTRAINT chk_documento CHECK (cpf IS NOT NULL OR cnpj IS NOT NULL)
+    CONSTRAINT chk_documento
+        CHECK (cpf IS NOT NULL OR cnpj IS NOT NULL)
 );
  
 -- =====================================================
@@ -106,7 +106,7 @@ CREATE TABLE cliente (
 CREATE TABLE contatoCliente (
     idContato INT AUTO_INCREMENT PRIMARY KEY,
     idCliente INT NOT NULL,
-    telefone VARCHAR(20),
+    telefone VARCHAR(20)NOT NULL,
     whatsapp VARCHAR(20),
     CONSTRAINT fk_contatoCliente
         FOREIGN KEY (idCliente)
