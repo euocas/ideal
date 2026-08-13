@@ -178,7 +178,7 @@
 .financeiro-topo,
 .veiculo-topo {
   display: grid;
-  grid-template-columns: 53% 42%;
+  grid-template-columns: minmax(260px, 55%) minmax(220px, 1fr);
   gap: 40px;
   align-items: start;
 }
@@ -195,7 +195,6 @@
   position: relative;
   top: 14px;
   left: 8px;
-
 }
 
 .periodo-grid {
@@ -221,8 +220,8 @@
   margin-bottom: 15px;
 }
 .periodo-box {
-  background: #fff;
-  border: 1px solid #ddd;
+  background: var(--surface);
+  border: 1px solid var(--border-color-light);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -272,7 +271,7 @@
 .funcionario-nome,
 .veiculo-nome {
   margin: 0;
-  font-size: 20px;
+  align-items: flex-start;
   font-weight: 700;
 }
 .funcionario-principal hr {
@@ -282,6 +281,7 @@
 }
 .funcionario-info,
 .veiculo-info {
+  flex-wrap: wrap;
   display: flex;
   align-items: center;
   gap: 48px;
@@ -305,7 +305,7 @@
   color: var(--text-muted);
 }
 .separador {
-  color: #c9c9c9;
+  color: var(--border);
   font-size: 22px;
 }
 .status {
@@ -328,40 +328,44 @@
    class FUNCIONÁRIO CARD
 ========================================== */
 .funcionario-card,
-.veiculo-card{
+.veiculo-card {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 35px;
   margin-top: 10px;
   /* padding: 25px; */
-  padding: 14px 18px;
+  padding: 14px 35px;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
-  background: #f7f8fa;
+  background: var(--surface);
+  flex: 1;
+  flex-wrap: wrap;
 }
-
 .funcionario-conteudo,
 .veiculo-conteudo {
-  display: flex;
-  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  column-gap: 40px;
+  row-gap: 28px;
+  align-items: start;
+  width: 100%;
 }
-/* COLUNAS */
 .funcionario-coluna,
 .veiculo-coluna {
-  flex: 1;
-  padding: 0 35px;
+  flex: 1 1 minmax(220px, 1fr);
+  min-width: 220px;
 }
 .funcionario-coluna:first-child {
   padding-left: 0;
 }
-.funcionario-coluna:not(:last-child) {
+.funcionario-coluna:not(:last-child),
+.veiculo-coluna:not(:last-child) {
   border-right: 1px solid var(--border-light);
 }
 /* NOME */
 .funcionario-nome {
   margin-bottom: 8px;
   color: var(--text);
-  font-size: 22px;
   font-weight: 700;
 }
 .funcionario-funcao,
@@ -414,7 +418,7 @@
 }
 /* VALOR */
 .funcionario-valor,
-.veiculo-valor{
+.veiculo-valor {
   display: block;
   color: var(--text);
   font-size: 16px;
@@ -544,24 +548,24 @@
 
 /* aside Entrada */
 .info-card.recebimentos-auto ul {
-    grid-template-columns: 1fr;
-    row-gap: 12px;
+  grid-template-columns: 1fr;
+  row-gap: 12px;
 }
 /* aside Saída */
 .gastos-auto ul {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 20px;
-    row-gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 20px;
+  row-gap: 10px;
 }
 
 .info-card.entrada {
-  background: #eefdf3;
-  border-color: #c9ebd3;
+  background: var(--success-muted);
+  border-color: var(--success-dark);
 }
 
 .info-card.saida {
-  background: #fff4f4;
-  border-color: #f3cccc;
+  background: var(--danger-muted);
+  border-color: var(--danger-dark);
 }
 .info-card ul {
   margin: 10px 0 0;
@@ -597,12 +601,12 @@
 }
 .info-card.entrada .info-icon {
   background: var(--success-dark);
-  color: #dcfce7;
+  color: var(--success-light);
 }
 
 .info-card.saida .info-icon {
   background: var(--danger-dark);
-  color: #fee2e2;
+  color: var(--danger-light);
 }
 .info-descricao {
   margin: 12px 0;
@@ -616,8 +620,8 @@
   padding: 14px 18px;
   margin-top: 24px;
 
-  background: #eef5ff;
-  border: 1px solid #cfe2ff;
+  background: var(--surface-alt);
+  border: 1px solid var(--primary-light);
   border-radius: 8px;
 }
 
@@ -666,7 +670,7 @@
 }
 .btn.salvar-novo {
   background: var(--btn-primary);
-  color: #fff;
+  color: var(--text-white);
   border: none;
 }
 .btn.salvar-novo:hover {
@@ -674,7 +678,7 @@
 }
 .btn.salvar {
   background: var(--orange-dark);
-  color: #fff;
+  color: var(--text-white);
   border: none;
 }
 
@@ -697,7 +701,6 @@
   border-radius: 10px;
 }
 
-
 /* ===========================
    RESUMO DOS LANÇAMENTOS
 =========================== */
@@ -715,7 +718,7 @@
 }
 
 .valor-contratado {
-  color: #2563eb;
+  color: var(--primary);
   font-size: 21px;
 }
 .filtros-lancamentos {
@@ -739,14 +742,14 @@
   padding: 18px 22px;
   background: var(--surface);
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
   transition: 0.2s ease;
 }
 
 .card-resumo:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
 }
 
 .card-resumo .icone {
@@ -784,7 +787,7 @@
 }
 
 .card-resumo.entrada .icone {
-  background: rgba(34, 197, 94, 0.12);
+  background: var(--success-muted);
   color: var(--success);
 }
 .card-resumo.saida {
@@ -792,7 +795,7 @@
 }
 
 .card-resumo.saida .icone {
-  background: rgba(239, 68, 68, 0.12);
+  background: var(--danger-muted);
   color: var(--danger);
 }
 .card-resumo.saldo {
@@ -800,7 +803,7 @@
 }
 
 .card-resumo.saldo .icone {
-  background: rgba(37, 99, 235, 0.12);
+  background: var(--primary-muted);
   color: var(--primary);
 }
 
@@ -808,14 +811,10 @@
   width: 140px;
   background: var(--primary);
 }
-.btn-filtro button {
-  width: 140px;
-  background: var(--primary);
-}
 .btn-filtro button:hover {
-  background: #1d4ed8; /* Azul um pouco mais escuro */
+  background: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+  box-shadow: var(--shadow-xs);
   cursor: pointer;
 }
 
@@ -824,7 +823,7 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-xs);
 }
 .tabela-lancamentos table {
   width: 100%;
@@ -851,7 +850,7 @@
   transition: 0.2s;
 }
 .tabela-lancamentos tbody tr:hover {
-  background: #fafafa;
+  background: var(--surface-muted);
 }
 .valor-positivo {
   color: var(--success);
@@ -867,7 +866,7 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 20px;
-  background: rgba(34, 197, 94, 0.12);
+  background: var(--success-muted);
   color: var(--success);
   font-size: 13px;
   font-weight: 600;
@@ -879,7 +878,7 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 20px;
-  background: rgba(239, 68, 68, 0.12);
+  background: var(--danger-muted);
   color: var(--danger);
   font-size: 13px;
   font-weight: 600;
@@ -890,52 +889,48 @@
   gap: 6px;
   padding: 5px 10px;
   border-radius: 20px;
-  background: rgba(34, 197, 94, 0.12);
+  background: var(--success-muted);
   color: var(--success);
   font-size: 13px;
   font-weight: 600;
 }
 .acoes {
+  display: flex;
 
-    display: flex;
+  justify-content: center;
 
-    justify-content: center;
+  align-items: center;
 
-    align-items: center;
+  gap: 8px;
 
-    gap: 8px;
-
-    flex-wrap: nowrap;
-
+  flex-wrap: nowrap;
 }
 
 .acoes form {
-
-    margin: 0;
-
+  margin: 0;
 }
 
 .btn-acao {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-    width: 34px;
-    height: 34px;
+  width: 34px;
+  height: 34px;
 
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: .2s;
-    text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
 }
 
 .btn-acao.editar {
-  background: rgba(37, 99, 235, 0.1);
+  background: var(--primary-muted);
   color: var(--primary);
 }
 .btn-acao.excluir {
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--danger-muted);
   color: var(--danger);
 }
 .btn-acao:hover {
@@ -945,8 +940,8 @@
 .dica-lancamentos {
   margin-top: 20px;
   padding: 14px 18px;
-  background: #eef4ff;
-  border: 1px solid #cfe0ff;
+  background: var(--surface-alt);
+  border: 1px solid var(--primary);
   border-radius: 10px;
   color: var(--primary);
   display: flex;
@@ -1005,43 +1000,31 @@
 ========================================== */
 
 .input-prefixo {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
-  min-width: 0;
+    display: flex;
+    align-items: stretch;
+    width: 100%;
 }
 
-.input-prefixo:focus-within {
-  border-color: var(--orange);
-  box-shadow: var(--shadow-focus-orange);
-}
-
-.prefixo {
-  display: flex;
-  align-items: center;
-
-  height: 46px;
-  padding: 0 12px;
-
-  background: var(--surface-alt);
-  border-right: 1px solid var(--border);
-
-  color: var(--text-light);
-  font-size: 14px;
-  font-weight: 600;
-
-  white-space: nowrap;
+.input-prefixo .prefixo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    background: #eef4ff;
+    border: 1px solid #d8dee9;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    font-weight: 600;
+    color: #666;
 }
 
 .input-prefixo input {
-  flex: 1;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+    flex: 1;
+    border-radius: 0 10px 10px 0;
+    padding-left: 9px !important;
 }
+
+
 
 /* ==========================================
    RESUMO TOTAL
@@ -1074,8 +1057,8 @@
    GUIA - OBRA
 ========================================== */
 .obra-topo {
-  background: #fff;
-  border: 1px solid var(--border-light);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 24px;
@@ -1098,7 +1081,7 @@
   gap: 12px;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-primary);
 }
 .obra-header h2 i {
   font-size: 1.7rem;
@@ -1106,7 +1089,7 @@
 }
 .obra-header p {
   font-size: 1rem;
-  color: var(--text-light);
+  color: var(--text-secondary);
   margin-left: 46px;
 }
 .obra-card .card-titulo {
@@ -1127,14 +1110,14 @@
   flex-direction: column;
   width: 100%;
   padding: 28px 34px;
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: #fff;
+  background: var(--surface);
 }
 /* formulário para cadastro de gastos - lado direito  */
 .obra-formulario {
-  background: #fff;
-  border: 1px solid var(--border-light);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
 }
@@ -1181,7 +1164,7 @@
   gap: 12px;
   padding-bottom: 20px;
   margin-bottom: 25px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .obra-titulo {
@@ -1192,9 +1175,8 @@
 
 .obra-informacoes {
   display: grid;
-  /* grid-template-columns: repeat(5, max-content); */
-  grid-template-columns: repeat(3, 1fr);
-  justify-content: space-between;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  justify-content: stretch;
   align-items: flex-start;
   margin-top: 28px;
   column-gap: 40px;
@@ -1208,7 +1190,7 @@
 .obra-item i {
   font-size: 15px;
 
-  color: #6b7280;
+  color: var(--text-secondary);
 
   margin-top: 2px;
 }
@@ -1219,7 +1201,7 @@
 
 .obra-item span:first-child {
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .obra-item span:last-child {
@@ -1228,7 +1210,7 @@
 }
 .obra-label {
   font-size: 13px;
-  color: #777;
+  color: var(--text-secondary);
   margin-bottom: 2px;
 }
 
@@ -1242,7 +1224,7 @@
   grid-template-columns: repeat(3, 1fr);
   border: 1px solid var(--border-light);
   border-radius: 12px;
-  background: #f7f8fa;
+  background: var(--surface-alt);
   overflow: hidden;
   margin-top: 10px;
 }
@@ -1273,20 +1255,20 @@
   margin-bottom: 8px;
 }
 .valor-contrato {
-  color: #2f6ee5;
+  color: var(--primary);
 }
 .valor-gasto {
-  color: #ef6b1f;
+  color: var(--orange);
 }
 .valor-saldo {
-  color: #22a547;
+  color: var(--success);
 }
 /* TESTE DE CORES */
 .busca-box {
-  background: #eef4ff;
+  background: var(--primary-light);
 }
 .dica-box {
-  background: #f2f2f2;
+  background: var(--surface-muted);
 }
 /* botoes */
 .formulario-acoes {
@@ -1336,12 +1318,12 @@
 }
 
 .status.andamento {
-  background-color: #dcfce7;
-  color: #16a34a;
+  background-color: var(--success-light);
+  color: var(--success-dark);
 }
 .status.concluida {
-  background-color: #dbeafe;
-  color: #2563eb;
+  background-color: var(--info-light);
+  color: var(--primary);
 }
 /* ==========================================
    HISTÓRICO - OBRA
@@ -1350,11 +1332,10 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background: var(--white);
+  background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 20px;
-  background: #fff;
 }
 .historico-header {
   display: flex;
@@ -1372,12 +1353,12 @@
   padding: 8px 16px;
   border: 1px solid var(--border-light);
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface);
   cursor: pointer;
   transition: 0.2s;
 }
 .btn-historico:hover {
-  background: #f7f7f7;
+  background: var(--surface-alt);
 }
 
 .historico-tabela {
@@ -1393,7 +1374,7 @@
 }
 
 .tabela-historico thead {
-  background: #f8f9fa;
+  background: var(--surface-alt);
 }
 
 .tabela-historico th {
@@ -1411,7 +1392,6 @@
 .acoes-historico {
   text-align: center;
   vertical-align: middle;
-
 }
 .tabela-historico th:last-child,
 .tabela-historico td:last-child {
@@ -1420,7 +1400,7 @@
 }
 
 .tabela-historico tbody tr:hover {
-  background: #fafafa;
+  background: var(--surface-muted);
 }
 
 .badge {
@@ -1431,23 +1411,23 @@
   font-weight: 600;
 }
 .material {
-  background: #fff5d8;
-  color: #8a6d00;
+  background: var(--warning-light);
+  color: var(--orange-dark);
 }
 
 .alimentacao {
-  background: #dff7df;
-  color: #19763a;
+  background: var(--success-light);
+  color: var(--success-dark);
 }
 
 .transporte {
-  background: #dcecff;
-  color: #2755a5;
+  background: var(--info-light);
+  color: var(--primary);
 }
 
 .locacao {
-  background: #f7dfff;
-  color: #7c2fa5;
+  background: var(--purple-light);
+  color: var(--purple);
 }
 .valor {
   font-weight: 700;
@@ -1458,7 +1438,7 @@
   height: 36px;
   border: 1px solid var(--border-light);
   border-radius: 8px;
-  background: #fff;
+  background: var(--surface);
   cursor: pointer;
 }
 .historico-footer {
@@ -1478,27 +1458,27 @@
    ÚLTIMOS LANÇAMENTOS
 ========================================== */
 .lancamentos-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 18px;
-    margin-top: 12px;
-    border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 18px;
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
 }
 .lancamentos-total {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .lancamentos-total span {
-    color: var(--text-secondary);
+  color: var(--text-secondary);
 }
 .lancamentos-total strong {
-    color: var(--text-primary);
-    font-weight: 700;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 .lancamentos-total:last-child strong {
-    color: var(--orange);
+  color: var(--orange);
 }
 
 /* ==========================================
@@ -1525,7 +1505,7 @@
   border-radius: var(--radius-sm);
 
   background: var(--success);
-  color: #fff;
+  color: var(--text-white);
 
   font-family: var(--font-primary);
   font-size: 14px;
@@ -1589,7 +1569,6 @@
   text-align: center;
   font-weight: 700;
 }
-
 
 /* ==========================================
    RESPONSIVO

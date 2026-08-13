@@ -119,7 +119,7 @@
 
 .titulo-bloco p {
   margin-top: 6px;
-  color: #777;
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -253,19 +253,19 @@
     background 0.2s;
 }
 
-  .campo input:focus,
-  .campo select:focus {
-    outline: none;
-    border-color: var(--orange-dark);
-    background: var(--surface);
-  }
+.campo input:focus,
+.campo select:focus {
+  outline: none;
+  border-color: var(--orange-dark);
+  background: var(--surface);
+}
 
 .campo input[readonly] {
-    background: #f5f5f5;
-    color: #666;
-    font-weight: 600;
-    cursor: default;
-    padding: 10px 12px !important;
+  background: var(--surface-alt);
+  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: default;
+  padding: 10px 12px !important;
 }
 /* ==========================================
    AÇÕES
@@ -313,9 +313,9 @@
 input,
 select,
 textarea {
-    font: inherit;
-    font-size: 16px!important;
-    color: var(--text);
+  font: inherit;
+  font-size: 16px !important;
+  color: var(--text);
 }
 
 /* ==========================================

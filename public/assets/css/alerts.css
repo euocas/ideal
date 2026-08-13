@@ -13,24 +13,24 @@
 
 .alert-success {
   color: var(--success);
-  background: color-mix(in srgb, var(--success) 10%, white);
-  border-color: color-mix(in srgb, var(--success) 25%, white);
+  background: color-mix(in srgb, var(--success) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--success) 25%, var(--surface));
 }
 
 .alert-error {
   color: var(--danger);
-  background: color-mix(in srgb, var(--danger) 10%, white);
-  border-color: color-mix(in srgb, var(--danger) 25%, white);
+  background: color-mix(in srgb, var(--danger) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--danger) 25%, var(--surface));
 }
 
 .alert-warning {
   color: var(--warning);
-  background: color-mix(in srgb, var(--warning) 10%, white);
-  border-color: color-mix(in srgb, var(--warning) 25%, white);
+  background: color-mix(in srgb, var(--warning) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--warning) 25%, var(--surface));
 }
 
 .alert-info {
   color: var(--info);
-  background: color-mix(in srgb, var(--info) 10%, white);
-  border-color: color-mix(in srgb, var(--info) 25%, white);
+  background: color-mix(in srgb, var(--info) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--info) 25%, var(--surface));
 }

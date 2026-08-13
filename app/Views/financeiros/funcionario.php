@@ -371,15 +371,19 @@ $fnBanco = $funcModelExiste
                                 <label>Valor <span class="obrigatorio">*</span></label>
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-                                    <input type="number" step="0.01" name="valor" placeholder="0,00" value="<?= htmlspecialchars(
-
+                                    <input type="text" name="valor" id="valor" placeholder="0,00" inputmode="decimal" value="<?= htmlspecialchars(
                                         (string) (
                                             $isEditFuncionario
-                                            ? $financeiroFuncionario->getValor()
-                                            : ($lancamentoRecibo?->getValor() ?? '')
+                                            ? number_format($financeiroFuncionario->getValor(), 2, ',', '.')
+                                            : (
+                                                $lancamentoRecibo
+                                                ? number_format($lancamentoRecibo->getValor(), 2, ',', '.')
+                                                : ''
+                                            )
                                         )
 
-                                    ) ?>" required>
+                                    ) ?>" onfocus="iniciarEdicaoMoeda(this)" onkeydown="editarMoeda(event, this)"
+                                        required>
                                 </div>
                             </div>
 
@@ -387,13 +391,13 @@ $fnBanco = $funcModelExiste
                                 <label>Observação (Opcional)</label>
                                 <textarea name="observacao" rows="4" maxlength="250"
                                     placeholder="Informações adicionais sobre o provento...">
-                                                                        <?= htmlspecialchars(
-                                                                            $isEditFuncionario
-                                                                            ? ($financeiroFuncionario->getObservacao() ?? '')
-                                                                            : ($lancamentoRecibo?->getObservacao() ?? '')
-                                                                        ) ?>
+                                                                                            <?= htmlspecialchars(
+                                                                                                $isEditFuncionario
+                                                                                                ? ($financeiroFuncionario->getObservacao() ?? '')
+                                                                                                : ($lancamentoRecibo?->getObservacao() ?? '')
+                                                                                            ) ?>
                                 
-                                                                    </textarea>
+                                                                                        </textarea>
                             </div>
                         </div>
 
@@ -556,17 +560,21 @@ $fnBanco = $funcModelExiste
 
                             <div class="form-group">
                                 <label>Valor <span class="obrigatorio">*</span></label>
-
                                 <div class="input-prefixo">
                                     <span class="prefixo">R$</span>
-
-                                    <input type="number" step="0.01" name="valor" placeholder="0,00" value="<?= htmlspecialchars(
+                                    <input type="text" name="valor" id="valor" placeholder="0,00" inputmode="decimal" value="<?= htmlspecialchars(
                                         (string) (
                                             $isEditFuncionario
-                                            ? $financeiroFuncionario->getValor()
-                                            : ($lancamentoRecibo?->getValor() ?? '')
+                                            ? number_format($financeiroFuncionario->getValor(), 2, ',', '.')
+                                            : (
+                                                $lancamentoRecibo
+                                                ? number_format($lancamentoRecibo->getValor(), 2, ',', '.')
+                                                : ''
+                                            )
                                         )
-                                    ) ?>" required>
+
+                                    ) ?>" onfocus="iniciarEdicaoMoeda(this)"
+                                        onkeydown="editarMoeda(event, this)" required>
                                 </div>
                             </div>
 
@@ -738,7 +746,7 @@ $fnBanco = $funcModelExiste
                 </table>
             </div>
         <?php endif; ?>
-
+        <script src="<?= BASE_URL ?>/assets/js/mascaras.js?v=<?= time() ?>"></script>
     </div>
 </section>
 

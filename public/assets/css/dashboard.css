@@ -80,6 +80,24 @@
   font-weight: bold;
   letter-spacing: 1px;
 }
+.theme-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-white);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: left;
+}
+.theme-toggle:hover {
+  background: var(--orange-dark);
+  color: var(--text-white);
+}
 /* ==========================================
    USUÁRIO
 ========================================== */
@@ -185,7 +203,7 @@
   font-weight: 400;
 }
 .logo-a {
-  color: #e67e22;
+  color: var(--orange-strong);
 }
 /* ==========================================
    PAINEL
@@ -388,7 +406,7 @@
   height: 44px;
   border: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.55);
+  background: var(--overlay-dark);
   color: var(--text-white);
   font-size: 14px;
   cursor: pointer;
@@ -428,12 +446,12 @@
   height: 9px;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--overlay-white);
   cursor: pointer;
   transition: var(--transition);
 }
 .banner-dot:hover {
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--overlay-white-hover);
 }
 .banner-dot.is-active {
   background: var(--text-white);
@@ -454,10 +472,10 @@
   align-items: center;
   gap: 22px;
   padding: 24px;
-  background: #fff;
+  background: var(--surface);
   border-radius: 18px;
-  border: 1px solid #ececec;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
   transition: 0.25s;
 }
 .indicador:hover {
@@ -489,14 +507,14 @@
   font-size: 48px;
   font-weight: 700;
   line-height: 1;
-  color: #1f2937;
+  color: var(--text);
 }
 .indicador__titulo {
   display: block;
   margin-top: 6px;
   font-size: 18px;
   font-weight: 500;
-  color: #555;
+  color: var(--text-secondary);
 }
 .indicador__variacao {
   margin-top: 6px;
@@ -518,10 +536,10 @@
 }
 /* Cores por categoria */
 .indicador--clientes .indicador__icone {
-  background: #eef4ff;
+  background: var(--primary-light);
 }
 .indicador--funcionarios .indicador__icone {
-  background: #fff1e8;
+  background: var(--orange-light);
 }
 .indicador--financeiro .indicador__icone {
   background: var(--success-light);
@@ -530,7 +548,7 @@
   color: var(--success-dark);
 }
 .indicador--veiculos .indicador__icone {
-  background: #f1ebff;
+  background: var(--purple-light);
 }
 .indicador--veiculos .indicador__variacao {
   color: var(--purple);
@@ -542,21 +560,21 @@
   color: var(--orange-dark);
 }
 .indicador:nth-child(1) .indicador__icone {
-  background: #eaf3ff;
-  color: #2563eb;
+  background: var(--primary-light);
+  color: var(--primary);
 }
 .indicador:nth-child(2) .indicador__icone {
-  background: #fff1e7;
-  color: #f97316;
+  background: var(--orange-light);
+  color: var(--orange);
 }
 .indicador:nth-child(3) .indicador__icone {
-  background: #eaf9ee;
-  color: #16a34a;
+  background: var(--success-light);
+  color: var(--success);
 }
 .indicador:nth-child(4) .indicador__icone {
-  background: #f2eeff;
-  color: #6d28d9;
+  background: var(--purple-light);
+  color: var(--purple);
 }
 .menu-toggle {
-    display: none;
+  display: none;
 }

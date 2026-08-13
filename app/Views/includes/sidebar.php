@@ -84,6 +84,13 @@ $paginaAtual = $_GET['url'] ?? 'dashboard';
         </a>
     </li>
 
+    <li>
+        <button type="button" id="themeToggle" class="theme-toggle">
+            <i class="fa-solid fa-moon"></i>
+            <span id="themeToggleLabel">Tema Escuro</span>
+        </button>
+    </li>
+
 </ul>
 
 <!-- USUÁRIO -->

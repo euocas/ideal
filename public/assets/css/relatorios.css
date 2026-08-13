@@ -422,6 +422,7 @@ input[type="date"] {
   color: var(--text-light);
 }
 
+<<<<<<< HEAD
 [data-theme="dark"] .btn-excel {
     background: var(--success-light) !important;
     color: var(--text-white);
@@ -432,6 +433,8 @@ input[type="date"] {
     color: var(--text-white);
 }
 
+=======
+>>>>>>> d88f9819e3f1fd27b96b4b1dfd3931a3ba044dde
 /* ==========================================
    RESPONSIVO
 ========================================== */

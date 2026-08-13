@@ -44,7 +44,7 @@ body {
   height: 100%;
   padding: 60px;
 
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--overlay-dark);
 }
 
 .tag {
@@ -222,7 +222,7 @@ a {
   font-size: 13px;
   border-radius: 6px;
   border: 1px solid var(--danger);
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--danger-muted);
   color: var(--danger);
 }
 
@@ -241,11 +241,11 @@ a {
    AÇÕES DO CÓDIGO
 ========================================== */
 .acoes-codigo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 18px;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 18px;
+  gap: 12px;
 }
 
 .form-reenviar {
@@ -272,14 +272,14 @@ a {
   margin: 0;
   text-align: center;
 }
-.contador{
-    margin-top: 8px;
-    margin-bottom: 20px;
-    color: var(--text-light);
-    font-size: 14px;
+.contador {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  color: var(--text-light);
+  font-size: 14px;
 }
 
-#tempo-restante{
-    color: var(--accent);
-    font-weight: bold;
+#tempo-restante {
+  color: var(--accent);
+  font-weight: bold;
 }
