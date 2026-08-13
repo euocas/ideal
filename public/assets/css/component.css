@@ -7,15 +7,14 @@
 }
 
 [data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
-[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    filter: brightness(0) invert(1);
+[data-theme="dark"]
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0) invert(1);
 }
 
 [data-theme="dark"] select {
-    color: var(--text-white);
+  color: var(--text-white);
 }
-
-
 
 .acoes {
   display: flex;
@@ -158,7 +157,4 @@
   .btn-buscar {
     width: 100%;
   }
-
-  
-  
 }
