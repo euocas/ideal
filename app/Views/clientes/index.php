@@ -13,6 +13,15 @@ require_once __DIR__ . '/../includes/header.php';
 // Estado da tela
 $modoNovo = isset($_GET['novo']);
 $modoEdicao = isset($cliente);
+
+$dadosFormulario = $_SESSION['dados_formulario_cliente'] ?? [];
+unset($_SESSION['dados_formulario_cliente']);
+
+$cpfReadonly = $modoNovo && !empty($cpfBusca) ? 'readonly' : '';
+$cnpjReadonly = $modoNovo && !empty($cnpjBusca) ? 'readonly' : '';
+
+$camposBloqueados = !$modoNovo && !$modoEdicao;
+
 ?>
 
 <link rel="shortcut icon" href="<?= BASE_URL ?>/assets/icons/clientes2.png" type="image/x-icon">
@@ -99,216 +108,253 @@ $modoEdicao = isset($cliente);
 
             <form id="form-dados" method="POST">
 
-
-                <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                    <div class="alert alert-success">
-                        <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
-                    </div>
-                    <?php unset($_SESSION['mensagem_sucesso']); ?>
-                <?php endif; ?>
-
-                <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                    <div class="alert alert-error">
-                        ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
-                    </div>
-                    <?php unset($_SESSION['mensagem_erro']); ?>
-                <?php endif; ?>
-
-                <input type="hidden" name="idCliente" value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
+                <fieldset <?= $camposBloqueados ? 'disabled' : '' ?>>
 
 
-                <div class="grid-form">
+                    <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                        <div class="alert alert-success">
+                            <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                        </div>
+                        <?php unset($_SESSION['mensagem_sucesso']); ?>
+                    <?php endif; ?>
 
-                    <div class="form-group">
-                        <label>Nome do Cliente <span class="obrigatorio">*</span></label>
-                        <input type="text" name="nomeCliente" minlength="3" maxlength="45"
-                            placeholder="Digite o nome do cliente" required
-                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getNomeCliente() ?? '') : '' ?>">
-                    </div>
+                    <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                        <div class="alert alert-error">
+                            ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+                        </div>
+                        <?php unset($_SESSION['mensagem_erro']); ?>
+                    <?php endif; ?>
 
-                    <div class="form-group">
-                        <label>CPF</span></label>
-                        <?php
-                        $cpfValue = isset($cliente)
-                            ? $cliente->getCpf()
-                            : ($cpfBusca ?? '');
-
-                        $cpfFormatado = !empty($cpfValue)
-                            ? preg_replace(
-                                '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                '$1.$2.$3-$4',
-                                preg_replace('/\D/', '', $cpfValue)
-                            )
-                            : '';
-                        ?>
-
-                        <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
-                            oninput="mascaraCPF(this)" value="<?= htmlspecialchars($cpfFormatado) ?>">
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>CNPJ</span></label>
-
-                        <?php
-                        $cnpjValue = isset($cliente)
-                            ? $cliente->getCnpj()
-                            : ($cnpjBusca ?? '');
-                        $cnpjFormatado = !empty($cnpjValue)
-                            ? preg_replace(
-                                '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-                                '$1.$2.$3/$4-$5',
-                                preg_replace('/\D/', '', $cnpjValue)
-                            )
-                            : '';
-                        ?>
-
-                        <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
-                            oninput="mascaraCNPJ(this)" value="<?= htmlspecialchars($cnpjFormatado) ?>">
-
-                    </div>
-
-                    <h2 class="subtitulo-form">
-                        Endereço
-                    </h2>
-
-                    <div class="form-group">
-
-                        <label>CEP <span class="obrigatorio">*</label>
-
-                        <?php
-                        // Verifica e formata o CEP para exibição correta na tela
-                        $cepValue = '';
-                        if (isset($cliente) && !empty($cliente->getCep())) {
-                            $c = preg_replace('/\D/', '', $cliente->getCep());
-                            $cepValue = strlen($c) === 8 ? substr($c, 0, 5) . '-' . substr($c, 5) : $cliente->getCep();
-                        }
-                        ?>
-                        <input type="text" name="cep" placeholder="00000-000" maxlength="9" oninput="mascaraCEP(this)"
-                            value="<?= htmlspecialchars($cepValue) ?>">
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>Cidade <span class="obrigatorio">*</label>
-
-                        <input type="text" name="cidade" id="cidade" placeholder="Digite a cidade"
-                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getCidade() ?? '') : '' ?>">
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Tipo de Logradouro <span class="obrigatorio">*</span></label>
-                        <?php $tipoLogradouroAtual = isset($cliente) ? $cliente->getTipoLogradouro() : ''; ?>
-                        <input type="text" name="tipoLogradouro" id="tipoLogradouro"
-                            placeholder="Ex.: Rua, Avenida, Alameda, Viela"
-                            value="<?= htmlspecialchars($tipoLogradouroAtual) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Logradouro <span class="obrigatorio">*</span></label>
-                        <?php $nomeLogradouroAtual = isset($cliente) ? $cliente->getNomeLogradouro() : ''; ?>
-                        <input type="text" name="nomeLogradouro" id="nomeLogradouro"
-                            placeholder="Digite o nome da Rua/Avenida/Alameda/Viela"
-                            value="<?= htmlspecialchars($nomeLogradouroAtual) ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Número <span class="obrigatorio">*</span></label>
-                        <?php $numeroAtual = isset($cliente) ? $cliente->getNumero() : ''; ?>
-                        <input type="text" name="numero" id="numero" placeholder="Somente números"
-                            value="<?= htmlspecialchars($numeroAtual) ?>">
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>Complemento</label>
-
-                        <?php $complementoAtual = isset($cliente) ? ($cliente->getComplemento() ?? '') : ''; ?>
-
-                        <input type="text" name="complemento" id="complemento" placeholder="Ex.: Apto 101, Bloco A"
-                            value="<?= htmlspecialchars($complementoAtual) ?>">
-
-                    </div>
-
-                    <h2 class="subtitulo-form">
-                        Contato
-                    </h2>
-
-                    <div class="form-group">
-                        <label>Telefone <span class="obrigatorio">*</span></label>
-
-                        <?php
-                        $telefoneAtual = isset($cliente) ? ($cliente->getTelefone() ?? '') : '';
-                        if ($telefoneAtual) {
-                            $telefoneAtual = preg_replace(
-                                '/(\d{2})(\d{5})(\d{4})/',
-                                '($1) $2-$3',
-                                $telefoneAtual
-                            );
-                        }
-                        ?>
-
-                        <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" maxlength="15"
-                            value="<?= htmlspecialchars($telefoneAtual) ?>">
-                    </div>
+                    <input type="hidden" name="idCliente"
+                        value="<?= isset($cliente) ? $cliente->getIdCliente() : '' ?>">
 
 
-                    <div class="form-group">
-                        <label>WhatsApp</label>
-                        <?php
-                        $whatsappAtual = isset($cliente) ? ($cliente->getWhatsapp() ?? '') : '';
-                        if ($whatsappAtual) {
-                            $whatsappAtual = preg_replace(
-                                '/(\d{2})(\d{5})(\d{4})/',
-                                '($1) $2-$3',
-                                $whatsappAtual
-                            );
-                        }
-                        ?>
+                    <div class="grid-form">
 
-                        <input type="text" name="whatsapp" id="whatsapp" placeholder="(00) 00000-0000" maxlength="15"
-                            value="<?= htmlspecialchars($whatsappAtual) ?>">
-                    </div>
+                        <div class="form-group">
+                            <label>Nome do Cliente <span class="obrigatorio">*</span></label>
+                            <input type="text" name="nomeCliente" placeholder="Digite o nome do cliente" value="<?= isset($cliente)
+                                ? htmlspecialchars($cliente->getNomeCliente() ?? '')
+                                : htmlspecialchars($dadosFormulario['nomeCliente'] ?? '') ?>" required>
 
-                    <div class="form-group">
-                        <label>E-mail</label>
-                        <input type="email" name="email" placeholder="cliente@email.com"
-                            value="<?= isset($cliente) ? htmlspecialchars($cliente->getEmail() ?? '') : '' ?>">
-                    </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>CPF</span></label>
+                            <?php
+
+                            $cpfValue = isset($cliente)
+                                ? $cliente->getCpf()
+                                : ($dadosFormulario['cpf'] ?? $cpfBusca ?? '');
+
+                            $cpfFormatado = !empty($cpfValue)
+                                ? preg_replace(
+                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                    '$1.$2.$3-$4',
+                                    preg_replace('/\D/', '', $cpfValue)
+                                )
+                                : '';
+                            ?>
+
+                            <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" maxlength="14"
+                                oninput="mascaraCPF(this)" value="<?= htmlspecialchars($cpfFormatado) ?>"
+                                <?= $cpfReadonly ?>>
+
+                        </div>
 
 
-                    <div class="form-group">
-                        <label>Tipo de Cliente <span class="obrigatorio">*</label>
-                        <select name="tipoCliente">
-                            <option value="">Selecione</option>
 
-                            <option value="PESSOA_FISICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Física' || $cliente->getTipoCliente() === 'PESSOA_FISICA')) ? 'selected' : '' ?>>
-                                Pessoa Física
-                            </option>
+                        <div class="form-group">
+                            <label>CNPJ</span></label>
 
-                            <option value="PESSOA_JURIDICA" <?= (isset($cliente) && ($cliente->getTipoCliente() === 'Pessoa Jurídica' || $cliente->getTipoCliente() === 'PESSOA_JURIDICA')) ? 'selected' : '' ?>>
-                                Pessoa Jurídica
-                            </option>
+                            <?php
+                            $cnpjValue = isset($cliente)
+                                ? $cliente->getCnpj()
+                                : ($cnpjBusca ?? '');
+                            $cnpjFormatado = !empty($cnpjValue)
+                                ? preg_replace(
+                                    '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                    '$1.$2.$3/$4-$5',
+                                    preg_replace('/\D/', '', $cnpjValue)
+                                )
+                                : '';
+                            ?>
 
-                        </select>
+                            <input type="text" name="cnpj" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18"
+                                oninput="mascaraCNPJ(this)" value="<?= htmlspecialchars($cnpjFormatado) ?>"
+                                <?= $cnpjReadonly ?>>
+                        </div>
 
-                    </div>
+                        <h2 class="subtitulo-form">
+                            Endereço
+                        </h2>
 
-                    <div class="form-group observacao">
-                        <label>Observações</label>
+                        <div class="form-group">
 
-                        <textarea
-                            name="observacoes"><?= isset($cliente) ? htmlspecialchars($cliente->getObservacoes() ?? '') : '' ?></textarea>
+                            <label>CEP <span class="obrigatorio">*</label>
+                            <?php
+                            // Verifica e formata o CEP para exibição correta na tela
+                            $cepValue = '';
+                            if (isset($cliente) && !empty($cliente->getCep())) {
+                                $c = preg_replace('/\D/', '', $cliente->getCep());
+                                $cepValue = strlen($c) === 8
+                                    ? substr($c, 0, 5) . '-' . substr($c, 5)
+                                    : $cliente->getCep();
+                            } elseif (!empty($dadosFormulario['cep'])) {
+                                $c = preg_replace('/\D/', '', $dadosFormulario['cep']);
+                                $cepValue = strlen($c) === 8
+                                    ? substr($c, 0, 5) . '-' . substr($c, 5)
+                                    : $dadosFormulario['cep'];
+                            }
+                            ?>
 
-                    </div>
+                            <input type="text" name="cep" placeholder="00000-000" maxlength="9"
+                                oninput="mascaraCEP(this)" value="<?= htmlspecialchars($cepValue) ?>" required>
+                        </div>
 
-                    <label class="obrigatorio">* Campos de preenchimento obrigatório. Informe o CPF e/ou CNPJ do
-                        cliente. </label>
+                        <div class="form-group">
 
-                </div>
+                            <label>Cidade <span class="obrigatorio">*</label>
 
+                            <input type="text" name="cidade" id="cidade" placeholder="Digite a cidade" value="<?= isset($cliente)
+                                ? htmlspecialchars($cliente->getCidade() ?? '')
+                                : htmlspecialchars($dadosFormulario['cidade'] ?? '') ?>" required>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipo de Logradouro <span class="obrigatorio">*</span></label>
+                            <?php $tipoLogradouroAtual = isset($cliente) ? $cliente->getTipoLogradouro() : ''; ?>
+                            <input type="text" name="tipoLogradouro" id="tipoLogradouro"
+                                placeholder="Ex.: Rua, Avenida, Alameda, Viela" value="<?= isset($cliente)
+                                    ? htmlspecialchars($tipoLogradouroAtual)
+                                    : htmlspecialchars($dadosFormulario['tipoLogradouro'] ?? '') ?>" required>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Logradouro <span class="obrigatorio">*</span></label>
+                            <?php $nomeLogradouroAtual = isset($cliente) ? $cliente->getNomeLogradouro() : ''; ?>
+
+                            <input type="text" name="nomeLogradouro" id="nomeLogradouro"
+                                placeholder="Digite o nome da Rua/Avenida/Alameda/Viela" value="<?= isset($cliente)
+                                    ? htmlspecialchars($nomeLogradouroAtual)
+                                    : htmlspecialchars($dadosFormulario['nomeLogradouro'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Número <span class="obrigatorio">*</span></label>
+                            <?php $numeroAtual = isset($cliente) ? $cliente->getNumero() : ''; ?>
+
+                            <input type="text" name="numero" id="numero" placeholder="Somente números" value="<?= isset($cliente)
+                                ? htmlspecialchars($numeroAtual)
+                                : htmlspecialchars($dadosFormulario['numero'] ?? '') ?>" required>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Complemento</label>
+
+                            <?php $complementoAtual = isset($cliente) ? ($cliente->getComplemento() ?? '') : ''; ?>
+
+                            <input type="text" name="complemento" id="complemento" placeholder="Ex.: Apto 101, Bloco A"
+                                value="<?= isset($cliente)
+                                    ? htmlspecialchars($complementoAtual)
+                                    : htmlspecialchars($dadosFormulario['complemento'] ?? '') ?>">
+
+                        </div>
+
+                        <h2 class="subtitulo-form">
+                            Contato
+                        </h2>
+
+                        <div class="form-group">
+                            <label>Telefone <span class="obrigatorio">*</span></label>
+
+                            <?php
+                            $telefoneAtual = isset($cliente)
+                                ? ($cliente->getTelefone() ?? '')
+                                : ($dadosFormulario['telefone'] ?? '');
+
+                            if ($telefoneAtual) {
+                                $telefoneAtual = preg_replace(
+                                    '/(\d{2})(\d{5})(\d{4})/',
+                                    '($1) $2-$3',
+                                    preg_replace('/\D/', '', $telefoneAtual)
+                                );
+                            }
+                            ?>
+
+                            <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000"
+                                maxlength="15" value="<?= htmlspecialchars($telefoneAtual) ?>"
+                                oninput="mascaraTelefone(this)" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>WhatsApp</label>
+                            <?php
+                            $whatsappAtual = isset($cliente)
+                                ? ($cliente->getWhatsapp() ?? '')
+                                : ($dadosFormulario['whatsapp'] ?? '');
+
+                            if ($whatsappAtual) {
+                                $whatsappAtual = preg_replace(
+                                    '/(\d{2})(\d{5})(\d{4})/',
+                                    '($1) $2-$3',
+                                    preg_replace('/\D/', '', $whatsappAtual)
+                                );
+                            }
+                            ?>
+
+                            <input type="text" name="whatsapp" id="whatsapp" placeholder="(00) 00000-0000"
+                                maxlength="15" value="<?= htmlspecialchars($whatsappAtual) ?>"
+                                oninput="mascaraTelefone(this)">
+                        </div>
+
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="email" name="email" placeholder="seuemail@email.com" maxlength="35" value="<?= isset($cliente)
+                                ? htmlspecialchars($cliente->getEmail() ?? '')
+                                : htmlspecialchars($dadosFormulario['email'] ?? '') ?>">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Tipo de Cliente <span class="obrigatorio">*</label>
+
+                            <?php
+                            $tipoClienteAtual = isset($cliente)
+                                ? $cliente->getTipoCliente()
+                                : ($dadosFormulario['tipoCliente'] ?? '');
+                            ?>
+
+                            <select name="tipoCliente" required>
+                                <option value="">Selecione</option>
+
+                                <option value="PESSOA_FISICA" <?= ($tipoClienteAtual === 'Pessoa Física' || $tipoClienteAtual === 'PESSOA_FISICA') ? 'selected' : '' ?>>
+                                    Pessoa Física
+                                </option>
+
+                                <option value="PESSOA_JURIDICA" <?= ($tipoClienteAtual === 'Pessoa Jurídica' || $tipoClienteAtual === 'PESSOA_JURIDICA') ? 'selected' : '' ?>>
+                                    Pessoa Jurídica
+                                </option>
+                            </select>
+
+                        </div>
+
+                        <div class="form-group observacao">
+                            <label>Observações</label>
+
+                            <textarea name="observacoes"><?= isset($cliente)
+                                ? htmlspecialchars($cliente->getObservacoes() ?? '')
+                                : htmlspecialchars($dadosFormulario['observacoes'] ?? '') ?></textarea>
+
+
+                        </div>
+                        <label class="obrigatorio">* Campos de preenchimento obrigatório. Informe o CPF e/ou CNPJ do
+                            cliente. </label>
+                </fieldset>
             </form>
 
         </section>

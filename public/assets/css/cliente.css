@@ -22,7 +22,6 @@
   font-weight: 700;
 }
 
-/* TESTE DE CORES */
 .busca-box {
   background: var(--surface-alt);
 }
@@ -32,6 +31,16 @@
 
 .dica-box {
   margin: 2px 12px 2px 0;
+}
+
+.dica-box p {
+  color: var(--surface-dark);
+}
+
+input[readonly] {
+    background-color: #f1f3f5 !important;
+    color: #6c757d !important;
+    cursor: not-allowed;
 }
 
 input,
@@ -54,6 +63,30 @@ textarea {
 
 .observacao {
   grid-column: span 2;
+}
+
+/* FIELDSET */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+fieldset:disabled input,
+fieldset:disabled select,
+fieldset:disabled textarea {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+fieldset:disabled label {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.observacao textarea {
+  text-align: left;
+  padding: 10px;
+  vertical-align: top;
 }
 
 /* ==========================================

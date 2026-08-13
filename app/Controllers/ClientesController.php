@@ -332,7 +332,10 @@ class ClientesController
             session_start();
         }
         $_SESSION['mensagem_erro'] = $mensagem;
-        header("Location: " . BASE_URL . "/index.php?url=" . $rota);
+        $_SESSION['dados_formulario_cliente'] = $_POST;
+
+        // header("Location: " . BASE_URL . "/index.php?url=" . $rota);
+        header("Location: " . BASE_URL . "/index.php?url=" . $rota . "&novo=1");
         exit;
     }
 
