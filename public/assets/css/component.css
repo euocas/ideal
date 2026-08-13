@@ -1,10 +1,21 @@
 .card {
   padding: 25px;
   margin-bottom: 15px;
-  background: var(--surface);
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
+
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] select {
+    color: var(--text-white);
+}
+
+
 
 .acoes {
   display: flex;
@@ -88,6 +99,11 @@
   background: var(--btn-dark-hover);
 }
 
+
+.btn.limpar {
+  background: var(--btn-secondary);
+}
+
 @media (max-width: 700px) {
   .acoes {
     flex-direction: column;
@@ -107,7 +123,6 @@
   grid-template-columns: 58% 42%;
   gap: 20px;
   align-items: stretch;
-
 }
 
 .busca-box {
@@ -144,4 +159,7 @@
   .btn-buscar {
     width: 100%;
   }
+
+  
+  
 }
