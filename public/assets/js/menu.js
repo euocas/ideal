@@ -18,10 +18,6 @@ function applyTheme(theme) {
     theme = "light";
   }
   document.documentElement.setAttribute("data-theme", theme);
-<<<<<<< HEAD
-  
-=======
->>>>>>> d88f9819e3f1fd27b96b4b1dfd3931a3ba044dde
   localStorage.setItem("theme", theme);
 
   const themeToggle = document.getElementById("themeToggle");
