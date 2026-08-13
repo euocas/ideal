@@ -170,7 +170,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                             <?php
                             $cnpjValue = isset($cliente)
                                 ? $cliente->getCnpj()
-                                : ($cnpjBusca ?? '');
+                                : ($dadosFormulario['cnpj'] ?? ($cnpjBusca ?? ''));
+
                             $cnpjFormatado = !empty($cnpjValue)
                                 ? preg_replace(
                                     '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
