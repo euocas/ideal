@@ -38,8 +38,8 @@
 }
 
 input[readonly] {
-    background-color: #f1f3f5 !important;
-    color: #6c757d !important;
+    background-color: var(--input-readonly-bg) !important;
+    color: var(--input-readonly-text) !important;
     cursor: not-allowed;
 }
 
@@ -49,6 +49,18 @@ textarea {
   font: inherit;
   font-size: 16px !important;
   color: var(--text);
+}
+.documento{
+    background-color: var(--card-bg)!important;
+    padding-left: 14px!important;
+}
+
+#cpf{
+  padding-left: 14px!important;
+}
+
+#cnpj{
+  padding-left: 14px!important;
 }
 /* ==========================================
    FORMULÁRIO
@@ -87,6 +99,15 @@ fieldset:disabled label {
   text-align: left;
   padding: 10px;
   vertical-align: top;
+}
+
+.btn.cancelar {
+    background-color: var(--btn-cancel);
+    color: var(--text-white);
+}
+
+.btn.cancelar:hover:not(:disabled) {
+    background-color: var(--btn-cancel-hover);
 }
 
 /* ==========================================

@@ -28,9 +28,28 @@ function mascaraCEP(input) {
     // Limita a 8 dígitos
     valor = valor.substring(0, 8);
 
+    // Formata o CEP
     valor = valor.replace(/(\d{5})(\d)/, "$1-$2");
 
     input.value = valor;
+
+    // Busca os dados quando completar 8 dígitos
+    if (valor.replace(/\D/g, '').length === 8) {
+
+        const cep = valor.replace(/\D/g, '');
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(dados => {
+
+                if (!dados.erro) {
+                    document.getElementById('cidade').value = dados.localidade;
+                    document.getElementById('estado').value = dados.uf;
+                }
+
+            })
+            .catch(error => console.error('Erro ao buscar o CEP:', error));
+    }
 }
 
 function mascaraTelefone(input) {
@@ -113,7 +132,6 @@ function iniciarEdicaoMoeda(input) {
     // Seleciona todo o valor ao entrar no campo
     input.select();
 }
-
 
 function editarMoeda(event, input) {
 

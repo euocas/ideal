@@ -17,8 +17,19 @@ $modoEdicao = isset($cliente);
 $dadosFormulario = $_SESSION['dados_formulario_cliente'] ?? [];
 unset($_SESSION['dados_formulario_cliente']);
 
-$cpfReadonly = $modoNovo && !empty($cpfBusca) ? 'readonly' : '';
-$cnpjReadonly = $modoNovo && !empty($cnpjBusca) ? 'readonly' : '';
+$cpfReadonly = (
+    ($modoNovo && !empty($cpfBusca)) ||
+    (isset($cliente) && !empty($cliente->getCpf()))
+)
+    ? 'readonly'
+    : '';
+
+$cnpjReadonly = (
+    ($modoNovo && !empty($cnpjBusca)) ||
+    (isset($cliente) && !empty($cliente->getCnpj()))
+)
+    ? 'readonly'
+    : '';
 
 $camposBloqueados = !$modoNovo && !$modoEdicao;
 
@@ -70,9 +81,10 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                                 CPF
                             </label>
 
-                            <input type="text" id="documento" name="documento" placeholder="000.000.000-00"
-                                maxlength="14" oninput="mascaraDocumento(this)"
-                                value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>">
+                            <input type="text" class="documento" id="documento" name="documento"
+                                placeholder="000.000.000-00" maxlength="14" oninput="mascaraDocumento(this)"
+                                value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>"
+                                <?= (!$modoNovo && !$modoEdicao) ? 'autofocus' : '' ?>>
 
                         </div>
 
@@ -92,7 +104,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                     </h3>
 
                     <p>
-                        Para cadastrar um cliente, primeiro informe o <strong>CPF ou CNPJ</strong> e clique em
+                        Para consultar um cliente, primeiro informe o <strong>CPF ou CNPJ</strong> e clique em
                         <strong>BUSCAR</strong>. Se o cliente ainda
                         não estiver cadastrado, os campos serão liberados para um Novo Cadastro.
                     </p>
@@ -379,8 +391,12 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                 Excluir
             </button>
 
-            <button type="button" class="btn limpar"
-                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=clientes'">
+            <button type="button" class="btn cancelar"
+                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=clientes'" <?= ($modoNovo || $modoEdicao) ? '' : 'disabled' ?>>
+                Cancelar
+            </button>
+
+            <button type="button" class="btn limpar" id="btnLimpar">
                 Limpar
             </button>
 
@@ -391,29 +407,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 </div>
 
 <script src="<?= BASE_URL ?>/assets/js/mascaras.js?v=<?= time() ?>"></script>
-
-<script>
-    function mascaraCEP(input) {
-        let valor = input.value.replace(/\D/g, '');
-
-        // Busca os dados automaticamente ao digitar os 8 números do CEP
-        if (valor.length === 8) {
-            fetch(`https://viacep.com.br/ws/${valor}/json/`)
-                .then(response => response.json())
-                .then(dados => {
-                    if (!dados.erro) {
-                        document.getElementById('cidade').value = dados.localidade;
-                        document.getElementById('estado').value = dados.uf;
-                    }
-                })
-                .catch(error => console.error('Erro ao buscar o CEP:', error));
-        }
-
-        valor = valor.substring(0, 8);
-        valor = valor.replace(/^(\d{5})(\d)/, '$1-$2');
-        input.value = valor;
-    }
-</script>
+<script src="<?= BASE_URL ?>/assets/js/cliente.js?v=<?= time() ?>"></script>
 
 </body>
 

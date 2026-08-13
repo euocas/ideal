@@ -423,6 +423,7 @@ class Funcionario
                 VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :dataAdmissao, :dataDesligamento, :feriasProgramadas,:agencia, :conta, :tipoConta, :chavePix, :observacoes)";
 
             $stmt = $this->pdo->prepare($sql);
+
             $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
             $stmt->bindValue(':cpf', $this->getCpf(), PDO::PARAM_STR);
             $stmt->bindValue(':sexo', $this->getSexo(), PDO::PARAM_STR);
@@ -445,7 +446,8 @@ class Funcionario
             $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
             $stmt->bindValue(':agencia', $this->getAgencia(), PDO::PARAM_STR);
             $stmt->bindValue(':conta', $this->getConta(), PDO::PARAM_STR);
-            $stmt->bindValue(':tipoConta', $this->getTipoConta(), PDO::PARAM_STR);
+            $tipoConta = $this->getTipoConta();
+            $stmt->bindValue(':tipoConta', $tipoConta !== '' ? $tipoConta : null, $tipoConta !== '' ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $stmt->bindValue(':chavePix', $this->getChavePix(), PDO::PARAM_STR);
             $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
 
@@ -466,13 +468,14 @@ class Funcionario
             $this->pdo->commit();
             return true;
 
-        } catch (\Exception $e) {
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
+            } catch (\Exception $e) {
+                if ($this->pdo->inTransaction()) {
+                    $this->pdo->rollBack();
+                }
+                error_log($e->getMessage());
+                return false;
             }
-            error_log($e->getMessage());
-            return false;
-        }
+
     }
 
     public function update(): bool
@@ -485,16 +488,35 @@ class Funcionario
         try {
             $this->pdo->beginTransaction();
 
-            // atualizado o UPDATE com os novos dados da tabela (data adm, data de desliga e férias)
             $sql = "UPDATE funcionario SET 
-                    nome = :nome, sexo = :sexo, dataNascimento = :dataNascimento, naturalidade = :naturalidade, estadoNascimento = :estadoNascimento, tipoLogradouro = :tipoLogradouro,
-                    nomeLogradouro = :nomeLogradouro, numero = :numero, complemento = :complemento, cidade = :cidade, cep = :cep, estado = :estado, 
-                    email = :email, cargoFuncao = :cargoFuncao, tipoContrato = :tipoContrato, status = :status, dataAdmissao = :dataAdmissao,
-                    dataDesligamento = :dataDesligamento, feriasProgramadas = :feriasProgramadas,agencia = :agencia,conta = :conta,tipoConta = :tipoConta,chavePix = :chavePix, 
-                    observacoes = :observacoes 
-                    WHERE idFuncionario = :id";
+                    nome = :nome,
+                    sexo = :sexo,
+                    dataNascimento = :dataNascimento,
+                    naturalidade = :naturalidade,
+                    estadoNascimento = :estadoNascimento,
+                    tipoLogradouro = :tipoLogradouro,
+                    nomeLogradouro = :nomeLogradouro,
+                    numero = :numero,
+                    complemento = :complemento,
+                    cidade = :cidade,
+                    cep = :cep,
+                    estado = :estado,
+                    email = :email,
+                    cargoFuncao = :cargoFuncao,
+                    tipoContrato = :tipoContrato,
+                    status = :status,
+                    dataAdmissao = :dataAdmissao,
+                    dataDesligamento = :dataDesligamento,
+                    feriasProgramadas = :feriasProgramadas,
+                    agencia = :agencia,
+                    conta = :conta,
+                    tipoConta = :tipoConta,
+                    chavePix = :chavePix,
+                    observacoes = :observacoes
+                WHERE idFuncionario = :id";
 
             $stmt = $this->pdo->prepare($sql);
+
             $stmt->bindValue(':nome', $this->getNome(), PDO::PARAM_STR);
             $stmt->bindValue(':sexo', $this->getSexo(), PDO::PARAM_STR);
             $stmt->bindValue(':dataNascimento', $this->getDataNascimento(), PDO::PARAM_STR);
@@ -511,48 +533,115 @@ class Funcionario
             $stmt->bindValue(':cargoFuncao', $this->getCargoFuncao(), PDO::PARAM_STR);
             $stmt->bindValue(':tipoContrato', $this->getTipoContrato(), PDO::PARAM_STR);
             $stmt->bindValue(':status', $this->getStatus(), PDO::PARAM_STR);
-            //novos campos
+
             $stmt->bindValue(':dataAdmissao', $this->getDataAdmissao());
             $stmt->bindValue(':dataDesligamento', $this->getDataDesligamento());
             $stmt->bindValue(':feriasProgramadas', $this->getFeriasProgramadas());
 
             $stmt->bindValue(':agencia', $this->getAgencia(), PDO::PARAM_STR);
             $stmt->bindValue(':conta', $this->getConta(), PDO::PARAM_STR);
-            $stmt->bindValue(':tipoConta', $this->getTipoConta(), PDO::PARAM_STR);
-            $stmt->bindValue(':chavePix', $this->getChavePix(), PDO::PARAM_STR);
 
+            // Tipo de conta é opcional
+            $tipoConta = $this->getTipoConta();
+
+            $stmt->bindValue(
+                ':tipoConta',
+                $tipoConta !== '' ? $tipoConta : null,
+                $tipoConta !== '' ? PDO::PARAM_STR : PDO::PARAM_NULL
+            );
+
+            $stmt->bindValue(':chavePix', $this->getChavePix(), PDO::PARAM_STR);
             $stmt->bindValue(':observacoes', $this->getObservacoes(), PDO::PARAM_STR);
             $stmt->bindValue(':id', $this->getIdFuncionario(), PDO::PARAM_INT);
+
             $stmt->execute();
 
-            // Lógica de update/insert na tabela auxiliar de contatos
-            $stmtCheck = $this->pdo->prepare("SELECT idContato FROM contatoFuncionario WHERE idFuncionario = :id");
-            $stmtCheck->bindValue(':id', $this->getIdFuncionario(), PDO::PARAM_INT);
+
+            // Verifica se o funcionário já possui contato cadastrado
+            $stmtCheck = $this->pdo->prepare(
+                "SELECT idContato 
+             FROM contatoFuncionario 
+             WHERE idFuncionario = :id"
+            );
+
+            $stmtCheck->bindValue(
+                ':id',
+                $this->getIdFuncionario(),
+                PDO::PARAM_INT
+            );
+
             $stmtCheck->execute();
 
             if ($stmtCheck->rowCount() > 0) {
-                $sqlContato = "UPDATE contatoFuncionario SET telefone = :telefone, whatsapp = :whatsapp WHERE idFuncionario = :id";
+
+                $sqlContato = "UPDATE contatoFuncionario 
+                           SET telefone = :telefone,
+                               whatsapp = :whatsapp
+                           WHERE idFuncionario = :id";
+
             } else {
-                $sqlContato = "INSERT INTO contatoFuncionario (idFuncionario, telefone, whatsapp) VALUES (:id, :telefone, :whatsapp)";
+
+                $sqlContato = "INSERT INTO contatoFuncionario (
+                                idFuncionario,
+                                telefone,
+                                whatsapp
+                           ) VALUES (
+                                :id,
+                                :telefone,
+                                :whatsapp
+                           )";
             }
 
             $stmtContato = $this->pdo->prepare($sqlContato);
-            $stmtContato->bindValue(':id', $this->getIdFuncionario(), PDO::PARAM_INT);
-            $stmtContato->bindValue(':telefone', $this->getTelefone(), PDO::PARAM_STR);
-            $stmtContato->bindValue(':whatsapp', $this->getWhatsapp(), PDO::PARAM_STR);
+
+            $stmtContato->bindValue(
+                ':id',
+                $this->getIdFuncionario(),
+                PDO::PARAM_INT
+            );
+
+            // Converte valores vazios para NULL
+            $telefone = $this->getTelefone();
+            $whatsapp = $this->getWhatsapp();
+
+            $stmtContato->bindValue(
+                ':telefone',
+                $telefone !== '' ? $telefone : null,
+                $telefone !== '' ? PDO::PARAM_STR : PDO::PARAM_NULL
+            );
+
+            $stmtContato->bindValue(
+                ':whatsapp',
+                $whatsapp !== '' ? $whatsapp : null,
+                $whatsapp !== '' ? PDO::PARAM_STR : PDO::PARAM_NULL
+            );
 
             $stmtContato->execute();
+
+            
+
             $this->pdo->commit();
+
             return true;
 
+        // } catch (\Exception $e) {
+
+        //     if ($this->pdo->inTransaction()) {
+        //         $this->pdo->rollBack();
+        //     }
+
+        //     error_log($e->getMessage());
+
+        //     return false;
+        // }
+
         } catch (\Exception $e) {
-            //    o erro fica registrado no log do PHP/Apache;
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
-            error_log($e->getMessage());
-            return false;
-        }
+    if ($this->pdo->inTransaction()) {
+        $this->pdo->rollBack();
+    }
+
+    die("ERRO REAL: " . $e->getMessage());
+}
     }
     public function delete(int $id): bool
     {
@@ -560,7 +649,6 @@ class Funcionario
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
-
 
     //  Retorna todos os funcionários como array associativo   
     public function listar(): array
