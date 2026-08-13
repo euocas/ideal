@@ -21,7 +21,6 @@ input[type="datetime-local"] {
   color: var(--text);
 }
 
-<<<<<<< HEAD
 
 
 /* TESTE DE CORES */
@@ -32,16 +31,6 @@ input[type="datetime-local"] {
   background: var(--surface-muted);
 }
 
-=======
-/* TESTE DE CORES */
-.busca-box {
-  background: var(--surface-alt);
-}
-.dica-box {
-  background: var(--surface-muted);
-}
-
->>>>>>> d88f9819e3f1fd27b96b4b1dfd3931a3ba044dde
 .cliente-formulario {
   display: flex;
   flex-direction: column;
@@ -67,17 +56,10 @@ input[type="datetime-local"] {
   color: var(--text-secondary);
 }
 
-<<<<<<< HEAD
 .input-prefixo input {
   flex: 1;
   border-radius: 0 10px 10px 0;
-=======
-
-.input-prefix input {
-    flex: 1;
-    border-radius: 0 10px 10px 0;
-    padding-left: 9px !important;
->>>>>>> d88f9819e3f1fd27b96b4b1dfd3931a3ba044dde
+  padding-left: 9px !important;
 }
 
 .obrigatorio {
@@ -359,16 +341,6 @@ input[type="datetime-local"] {
   width: 100%;
 }
 
-
-.endereco-item label {
-  margin-bottom: 8px;
-}
-
-.endereco-item input,
-.endereco-item textarea {
-  width: 100%;
-}
-
 .info-tabela {
   color: var(--primary);
   text-align: center;
@@ -390,22 +362,20 @@ textarea {
   margin: 2px 12px 2px 0;
 }
 
-<<<<<<< HEAD
 [data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
     filter: brightness(0) invert(1);
-=======
-/* ==========================================
-   RESPONSIVO
-========================================== */
-
-/* @media (max-width: 1100px) {
-  .grid-form {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .observacoes {
-    grid-column: span 2;
-  }
->>>>>>> d88f9819e3f1fd27b96b4b1dfd3931a3ba044dde
 }
 
+/* ============================================
+   RESPONSIVO
+============================================ */
+
+@media (max-width: 1100px) {
+    .grid-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .observacoes {
+        grid-column: span 2;
+    }
+}
