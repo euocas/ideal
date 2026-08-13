@@ -21,8 +21,6 @@ input[type="datetime-local"] {
   color: var(--text);
 }
 
-
-
 /* TESTE DE CORES */
 .busca-box {
   background: var(--surface-alt);
@@ -63,11 +61,10 @@ input[type="datetime-local"] {
 }
 
 .obrigatorio {
-    color: var(--danger);
-    font-size: 15px;
-    font-weight: 700;
+  color: var(--danger);
+  font-size: 15px;
+  font-weight: 700;
 }
-
 
 /* ==========================================
   CARD FUNCIONÁRIOS  
@@ -363,7 +360,7 @@ textarea {
 }
 
 [data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1);
 }
 
 /* ============================================
@@ -371,11 +368,11 @@ textarea {
 ============================================ */
 
 @media (max-width: 1100px) {
-    .grid-form {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .grid-form {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .observacoes {
-        grid-column: span 2;
-    }
+  .observacoes {
+    grid-column: span 2;
+  }
 }
