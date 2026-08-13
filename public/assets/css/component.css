@@ -99,13 +99,6 @@
   background: var(--btn-dark-hover);
 }
 
-<<<<<<< HEAD
-=======
-.btn {
-  background: var(--btn-primary);
-}
->>>>>>> d88f9819e3f1fd27b96b4b1dfd3931a3ba044dde
-
 .btn.limpar {
   background: var(--btn-secondary);
 }
