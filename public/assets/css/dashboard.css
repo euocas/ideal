@@ -93,6 +93,7 @@
   cursor: pointer;
   transition: var(--transition);
   text-align: left;
+  font: inherit;
 }
 .theme-toggle:hover {
   background: var(--orange-dark);
