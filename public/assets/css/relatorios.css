@@ -172,7 +172,7 @@ input[type="date"] {
 }
 
 .btn-excel {
-  background-color: var(--success-dark);
+  background-color: var(--success-light);
   color: var(--text-white);
 }
 
