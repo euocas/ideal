@@ -382,6 +382,15 @@ textarea {
     filter: brightness(0.9);
     transform: scale(1.05);
 }
+
+.btn.cancelar {
+    background-color: var(--btn-cancel);
+    color: var(--text-white);
+}
+
+.btn.cancelar:hover:not(:disabled) {
+    background-color: var(--btn-cancel-hover);
+}
 /* ============================================
    RESPONSIVO
 ============================================ */

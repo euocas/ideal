@@ -641,6 +641,11 @@ require_once __DIR__ . '/../includes/header.php';
                     Excluir
                 </button>
 
+                 <button type="button" class="btn cancelar"
+                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=obras'">
+                Cancelar
+            </button>
+
                 <button type="reset" form="form-dados" class="btn limpar" onclick="limparCliente()">
                     <i class="bi bi-eraser"></i>
                     Limpar
