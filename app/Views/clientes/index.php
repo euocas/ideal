@@ -391,8 +391,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                 Excluir
             </button>
 
-            <button type="button" class="btn cancelar"
-                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=clientes'" <?= ($modoNovo || $modoEdicao) ? '' : 'disabled' ?>>
+               <button type="button" class="btn cancelar"
+                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=clientes'">
                 Cancelar
             </button>
 

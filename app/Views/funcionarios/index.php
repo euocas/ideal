@@ -481,7 +481,7 @@ require_once __DIR__ . '/../includes/header.php';
             </button>
 
             <button type="button" class="btn cancelar"
-                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=funcionarios'" <?= ($isNovo || $isEdit) ? '' : 'disabled' ?>>
+                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=funcionarios'">
                 Cancelar
             </button>
 

@@ -1,21 +1,40 @@
 <?php
 
 /** @var \App\Models\Veiculo|null $veiculo */
+
 // Estado da tela
 $modoNovo = isset($_GET['novo']);
 $modoEdicao = isset($veiculo) && is_object($veiculo);
 
+// Placa informada na busca
+$placaBusca = $_GET['placa'] ?? ($_POST['placa'] ?? '');
+
+// Valor da placa no formulário
+$placaValue = $modoEdicao
+    ? $veiculo->getPlaca()
+    : $placaBusca;
+
+// Placa protegida
+$placaReadonly = (
+    ($modoNovo && !empty($placaBusca)) ||
+    ($modoEdicao && !empty($veiculo->getPlaca()))
+)
+    ? 'readonly'
+    : '';
+
+// Campos bloqueados somente na tela de busca
+$camposBloqueados = !$modoNovo && !$modoEdicao;
+
 // Ação do formulário
 $actionUrl = $modoEdicao
-    ? "/ideal/public/index.php?url=veiculos/update&id={$veiculo->getIdVeiculo()}"
-    : "/ideal/public/index.php?url=veiculos/store";
+    ? BASE_URL . "/index.php?url=veiculos/update&id={$veiculo->getIdVeiculo()}"
+    : BASE_URL . "/index.php?url=veiculos/store";
 
 // Valores dos campos
-$renavamValue = $modoEdicao ? $veiculo->getRenavam() : '';
+$renavamValue = $modoEdicao
+    ? $veiculo->getRenavam()
+    : '';
 
-// Pega a placa buscada caso seja um cadastro novo
-$placaBusca = $_GET['placa'] ?? ($_POST['placa'] ?? '');
-$placaValue = $modoEdicao ? $veiculo->getPlaca() : $placaBusca;
 
 // Formatação inteligente dos anos (transforma YYYY em YYYY-01-01 para o input date ler)
 $anoFabValue = '';
@@ -56,11 +75,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 
 <div class="layout">
 
-    <button
-        type="button"
-        class="menu-toggle"
-        id="menuToggle"
-        aria-label="Abrir menu">
+    <button type="button" class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
         <i class="fa-solid fa-bars"></i>
     </button>
 
@@ -75,8 +90,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                 <div class="busca-box">
                     <h2>🚘 BUSCAR VEÍCULO</h2>
                     <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                        <div class="alert alert-error">
-                            ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
+                        <div class="alert alert-warning">
+                            <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
                         </div>
                         <?php unset($_SESSION['mensagem_erro']); ?>
                     <?php endif; ?>
@@ -84,9 +99,10 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                     <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=veiculos" method="POST">
                         <div class="input-group">
                             <label>PLACA</label>
-                            <input type="text" name="placa" class="placa"
+                            <input type="text" name="placa" class="placa" id="placaBusca"
                                 oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
-                                placeholder="ABC1D23" required maxlength="7" style="text-transform: uppercase;">
+                                placeholder="ABC1D23" maxlength="7" required
+                                data-tela-inicial="<?= (!$modoNovo && !$modoEdicao) ? 'true' : 'false' ?>">
                         </div>
                         <button type="submit" class="btn-buscar"><i class="bi bi-search"></i> BUSCAR</button>
                     </form>
@@ -97,15 +113,15 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                         <i class="fa-solid fa-circle-info"></i>
                         DICA
                     </h3>
-                    <p>Digite a placa do veículo (padrão antigo ou Mercosul) e clique em <strong>BUSCAR</strong>. Se
-                        não existir, você poderá cadastrar um novo veículo.</p>
+                    <p>Para consultar um veículo, primeiro digite a placa do veículo (padrão ou MERCOSUL) e clique em
+                        <strong>BUSCAR</strong>. Se o veículo não estiver cadastrado, os campos serão liberados pra um Novo Cadastro.
+                    </p>
                 </div>
             </div>
         </section>
 
 
-        <form id="form-dados" action="<?= $actionUrl ?>" method="POST" novalidate autocomplete="off">
-
+        <form id="form-dados" action="<?= $actionUrl ?>" method="POST">
 
             <fieldset <?= $camposBloqueados ? 'disabled' : '' ?>>
 
@@ -129,20 +145,23 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                     <div class="grid-form">
                         <div class="form-group">
                             <label>Renavam <span class="obrigatorio">*</span></label>
-                            <input type="text" name="renavam" value="<?= htmlspecialchars($renavamValue ?? '') ?>"
-                                oninput="mascaraRenavam(this)" placeholder="0000.000000-0" maxlength="13" required>
+                            <input type="text" name="renavam" id="renavam"
+                                value="<?= htmlspecialchars($renavamValue ?? '') ?>" oninput="mascaraRenavam(this)"
+                                placeholder="0000.000000-0" maxlength="13" <?= $modoEdicao ? 'readonly' : '' ?> required>
                         </div>
                         <div class="form-group">
                             <label>Placa <span class="obrigatorio">*</span></label>
-                            <input type="text" name="placa" value="<?= htmlspecialchars($placaValue ?? '') ?>"
-                                placeholder="ABC1D23" maxlength="7"
-                                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')" required>
+                            <input type="text" name="placa" id="placa"
+                                value="<?= htmlspecialchars($placaValue ?? '') ?>" placeholder="ABC1D23" maxlength="7"
+                                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
+                                <?= $placaReadonly ?> required>
                         </div>
                         <div class="form-group">
                             <label>Chassi <span class="obrigatorio">*</span></label>
-                            <input type="text" name="chassi"
+                            <input type="text" name="chassi" id="chassi"
                                 value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getChassi() ?? '') : '') ?>"
-                                oninput="mascaraChassi(this)" maxlength="17" placeholder="9BWZZZ377VT004251" required>
+                                oninput="mascaraChassi(this)" maxlength="17" placeholder="Digite o chassi do carro"
+                                <?= $modoEdicao ? 'readonly' : '' ?> required>
                         </div>
                         <div class="form-group">
                             <label>Marca <span class="obrigatorio">*</span></label>
@@ -180,11 +199,13 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                         </div>
                         <div class="form-group">
                             <label>Ano Fabricação <span class="obrigatorio">*</span></label>
-                            <input type="date" name="anoFabricacao" value="<?= htmlspecialchars($anoFabValue ?? '') ?>" required>
+                            <input type="date" name="anoFabricacao" value="<?= htmlspecialchars($anoFabValue ?? '') ?>"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>Ano Modelo <span class="obrigatorio">*</span></label>
-                            <input type="date" name="anoModelo" value="<?= htmlspecialchars($anoModValue ?? '') ?>" required>
+                            <input type="date" name="anoModelo" value="<?= htmlspecialchars($anoModValue ?? '') ?>"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>Cor <span class="obrigatorio">*</span></label>
@@ -218,7 +239,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                                 maxlength="9" pattern="\d{1,7}" inputmode="numeric" placeholder="Ex: 125000">
                         </div>
                         <div class="form-group">
-                            <!-- CORRIGIDO: name="dataUltimaRevisao" -->
+
                             <label>Última Revisão</label>
                             <input type="date" name="dataUltimaRevisao"
                                 value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getDataUltimaRevisao() ?? '') : '') ?>">
@@ -228,9 +249,10 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                             <input type="date" name="proximaRevisao"
                                 value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getProximaRevisao() ?? '') : '') ?>">
                         </div>
-                        <h2 class="subtitulo-form" style="grid-column: 1 / -1;">Responsável</h2>
+                        <h2 class="subtitulo-form">Responsável</h2>
+
                         <div class="form-group">
-                            <!-- CORRIGIDO: name="tipoPosse" -->
+
                             <label>Propriedade do Veículo</label>
                             <select name="tipoPosse">
                                 <option value="">Selecione</option>
@@ -241,13 +263,12 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                                 </option>
                             </select>
                         </div>
+
                         <div class="form-group">
-                            <!-- CORRIGIDO: name="responsavelVeiculo" -->
                             <label>Responsável pelo veículo</label>
                             <input type="text" name="responsavelVeiculo"
                                 value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getResponsavelVeiculo() ?? '') : '') ?>"
-                                minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo"
-                                style="text-align: left; padding: 0px 5px 100px 0px; width: 100%; box-sizing: border-box;">
+                                minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo">
                         </div>
                         <div class="form-group observacao">
                             <label>Observações</label>
@@ -261,20 +282,24 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 
             <div class="acoes">
 
+                <!-- Cadastrar -->
                 <button type="submit" class="btn novo" <?= !$modoNovo ? 'disabled' : '' ?>>
                     <i class="bi bi-plus-lg"></i>
                     Cadastrar
                 </button>
 
+                <!-- Alterar -->
                 <button type="submit" class="btn alterar" <?= !$modoEdicao ? 'disabled' : '' ?>>
                     <i class="bi bi-floppy"></i>
                     Alterar
                 </button>
 
                 <?php if ($modoEdicao): ?>
+
+                    <!-- ID do veículo em edição -->
                     <input type="hidden" name="id" value="<?= $veiculo->getIdVeiculo() ?>">
 
-
+                    <!-- Excluir -->
                     <button type="submit" class="btn excluir" formaction="<?= BASE_URL ?>/index.php?url=veiculos/delete"
                         formmethod="POST" onclick="return confirm('Excluir este veículo?');">
                         <i class="bi bi-trash"></i>
@@ -282,14 +307,23 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                     </button>
 
                 <?php else: ?>
+
+                    <!-- Excluir desabilitado -->
                     <button type="button" class="btn excluir" disabled>
                         <i class="bi bi-trash"></i>
                         Excluir
                     </button>
+
                 <?php endif; ?>
 
-                <button type="reset" class="btn limpar">
-                    <i class="bi bi-eraser"></i>
+                <!-- Cancelar -->
+                <button type="button" class="btn cancelar"
+                    onclick="window.location.href='<?= BASE_URL ?>/index.php?url=veiculos'">
+                    Cancelar
+                </button>
+
+                <!-- Limpar -->
+                <button type="button" class="btn limpar" id="btnLimpar">
                     Limpar
                 </button>
 
@@ -298,6 +332,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
         </form>
     </main>
 </div>
+<script src="<?= BASE_URL ?>/assets/js/veiculo.js?v=<?= time() ?>"></script>
 
 <script>
     function mascaraRenavam(input) {
