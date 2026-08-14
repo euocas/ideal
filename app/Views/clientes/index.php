@@ -17,6 +17,9 @@ $modoEdicao = isset($cliente);
 $dadosFormulario = $_SESSION['dados_formulario_cliente'] ?? [];
 unset($_SESSION['dados_formulario_cliente']);
 
+$docBuscaAtual = $_GET['documento'] ?? $_POST['documento'] ?? '';
+$docBuscaLimpo = preg_replace('/\D/', '', $docBuscaAtual);
+
 $cpfReadonly = (
     ($modoNovo && !empty($cpfBusca)) ||
     (isset($cliente) && !empty($cliente->getCpf()))
@@ -83,9 +86,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 
                             <input type="text" class="documento" id="documento" name="documento"
                                 placeholder="000.000.000-00" maxlength="14" oninput="mascaraDocumento(this)"
-                                value="<?= isset($_GET['documento']) ? htmlspecialchars($_GET['documento']) : '' ?>"
+                                value="<?= htmlspecialchars($docBuscaLimpo) ?>"
                                 <?= (!$modoNovo && !$modoEdicao) ? 'autofocus' : '' ?>>
-
                         </div>
 
                         <button type="submit" class="btn-buscar">
@@ -146,8 +148,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                         <div class="form-group">
                             <label>Nome do Cliente <span class="obrigatorio">*</span></label>
                             <input type="text" name="nomeCliente" placeholder="Digite o nome do cliente" value="<?= isset($cliente)
-                                ? htmlspecialchars($cliente->getNomeCliente() ?? '')
-                                : htmlspecialchars($dadosFormulario['nomeCliente'] ?? '') ?>" required>
+                                                                                                                    ? htmlspecialchars($cliente->getNomeCliente() ?? '')
+                                                                                                                    : htmlspecialchars($dadosFormulario['nomeCliente'] ?? '') ?>" required>
 
                         </div>
 
@@ -230,8 +232,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                             <label>Cidade <span class="obrigatorio">*</label>
 
                             <input type="text" name="cidade" id="cidade" placeholder="Digite a cidade" value="<?= isset($cliente)
-                                ? htmlspecialchars($cliente->getCidade() ?? '')
-                                : htmlspecialchars($dadosFormulario['cidade'] ?? '') ?>" required>
+                                                                                                                    ? htmlspecialchars($cliente->getCidade() ?? '')
+                                                                                                                    : htmlspecialchars($dadosFormulario['cidade'] ?? '') ?>" required>
 
                         </div>
 
@@ -240,8 +242,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                             <?php $tipoLogradouroAtual = isset($cliente) ? $cliente->getTipoLogradouro() : ''; ?>
                             <input type="text" name="tipoLogradouro" id="tipoLogradouro"
                                 placeholder="Ex.: Rua, Avenida, Alameda, Viela" value="<?= isset($cliente)
-                                    ? htmlspecialchars($tipoLogradouroAtual)
-                                    : htmlspecialchars($dadosFormulario['tipoLogradouro'] ?? '') ?>" required>
+                                                                                            ? htmlspecialchars($tipoLogradouroAtual)
+                                                                                            : htmlspecialchars($dadosFormulario['tipoLogradouro'] ?? '') ?>" required>
 
                         </div>
 
@@ -251,8 +253,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 
                             <input type="text" name="nomeLogradouro" id="nomeLogradouro"
                                 placeholder="Digite o nome da Rua/Avenida/Alameda/Viela" value="<?= isset($cliente)
-                                    ? htmlspecialchars($nomeLogradouroAtual)
-                                    : htmlspecialchars($dadosFormulario['nomeLogradouro'] ?? '') ?>" required>
+                                                                                                    ? htmlspecialchars($nomeLogradouroAtual)
+                                                                                                    : htmlspecialchars($dadosFormulario['nomeLogradouro'] ?? '') ?>" required>
                         </div>
 
                         <div class="form-group">
@@ -260,8 +262,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                             <?php $numeroAtual = isset($cliente) ? $cliente->getNumero() : ''; ?>
 
                             <input type="text" name="numero" id="numero" placeholder="Somente números" value="<?= isset($cliente)
-                                ? htmlspecialchars($numeroAtual)
-                                : htmlspecialchars($dadosFormulario['numero'] ?? '') ?>" required>
+                                                                                                                    ? htmlspecialchars($numeroAtual)
+                                                                                                                    : htmlspecialchars($dadosFormulario['numero'] ?? '') ?>" required>
                         </div>
 
                         <div class="form-group">
@@ -272,8 +274,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 
                             <input type="text" name="complemento" id="complemento" placeholder="Ex.: Apto 101, Bloco A"
                                 value="<?= isset($cliente)
-                                    ? htmlspecialchars($complementoAtual)
-                                    : htmlspecialchars($dadosFormulario['complemento'] ?? '') ?>">
+                                            ? htmlspecialchars($complementoAtual)
+                                            : htmlspecialchars($dadosFormulario['complemento'] ?? '') ?>">
 
                         </div>
 
@@ -328,8 +330,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                         <div class="form-group">
                             <label>E-mail</label>
                             <input type="email" name="email" placeholder="seuemail@email.com" maxlength="35" value="<?= isset($cliente)
-                                ? htmlspecialchars($cliente->getEmail() ?? '')
-                                : htmlspecialchars($dadosFormulario['email'] ?? '') ?>">
+                                                                                                                        ? htmlspecialchars($cliente->getEmail() ?? '')
+                                                                                                                        : htmlspecialchars($dadosFormulario['email'] ?? '') ?>">
                         </div>
 
 
@@ -360,8 +362,8 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                             <label>Observações</label>
 
                             <textarea name="observacoes"><?= isset($cliente)
-                                ? htmlspecialchars($cliente->getObservacoes() ?? '')
-                                : htmlspecialchars($dadosFormulario['observacoes'] ?? '') ?></textarea>
+                                                                ? htmlspecialchars($cliente->getObservacoes() ?? '')
+                                                                : htmlspecialchars($dadosFormulario['observacoes'] ?? '') ?></textarea>
 
 
                         </div>
@@ -391,7 +393,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                 Excluir
             </button>
 
-               <button type="button" class="btn cancelar"
+            <button type="button" class="btn cancelar"
                 onclick="window.location.href='<?= BASE_URL ?>/index.php?url=clientes'">
                 Cancelar
             </button>

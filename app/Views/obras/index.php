@@ -211,33 +211,39 @@ require_once __DIR__ . '/../includes/header.php';
                         }
                         ?>
 
-                        <div class="form-group">
-                            <label>CNPJ / CPF Cliente <span class="obrigatorio">*</span> </label>
+                       <div class="form-group">
+    <label>CNPJ / CPF Cliente <span class="obrigatorio">*</span> </label>
 
-                            <?php
-                            $documento = preg_replace('/\D/', '', $docCliente);
-                            if (strlen($documento) === 11) {
-                                $documentoFormatado = preg_replace(
-                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-                                    '$1.$2.$3-$4',
-                                    $documento
-                                );
-                            } elseif (strlen($documento) === 14) {
-                                $documentoFormatado = preg_replace(
-                                    '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-                                    '$1.$2.$3/$4-$5',
-                                    $documento
-                                );
-                            } else {
-                                $documentoFormatado = '';
-                            }
-                            ?>
+    <?php
+    $documento = preg_replace('/\D/', '', $docCliente);
+    if (strlen($documento) === 11) {
+        $documentoFormatado = preg_replace(
+            '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+            '$1.$2.$3-$4',
+            $documento
+        );
+    } elseif (strlen($documento) === 14) {
+        $documentoFormatado = preg_replace(
+            '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+            '$1.$2.$3/$4-$5',
+            $documento
+        );
+    } else {
+        $documentoFormatado = '';
+    }
+    ?>
 
-                            <input type="text" id="cnpjCliente" name="cnpjCliente" maxlength="18"
-                                placeholder="00.000.000/0000-00" value="<?= htmlspecialchars($documentoFormatado) ?>"
-                                oninput="mascaraCNPJ(this)">
-                        </div>
-
+  
+    <div style="display: flex; gap: 8px;">
+        <input type="text" id="cnpjCliente" name="cnpjCliente" maxlength="18"
+            placeholder="CPF ou CNPJ" value="<?= htmlspecialchars($documentoFormatado) ?>"
+            oninput="mascaraCpfCnpjObra(this)">
+            
+        <button type="button" class="btn-buscar-cliente" onclick="buscarClienteObra()" title="Verificar Cliente">
+            <i class="fa-solid fa-search"></i>
+        </button>
+    </div>
+</div>
                         <div class="form-group">
                             <label> Valor Contratado <span class="obrigatorio">*</span></label>
                             <div class="input-prefixo">
@@ -727,6 +733,73 @@ require_once __DIR__ . '/../includes/header.php';
 
     function removerFuncionarioDaTabela(botao) {
         botao.closest('tr').remove();
+    }
+
+    function mascaraCpfCnpjObra(input) {
+        let v = input.value.replace(/\D/g, "");
+        
+        if (v.length <= 11) {
+            // Máscara de CPF
+            v = v.replace(/(\d{3})(\d)/, "$1.$2");
+            v = v.replace(/(\d{3})(\d)/, "$1.$2");
+            v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        } else {
+            // Máscara de CNPJ
+            v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+            v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+            v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+            v = v.replace(/(\d{4})(\d)/, "$1-$2");
+        }
+        input.value = v;
+    }
+
+    // Função assíncrona para buscar o cliente no banco sem recarregar a página
+    async function buscarClienteObra() {
+        const inputCnpjCpf = document.getElementById('cnpjCliente');
+        const docLimpo = inputCnpjCpf.value.replace(/\D/g, '');
+
+        if (docLimpo.length !== 11 && docLimpo.length !== 14) {
+            alert("Por favor, digite um CPF (11 números) ou CNPJ (14 números) completo para buscar.");
+            return;
+        }
+
+        try {
+            // Faz a requisição na rota que já existe no seu ClientesController
+            const response = await fetch(`<?= BASE_URL ?>/index.php?url=clientes/buscarPorCnpj&cnpj=${docLimpo}`);
+            const data = await response.json();
+
+            if (data.erro) {
+                // Se o JSON retornar erro, dispara o pop-up e redireciona
+                alert("Cliente não existe no banco de dados. Você será redirecionado para cadastrá-lo primeiro.");
+                window.location.href = `<?= BASE_URL ?>/index.php?url=clientes/create&documento=${docLimpo}&novo=1`;
+            } else {
+                // Se existir, preenche os dados dinamicamente no DOM da aba lateral
+                document.getElementById('idCliente').value = data.idCliente;
+                document.getElementById('clienteNome').textContent = data.nomeCliente;
+
+                // Formatar Documento que veio do banco para exibição
+                let docBanc = data.cnpj ? data.cnpj : data.cpf;
+                let docFormatado = docBanc;
+                if (docBanc.length === 11) {
+                    docFormatado = docBanc.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+                } else if (docBanc.length === 14) {
+                    docFormatado = docBanc.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+                }
+                document.getElementById('clienteCnpj').textContent = docFormatado;
+
+                // Formatar WhatsApp que veio do banco para exibição
+                let whatsBanc = data.whatsapp || '-';
+                if (whatsBanc !== '-' && whatsBanc.length >= 10) {
+                    whatsBanc = whatsBanc.length === 11 
+                        ? whatsBanc.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")
+                        : whatsBanc.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
+                }
+                document.getElementById('clienteWhatsapp').textContent = whatsBanc;
+            }
+        } catch (error) {
+            console.error("Erro na busca:", error);
+            alert("Ocorreu um erro ao comunicar com o servidor. Tente novamente.");
+        }
     }
 </script>
 </body>

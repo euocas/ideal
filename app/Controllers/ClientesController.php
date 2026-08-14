@@ -25,7 +25,6 @@ class ClientesController
 
     private function buscar()
     {
-
         $tipo = $_POST['tipoDocumento'] ?? '';
         $documentoDigitado = (string) ($_POST['documento'] ?? '');
         $documentoLimpo = preg_replace('/[^0-9]/', '', $documentoDigitado);
@@ -36,18 +35,21 @@ class ClientesController
             return;
         }
 
-        // Validação conforme o tipo escolhido
-        if ($tipo === 'cpf' && !$this->validarCPF($documentoLimpo)) {
-            $mensagem = "O CPF informado é inválido. Verifique os números e tente novamente.";
-            require_once __DIR__ . '/../Views/clientes/index.php';
-            return;
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
 
+        // Validação conforme o tipo escolhido - Agora redireciona mantendo a tela liberada
+        if ($tipo === 'cpf' && !$this->validarCPF($documentoLimpo)) {
+            $_SESSION['mensagem_erro'] = "O CPF informado é inválido. Verifique os números e tente novamente.";
+            header("Location: " . BASE_URL . "/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
+            exit;
+        }
 
         if ($tipo === 'cnpj' && !$this->validarCNPJ($documentoLimpo)) {
-            $mensagem = "O CNPJ informado é inválido. Verifique os números e tente novamente.";
-            require_once __DIR__ . '/../Views/clientes/index.php';
-            return;
+            $_SESSION['mensagem_erro'] = "O CNPJ informado é inválido. Verifique os números e tente novamente.";
+            header("Location: " . BASE_URL . "/index.php?url=clientes/create&documento=" . $documentoLimpo . "&novo=1");
+            exit;
         }
 
         $clienteModel = new Cliente();

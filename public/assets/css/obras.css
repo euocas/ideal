@@ -363,6 +363,25 @@ textarea {
   filter: brightness(0) invert(1);
 }
 
+
+.btn-buscar-cliente {
+    background-color: var(--primary); /* Ou a cor do seu botão principal */
+    color: var(--text-white);
+    border: none;
+    border-radius: 8px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-buscar-cliente:hover {
+    filter: brightness(0.9);
+    transform: scale(1.05);
+}
 /* ============================================
    RESPONSIVO
 ============================================ */
