@@ -49,59 +49,65 @@ $pageStyles = [
 // HEADER
 require_once __DIR__ . '/../includes/header.php';
 
+$camposBloqueados = !$modoNovo && !$modoEdicao;
+
 ?>
 
 
-    <div class="layout">
+<div class="layout">
 
-        <button
-            type="button"
-            class="menu-toggle"
-            id="menuToggle"
-            aria-label="Abrir menu">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+    <button
+        type="button"
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Abrir menu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
 
-        <aside class="sidebar" id="sidebar">
-            <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
-        </aside>
+    <aside class="sidebar" id="sidebar">
+        <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
+    </aside>
 
-        <main class="content">
+    <main class="content">
 
-            <section class="card">
-                <div class="grid-busca">
-                    <div class="busca-box">
-                        <h2>🚘 BUSCAR VEÍCULO</h2>
-                        <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                            <div class="alert alert-error">
-                                ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
-                            </div>
-                            <?php unset($_SESSION['mensagem_erro']); ?>
-                        <?php endif; ?>
+        <section class="card">
+            <div class="grid-busca">
+                <div class="busca-box">
+                    <h2>🚘 BUSCAR VEÍCULO</h2>
+                    <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                        <div class="alert alert-error">
+                            ❌ <?= htmlspecialchars($_SESSION['mensagem_erro']); ?>
+                        </div>
+                        <?php unset($_SESSION['mensagem_erro']); ?>
+                    <?php endif; ?>
 
-                        <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=veiculos" method="POST">
-                            <div class="input-group">
-                                <label>PLACA</label>
-                                <input type="text" name="placa"
-                                    oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
-                                    placeholder="ABC1D23" required maxlength="7" style="text-transform: uppercase;">
-                            </div>
-                            <button type="submit" class="btn-buscar"><i class="bi bi-search"></i> BUSCAR</button>
-                        </form>
-                    </div>
-                    <div class="dica-box">
-
-                        <h3>
-                            <i class="fa-solid fa-circle-info"></i>
-                            DICA
-                        </h3>
-                        <p>Digite a placa do veículo (padrão antigo ou Mercosul) e clique em <strong>BUSCAR</strong>. Se
-                            não existir, você poderá cadastrar um novo veículo.</p>
-                    </div>
+                    <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=veiculos" method="POST">
+                        <div class="input-group">
+                            <label>PLACA</label>
+                            <input type="text" name="placa" class="placa"
+                                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
+                                placeholder="ABC1D23" required maxlength="7" style="text-transform: uppercase;">
+                        </div>
+                        <button type="submit" class="btn-buscar"><i class="bi bi-search"></i> BUSCAR</button>
+                    </form>
                 </div>
-            </section>
+                <div class="dica-box">
 
-            <form id="form-dados" action="<?= $actionUrl ?>" method="POST" novalidate autocomplete="off">
+                    <h3>
+                        <i class="fa-solid fa-circle-info"></i>
+                        DICA
+                    </h3>
+                    <p>Digite a placa do veículo (padrão antigo ou Mercosul) e clique em <strong>BUSCAR</strong>. Se
+                        não existir, você poderá cadastrar um novo veículo.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <form id="form-dados" action="<?= $actionUrl ?>" method="POST" novalidate autocomplete="off">
+
+
+            <fieldset <?= $camposBloqueados ? 'disabled' : '' ?>>
 
                 <section class="card">
                     <!-- AVISOS DE SUCESSO OU ERRO DO BANCO DE DADOS -->
@@ -122,25 +128,25 @@ require_once __DIR__ . '/../includes/header.php';
                     <h2><i class="fa-regular fa-clipboard icone-titulo"> </i> Dados do Veículo</h2>
                     <div class="grid-form">
                         <div class="form-group">
-                            <label>Renavam</label>
+                            <label>Renavam <span class="obrigatorio">*</span></label>
                             <input type="text" name="renavam" value="<?= htmlspecialchars($renavamValue ?? '') ?>"
-                                oninput="mascaraRenavam(this)" placeholder="0000.000000-0" maxlength="13">
+                                oninput="mascaraRenavam(this)" placeholder="0000.000000-0" maxlength="13" required>
                         </div>
                         <div class="form-group">
-                            <label>Placa</label>
+                            <label>Placa <span class="obrigatorio">*</span></label>
                             <input type="text" name="placa" value="<?= htmlspecialchars($placaValue ?? '') ?>"
                                 placeholder="ABC1D23" maxlength="7"
-                                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')">
+                                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')" required>
                         </div>
                         <div class="form-group">
-                            <label>Chassi</label>
+                            <label>Chassi <span class="obrigatorio">*</span></label>
                             <input type="text" name="chassi"
                                 value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getChassi() ?? '') : '') ?>"
-                                oninput="mascaraChassi(this)" maxlength="17" placeholder="9BWZZZ377VT004251">
+                                oninput="mascaraChassi(this)" maxlength="17" placeholder="9BWZZZ377VT004251" required>
                         </div>
                         <div class="form-group">
-                            <label>Marca</label>
-                            <select name="marca">
+                            <label>Marca <span class="obrigatorio">*</span></label>
+                            <select name="marca" required>
                                 <option value="">Selecione a marca</option>
                                 <optgroup label="Utilitários leves">
                                     <option value="Fiat" <?= ($modoEdicao && $veiculo->getMarca() === 'Fiat') ? 'selected' : '' ?>>Fiat</option>
@@ -155,8 +161,8 @@ require_once __DIR__ . '/../includes/header.php';
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Modelo</label>
-                            <select name="modelo">
+                            <label>Modelo <span class="obrigatorio">*</span></label>
+                            <select name="modelo" required>
                                 <option value="">Selecione o modelo</option>
                                 <optgroup label="Utilitários leves">
                                     <option value="Fiat Strada" <?= ($modoEdicao && $veiculo->getModelo() === 'Fiat Strada') ? 'selected' : '' ?>>Fiat Strada</option>
@@ -173,16 +179,16 @@ require_once __DIR__ . '/../includes/header.php';
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Ano Fabricação</label>
-                            <input type="date" name="anoFabricacao" value="<?= htmlspecialchars($anoFabValue ?? '') ?>">
+                            <label>Ano Fabricação <span class="obrigatorio">*</span></label>
+                            <input type="date" name="anoFabricacao" value="<?= htmlspecialchars($anoFabValue ?? '') ?>" required>
                         </div>
                         <div class="form-group">
-                            <label>Ano Modelo</label>
-                            <input type="date" name="anoModelo" value="<?= htmlspecialchars($anoModValue ?? '') ?>">
+                            <label>Ano Modelo <span class="obrigatorio">*</span></label>
+                            <input type="date" name="anoModelo" value="<?= htmlspecialchars($anoModValue ?? '') ?>" required>
                         </div>
                         <div class="form-group">
-                            <label>Cor</label>
-                            <select name="cor">
+                            <label>Cor <span class="obrigatorio">*</span></label>
+                            <select name="cor" required>
                                 <option value="">Selecione</option>
                                 <option value="Branco" <?= ($modoEdicao && $veiculo->getCor() === 'Branco') ? 'selected' : '' ?>>Branco</option>
                                 <option value="Preto" <?= ($modoEdicao && $veiculo->getCor() === 'Preto') ? 'selected' : '' ?>>
@@ -240,7 +246,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label>Responsável pelo veículo</label>
                             <input type="text" name="responsavelVeiculo"
                                 value="<?= htmlspecialchars($modoEdicao ? ($veiculo->getResponsavelVeiculo() ?? '') : '') ?>"
-                                minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo">
+                                minlength="3" pattern="[A-Za-zÀ-ÿ\s]+" placeholder="Digite o propreitário do veículo"
+                                style="text-align: left; padding: 0px 5px 100px 0px; width: 100%; box-sizing: border-box;">
                         </div>
                         <div class="form-group observacao">
                             <label>Observações</label>
@@ -248,66 +255,67 @@ require_once __DIR__ . '/../includes/header.php';
                                 name="observacoes"><?= htmlspecialchars($modoEdicao ? ($veiculo->getObservacoes() ?? '') : '') ?></textarea>
                         </div>
                     </div>
-                </section>
+            </fieldset>
+            </section>
 
 
-                <div class="acoes">
+            <div class="acoes">
 
-                    <button type="submit" class="btn novo" <?= !$modoNovo ? 'disabled' : '' ?>>
-                        <i class="bi bi-plus-lg"></i>
-                        Cadastrar
+                <button type="submit" class="btn novo" <?= !$modoNovo ? 'disabled' : '' ?>>
+                    <i class="bi bi-plus-lg"></i>
+                    Cadastrar
+                </button>
+
+                <button type="submit" class="btn alterar" <?= !$modoEdicao ? 'disabled' : '' ?>>
+                    <i class="bi bi-floppy"></i>
+                    Alterar
+                </button>
+
+                <?php if ($modoEdicao): ?>
+                    <input type="hidden" name="id" value="<?= $veiculo->getIdVeiculo() ?>">
+
+
+                    <button type="submit" class="btn excluir" formaction="<?= BASE_URL ?>/index.php?url=veiculos/delete"
+                        formmethod="POST" onclick="return confirm('Excluir este veículo?');">
+                        <i class="bi bi-trash"></i>
+                        Excluir
                     </button>
 
-                    <button type="submit" class="btn alterar" <?= !$modoEdicao ? 'disabled' : '' ?>>
-                        <i class="bi bi-floppy"></i>
-                        Alterar
+                <?php else: ?>
+                    <button type="button" class="btn excluir" disabled>
+                        <i class="bi bi-trash"></i>
+                        Excluir
                     </button>
+                <?php endif; ?>
 
-                    <?php if ($modoEdicao): ?>
-                        <input type="hidden" name="id" value="<?= $veiculo->getIdVeiculo() ?>">
+                <button type="reset" class="btn limpar">
+                    <i class="bi bi-eraser"></i>
+                    Limpar
+                </button>
 
+            </div>
 
-                        <button type="submit" class="btn excluir" formaction="<?= BASE_URL ?>/index.php?url=veiculos/delete"
-                            formmethod="POST" onclick="return confirm('Excluir este veículo?');">
-                            <i class="bi bi-trash"></i>
-                            Excluir
-                        </button>
+        </form>
+    </main>
+</div>
 
-                    <?php else: ?>
-                        <button type="button" class="btn excluir" disabled>
-                            <i class="bi bi-trash"></i>
-                            Excluir
-                        </button>
-                    <?php endif; ?>
+<script>
+    function mascaraRenavam(input) {
+        let valor = input.value.replace(/\D/g, '');
+        valor = valor.substring(0, 11);
+        valor = valor.replace(/^(\d{4})(\d)/, '$1.$2');
+        valor = valor.replace(/^(\d{4})\.(\d{6})(\d)/, '$1.$2-$3');
+        input.value = valor;
+    }
 
-                    <button type="reset" class="btn limpar">
-                        <i class="bi bi-eraser"></i>
-                        Limpar
-                    </button>
-
-                </div>
-
-            </form>
-        </main>
-    </div>
-
-    <script>
-        function mascaraRenavam(input) {
-            let valor = input.value.replace(/\D/g, '');
-            valor = valor.substring(0, 11);
-            valor = valor.replace(/^(\d{4})(\d)/, '$1.$2');
-            valor = valor.replace(/^(\d{4})\.(\d{6})(\d)/, '$1.$2-$3');
-            input.value = valor;
-        }
-
-        function mascaraChassi(input) {
-            let valor = input.value.toUpperCase();
-            valor = valor.replace(/[^A-Z0-9]/g, '');
-            valor = valor.replace(/[IOQ]/g, '');
-            valor = valor.substring(0, 17);
-            input.value = valor;
-        }
-    </script>
+    function mascaraChassi(input) {
+        let valor = input.value.toUpperCase();
+        valor = valor.replace(/[^A-Z0-9]/g, '');
+        valor = valor.replace(/[IOQ]/g, '');
+        valor = valor.substring(0, 17);
+        input.value = valor;
+    }
+</script>
 </body>
 
 </html>

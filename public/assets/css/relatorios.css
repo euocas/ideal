@@ -172,12 +172,12 @@ input[type="date"] {
 }
 
 .btn-excel {
-  background-color: var(--success-light);
+  background: var(--success-light) !important;
   color: var(--text-white);
 }
 
 .btn-pdf {
-  background-color: var(--btn-dark);
+  background-color: var(--danger);
   color: var(--text-white);
 }
 .acoes-exportar {
@@ -429,6 +429,11 @@ input[type="date"] {
 
 [data-theme="dark"] .btn-pdf {
   background: var(--danger) !important;
+  color: var(--text-white);
+}
+
+[data-theme="light"] .btn-excel {
+  background: var(--success-dark) !important;
   color: var(--text-white);
 }
 

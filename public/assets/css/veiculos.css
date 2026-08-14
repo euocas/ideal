@@ -76,6 +76,11 @@
 input[type="date"] {
   font-family: var(--font-primary);
 }
+
+.placa{
+ background: var(--surface);
+
+}
 /* ==========================================
    FORMULÁRIO
 ========================================== */
@@ -112,6 +117,35 @@ textarea {
   font: inherit;
   font-size: 16px !important;
   color: var(--text);
+  text-align: left;
+}
+
+
+
+
+.obrigatorio {
+  color: var(--danger);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+fieldset:disabled input,
+fieldset:disabled select,
+fieldset:disabled textarea {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+fieldset:disabled label {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 /* ==========================================
    RESPONSIVIDADE
@@ -139,4 +173,6 @@ textarea {
   .dica-box {
     margin-right: 0;
   }
+
+
 }
