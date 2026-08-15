@@ -109,7 +109,7 @@ $veAno = $veiculoExiste
                         <div class="input-group">
                             <label>Placa</label>
                             <input type="text" name="placa" value="<?= htmlspecialchars($placaBusca) ?>"
-                                placeholder="ABC1D23" maxlength="7" style="text-transform: uppercase;" required>
+                                placeholder="ABC1D23" maxlength="7" style="text-transform: uppercase;" id="placa" required>
                         </div>
                         <button type="submit" name="acao" value="localizar" class="btn-buscar"><i
                                 class="bi bi-search"></i> LOCALIZAR</button>

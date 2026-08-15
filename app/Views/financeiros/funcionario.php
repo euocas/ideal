@@ -15,9 +15,6 @@ if (!in_array($tipo, $tipos)) {
     $tipo = "entrada";
 }
 
-
-
-
 $lancamentoRecibo = $lancamentoRecibo ?? null;
 
 $idRecibo = $_GET['recibo'] ?? null;
@@ -111,7 +108,7 @@ $fnBanco = $funcModelExiste
                     <div class="form-busca">
                         <div class="input-group">
                             <label>CPF</label>
-                            <input type="text" name="cpf" value="<?= htmlspecialchars(
+                            <input type="text" name="cpf" id="cpf" value="<?= htmlspecialchars(
                                 $cpfBusca,
                             ) ?>" placeholder="000.000.000-00" maxlength="14" oninput="mascaraCPF(this)" required>
                         </div>

@@ -145,7 +145,7 @@
   align-items: center;
   gap: 6px;
   margin-bottom: 8px;
-  color: var(--text-secondary);
+  color: var(--surface-dark);
   font-size: 14px;
   font-weight: 600;
 }
@@ -196,7 +196,6 @@
   top: 14px;
   left: 8px;
 }
-
 .periodo-grid {
   display: flex;
   flex-direction: column;
@@ -206,7 +205,6 @@
 .form-group.periodo select {
   width: 88%;
 }
-
 .acoes-topo {
   margin-top: -10px;
   display: flex;
@@ -389,6 +387,7 @@
 .status.ativo {
   background: var(--success-light);
   color: var(--success-dark);
+   transform: translateX(-20px);
 }
 /* ITENS */
 .funcionario-item,
@@ -424,6 +423,16 @@
   font-size: 16px;
   font-weight: 700;
 }
+#cpf,
+#obra,
+#placa{
+    background-color: var(--card-bg)!important;
+    padding-left: 12px!important;
+}
+.dica-box p{
+  color: var(--surface-dark);
+}
+
 
 /* ==========================================
    CARD 2 - SUBABAS

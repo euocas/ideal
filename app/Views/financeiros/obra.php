@@ -50,7 +50,7 @@ $actionObra = $isEditObra
                     <div class="input-group">
                         <label>Digite o código ou contrato da obra</label>
 
-                        <input type="text" name="buscaObra" placeholder="Ex.: 1 ou Obra 1" maxlength="100" required>
+                        <input type="text" name="buscaObra" placeholder="Ex.: 1 ou Obra 1" maxlength="100" id="obra" required>
                     </div>
 
                     <button type="submit" class="btn-buscar">
