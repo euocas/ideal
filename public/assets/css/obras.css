@@ -13,15 +13,18 @@
 }
 input[type="datetime-local"] {
   font-family: inherit;
-
   font-size: 16px;
-
   font-weight: 400;
-
   color: var(--text);
 }
+/* GRID DE BUSCA */
+.grid-busca {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
 
-/* TESTE DE CORES */
+
 .busca-box {
   background: var(--surface-alt);
 }
@@ -34,13 +37,11 @@ input[type="datetime-local"] {
   flex-direction: column;
   gap: 18px;
 }
-
 .input-prefixo {
   display: flex;
   align-items: stretch;
   width: 100%;
 }
-
 .input-prefixo .prefixo {
   display: flex;
   align-items: center;
@@ -66,6 +67,16 @@ input[type="datetime-local"] {
   font-weight: 700;
 }
 
+#contratoBusca{
+ background-color: var(--card-bg)!important;
+  padding-left: 14px!important;
+}
+
+.dica-box p {
+  color: var(--surface-dark);
+  font-size: 17px;
+  line-height: 1.5;
+}
 /* ==========================================
   CARD FUNCIONÁRIOS  
 ========================================== */
@@ -90,6 +101,7 @@ input[type="datetime-local"] {
 .btn-adicionar {
   height: 42px;
   max-width: 220px;
+  background-color: var(--success-dark)!important;
 }
 
 .btn-area {
@@ -363,24 +375,40 @@ textarea {
   filter: brightness(0) invert(1);
 }
 
+/* CONSULTA DE CLIENTE */
+.campo-consulta-cliente {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
 
 .btn-buscar-cliente {
-    background-color: var(--primary); /* Ou a cor do seu botão principal */
+    background-color: var(--primary);
     color: var(--text-white);
     border: none;
     border-radius: 8px;
-    width: 48px;
+    height: 40px;
+    min-width: 145px;
+    padding: 0 14px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    gap: 7px;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
     cursor: pointer;
+
     transition: transform 0.2s ease, filter 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .btn-buscar-cliente:hover {
     filter: brightness(0.9);
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .btn.cancelar {
@@ -391,6 +419,61 @@ textarea {
 .btn.cancelar:hover:not(:disabled) {
     background-color: var(--btn-cancel-hover);
 }
+
+/* TELA POP-UP */
+.alerta-ideal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.alerta-ideal.ativo {
+    display: flex;
+}
+
+.alerta-ideal-conteudo {
+    width: 420px;
+    max-width: 90%;
+    padding: 30px;
+
+    background: #ffffff;
+    opacity: 1;
+
+    border-radius: 12px;
+    text-align: center;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.alerta-ideal-conteudo h3 {
+    margin: 0 0 18px;
+    color: var(--primary);
+    font-size: 20px;
+}
+
+.alerta-ideal-conteudo p {
+    margin: 0 0 24px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.alerta-ideal-conteudo button {
+    background: var(--primary);
+    color: var(--text-white);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 30px;
+
+    font-weight: 600;
+    cursor: pointer;
+}
+
 /* ============================================
    RESPONSIVO
 ============================================ */

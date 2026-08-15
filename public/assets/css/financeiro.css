@@ -429,10 +429,11 @@
     background-color: var(--card-bg)!important;
     padding-left: 12px!important;
 }
-.dica-box p{
+.dica-box p {
   color: var(--surface-dark);
+  font-size: 17px;
+  line-height: 1.5;
 }
-
 
 /* ==========================================
    CARD 2 - SUBABAS

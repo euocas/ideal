@@ -73,7 +73,8 @@ require_once __DIR__ . '/../includes/header.php';
                     <form class="form-busca" action="<?= BASE_URL ?>/index.php?url=obras" method="POST">
                         <div class="input-group">
                             <label>Contrato</label>
-                            <input type="text" name="contratoBusca" placeholder="Digite o número ou o nome do contrato">
+                            <input type="text" name="contratoBusca" id="contratoBusca"
+                                placeholder="Digite o número ou o nome do contrato">
                         </div>
                         <button type="submit" class="btn-buscar">
                             <i class="bi bi-search"></i> BUSCAR
@@ -88,9 +89,9 @@ require_once __DIR__ . '/../includes/header.php';
                     </h3>
                     <p>
                         Informe o nome ou número da obra e clique em <strong>BUSCAR</strong>. Se a obra não estiver
-                        cadastrada, os campos serão liberados para um novo cadastro.
-                        Para vincular um cliente, informe o CPF ou CNPJ. O cliente precisa estar previamente cadastrado
-                        no sistema.
+                        cadastrada, os campos serão liberados para um Novo Cadastro. <strong>O vínculo com um cliente é obrigatório.</strong> 
+                        Informe o CPF/CNPJ e clique em <strong>CONSULTAR CLIENTE</strong>. Se não encontrado, você será redirecionado 
+                        para a tela de Clientes.
                     </p>
                 </div>
 
@@ -122,7 +123,6 @@ require_once __DIR__ . '/../includes/header.php';
                         <label>Status da Obra <span class="obrigatorio">*</span></label>
 
                         <select name="status" required>
-
                             <?php if (!isset($obra) || !$obra->getIdObra()): ?>
 
                                 <!-- Nova obra -->
@@ -211,39 +211,39 @@ require_once __DIR__ . '/../includes/header.php';
                         }
                         ?>
 
-                       <div class="form-group">
-    <label>CNPJ / CPF Cliente <span class="obrigatorio">*</span> </label>
+                        <div class="form-group">
+                            <label>CNPJ / CPF Cliente <span class="obrigatorio">*</span> </label>
 
-    <?php
-    $documento = preg_replace('/\D/', '', $docCliente);
-    if (strlen($documento) === 11) {
-        $documentoFormatado = preg_replace(
-            '/(\d{3})(\d{3})(\d{3})(\d{2})/',
-            '$1.$2.$3-$4',
-            $documento
-        );
-    } elseif (strlen($documento) === 14) {
-        $documentoFormatado = preg_replace(
-            '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
-            '$1.$2.$3/$4-$5',
-            $documento
-        );
-    } else {
-        $documentoFormatado = '';
-    }
-    ?>
+                            <?php
+                            $documento = preg_replace('/\D/', '', $docCliente);
+                            if (strlen($documento) === 11) {
+                                $documentoFormatado = preg_replace(
+                                    '/(\d{3})(\d{3})(\d{3})(\d{2})/',
+                                    '$1.$2.$3-$4',
+                                    $documento
+                                );
+                            } elseif (strlen($documento) === 14) {
+                                $documentoFormatado = preg_replace(
+                                    '/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/',
+                                    '$1.$2.$3/$4-$5',
+                                    $documento
+                                );
+                            } else {
+                                $documentoFormatado = '';
+                            }
+                            ?>
+                            <div class="campo-consulta-cliente">
+                                <input type="text" id="cnpjCliente" name="cnpjCliente" maxlength="18"
+                                    placeholder="CPF ou CNPJ" value="<?= htmlspecialchars($documentoFormatado) ?>"
+                                    oninput="mascaraCpfCnpjObra(this)">
 
-  
-    <div style="display: flex; gap: 8px;">
-        <input type="text" id="cnpjCliente" name="cnpjCliente" maxlength="18"
-            placeholder="CPF ou CNPJ" value="<?= htmlspecialchars($documentoFormatado) ?>"
-            oninput="mascaraCpfCnpjObra(this)">
-            
-        <button type="button" class="btn-buscar-cliente" onclick="buscarClienteObra()" title="Verificar Cliente">
-            <i class="fa-solid fa-search"></i>
-        </button>
-    </div>
-</div>
+                                <button type="button" class="btn-buscar-cliente" onclick="buscarClienteObra()"
+                                    title="Consultar cliente">
+                                    <i class="fa-solid fa-search"></i>
+                                    <span>Consultar Cliente</span>
+                                </button>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label> Valor Contratado <span class="obrigatorio">*</span></label>
                             <div class="input-prefixo">
@@ -641,10 +641,10 @@ require_once __DIR__ . '/../includes/header.php';
                     Excluir
                 </button>
 
-                 <button type="button" class="btn cancelar"
-                onclick="window.location.href='<?= BASE_URL ?>/index.php?url=obras'">
-                Cancelar
-            </button>
+                <button type="button" class="btn cancelar"
+                    onclick="window.location.href='<?= BASE_URL ?>/index.php?url=obras'">
+                    Cancelar
+                </button>
 
                 <button type="reset" form="form-dados" class="btn limpar" onclick="limparCliente()">
                     <i class="bi bi-eraser"></i>
@@ -656,157 +656,23 @@ require_once __DIR__ . '/../includes/header.php';
         </form>
     </main>
 </div>
-<script src="<?= BASE_URL ?>/assets/js/mascaras.js?v=<?= time() ?>"></script>
+<!-- div criada para o alert personalizado -->
+<div id="alertaIdeal" class="alerta-ideal">
+    <div class="alerta-ideal-conteudo">
+        <h3>IDEAL diz</h3>
+        <p id="mensagemAlertaIdeal"></p>
+        <button type="button" onclick="fecharAlertaIdeal()">OK</button>
+    </div>
+</div>
+
 <script>
-    // Lógica de Funcionários e Tabela
-    let indiceFuncionario = <?= isset($indiceFuncionario) ? $indiceFuncionario : 0 ?>;
-
-    function adicionarFuncionarioNaTabela() {
-        const selectFuncionario = document.getElementById('idFuncionarioSelect');
-        const selectFuncao = document.getElementById('funcaoSelect');
-        const selectVeiculo = document.getElementById('idVeiculoSelect');
-        const selectStatus = document.getElementById('statusFuncionarioSelect');
-        const inputInicio = document.getElementById('dataInicioFuncionario');
-        const inputSaida = document.getElementById('dataSaidaFuncionario');
-
-        const idFunc = selectFuncionario.value;
-
-        if (!idFunc) {
-            alert('Por favor, selecione um funcionário.');
-            return;
-        }
-
-        const nomeFunc = selectFuncionario.options[selectFuncionario.selectedIndex].text;
-        const funcao = selectFuncao.value || '—';
-        const idVeic = selectVeiculo.value;
-        const textoVeiculo = idVeic ? selectVeiculo.options[selectVeiculo.selectedIndex].text : '—';
-        const status = selectStatus.value;
-
-        let modeloVeic = '—';
-        let placaVeic = '—';
-        if (idVeic) {
-            const partes = textoVeiculo.split(' - ');
-            modeloVeic = partes[0];
-            placaVeic = partes[1] || '—';
-        }
-
-        const formataData = (dataStr) => dataStr ? dataStr.split('-').reverse().join('/') : '—';
-
-        const tbody = document.getElementById('tabela-funcionarios-body');
-        const tr = document.createElement('tr');
-
-        tr.innerHTML = `
-    <td class="responsavel-tabela">
-        <input type="radio" name="idResponsavel" value="${idFunc}">
-    </td>
-
-    <td>
-        ${nomeFunc}
-        <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idFuncionario]" value="${idFunc}">
-        <input type="hidden" name="funcionariosObra[${indiceFuncionario}][idVeiculo]" value="${idVeic}">
-    </td>
-
-    <td>${funcao}</td>
-    <td>${modeloVeic}</td>
-    <td>${placaVeic}</td>
-    <td>${formataData(inputInicio.value)}</td>
-    <td>${formataData(inputSaida.value)}</td>
-    <td>
-        <span class="status ${status.toLowerCase() === 'ativo' ? 'ativo' : 'inativo'}">
-            ${status}
-        </span>
-    </td>
-
-    <td class="acoes-tabela">
-        <button type="button" class="btn-excluir"
-            onclick="removerFuncionarioDaTabela(this)">
-            <i class="fa-solid fa-trash"></i>
-        </button>
-    </td>
-`;
-
-        tbody.appendChild(tr);
-        indiceFuncionario++;
-
-        selectFuncionario.value = '';
-        selectFuncao.value = '';
-        selectVeiculo.value = '';
-        selectStatus.value = 'Ativo';
-        inputInicio.value = '';
-        inputSaida.value = '';
-    }
-
-    function removerFuncionarioDaTabela(botao) {
-        botao.closest('tr').remove();
-    }
-
-    function mascaraCpfCnpjObra(input) {
-        let v = input.value.replace(/\D/g, "");
-        
-        if (v.length <= 11) {
-            // Máscara de CPF
-            v = v.replace(/(\d{3})(\d)/, "$1.$2");
-            v = v.replace(/(\d{3})(\d)/, "$1.$2");
-            v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-        } else {
-            // Máscara de CNPJ
-            v = v.replace(/^(\d{2})(\d)/, "$1.$2");
-            v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-            v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-            v = v.replace(/(\d{4})(\d)/, "$1-$2");
-        }
-        input.value = v;
-    }
-
-    // Função assíncrona para buscar o cliente no banco sem recarregar a página
-    async function buscarClienteObra() {
-        const inputCnpjCpf = document.getElementById('cnpjCliente');
-        const docLimpo = inputCnpjCpf.value.replace(/\D/g, '');
-
-        if (docLimpo.length !== 11 && docLimpo.length !== 14) {
-            alert("Por favor, digite um CPF (11 números) ou CNPJ (14 números) completo para buscar.");
-            return;
-        }
-
-        try {
-            // Faz a requisição na rota que já existe no seu ClientesController
-            const response = await fetch(`<?= BASE_URL ?>/index.php?url=clientes/buscarPorCnpj&cnpj=${docLimpo}`);
-            const data = await response.json();
-
-            if (data.erro) {
-                // Se o JSON retornar erro, dispara o pop-up e redireciona
-                alert("Cliente não existe no banco de dados. Você será redirecionado para cadastrá-lo primeiro.");
-                window.location.href = `<?= BASE_URL ?>/index.php?url=clientes/create&documento=${docLimpo}&novo=1`;
-            } else {
-                // Se existir, preenche os dados dinamicamente no DOM da aba lateral
-                document.getElementById('idCliente').value = data.idCliente;
-                document.getElementById('clienteNome').textContent = data.nomeCliente;
-
-                // Formatar Documento que veio do banco para exibição
-                let docBanc = data.cnpj ? data.cnpj : data.cpf;
-                let docFormatado = docBanc;
-                if (docBanc.length === 11) {
-                    docFormatado = docBanc.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-                } else if (docBanc.length === 14) {
-                    docFormatado = docBanc.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
-                }
-                document.getElementById('clienteCnpj').textContent = docFormatado;
-
-                // Formatar WhatsApp que veio do banco para exibição
-                let whatsBanc = data.whatsapp || '-';
-                if (whatsBanc !== '-' && whatsBanc.length >= 10) {
-                    whatsBanc = whatsBanc.length === 11 
-                        ? whatsBanc.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3")
-                        : whatsBanc.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
-                }
-                document.getElementById('clienteWhatsapp').textContent = whatsBanc;
-            }
-        } catch (error) {
-            console.error("Erro na busca:", error);
-            alert("Ocorreu um erro ao comunicar com o servidor. Tente novamente.");
-        }
-    }
+    const BASE_URL = '<?= BASE_URL ?>';
+    const indiceFuncionarioInicial = <?= isset($indiceFuncionario) ? $indiceFuncionario : 0 ?>;
 </script>
+
+<script src="<?= BASE_URL ?>/assets/js/mascaras.js?v=<?= time() ?>"></script>
+<script src="<?= BASE_URL ?>/assets/js/obra.js?v=<?= time() ?>"></script>
+
 </body>
 
 </html>

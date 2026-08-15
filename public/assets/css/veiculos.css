@@ -61,9 +61,16 @@
   font-weight: bold;
 }
 
+/* GRID DE BUSCA */
+.grid-busca {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
 .dica-box p {
-  color: var(--text-muted);
-  font-size: 16px;
+  color: var(--surface-dark);
+  font-size: 17px;
   line-height: 1.5;
 }
 .grid-form {

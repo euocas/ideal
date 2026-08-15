@@ -35,6 +35,8 @@
 
 .dica-box p {
   color: var(--surface-dark);
+  font-size: 17px;
+  line-height: 1.5;
 }
 
 input[readonly] {
