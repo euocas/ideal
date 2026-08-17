@@ -1276,3 +1276,19 @@ SHOW COLUMNS FROM financeiroObra;
 
 SHOW TABLES;
 
+ALTER TABLE obraFuncionario DROP FOREIGN KEY fk_obraFuncionario_obra;
+
+ALTER TABLE obraFuncionario 
+  ADD CONSTRAINT fk_obraFuncionario_obra 
+  FOREIGN KEY (idObra) 
+  REFERENCES obra(idObra) 
+  ON DELETE CASCADE;
+
+-- 2. Atualizar a tabela financeiroObra (para evitar o mesmo erro no futuro)
+ALTER TABLE financeiroObra DROP FOREIGN KEY fk_financeiroObra_obra;
+
+ALTER TABLE financeiroObra 
+  ADD CONSTRAINT fk_financeiroObra_obra 
+  FOREIGN KEY (idObra) 
+  REFERENCES obra(idObra) 
+  ON DELETE CASCADE;
