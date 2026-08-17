@@ -19,11 +19,10 @@ input[type="datetime-local"] {
 }
 /* GRID DE BUSCA */
 .grid-busca {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
-
 
 .busca-box {
   background: var(--surface-alt);
@@ -67,9 +66,9 @@ input[type="datetime-local"] {
   font-weight: 700;
 }
 
-#contratoBusca{
- background-color: var(--card-bg)!important;
-  padding-left: 14px!important;
+#contratoBusca {
+  background-color: var(--card-bg) !important;
+  padding-left: 14px !important;
 }
 
 .dica-box p {
@@ -101,7 +100,7 @@ input[type="datetime-local"] {
 .btn-adicionar {
   height: 42px;
   max-width: 220px;
-  background-color: var(--success-dark)!important;
+  background-color: var(--success-dark) !important;
 }
 
 .btn-area {
@@ -218,9 +217,25 @@ input[type="datetime-local"] {
   border-radius: 10px;
   padding: 20px 24px;
   width: 100%;
-
   min-height: 160px;
 }
+.cliente-card {
+  background: var(--primary-light);
+  border: 1px solid var(--info-light);
+  border-radius: 10px;
+  padding: 20px 24px;
+  width: 100%;
+  min-height: 160px;
+}
+.cliente-somente-leitura {
+  display: block;
+  text-align: center;
+  margin-top: -12px;
+  margin-bottom: 18px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
 .cliente-area {
   display: grid;
   grid-template-columns: 34% 58%;
@@ -288,9 +303,12 @@ input[type="datetime-local"] {
   justify-content: center;
   gap: 8px;
   margin-bottom: 18px;
-  color: var(--orange);
+  color: var(--navy);
   font-size: 18px;
   font-weight: 700;
+}
+#cnpjCliente {
+  padding-left: 16px !important;
 }
 /* ==========================================
    CARD ENDEREÇO
@@ -377,101 +395,128 @@ textarea {
 
 /* CONSULTA DE CLIENTE */
 .campo-consulta-cliente {
-    display: flex;
-    gap: 16px;
-    align-items: center;
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 
 .btn-buscar-cliente {
-    background-color: var(--primary);
-    color: var(--text-white);
-    border: none;
-    border-radius: 8px;
-    height: 40px;
-    min-width: 145px;
-    padding: 0 14px;
+  background-color: var(--primary);
+  color: var(--text-white);
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  min-width: 145px;
+  padding: 0 14px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
 
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-    cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
 
-    transition: transform 0.2s ease, filter 0.2s ease;
-    white-space: nowrap;
-    flex-shrink: 0;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-buscar-cliente:hover {
-    filter: brightness(0.9);
-    transform: scale(1.03);
+  filter: brightness(0.9);
+  transform: scale(1.03);
 }
 
 .btn.cancelar {
-    background-color: var(--btn-cancel);
-    color: var(--text-white);
+  background-color: var(--btn-cancel);
+  color: var(--text-white);
 }
 
 .btn.cancelar:hover:not(:disabled) {
-    background-color: var(--btn-cancel-hover);
+  background-color: var(--btn-cancel-hover);
 }
 
 /* TELA POP-UP */
 .alerta-ideal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
 
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 
-    background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.65);
 }
 
 .alerta-ideal.ativo {
-    display: flex;
+  display: flex;
 }
 
 .alerta-ideal-conteudo {
-    width: 420px;
-    max-width: 90%;
-    padding: 30px;
+  width: 420px;
+  max-width: 90%;
+  padding: 30px;
 
-    background: #ffffff;
-    opacity: 1;
+  background: #ffffff;
+  opacity: 1;
 
-    border-radius: 12px;
-    text-align: center;
+  border-radius: 12px;
+  text-align: center;
 
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
 .alerta-ideal-conteudo h3 {
-    margin: 0 0 18px;
-    color: var(--primary);
-    font-size: 20px;
+  margin: 0 0 18px;
+  color: var(--primary);
+  font-size: 20px;
 }
 
 .alerta-ideal-conteudo p {
-    margin: 0 0 24px;
-    color: #333;
-    line-height: 1.5;
+  margin: 0 0 24px;
+  color: #333;
+  line-height: 1.5;
 }
 
 .alerta-ideal-conteudo button {
-    background: var(--primary);
-    color: var(--text-white);
-    border: none;
-    border-radius: 8px;
-    padding: 10px 30px;
+  background: var(--primary);
+  color: var(--text-white);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 30px;
 
-    font-weight: 600;
-    cursor: pointer;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* FIELDSET */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+fieldset:disabled input,
+fieldset:disabled select,
+fieldset:disabled textarea,
+fieldset:disabled button {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+fieldset:disabled label {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input[readonly] {
+  background-color: var(--input-readonly-bg) !important;
+  color: var(--input-readonly-text) !important;
+  cursor: not-allowed;
 }
 
 /* ============================================

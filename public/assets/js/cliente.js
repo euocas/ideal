@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (documentoBusca) {
             documentoBusca.value = '';
             documentoBusca.focus();
+            document.getElementById("nomeCliente").focus(); 
         }
 
     });

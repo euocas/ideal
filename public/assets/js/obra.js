@@ -174,3 +174,75 @@ function mostrarAlertaIdeal(mensagem) {
 function fecharAlertaIdeal() {
   document.getElementById("alertaIdeal").classList.remove("ativo");
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btnLimpar = document.getElementById("btnLimpar");
+    const form = document.getElementById("form-dados");
+    const fieldset = document.getElementById("fieldsetObra");
+
+    if (!btnLimpar || !form || !fieldset) {
+        return;
+    }
+
+    btnLimpar.addEventListener("click", function () {
+
+        form.querySelectorAll("input, select, textarea").forEach(campo => {
+
+            // Mantém o contrato da busca
+            if (campo.id === "contratoBusca") {
+                return;
+            }
+
+            if (campo.tagName === "SELECT") {
+                campo.selectedIndex = 0;
+            } else {
+                campo.value = "";
+            }
+        });
+
+        // Limpa os dados exibidos do cliente
+        const clienteNome = document.getElementById("clienteNome");
+        const clienteCnpj = document.getElementById("clienteCnpj");
+        const clienteWhatsapp = document.getElementById("clienteWhatsapp");
+        const idCliente = document.getElementById("idCliente");
+
+        if (clienteNome) clienteNome.textContent = "-";
+        if (clienteCnpj) clienteCnpj.textContent = "-";
+        if (clienteWhatsapp) clienteWhatsapp.textContent = "-";
+        if (idCliente) idCliente.value = "";
+
+        // Limpa a tabela de funcionários
+        const tabelaFuncionarios = document.getElementById("tabela-funcionarios-body");
+
+        if (tabelaFuncionarios) {
+            tabelaFuncionarios.innerHTML = "";
+        }
+
+        // Bloqueia novamente o formulário
+        // fieldset.disabled = true;
+
+        // Volta o cursor para a busca da obra
+        const contratoBusca = document.getElementById("contratoBusca");
+
+        if (contratoBusca) {
+            // contratoBusca.focus();
+            document.getElementById("contrato").focus();
+        }
+    });
+
+});
+
+// Foco na busca somente na tela inicial
+window.addEventListener('pageshow', function () {
+
+    const contratoBusca = document.getElementById('contratoBusca');
+
+    if (
+        contratoBusca &&
+        contratoBusca.dataset.telaInicial === 'true'
+    ) {
+        contratoBusca.focus();
+    }
+
+});

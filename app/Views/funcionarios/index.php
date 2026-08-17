@@ -130,7 +130,7 @@ require_once __DIR__ . '/../includes/header.php';
 
                         <div class="form-group">
                             <label>Nome <span class="obrigatorio">*</span></label>
-                            <input type="text" name="nome"
+                            <input type="text" name="nome" id="nomeFuncionario"
                                 value="<?= htmlspecialchars($isEdit ? $funcionario->getNome() : '') ?>" minlength="3"
                                 pattern="[A-Za-zÀ-ÿ\s]+" title="Digite pelo menos 3 letras"
                                 placeholder="Digite o Nome Completo" required>

@@ -147,7 +147,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 
                         <div class="form-group">
                             <label>Nome do Cliente <span class="obrigatorio">*</span></label>
-                            <input type="text" name="nomeCliente" placeholder="Digite o nome do cliente" value="<?= isset($cliente)
+                            <input type="text" name="nomeCliente"  id="nomeCliente" placeholder="Digite o nome do cliente" value="<?= isset($cliente)
                                                                                                                     ? htmlspecialchars($cliente->getNomeCliente() ?? '')
                                                                                                                     : htmlspecialchars($dadosFormulario['nomeCliente'] ?? '') ?>" required>
 

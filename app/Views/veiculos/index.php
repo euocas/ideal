@@ -165,7 +165,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                         </div>
                         <div class="form-group">
                             <label>Marca <span class="obrigatorio">*</span></label>
-                            <select name="marca" required>
+                            <select name="marca" id="marca"required>
                                 <option value="">Selecione a marca</option>
                                 <optgroup label="Utilitários leves">
                                     <option value="Fiat" <?= ($modoEdicao && $veiculo->getMarca() === 'Fiat') ? 'selected' : '' ?>>Fiat</option>

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (cpfBusca) {
             cpfBusca.value = '';
-            cpfBusca.focus();
+            document.getElementById("nomeFuncionario").focus(); 
         }
 
     });

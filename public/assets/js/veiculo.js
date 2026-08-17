@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Limpa a placa da busca
             if (placaBusca) {
                 placaBusca.value = '';
-                placaBusca.focus();
+                document.getElementById("marca").focus(); 
             }
 
         });
