@@ -39,7 +39,7 @@ require_once __DIR__ . '/../includes/header.php';
         <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
     </aside>
 
-    <main class="content obras-page">
+    <main class="content" id="pagina-obras">
 
         <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
             <div class="alert alert-success">

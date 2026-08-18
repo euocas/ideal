@@ -921,119 +921,90 @@ input[readonly] {
 
 }
 
-/* ============================================
-   OBRAS — GARANTIA DE LARGURA NO MOBILE
-   Mantém todas as correções isoladas nesta página.
-============================================ */
-
+/* Correções exclusivas da tela Obras em dispositivos móveis. */
 @media (max-width: 768px) {
-
-  .obras-page {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    padding: 16px;
-    box-sizing: border-box;
-  }
-
-  .obras-page form,
-  .obras-page fieldset,
-  .obras-page .card,
-  .obras-page .form-group,
-  .obras-page .input-group,
-  .obras-page .cliente-formulario,
-  .obras-page .cliente-card {
+  #pagina-obras,
+  #pagina-obras #form-dados,
+  #pagina-obras fieldset,
+  #pagina-obras .card {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
   }
 
-  .obras-page .grid-form,
-  .obras-page .grid-busca,
-  .obras-page .grid-topo-obra,
-  .obras-page .grid-funcionario,
-  .obras-page .grid-endereco,
-  .obras-page .cliente-area,
-  .obras-page .cliente-grid,
-  .obras-page .campo-consulta-cliente {
-    display: grid;
+  #pagina-obras .grid-form,
+  #pagina-obras .grid-busca,
+  #pagina-obras .grid-topo-obra,
+  #pagina-obras .grid-funcionario,
+  #pagina-obras .grid-endereco,
+  #pagina-obras .cliente-area,
+  #pagina-obras .cliente-grid {
     grid-template-columns: minmax(0, 1fr);
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    gap: 16px;
   }
 
-  .obras-page .grid-form > *,
-  .obras-page .grid-endereco > *,
-  .obras-page .observacoes,
-  .obras-page .endereco-cep,
-  .obras-page .endereco-cidade,
-  .obras-page .endereco-bairro,
-  .obras-page .endereco-estado,
-  .obras-page .endereco-tipo-logradouro,
-  .obras-page .endereco-nome-logradouro,
-  .obras-page .endereco-numero,
-  .obras-page .endereco-complemento,
-  .obras-page .endereco-observacoes,
-  .obras-page .grid-funcionario .btn-area {
+  #pagina-obras .grid-form > *,
+  #pagina-obras .grid-endereco > *,
+  #pagina-obras .grid-funcionario .btn-area,
+  #pagina-obras .observacoes,
+  #pagina-obras .endereco-observacoes {
     grid-column: 1 / -1;
   }
 
-  .obras-page input:not([type="radio"]),
-  .obras-page select,
-  .obras-page textarea,
-  .obras-page .input-prefixo {
+  #pagina-obras .cliente-area {
+    display: grid;
+    gap: 16px;
+  }
+
+  #pagina-obras .cliente-formulario,
+  #pagina-obras .cliente-card,
+  #pagina-obras .form-group,
+  #pagina-obras .input-prefixo,
+  #pagina-obras .campo-consulta-cliente {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
   }
 
-  .obras-page .input-prefixo input {
-    min-width: 0;
+  #pagina-obras .campo-consulta-cliente {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
   }
 
-  .obras-page .btn-buscar,
-  .obras-page .btn-buscar-cliente,
-  .obras-page .btn-adicionar,
-  .obras-page .acoes .btn {
+  #pagina-obras input:not([type="radio"]),
+  #pagina-obras select,
+  #pagina-obras textarea,
+  #pagina-obras .btn-buscar-cliente,
+  #pagina-obras .btn-adicionar {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
   }
 
-  .obras-page .cliente-card {
-    padding: 16px;
+  #pagina-obras .cliente-card {
     overflow: visible;
   }
 
-  .obras-page .cliente-card h3,
-  .obras-page .cliente-somente-leitura,
-  .obras-page .cliente-info span,
-  .obras-page .cliente-info strong {
+  #pagina-obras .cliente-card h3,
+  #pagina-obras .cliente-somente-leitura,
+  #pagina-obras .cliente-info span,
+  #pagina-obras .cliente-info strong {
+    min-width: 0;
     max-width: 100%;
     overflow-wrap: anywhere;
     word-break: break-word;
   }
 
-  .obras-page .cliente-info:not(:last-child) {
-    border-right: 0;
-    padding-right: 0;
-  }
-
-  .obras-page .tabela-funcionarios {
+  #pagina-obras .tabela-funcionarios {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     overflow-x: auto;
   }
-
-  .obras-page .tabela-funcionarios table {
-    min-width: 760px;
-    max-width: none;
-  }
-
 }

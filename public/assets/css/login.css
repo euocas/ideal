@@ -171,8 +171,21 @@ body {
   padding: 10px;
   border: none;
   border-radius: 2px;
-  background: var(--surface-dark);
-  color: var(--bg-dark);
+  background: #ffffff;
+  color: #151515;
+  caret-color: #151515;
+}
+
+.login-box input::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+
+.login-box input:-webkit-autofill,
+.login-box input:-webkit-autofill:hover,
+.login-box input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #151515;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
 }
 
 .login-box input:focus {
