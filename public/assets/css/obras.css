@@ -227,6 +227,14 @@ input[type="datetime-local"] {
   width: 100%;
   min-height: 160px;
 }
+
+[data-theme="dark"] .cliente-card h3,
+[data-theme="dark"] .cliente-card .cliente-somente-leitura,
+[data-theme="dark"] .cliente-card .cliente-info span,
+[data-theme="dark"] .cliente-card .cliente-info strong {
+    color: #ffffff;
+}
+
 .cliente-somente-leitura {
   display: block;
   text-align: center;

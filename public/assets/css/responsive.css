@@ -743,6 +743,43 @@ textarea {
     white-space: normal;
   }
 
+  .theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: auto;
+  padding: 8px 12px;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+}
+
+.theme-toggle i {
+  width: 14px;
+  min-width: 14px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1;
+  text-align: center;
+}
+
+.theme-toggle span {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
   .entrada-container,
   .saida-container,
   .veiculo-topo,
@@ -789,3 +826,5 @@ textarea {
     min-width: 600px;
   }
 }
+
+

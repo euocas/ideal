@@ -37,6 +37,7 @@
         <link rel="stylesheet" href="<?= htmlspecialchars($pageStyle, ENT_QUOTES, 'UTF-8') ?>">
     <?php endforeach; ?>
 
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/dicas.css?v=<?= time() ?>">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/responsive.css?v=<?= time() ?>">
 
     <script>

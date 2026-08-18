@@ -162,10 +162,18 @@
   font-weight: 700;
 }
 
-.card-dica p {
-  color: var(--text-muted);
+.card-dica p,
+.card-dica p strong,
+.card-dica p span {
+  color: #333333 !important;
   font-size: 14px;
   line-height: 1.5;
+}
+
+[data-theme="dark"] .card-dica p,
+[data-theme="dark"] .card-dica p strong,
+[data-theme="dark"] .card-dica p span {
+  color: #ffffff !important;
 }
 
 /* ==========================================

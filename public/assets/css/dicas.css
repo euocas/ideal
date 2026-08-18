@@ -1,0 +1,16 @@
+/* ==========================================
+   TEXTO DOS CARDS DE DICA
+========================================== */
+.dica-box p,
+.dica-box p *,
+.card-dica p,
+.card-dica p * {
+  color: #333333 !important;
+}
+
+[data-theme="dark"] .dica-box p,
+[data-theme="dark"] .dica-box p *,
+[data-theme="dark"] .card-dica p,
+[data-theme="dark"] .card-dica p * {
+  color: #ffffff !important;
+}
