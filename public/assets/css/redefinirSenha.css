@@ -131,7 +131,7 @@ input {
   padding: 16px;
   border: none;
   background: var(--surface-dark);
-  color: var(--text-white);
+  color: var(--bg-dark);
 }
 
 input:focus {
