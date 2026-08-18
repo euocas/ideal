@@ -32,7 +32,7 @@ $mensagensErro = [
     <div class="container">
 
         <div class="left-side">
-            <div class="overlay">
+            <div class="recuperacao-overlay">
                 <span class="tag">• CONSTRUINDO DESDE 2000</span>
                 <h1>OBRAS QUE <br>RESISTEM AO <br><span>TEMPO.</span></h1>
                 <p>Gerencie obras, equipes e processos com eficiência em um único ambiente.</p>
