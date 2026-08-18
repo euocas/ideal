@@ -172,7 +172,7 @@ body {
   border: none;
   border-radius: 2px;
   background: var(--surface-dark);
-  color: var(--text-white);
+  color: var(--bg-dark);
 }
 
 .login-box input:focus {

@@ -331,7 +331,8 @@ INSERT INTO usuario (perfil,nome, email, senha) VALUES
 ('Usuario','Francielly','franciellym.ferreira15@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Usuario','Danilo', 'daniloremonti23409@gmail.com', '$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
 ('Usuario','Alexandre', 'alexandrecardoso590@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
-('Usuario','Senac', 'senacsantos@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2');
+('Usuario','Senac', 'senacsantos@gmail.com','$2a$12$0O1dCY1Z2WIV5JxmlK.UZ.kbuWliW5pyMS7jLpZeAj3UmC9B3mCf2'),
+('Aluno', 'Visitante','sistemaidealempreiteira@gmail.com','$2a$12$wEt6R7XrUwVL/QOmvIW0k.nje3A8Cl/Vxpksvo2z/TojUSgXOdjp2');
  
 -- =====================================================
 -- INSERÇAO DE DADOS DE FUNCIONÁRIOS
@@ -1262,6 +1263,7 @@ FROM usuario;
  
 DESCRIBE veiculo;
 DESCRIBE obra;
+DESCRIBE usuario;
 DESCRIBE funcionario;
 DESCRIBE cliente;
 DESCRIBE contatoFuncionario;
