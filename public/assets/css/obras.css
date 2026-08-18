@@ -11,13 +11,18 @@
 .observacoes {
   grid-column: span 2;
 }
+
 input[type="datetime-local"] {
   font-family: inherit;
   font-size: 16px;
   font-weight: 400;
   color: var(--text);
 }
-/* GRID DE BUSCA */
+
+/* ==========================================
+   GRID DE BUSCA
+========================================== */
+
 .grid-busca {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -27,6 +32,7 @@ input[type="datetime-local"] {
 .busca-box {
   background: var(--surface-alt);
 }
+
 .dica-box {
   background: var(--surface-muted);
 }
@@ -36,11 +42,13 @@ input[type="datetime-local"] {
   flex-direction: column;
   gap: 18px;
 }
+
 .input-prefixo {
   display: flex;
   align-items: stretch;
   width: 100%;
 }
+
 .input-prefixo .prefixo {
   display: flex;
   align-items: center;
@@ -76,9 +84,11 @@ input[type="datetime-local"] {
   font-size: 17px;
   line-height: 1.5;
 }
+
 /* ==========================================
-  CARD FUNCIONÁRIOS  
+   CARD FUNCIONÁRIOS
 ========================================== */
+
 .grid-topo-obra {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -165,6 +175,7 @@ input[type="datetime-local"] {
   background: var(--success-light);
   color: var(--success-dark);
 }
+
 .status.inativo {
   background: var(--danger-light);
   color: var(--danger-dark);
@@ -211,14 +222,7 @@ input[type="datetime-local"] {
 /* ==========================================
    CARD CLIENTE
 ========================================== */
-.cliente-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px 24px;
-  width: 100%;
-  min-height: 160px;
-}
+
 .cliente-card {
   background: var(--primary-light);
   border: 1px solid var(--info-light);
@@ -226,13 +230,14 @@ input[type="datetime-local"] {
   padding: 20px 24px;
   width: 100%;
   min-height: 160px;
+  box-sizing: border-box;
 }
 
 [data-theme="dark"] .cliente-card h3,
 [data-theme="dark"] .cliente-card .cliente-somente-leitura,
 [data-theme="dark"] .cliente-card .cliente-info span,
 [data-theme="dark"] .cliente-card .cliente-info strong {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 .cliente-somente-leitura {
@@ -251,6 +256,7 @@ input[type="datetime-local"] {
   justify-content: space-between;
   align-items: start;
 }
+
 .cliente-area .form-group {
   margin-bottom: 0;
   font: var(--text);
@@ -265,6 +271,7 @@ input[type="datetime-local"] {
 .cliente-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .cliente-info:not(:last-child) {
@@ -278,23 +285,26 @@ input[type="datetime-local"] {
   gap: 6px;
   font-size: 15px;
   color: var(--text-secondary);
-
   margin-bottom: 6px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .cliente-info strong {
   display: block;
-
   font-size: 18px;
   font-weight: 600;
   color: var(--text);
-
   line-height: 1.3;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .fa-whatsapp {
   color: var(--success);
 }
+
 .titulo-card {
   display: flex;
   align-items: center;
@@ -302,9 +312,11 @@ input[type="datetime-local"] {
   color: var(--text);
   margin-bottom: 18px;
 }
+
 .titulo-card i {
   color: var(--accent);
 }
+
 .cliente-card h3 {
   display: flex;
   align-items: center;
@@ -314,10 +326,14 @@ input[type="datetime-local"] {
   color: var(--navy);
   font-size: 18px;
   font-weight: 700;
+  min-width: 0;
+  max-width: 100%;
 }
+
 #cnpjCliente {
   padding-left: 16px !important;
 }
+
 /* ==========================================
    CARD ENDEREÇO
 ========================================== */
@@ -329,6 +345,7 @@ input[type="datetime-local"] {
 }
 
 /* Linha 1 */
+
 .endereco-cep {
   grid-column: span 2;
 }
@@ -336,14 +353,17 @@ input[type="datetime-local"] {
 .endereco-cidade {
   grid-column: span 4;
 }
+
 .endereco-bairro {
   grid-column: span 4;
 }
+
 .endereco-estado {
   grid-column: span 2;
 }
 
 /* Linha 2 */
+
 .endereco-tipo-logradouro {
   grid-column: span 2;
 }
@@ -362,6 +382,7 @@ input[type="datetime-local"] {
 }
 
 /* Linha 3 */
+
 .endereco-observacoes {
   grid-column: 1 / -1;
   font: var(--text);
@@ -386,6 +407,7 @@ input[type="datetime-local"] {
   margin-top: 16px;
   font-size: 14px;
 }
+
 input,
 select,
 textarea {
@@ -393,6 +415,7 @@ textarea {
   font-size: 16px !important;
   color: var(--text);
 }
+
 .dica-box {
   margin: 2px 12px 2px 0;
 }
@@ -401,7 +424,10 @@ textarea {
   filter: brightness(0) invert(1);
 }
 
-/* CONSULTA DE CLIENTE */
+/* ==========================================
+   CONSULTA DE CLIENTE
+========================================== */
+
 .campo-consulta-cliente {
   display: flex;
   gap: 16px;
@@ -416,17 +442,14 @@ textarea {
   height: 40px;
   min-width: 145px;
   padding: 0 14px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-
   font-size: 14px;
   font-weight: 600;
   line-height: 1;
   cursor: pointer;
-
   transition:
     transform 0.2s ease,
     filter 0.2s ease;
@@ -448,16 +471,17 @@ textarea {
   background-color: var(--btn-cancel-hover);
 }
 
-/* TELA POP-UP */
+/* ==========================================
+   TELA POP-UP
+========================================== */
+
 .alerta-ideal {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 99999;
-
   align-items: center;
   justify-content: center;
-
   background: rgba(0, 0, 0, 0.65);
 }
 
@@ -469,13 +493,10 @@ textarea {
   width: 420px;
   max-width: 90%;
   padding: 30px;
-
   background: #ffffff;
   opacity: 1;
-
   border-radius: 12px;
   text-align: center;
-
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
@@ -497,17 +518,20 @@ textarea {
   border: none;
   border-radius: 8px;
   padding: 10px 30px;
-
   font-weight: 600;
   cursor: pointer;
 }
 
-/* FIELDSET */
+/* ==========================================
+   FIELDSET
+========================================== */
+
 fieldset {
   border: none;
   padding: 0;
   margin: 0;
 }
+
 fieldset:disabled input,
 fieldset:disabled select,
 fieldset:disabled textarea,
@@ -528,15 +552,488 @@ input[readonly] {
 }
 
 /* ============================================
-   RESPONSIVO
+   RESPONSIVO - TABLET
 ============================================ */
 
 @media (max-width: 1100px) {
-  .grid-form {
+
+  .content .grid-form {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .observacoes {
+  .content .observacoes {
     grid-column: span 2;
   }
+
+  .content .grid-topo-obra {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content .grid-funcionario {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content .grid-funcionario .btn-area {
+    grid-column: 1 / -1;
+  }
+
+  .content .btn-adicionar {
+    max-width: none;
+  }
+
+}
+
+@media (max-width: 900px) {
+
+  .content .cliente-area {
+    grid-template-columns: 1fr;
+  }
+
+  .content .cliente-formulario {
+    max-width: none;
+  }
+
+  .content .cliente-card {
+    max-width: none;
+  }
+
+}
+
+/* ============================================
+   RESPONSIVO - MOBILE
+============================================ */
+
+@media (max-width: 768px) {
+
+  /* ------------------------------------------
+     FORMULÁRIO
+  ------------------------------------------ */
+
+  .content .grid-form {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .content .observacoes {
+    grid-column: span 1;
+  }
+
+  .content .grid-busca {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .content .cliente-formulario {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 16px;
+  }
+
+  /* ------------------------------------------
+     CARD CLIENTE
+  ------------------------------------------ */
+
+  .content .cliente-card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 16px;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .content .cliente-card,
+  .content .cliente-card * {
+    box-sizing: border-box;
+  }
+
+  /* Título */
+  .content .cliente-card h3 {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    display: block;
+    margin-bottom: 6px;
+
+    font-size: 16px;
+    line-height: 1.3;
+
+    text-align: left;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .content .cliente-card h3 i {
+    margin-right: 6px;
+  }
+
+  /* Texto abaixo do título */
+  .content .cliente-somente-leitura {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin-top: 0;
+    margin-bottom: 18px;
+
+    font-size: 10px;
+    line-height: 1.4;
+
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* Área interna */
+  .content .cliente-area {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* Grid dos dados */
+  .content .cliente-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    gap: 16px;
+    box-sizing: border-box;
+  }
+
+  /* Cada informação */
+  .content .cliente-info {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+  }
+
+  /* Remove divisão lateral do desktop */
+  .content .cliente-info:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+
+  .content .cliente-info span {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    font-size: 13px;
+    line-height: 1.3;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .content .cliente-info strong {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    font-size: 15px;
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* ------------------------------------------
+     CONSULTA DE CLIENTE
+  ------------------------------------------ */
+
+  .content .campo-consulta-cliente {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .content .campo-consulta-cliente input {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .content .btn-buscar-cliente {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .content .input-prefixo,
+  .content .input-prefixo input {
+    min-width: 0;
+  }
+
+  /* ------------------------------------------
+     FUNCIONÁRIOS
+  ------------------------------------------ */
+
+  .content .grid-topo-obra {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .content .card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .content .grid-funcionario {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .content .btn-area {
+    width: 100%;
+  }
+
+  .content .btn-adicionar {
+    max-width: 100%;
+  }
+
+  /* ------------------------------------------
+     ENDEREÇO
+  ------------------------------------------ */
+
+  .content .grid-endereco {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .content .endereco-cep,
+  .content .endereco-cidade,
+  .content .endereco-bairro,
+  .content .endereco-estado,
+  .content .endereco-tipo-logradouro,
+  .content .endereco-nome-logradouro,
+  .content .endereco-numero,
+  .content .endereco-complemento,
+  .content .endereco-observacoes {
+    grid-column: span 1;
+  }
+
+  .content .endereco-item {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .content .endereco-item input,
+  .content .endereco-item textarea,
+  .content .endereco-item select {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  /* ------------------------------------------
+     TABELA
+  ------------------------------------------ */
+
+  .content .tabela-funcionarios {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .content .tabela-funcionarios table {
+    min-width: 900px;
+    max-width: none;
+  }
+
+  /* ------------------------------------------
+     DICA
+  ------------------------------------------ */
+
+  .content .dica-box {
+    margin: 2px 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .content .dica-box p {
+    font-size: 15px;
+  }
+
+}
+
+/* ============================================
+   MOBILE PEQUENO
+============================================ */
+
+@media (max-width: 480px) {
+
+  .cliente-card {
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .cliente-card h3 {
+    font-size: 15px;
+  }
+
+  .cliente-somente-leitura {
+    font-size: 9px;
+  }
+
+  .cliente-info span {
+    font-size: 12px;
+  }
+
+  .cliente-info strong {
+    font-size: 14px;
+  }
+
+}
+
+/* ============================================
+   OBRAS — GARANTIA DE LARGURA NO MOBILE
+   Mantém todas as correções isoladas nesta página.
+============================================ */
+
+@media (max-width: 768px) {
+
+  .obras-page {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+
+  .obras-page form,
+  .obras-page fieldset,
+  .obras-page .card,
+  .obras-page .form-group,
+  .obras-page .input-group,
+  .obras-page .cliente-formulario,
+  .obras-page .cliente-card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .obras-page .grid-form,
+  .obras-page .grid-busca,
+  .obras-page .grid-topo-obra,
+  .obras-page .grid-funcionario,
+  .obras-page .grid-endereco,
+  .obras-page .cliente-area,
+  .obras-page .cliente-grid,
+  .obras-page .campo-consulta-cliente {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    gap: 16px;
+  }
+
+  .obras-page .grid-form > *,
+  .obras-page .grid-endereco > *,
+  .obras-page .observacoes,
+  .obras-page .endereco-cep,
+  .obras-page .endereco-cidade,
+  .obras-page .endereco-bairro,
+  .obras-page .endereco-estado,
+  .obras-page .endereco-tipo-logradouro,
+  .obras-page .endereco-nome-logradouro,
+  .obras-page .endereco-numero,
+  .obras-page .endereco-complemento,
+  .obras-page .endereco-observacoes,
+  .obras-page .grid-funcionario .btn-area {
+    grid-column: 1 / -1;
+  }
+
+  .obras-page input:not([type="radio"]),
+  .obras-page select,
+  .obras-page textarea,
+  .obras-page .input-prefixo {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .obras-page .input-prefixo input {
+    min-width: 0;
+  }
+
+  .obras-page .btn-buscar,
+  .obras-page .btn-buscar-cliente,
+  .obras-page .btn-adicionar,
+  .obras-page .acoes .btn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .obras-page .cliente-card {
+    padding: 16px;
+    overflow: visible;
+  }
+
+  .obras-page .cliente-card h3,
+  .obras-page .cliente-somente-leitura,
+  .obras-page .cliente-info span,
+  .obras-page .cliente-info strong {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .obras-page .cliente-info:not(:last-child) {
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .obras-page .tabela-funcionarios {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  .obras-page .tabela-funcionarios table {
+    min-width: 760px;
+    max-width: none;
+  }
+
 }

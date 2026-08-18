@@ -39,7 +39,7 @@ require_once __DIR__ . '/../includes/header.php';
         <?php include_once __DIR__ . '/../includes/sidebar.php'; ?>
     </aside>
 
-    <main class="content">
+    <main class="content obras-page">
 
         <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
             <div class="alert alert-success">
@@ -406,6 +406,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <textarea name="observacoes" placeholder="Digite as observações (opcional)" maxlength="500"><?= $observacoes ?>
                         </textarea>
                         </div>
+                    </div>
                 </section>
 
                 <section class="card">
