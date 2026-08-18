@@ -8,7 +8,7 @@
   --card-bg: #ffffff;
   --bg-login: #0d0d0d;
   --bg-dark: #151515;
-  --surface-dark: #222222;
+  --surface-dark: #ffffff;
   --input-readonly-bg: #eee;
 
   /* TEXTO */
@@ -48,6 +48,7 @@
   --navy: #000080;
   --report-blue: #1e3a8a;
   --accent: #ff5a1f;
+  --navy: #1e40af;
 
   /* BOTÕES */
   --btn-primary: #3b82f6;
@@ -105,6 +106,7 @@
   --input-bg: #111827;
   --card-bg: #111827;
   --bg-login: #020617;
+  
 
   --text: #e2e8f0;
   --text-primary: #e2e8f0;
