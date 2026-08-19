@@ -85,19 +85,19 @@
                         $erros = [
 
                             'credenciais' =>
-                                'E-mail ou senha incorretos.',
+                            'E-mail ou senha incorretos.',
 
                             'campos' =>
-                                'Preencha todos os campos.',
+                            'Preencha todos os campos.',
 
                             'bloqueado' =>
-                                'Muitas tentativas. Tente novamente em ' . (int) ($_GET['min'] ?? 15) . ' minuto(s).'
+                            'Muitas tentativas. Tente novamente em ' . (int) ($_GET['min'] ?? 15) . ' minuto(s).'
 
                         ];
 
                         echo htmlspecialchars(
                             $erros[$_GET['erro']]
-                            ?? 'Erro ao fazer login.'
+                                ?? 'Erro ao fazer login.'
                         );
 
                         ?>
@@ -117,13 +117,13 @@
                         $sucessos = [
 
                             'senha' =>
-                                'Senha alterada com sucesso!'
+                            'Senha alterada com sucesso!'
 
                         ];
 
                         echo htmlspecialchars(
                             $sucessos[$_GET['sucesso']]
-                            ?? 'Operação realizada com sucesso.'
+                                ?? 'Operação realizada com sucesso.'
                         );
 
                         ?>
@@ -174,6 +174,13 @@
                 </form>
 
             </div>
+
+            <footer class="login-footer">
+                <span>Desenvolvido por</span>
+                <a href="https://www.cod7co.com.br/" target="_blank" rel="noopener noreferrer">
+                    Cod7Co
+                </a>
+            </footer>
 
         </div>
 

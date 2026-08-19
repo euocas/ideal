@@ -19,9 +19,9 @@ body {
 ========================================== */
 
 .container {
-    display: flex;
-    min-height: 100vh;   /* Compatibilidade */
-    min-height: 100dvh;  /* Navegadores modernos */
+  display: flex;
+  min-height: 100vh; /* Compatibilidade */
+  min-height: 100dvh; /* Navegadores modernos */
 }
 /* ==========================================
    LADO ESQUERDO
@@ -89,12 +89,11 @@ body {
   color: var(--accent);
 }
 
-
 .conteudo p {
-    width: 400px;
-    margin-top: 30px;
-    color: var( --btn-secondary);
-    font-size: 15px;
+  width: 400px;
+  margin-top: 30px;
+  color: var(--btn-secondary);
+  font-size: 15px;
 }
 
 /* ==========================================
@@ -103,7 +102,7 @@ body {
 
 .right {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 
   width: 30%;
@@ -117,6 +116,24 @@ body {
 
 .login-box {
   width: 80%;
+  margin-top: auto;
+}
+
+.login-footer a,
+.login-footer a:link,
+.login-footer a:visited,
+.login-footer a:hover,
+.login-footer a:active {
+  margin-left: 4px;
+  color: var(--accent) !important;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+.login-footer strong {
+  margin-left: 4px;
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .login-box .logo {
@@ -176,9 +193,21 @@ body {
   caret-color: #151515;
 }
 
-.login-box input::placeholder {
-  color: #6b7280;
-  opacity: 1;
+.login-box {
+  width: 80%;
+  margin-top: auto;
+  margin-bottom: 0;
+  transform: translateY(-100px);
+}
+
+.login-footer {
+  width: 100%;
+  margin-top: 8px;
+  padding: 0 20px 18px;
+
+  color: var(--text-light);
+  font-size: 12px;
+  text-align: center;
 }
 
 .login-box input:-webkit-autofill,
@@ -273,54 +302,54 @@ a.forgot-password:hover {
 ========================================== */
 
 @media (max-width: 1024px) {
-    .left{
-        width:60%;
-        padding:50px;
-    }
-    .right{
-        width:40%;
-    }
-    .conteudo h1{
-        font-size:60px;
-        line-height:60px;
-    }
-    .conteudo p{
-        width:100%;
-    }
+  .left {
+    width: 60%;
+    padding: 50px;
+  }
+  .right {
+    width: 40%;
+  }
+  .conteudo h1 {
+    font-size: 60px;
+    line-height: 60px;
+  }
+  .conteudo p {
+    width: 100%;
+  }
 }
 
-@media (max-width:768px){
-    .container{
-        flex-direction: column;
-    }
-    .left{
-        width:100%;
-        min-height:45vh;
-        padding:30px;
-    }
-    .right{
-        width:100%;
-        min-height:auto;
-        padding:30px 20px;
-    }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .left {
+    width: 100%;
+    min-height: 45vh;
+    padding: 30px;
+  }
+  .right {
+    width: 100%;
+    min-height: auto;
+    padding: 30px 20px;
+  }
 }
-@media (max-width:480px){
-    .login-box{
-        width:92%;
-    }
+@media (max-width: 480px) {
+  .login-box {
+    width: 92%;
+  }
 
-    .login-box h2{
-        font-size:28px;
-    }
-    .login-box .logo img{
-        width:180px;
-    }
+  .login-box h2 {
+    font-size: 28px;
+  }
+  .login-box .logo img {
+    width: 180px;
+  }
 
-    .login-box input{
-        height:46px;
-    }
+  .login-box input {
+    height: 46px;
+  }
 
-    .login-box button{
-        height:46px;
-    }
+  .login-box button {
+    height: 46px;
+  }
 }
