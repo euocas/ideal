@@ -117,6 +117,8 @@ body {
 .login-box {
   width: 80%;
   margin-top: auto;
+  margin-bottom: auto;
+  transform: none;
 }
 
 .login-footer a,
@@ -334,9 +336,13 @@ a.forgot-password:hover {
   }
 }
 @media (max-width: 480px) {
+  
   .login-box {
-    width: 92%;
-  }
+  width: 80%;
+  margin-top: auto;
+  margin-bottom: auto;
+  transform: translateY(-15px);
+}
 
   .login-box h2 {
     font-size: 28px;
