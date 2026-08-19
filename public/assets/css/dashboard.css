@@ -272,10 +272,26 @@
   height: 70px;
   flex-shrink: 0;
   background: var(--surface-alt);
-  border-radius: var(--radius-lg);
+  /* border-radius: var(--radius-lg); */
+   border-radius: 16px;
   color: var(--orange-dark);
   font-size: 32px;
 }
+.card-clientes .card-icon {
+    color:var(--navy);
+}
+.card-obras .card-icon {
+    color:var(--btn-success);
+}
+.card-financeiros .card-icon {
+    color:var(--orange-dark);
+}
+
+.card-veiculos .card-icon {
+    color:var(--purple);
+}
+
+
 /* ==========================================
    TEXTOS DOS CARDS
 ========================================== */
