@@ -50,8 +50,7 @@ class CredenciaisController
                 $login = $credencial->getNome();
             }
         }
-
-        require '../app/Views/credenciais/index.php';
+        require __DIR__ . '/../Views/credenciais/index.php';
 
     }
     public function alterar()
