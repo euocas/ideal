@@ -372,7 +372,7 @@ $veAno = $veiculoExiste
                                 Limpar
                             </button>
                         </div>
-
+                 <label class="obrigatorio">* Campos de preenchimento obrigatório.</label>
                     </form>
                 </div>
 

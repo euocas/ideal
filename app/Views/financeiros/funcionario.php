@@ -310,7 +310,7 @@ $fnBanco = $funcModelExiste
                             </div>
 
                             <div class="form-group">
-                                <label>Forma de Pagamento <span class="obrigatorio">*</span></label>
+                                <label>Forma de Pagamento</label> <span class="obrigatorio">*</span>
                                 <select name="formaPagamento" id="formaPagamentoFuncionario" required>
                                     <option value="">Selecione</option>
                                     <?php
@@ -388,13 +388,13 @@ $fnBanco = $funcModelExiste
                                 <label>Observação (Opcional)</label>
                                 <textarea name="observacao" rows="4" maxlength="250"
                                     placeholder="Informações adicionais sobre o provento...">
-                                                                                            <?= htmlspecialchars(
-                                                                                                $isEditFuncionario
-                                                                                                ? ($financeiroFuncionario->getObservacao() ?? '')
-                                                                                                : ($lancamentoRecibo?->getObservacao() ?? '')
-                                                                                            ) ?>
+                                                                                                <?= htmlspecialchars(
+                                                                                                    $isEditFuncionario
+                                                                                                    ? ($financeiroFuncionario->getObservacao() ?? '')
+                                                                                                    : ($lancamentoRecibo?->getObservacao() ?? '')
+                                                                                                ) ?>
                                 
-                                                                                        </textarea>
+                                                                                            </textarea>
                             </div>
                         </div>
 
@@ -405,7 +405,7 @@ $fnBanco = $funcModelExiste
                             <button type="reset" class="btn limpar"><i class="fa-solid fa-rotate-right"></i>
                                 Limpar</button>
                         </div>
-
+                        <label class="obrigatorio">* Campos de preenchimento obrigatório.</label>
                     </form>
                 </div>
                 <aside class="entrada-info">
@@ -570,8 +570,8 @@ $fnBanco = $funcModelExiste
                                             )
                                         )
 
-                                    ) ?>" onfocus="iniciarEdicaoMoeda(this)"
-                                        onkeydown="editarMoeda(event, this)" required>
+                                    ) ?>" onfocus="iniciarEdicaoMoeda(this)" onkeydown="editarMoeda(event, this)"
+                                        required>
                                 </div>
                             </div>
 

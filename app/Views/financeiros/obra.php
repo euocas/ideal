@@ -382,7 +382,8 @@ $actionObra = $isEditObra
                     <textarea name="observacao" maxlength="200"
                         placeholder="Observações adicionais"><?= $isEditObra ? htmlspecialchars($financeiroObra->getObservacao() ?? "") : "" ?></textarea>
                 </div>
-
+                <br>
+                 <label class="obrigatorio">* Campos de preenchimento obrigatório.</label>
             </form>
         </div>
     </div>

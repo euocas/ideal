@@ -247,7 +247,7 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group campo-logradouro">
                             <label>Logradouro <span class="obrigatorio">*</span></label>
                             <?php $nomeLogradouroAtual = isset($cliente) ? $cliente->getNomeLogradouro() : ''; ?>
 
@@ -256,27 +256,39 @@ $camposBloqueados = !$modoNovo && !$modoEdicao;
                                                                                                     ? htmlspecialchars($nomeLogradouroAtual)
                                                                                                     : htmlspecialchars($dadosFormulario['nomeLogradouro'] ?? '') ?>" required>
                         </div>
+                            <div class="form-group campo-numero">
+                                <label>Número <span class="obrigatorio">*</span></label>
+                                <?php $numeroAtual = isset($cliente) ? $cliente->getNumero() : ''; ?>
 
-                        <div class="form-group">
-                            <label>Número <span class="obrigatorio">*</span></label>
-                            <?php $numeroAtual = isset($cliente) ? $cliente->getNumero() : ''; ?>
+                                <input type="text" name="numero" id="numero" placeholder="Somente números" value="<?= isset($cliente)
+                                                                                                                        ? htmlspecialchars($numeroAtual)
+                                                                                                                        : htmlspecialchars($dadosFormulario['numero'] ?? '') ?>" required>
+                            </div>
+                        <div class="linha-endereco">
 
-                            <input type="text" name="numero" id="numero" placeholder="Somente números" value="<?= isset($cliente)
-                                                                                                                    ? htmlspecialchars($numeroAtual)
-                                                                                                                    : htmlspecialchars($dadosFormulario['numero'] ?? '') ?>" required>
-                        </div>
+                        
 
-                        <div class="form-group">
+                            <div class="form-group campo-complemento">
 
-                            <label>Complemento</label>
+                                <label>Complemento</label>
 
-                            <?php $complementoAtual = isset($cliente) ? ($cliente->getComplemento() ?? '') : ''; ?>
+                                <?php $complementoAtual = isset($cliente) ? ($cliente->getComplemento() ?? '') : ''; ?>
 
-                            <input type="text" name="complemento" id="complemento" placeholder="Ex.: Apto 101, Bloco A"
-                                value="<?= isset($cliente)
-                                            ? htmlspecialchars($complementoAtual)
-                                            : htmlspecialchars($dadosFormulario['complemento'] ?? '') ?>">
+                                <input type="text" name="complemento" id="complemento" placeholder="Ex.: Apto 101, Bloco A"
+                                    value="<?= isset($cliente)
+                                                ? htmlspecialchars($complementoAtual)
+                                                : htmlspecialchars($dadosFormulario['complemento'] ?? '') ?>">
 
+                            </div>
+
+                            <div class="form-group campo-bairro">
+                                <label>Bairro <span class="obrigatorio">*</span></label>
+                                <input type="text" name="bairro" id="bairro" placeholder="Digite o bairro"
+                                    value="<?= isset($cliente)
+                                        ? htmlspecialchars($cliente->getBairro() ?? '')
+                                        : htmlspecialchars($dadosFormulario['bairro'] ?? '') ?>"
+                                    required>
+                            </div>
                         </div>
 
                         <h2 class="subtitulo-form">

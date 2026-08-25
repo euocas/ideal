@@ -300,6 +300,9 @@ class ClientesController
         $cliente->setComplemento(
             !empty($dados['complemento']) ? $dados['complemento'] : null
         );
+        $cliente->setBairro(
+            !empty($dados['bairro']) ? $dados['bairro'] : null
+        );
 
         $cliente->setCidade(
             !empty($dados['cidade']) ? $dados['cidade'] : null

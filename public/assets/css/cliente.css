@@ -111,11 +111,27 @@ fieldset:disabled label {
 .btn.cancelar:hover:not(:disabled) {
     background-color: var(--btn-cancel-hover);
 }
+.linha-endereco {
+  grid-column: 1 / -1;
+
+  display: grid;
+  grid-template-columns: 0.6fr 1fr 1.8fr;
+  gap: 20px;
+}
+.campo-logradouro {
+
+    grid-column: span 2;
+
+}
+.campo-bairro {
+
+    margin-left: 120px;
+
+}
 
 /* ==========================================
    RESPONSIVO
 ========================================== */
-
 @media (max-width: 1100px) {
   .grid-form {
     grid-template-columns: repeat(2, 1fr);
@@ -124,14 +140,32 @@ fieldset:disabled label {
   .observacao {
     grid-column: span 2;
   }
+
+  /* Logradouro continua maior */
+  .campo-logradouro {
+    grid-column: span 2;
+  }
+
+  /* Remove o espaço extra do bairro */
+  .campo-bairro {
+    margin-left: 0;
+  }
 }
+
 
 @media (max-width: 768px) {
   .grid-form {
     grid-template-columns: 1fr;
   }
 
-  .observacao {
+  /* Todos os campos ocupam uma coluna */
+  .observacao,
+  .campo-logradouro {
     grid-column: span 1;
+  }
+
+  /* Remove espaçamentos extras */
+  .campo-bairro {
+    margin-left: 0;
   }
 }

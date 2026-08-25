@@ -92,6 +92,7 @@ CREATE TABLE cliente (
     nomeLogradouro VARCHAR(100) NOT NULL,
     numero VARCHAR(6) NOT NULL,
     complemento VARCHAR(30),
+    bairro VARCHAR(100) NOT NULL,
     cidade VARCHAR(100) NOT NULL,
     cep CHAR(8) NOT NULL,
     estado CHAR(2) NOT NULL,
@@ -435,53 +436,56 @@ INSERT INTO contatoFuncionario (idFuncionario, telefone, whatsapp) VALUES
 -- =====================================================
 INSERT INTO cliente (
     nomeCliente, cpf, cnpj, email, tipoCliente,
-    tipoLogradouro, nomeLogradouro, numero, complemento,
+    tipoLogradouro, nomeLogradouro, numero, complemento, bairro,
     cidade, cep, estado, observacoes
 ) VALUES
+
 ('Américo Magalhães Moralles', '09836535004', '63051508000139', 'americomoralles@hotmail.com',
-'Pessoa Jurídica', 'Rua', 'Americana', '88', NULL, 'Suzano', '08512000', 'SP', 'Responsável pela empresa.'),
+'Pessoa Jurídica', 'Rua', 'Americana', '88', NULL, 'Centro', 'Suzano', '08512000', 'SP', 'Responsável pela empresa.'),
 
 ('Gabriella Guimarães', '41683643054', '74537841000179', 'guimaraesltda@gmail.com',
-'Pessoa Jurídica', 'Avenida', 'Lunares', '888', NULL, 'Mogi Mirim', '13800005', 'SP', 'Responsável pela empresa.'),
+'Pessoa Jurídica', 'Avenida', 'Lunares', '888', NULL, 'Centro', 'Mogi Mirim', '13800005', 'SP', 'Responsável pela empresa.'),
 
 ('Maria Luiza Moralles Gomes', '60877158002', '88465497000164', 'morallesgomes@outlook.com',
-'Pessoa Jurídica', 'Avenida', 'Riviera', '108', NULL, 'Rivieira de São Lourenço', '11250000', 'SP', 'Responsável pela empresa.'),
+'Pessoa Jurídica', 'Avenida', 'Riviera', '108', NULL, 'Riviera', 'Bertioga', '11250000', 'SP', 'Responsável pela empresa.'),
 
-('Giovanni Henrique Muniz Gonçalves Lemos', '48245469076',NULL, 'gigilemosmuniz@icloud.com',
-'Pessoa Física', 'Rua', 'da Praia das Astúrias', '10', NULL, 'Guaruja', '11410002', 'SP', 'Não tem empresa vinculada. Serviços avulsos na casa de praia'),
- 
+('Giovanni Henrique Muniz Gonçalves Lemos', '48245469076', NULL, 'gigilemosmuniz@icloud.com',
+'Pessoa Física', 'Rua', 'da Praia das Astúrias', '10', NULL, 'Astúrias', 'Guarujá', '11410002', 'SP', 'Não tem empresa vinculada. Serviços avulsos na casa de praia.'),
+
 ('Julio Novares Norton', '79529502079', '81042967000138', 'novaresjulio@gmail.com',
-'Pessoa Jurídica', 'Avenida', 'Solares', '108', NULL, 'Americana', '13145560', 'SP', 'Responsável pela empresa.'),
+'Pessoa Jurídica', 'Avenida', 'Solares', '108', NULL, 'Centro', 'Americana', '13145560', 'SP', 'Responsável pela empresa.'),
 
 ('Adriano Nunes Antunes', NULL, '69076964000110', 'adriano.antunes@empresa.com',
-'Pessoa Jurídica', 'Rua', 'das Palmeiras', '120', NULL, 'Santos', '11055000', 'SP','Responsável pela empresa.'),
+'Pessoa Jurídica', 'Rua', 'das Palmeiras', '120', NULL, 'Gonzaga', 'Santos', '11055000', 'SP', 'Responsável pela empresa.'),
 
 ('Manuel Luiz Souza', NULL, '79074414000115', 'manuel.souza@empresa.com',
-'Pessoa Jurídica', 'Avenida', 'Conselheiro Nébias', '450', 'Sala 4', 'Santos', '11045002', 'SP','Responsável pela empresa.'),
+'Pessoa Jurídica', 'Avenida', 'Conselheiro Nébias', '450', 'Sala 4', 'Vila Mathias', 'Santos', '11045002', 'SP', 'Responsável pela empresa.'),
 
 ('Eduardo Brasil da Silva', NULL, '91056299000151', 'eduardo.silva@empresa.com',
-'Pessoa Jurídica', 'Rua', 'Dom Pedro II', '98', NULL, 'São Vicente', '11320000', 'SP','Responsável pela empresa.'),
+'Pessoa Jurídica', 'Rua', 'Dom Pedro II', '98', NULL, 'Centro', 'São Vicente', '11320000', 'SP', 'Responsável pela empresa.'),
 
 ('Silvia Escola Rosa', NULL, '75476841000179', 'silvia.rosa@empresa.com',
-'Pessoa Jurídica', 'Avenida', 'Presidente Wilson', '765', NULL, 'Praia Grande', '11701000', 'SP','Responsável pela empresa.'),
+'Pessoa Jurídica', 'Avenida', 'Presidente Wilson', '765', NULL, 'Boqueirão', 'Praia Grande', '11701000', 'SP', 'Responsável pela empresa.'),
 
 ('Poliana Miranda Nunes dos Santos', '85191594002', NULL, 'poliana.santos@email.com',
-'Pessoa Física', 'Rua', 'das Acácias', '55', NULL, 'Guarujá', '11430000', 'SP','Cliente residencial.'),
+'Pessoa Física', 'Rua', 'das Acácias', '55', NULL, 'Enseada', 'Guarujá', '11430000', 'SP', 'Cliente residencial.'),
 
 ('Gabriella e Pinho Gonçalves', NULL, '26070230000110', 'gabriella.pinho@empresa.com',
-'Pessoa Jurídica', 'Rua', 'Professor Toledo', '230', NULL, 'Cubatão', '11510020', 'SP','Responsável pela empresa.'),
+'Pessoa Jurídica', 'Rua', 'Professor Toledo', '230', NULL, 'Centro', 'Cubatão', '11510020', 'SP', 'Responsável pela empresa.'),
 
 ('Ramon Gonzallez', '93531051024', NULL, 'ramon.gonzallez@email.com',
-'Pessoa Física', 'Avenida', 'Marechal Deodoro', '1020', 'Casa', 'Santos', '11010000', 'SP','Serviços elétricos residenciais.'),
+'Pessoa Física', 'Avenida', 'Marechal Deodoro', '1020', 'Casa', 'Centro', 'Santos', '11010000', 'SP', 'Serviços elétricos residenciais.'),
 
 ('Leo Fabiano Silva Santos', NULL, '36598287000140', 'leo.santos@empresa.com',
-'Pessoa Jurídica', 'Rua', 'XV de Novembro', '315', NULL, 'São Vicente', '11310010', 'SP','Responsável pela empresa.'),
+'Pessoa Jurídica', 'Rua', 'XV de Novembro', '315', NULL, 'Centro', 'São Vicente', '11310010', 'SP', 'Responsável pela empresa.'),
 
 ('Gabriel Mesquita Novaes', NULL, '16139987000160', 'gabriel.novaes@empresa.com',
-'Pessoa Jurídica', 'Avenida', 'Ana Costa', '890', 'Sala 10', 'Santos', '11060002', 'SP','Responsável pela empresa.'),
+'Pessoa Jurídica', 'Avenida', 'Ana Costa', '890', 'Sala 10', 'Gonzaga', 'Santos', '11060002', 'SP', 'Responsável pela empresa.'),
 
 ('Ana Paula Honk Shin', NULL, '30893369000131', 'ana.shin@empresa.com',
-'Pessoa Jurídica', 'Rua', 'Rio Branco', '500', NULL, 'Praia Grande', '11702000', 'SP','Responsável pela empresa.');
+'Pessoa Jurídica', 'Rua', 'Rio Branco', '500', NULL, 'Boqueirão', 'Praia Grande', '11702000', 'SP', 'Responsável pela empresa.');
+
+
  
 -- =====================================================
 -- INSERÇAO DE CONTATO DE CLIENTES
@@ -629,6 +633,27 @@ INSERT INTO obra (
 'Obra 15',156000.00,'Instalação elétrica completa para centro comercial de médio porte.');
 
 -- =====================================================
+-- INSERÇÃO DE NOVAS OBRAS - AGOSTO/2026
+-- =====================================================
+INSERT INTO obra (
+    idCliente, dataInicio, dataFim, status, estado, cidade, bairro, cep,
+    tipoLogradouro, nomeLogradouro, numero, complemento, contrato,
+    valorContratado, observacoes
+)
+VALUES
+
+-- Cliente 4 - Giovanni
+(4, '2026-08-05 08:00:00', NULL, 'Em andamento', 'SP', 'Santos', 'Ponta da Praia', '11030001',
+'Avenida', 'Almirante Saldanha da Gama', '250', 'Edifício Comercial Giovanni - Sala 12',
+'Obra do Giovanni', 142000.00, 'Execução da instalação elétrica e modernização da infraestrutura elétrica do empreendimento.'),
+
+-- Cliente 9 - Silvia
+(9, '2026-08-18 08:00:00', NULL, 'Em andamento', 'SP', 'São Vicente', 'Itararé', '11320050',
+'Rua', 'Joaquim de Almeida', '180', 'Escola Rosa - Prédio Principal',
+'Obra da Silvia', 87500.00, 'Reforma e adequação das instalações elétricas, incluindo novos circuitos e modernização da iluminação.');
+
+
+-- =====================================================
 -- INSERÇAO DE DADOS DE OBRA FUNCIONÁRIO
 -- =====================================================
 INSERT INTO obraFuncionario (idFuncionario, idObra, isResponsavel) VALUES
@@ -644,6 +669,13 @@ INSERT INTO obraFuncionario (idFuncionario, idObra, isResponsavel) VALUES
 (10, 10, TRUE);
 
 -- =====================================================
+-- NOVOS VÍNCULOS DE FUNCIONÁRIOS COM OBRAS - AGOSTO/2026
+-- =====================================================
+INSERT INTO obraFuncionario (idFuncionario, idObra, isResponsavel) VALUES
+(4, 16, TRUE),  -- Obra do Giovanni
+(9, 17, TRUE);  -- Obra da Silvia
+
+-- =====================================================
 -- INSERÇAO DE DADOS DE OBRA FUNCIONÁRIO VEÍCULO
 -- =====================================================
 INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES
@@ -652,6 +684,13 @@ INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES
 (3, 3), 
 (4, 4), 
 (5, 5); 
+
+-- =====================================================
+-- INSERÇÃO DE VEÍCULOS NAS NOVAS OBRAS
+-- =====================================================
+INSERT INTO obraFuncionarioVeiculo (idObraFuncionario, idVeiculo) VALUES
+(11, 6),  -- Obra 16 - Giovanni
+(12, 5);  -- Obra 17 - Silvia
 
 -- =====================================================
 -- INSERÇAO DE DADOS DA CATEGORIA FINANCEIRO FUNCIONARIO
@@ -891,6 +930,118 @@ VALUES
 (10,19,'Vale Transporte',180.00,'2026-07-01','Folha','Santander',''),
 (10,8,'Participação nos Lucros',650.00,'2026-07-20','Transferência','Santander','');
 
+-- ========================================================
+-- INSERÇÃO DE DADOS DO FINANCEIRO FUNCIONÁRIOS - AGOSTO/2026
+-- ========================================================
+
+INSERT INTO financeiroFuncionario
+(idFuncionario, idCategoria, descricao, valor, dataReferencia, formaPagamento, contaPagamento, observacao)
+VALUES
+
+-- ========================================================
+-- João Pedro Silva (CLT)
+-- ========================================================
+
+(1,1,'Salário Agosto/2026',5800.00,'2026-08-01','Transferência','Banco do Brasil',''),
+(1,3,'Horas Extras',420.00,'2026-08-01','Transferência','Banco do Brasil',''),
+(1,11,'Adicional Noturno',250.00,'2026-08-01','Transferência','Banco do Brasil','Plantão noturno'),
+(1,4,'Periculosidade',480.00,'2026-08-01','Transferência','Banco do Brasil',''),
+(1,15,'INSS',640.00,'2026-08-01','Folha','Banco do Brasil',''),
+(1,16,'IRRF',295.00,'2026-08-01','Folha','Banco do Brasil',''),
+(1,19,'Vale Transporte',220.00,'2026-08-01','Folha','Banco do Brasil',''),
+(1,20,'Plano de Saúde',185.00,'2026-08-01','Folha','Banco do Brasil','Plano empresarial'),
+
+
+-- ========================================================
+-- Maria Oliveira Souza (Contrato Temporário)
+-- ========================================================
+
+(2,1,'Salário Agosto/2026',4700.00,'2026-08-01','PIX','Caixa Econômica',''),
+(2,5,'Bônus por desempenho',350.00,'2026-08-01','PIX','Caixa Econômica',''),
+(2,9,'Desconto INSS',515.00,'2026-08-01','Folha','Caixa Econômica',''),
+(2,10,'Desconto IRRF',140.00,'2026-08-01','Folha','Caixa Econômica',''),
+(2,11,'Vale Transporte',180.00,'2026-08-01','Folha','Caixa Econômica',''),
+
+
+-- ========================================================
+-- Carlos Henrique Lima (Terceirizado)
+-- ========================================================
+
+(3,8,'Pagamento de Serviço Agosto/2026',5400.00,'2026-08-01','TED','Banco Itaú','Serviços realizados no mês de agosto'),
+
+
+-- ========================================================
+-- Fernanda Alves Costa (Pessoa Jurídica)
+-- ========================================================
+
+(4,7,'Pagamento NF Agosto/2026',6200.00,'2026-08-01','PIX','Banco Inter','Referente à nota fiscal de agosto'),
+(4,6,'Ajuda de Custo',400.00,'2026-08-01','PIX','Banco Inter',''),
+
+
+-- ========================================================
+-- Lucas Martins Pereira (CLT)
+-- ========================================================
+
+(5,1,'Salário Agosto/2026',4500.00,'2026-08-01','Transferência','Santander',''),
+(5,5,'Bônus',300.00,'2026-08-01','Transferência','Santander',''),
+(5,9,'Desconto INSS',495.00,'2026-08-01','Folha','Santander',''),
+(5,10,'Desconto IRRF',185.00,'2026-08-01','Folha','Santander',''),
+(5,11,'Vale Transporte',180.00,'2026-08-01','Folha','Santander',''),
+(5,21,'Plano Odontológico',39.90,'2026-08-01','Folha','Santander',''),
+(5,6,'Insalubridade',320.00,'2026-08-01','Transferência','Santander',''),
+
+
+-- ========================================================
+-- Antonio Americo Bilhões (CLT)
+-- ========================================================
+
+(6,1,'Salário Agosto/2026',5600.00,'2026-08-01','Transferência','Banco do Brasil',''),
+(6,4,'Periculosidade',480.00,'2026-08-01','Transferência','Banco do Brasil','Trabalho em rede energizada'),
+(6,3,'Horas Extras',420.00,'2026-08-01','Transferência','Banco do Brasil',''),
+(6,15,'INSS',615.00,'2026-08-01','Folha','Banco do Brasil',''),
+(6,16,'IRRF',250.00,'2026-08-01','Folha','Banco do Brasil',''),
+(6,19,'Vale Transporte',220.00,'2026-08-01','Folha','Banco do Brasil',''),
+(6,20,'Plano de Saúde',210.00,'2026-08-01','Folha','Banco do Brasil',''),
+
+
+-- ========================================================
+-- Levi Guimarães Moralles (Contrato Temporário)
+-- ========================================================
+
+(7,1,'Salário Agosto/2026',4900.00,'2026-08-01','PIX','Caixa Econômica',''),
+(7,5,'Bônus por desempenho',500.00,'2026-08-01','PIX','Caixa Econômica',''),
+(7,9,'Desconto INSS',540.00,'2026-08-01','Folha','Caixa Econômica',''),
+(7,10,'Desconto IRRF',165.00,'2026-08-01','Folha','Caixa Econômica',''),
+(7,11,'Vale Transporte',180.00,'2026-08-01','Folha','Caixa Econômica',''),
+
+
+-- ========================================================
+-- Antonelli Nunes Mercedes (Pessoa Jurídica)
+-- ========================================================
+
+(8,7,'Pagamento NF Agosto/2026',7500.00,'2026-08-01','PIX','Banco Inter','Referente aos serviços de agosto'),
+(8,6,'Ajuda de Custo',500.00,'2026-08-01','PIX','Banco Inter',''),
+
+
+-- ========================================================
+-- Veronica Muniz (Terceirizado)
+-- ========================================================
+
+(9,8,'Pagamento de Serviço Agosto/2026',5000.00,'2026-08-01','TED','Banco Itaú','Serviços realizados no mês de agosto'),
+
+
+-- ========================================================
+-- Maria Julia Nascimento Silva (CLT)
+-- ========================================================
+
+(10,1,'Salário Agosto/2026',3900.00,'2026-08-01','Transferência','Santander',''),
+(10,3,'Horas Extras',320.00,'2026-08-01','Transferência','Santander',''),
+(10,10,'Ajuda de Custo',200.00,'2026-08-01','Transferência','Santander',''),
+(10,20,'Plano de Saúde',165.00,'2026-08-01','Folha','Santander',''),
+(10,15,'INSS',430.00,'2026-08-01','Folha','Santander',''),
+(10,16,'IRRF',115.00,'2026-08-01','Folha','Santander',''),
+(10,19,'Vale Transporte',180.00,'2026-08-01','Folha','Santander','');
+
 -- =====================================================
 -- INSERÇÃO DE DADOS DA CATEGORIA FINANCEIRO OBRA
 -- ======================================================
@@ -1082,6 +1233,32 @@ VALUES
 (5,12,'EPIs adicionais',980.00,'2026-07-25','Cartão',''),
 (5,15,'Despesas diversas da obra',740.00,'2026-07-28','PIX','');
 
+-- ============================================================
+-- INSERÇÃO DE DADOS DO FINANCEIRO OBRA - OBRA #16 - AGOSTO/2026
+-- ============================================================
+
+INSERT INTO financeiroObra
+(idObra, idCategoriaFinanceiroObra, descricao, valor, dataGasto, formaPagamento, observacao)
+VALUES
+(16,1,'Compra de cabos elétricos',2450.00,'2026-08-06','PIX','Fornecedor Elétrica Santos'),
+(16,3,'Compra de ferramentas',1250.00,'2026-08-08','Cartão','Materiais para execução da obra'),
+(16,6,'Pagamento da equipe',6800.00,'2026-08-15','Transferência','Pagamento da primeira quinzena'),
+(16,12,'Compra de EPIs',950.00,'2026-08-18','PIX','Equipamentos de segurança para a equipe');
+
+
+-- ============================================================
+-- INSERÇÃO DE DADOS DO FINANCEIRO OBRA - OBRA #17 - AGOSTO/2026
+-- ============================================================
+
+INSERT INTO financeiroObra
+(idObra, idCategoriaFinanceiroObra, descricao, valor, dataGasto, formaPagamento, observacao)
+VALUES
+(17,1,'Compra de materiais elétricos',1980.00,'2026-08-19','PIX','Cabos, disjuntores e conectores'),
+(17,2,'Compra de materiais para reforma',1150.00,'2026-08-20','Boleto','Materiais para adequação da instalação'),
+(17,6,'Pagamento da equipe',4500.00,'2026-08-25','Transferência','Pagamento da equipe responsável'),
+(17,12,'Compra de EPIs',620.00,'2026-08-26','Cartão','Luvas, capacetes e equipamentos de proteção');
+
+
 -- =====================================================
 -- INSERÇÃO DE DADOS DA FINANCEIRO VEÍCULO - JUNHO/2026
 -- =====================================================
@@ -1192,6 +1369,68 @@ VALUES
 (6, 5,  'Venda do Veículo Antigo',5800.00, '2026-07-30', 'Transferência', '');
 
 -- =====================================================
+-- INSERÇÃO DE DADOS DO FINANCEIRO VEÍCULO - AGOSTO/2026
+-- =====================================================
+
+INSERT INTO financeiroVeiculo
+(idVeiculo, idCategoriaFinanceiroVeiculo, descricao, valor, dataMovimentacao, formaPagamento, observacao)
+VALUES
+
+-- =====================================================
+-- VEÍCULO 1 - ABC1D23
+-- =====================================================
+(1, 9, 'Abastecimento', 345.00, '2026-08-03', 'Cartão', ''),
+(1, 15, 'Troca de óleo e filtro', 520.00, '2026-08-09', 'PIX', ''),
+(1, 19, 'Pedágio', 48.60, '2026-08-14', 'Dinheiro', ''),
+(1, 1, 'Bonificação Cashback', 135.00, '2026-08-22', 'PIX', ''),
+
+
+-- =====================================================
+-- VEÍCULO 2 - AFC1D28
+-- =====================================================
+(2, 9, 'Abastecimento', 425.00, '2026-08-04', 'Cartão', ''),
+(2, 21, 'Seguro Mensal', 285.00, '2026-08-10', 'PIX', ''),
+(2, 13, 'Lavagem Completa', 70.00, '2026-08-16', 'Dinheiro', ''),
+(2, 2, 'Reembolso de Viagem', 400.00, '2026-08-25', 'Transferência', ''),
+
+
+-- =====================================================
+-- VEÍCULO 3 - ADC1K28
+-- =====================================================
+(3, 9, 'Abastecimento', 460.00, '2026-08-05', 'Cartão', ''),
+(3, 15, 'Manutenção Preventiva', 650.00, '2026-08-12', 'PIX', ''),
+(3, 16, 'Multa de trânsito', 130.00, '2026-08-18', 'Boleto', ''),
+(3, 1, 'Cashback Combustível', 165.00, '2026-08-26', 'PIX', ''),
+
+
+-- =====================================================
+-- VEÍCULO 4 - AFJ1D28
+-- =====================================================
+(4, 18, 'Alinhamento e Balanceamento', 280.00, '2026-08-02', 'PIX', ''),
+(4, 9, 'Abastecimento', 410.00, '2026-08-08', 'Cartão', ''),
+(4, 20, 'Manutenção dos Pneus', 480.00, '2026-08-17', 'Boleto', ''),
+(4, 2, 'Reembolso Seguro', 650.00, '2026-08-27', 'TED', ''),
+
+
+-- =====================================================
+-- VEÍCULO 5 - LFD1D28
+-- =====================================================
+(5, 9, 'Abastecimento', 330.00, '2026-08-06', 'Cartão', ''),
+(5, 13, 'Lavagem Completa', 60.00, '2026-08-11', 'Dinheiro', ''),
+(5, 11, 'Estacionamento', 55.00, '2026-08-19', 'Dinheiro', ''),
+(5, 6, 'Indenização Seguro', 850.00, '2026-08-28', 'TED', ''),
+
+
+-- =====================================================
+-- VEÍCULO 6 - QWE2F34
+-- =====================================================
+(6, 9, 'Abastecimento', 550.00, '2026-08-02', 'Cartão', ''),
+(6, 15, 'Revisão Preventiva', 780.00, '2026-08-09', 'PIX', ''),
+(6, 21, 'Seguro', 420.00, '2026-08-18', 'PIX', ''),
+(6, 5, 'Receita com Venda de Equipamento', 2500.00, '2026-08-30', 'Transferência', '');
+
+
+-- =====================================================
 -- CONSULTAS DE TESTE (Rode após a criação)
 -- =====================================================
 
@@ -1294,3 +1533,4 @@ ALTER TABLE financeiroObra
   FOREIGN KEY (idObra) 
   REFERENCES obra(idObra) 
   ON DELETE CASCADE;
+

@@ -19,6 +19,7 @@ class Cliente
     private ?string $tipoLogradouro = null;
     private ?string $nomeLogradouro = null;
     private ?string $numero = null;
+    private ?string $bairro = null;
     private ?string $complemento = null;
     private ?string $cidade = null;
     private ?string $cep = null;
@@ -136,6 +137,17 @@ class Cliente
         $this->complemento = $complemento;
     }
 
+    public function getBairro(): ?string
+    {
+        return $this->bairro;
+    }
+
+    public function setBairro(?string $bairro): void
+    {
+        $this->bairro = $bairro;
+    }
+
+
     public function getCidade(): ?string
     {
         return $this->cidade;
@@ -222,6 +234,7 @@ class Cliente
         $cliente->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
         $cliente->setNumero($dados['numero'] ?? null);
         $cliente->setComplemento($dados['complemento'] ?? null);
+        $cliente->setBairro($dados['bairro'] ?? null);
         $cliente->setCidade($dados['cidade'] ?? null);
         $cliente->setCep($dados['cep'] ?? null);
         $cliente->setEstado($dados['estado'] ?? null);
@@ -256,10 +269,10 @@ class Cliente
 
             $sql = "INSERT INTO cliente (
                         nomeCliente, cpf, cnpj, email, tipoCliente, tipoLogradouro, 
-                        nomeLogradouro, numero, complemento, cidade, cep, estado, observacoes
+                        nomeLogradouro, numero, complemento, bairro,cidade, cep, estado, observacoes
                     ) VALUES (
                         :nomeCliente, :cpf, :cnpj, :email, :tipoCliente, :tipoLogradouro, 
-                        :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :observacoes
+                        :nomeLogradouro, :numero, :complemento,:bairro, :cidade, :cep, :estado, :observacoes
                     )";
 
             $stmt = $this->pdo->prepare($sql);
@@ -273,6 +286,7 @@ class Cliente
             $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), $this->getNomeLogradouro() ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $stmt->bindValue(':numero', $this->getNumero(), $this->getNumero() ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $stmt->bindValue(':complemento', $this->getComplemento(), $this->getComplemento() ? PDO::PARAM_STR : PDO::PARAM_NULL);
+            $stmt->bindValue(':bairro', $this->getBairro() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':cidade', $this->getCidade() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':cep', $this->getCep() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':estado', $this->getEstado() ?? '', PDO::PARAM_STR);
@@ -320,7 +334,7 @@ class Cliente
             $sql = "UPDATE cliente SET 
                         nomeCliente = :nomeCliente, cpf = :cpf, cnpj = :cnpj, email = :email, 
                         tipoCliente = :tipoCliente, tipoLogradouro = :tipoLogradouro, nomeLogradouro = :nomeLogradouro, 
-                        numero = :numero, complemento = :complemento, cidade = :cidade, cep = :cep, 
+                        numero = :numero, complemento = :complemento, bairro = :bairro,cidade = :cidade, cep = :cep, 
                         estado = :estado, observacoes = :observacoes 
                     WHERE idCliente = :id";
 
@@ -335,6 +349,7 @@ class Cliente
             $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), $this->getNomeLogradouro() ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $stmt->bindValue(':numero', $this->getNumero(), $this->getNumero() ? PDO::PARAM_STR : PDO::PARAM_NULL);
             $stmt->bindValue(':complemento', $this->getComplemento(), $this->getComplemento() ? PDO::PARAM_STR : PDO::PARAM_NULL);
+            $stmt->bindValue(':bairro', $this->getBairro() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':cidade', $this->getCidade() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':cep', $this->getCep() ?? '', PDO::PARAM_STR);
             $stmt->bindValue(':estado', $this->getEstado() ?? '', PDO::PARAM_STR);
