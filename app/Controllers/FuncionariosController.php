@@ -23,9 +23,6 @@ class FuncionariosController
     }
 
 
-    /**
-     * Executa a lógica de pesquisa de CPF no banco de dados
-     */
     private function buscar()
     {
         $cpfDigitado = (string) ($_POST['cpf'] ?? '');
@@ -52,9 +49,6 @@ class FuncionariosController
         }
     }
 
-    /**
-     * Valida matematicamente um CPF
-     */
     private function validarCpf($cpf)
     {
         $cpf = (string) $cpf;
@@ -113,10 +107,6 @@ class FuncionariosController
         require_once __DIR__ . '/../Views/funcionarios/index.php';
     }
 
-    /**
-     * Helper privado para preencher os dados do objeto Funcionario
-     * Isso evita repetir código no Store e no Update
-     */
     private function popularObjeto(Funcionario $funcionario, array $dados): void
     {
         $funcionario->setNome($dados['nome'] ?? null);
@@ -130,6 +120,7 @@ class FuncionariosController
         $funcionario->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
         $funcionario->setNumero($dados['numero'] ?? null);
         $funcionario->setComplemento($dados['complemento'] ?? null);
+        $funcionario->setBairro($dados['bairro'] ?? null);
         $funcionario->setCidade($dados['cidade'] ?? null);
         $funcionario->setCep($dados['cep'] ?? null); // A máscara do CEP é limpa lá na Model agora!
         $funcionario->setEstado($dados['estado'] ?? null);

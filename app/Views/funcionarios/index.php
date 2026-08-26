@@ -248,6 +248,12 @@ require_once __DIR__ . '/../includes/header.php';
                                 value="<?= htmlspecialchars($isEdit ? ($funcionario->getComplemento() ?? '') : '') ?>"
                                 placeholder="Números e letras">
                         </div>
+                        <div class="form-group">
+                            <label>Bairro <span class="obrigatorio">*</span></label>
+                            <input type="text" name="bairro"
+                                value="<?= htmlspecialchars($isEdit ? ($funcionario->getBairro() ?? '') : '') ?>"
+                                placeholder="Digite o bairro" required>
+                        </div>
 
                         <div class="form-group">
                             <label>Cidade <span class="obrigatorio">*</span></label>

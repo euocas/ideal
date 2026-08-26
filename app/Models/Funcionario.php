@@ -21,6 +21,7 @@ class Funcionario
     private ?string $nomeLogradouro = null;
     private ?string $numero = null;
     private ?string $complemento = null;
+    private ?string $bairro = null;
     private ?string $cidade = null;
     private ?string $cep = null;
     private ?string $estado = null;
@@ -166,6 +167,15 @@ class Funcionario
         $this->complemento = $complemento;
     }
 
+    public function getBairro(): ?string
+    {
+        return $this->bairro;
+    }
+
+    public function setBairro(?string $bairro): void
+    {
+        $this->bairro = $bairro;
+    }
     public function getCidade(): ?string
     {
         return $this->cidade;
@@ -340,9 +350,6 @@ class Funcionario
     // 4. MÉTODOS DE BANCO DE DADOS (CRUD)
     // =====================================================
 
-    /**
-     * Helper privado para transformar o array do banco em um Objeto Funcionario
-     */
     private function hydrate(array $dados): self
     {
         $funcionario = new self();
@@ -357,6 +364,7 @@ class Funcionario
         $funcionario->setNomeLogradouro($dados['nomeLogradouro'] ?? null);
         $funcionario->setNumero($dados['numero'] ?? null);
         $funcionario->setComplemento($dados['complemento'] ?? null);
+        $funcionario->setBairro($dados['bairro'] ?? null);
         $funcionario->setCidade($dados['cidade'] ?? null);
         $funcionario->setCep($dados['cep'] ?? null);
         $funcionario->setEstado($dados['estado'] ?? null);
@@ -383,7 +391,6 @@ class Funcionario
 
         return $funcionario;
     }
-
     public function findByCpf(string $cpf): ?self
     {
         $sql = "SELECT f.*, c.telefone, c.whatsapp 
@@ -419,8 +426,8 @@ class Funcionario
         try {
             $this->pdo->beginTransaction();
 
-            $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, dataAdmissao, dataDesligamento, feriasProgramadas,agencia, conta, tipoConta, chavePix, observacoes) 
-                VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :dataAdmissao, :dataDesligamento, :feriasProgramadas,:agencia, :conta, :tipoConta, :chavePix, :observacoes)";
+            $sql = "INSERT INTO funcionario (nome, cpf, sexo, dataNascimento, naturalidade, estadoNascimento, tipoLogradouro, nomeLogradouro, numero, complemento, bairro, cidade, cep, estado, email, cargoFuncao, tipoContrato, status, dataAdmissao, dataDesligamento, feriasProgramadas,agencia, conta, tipoConta, chavePix, observacoes) 
+                VALUES (:nome, :cpf, :sexo, :dataNascimento, :naturalidade, :estadoNascimento, :tipoLogradouro, :nomeLogradouro, :numero, :complemento,:bairro, :cidade, :cep, :estado, :email, :cargoFuncao, :tipoContrato, :status, :dataAdmissao, :dataDesligamento, :feriasProgramadas,:agencia, :conta, :tipoConta, :chavePix, :observacoes)";
 
             $stmt = $this->pdo->prepare($sql);
 
@@ -434,6 +441,7 @@ class Funcionario
             $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), PDO::PARAM_STR);
             $stmt->bindValue(':numero', $this->getNumero(), PDO::PARAM_STR);
             $stmt->bindValue(':complemento', $this->getComplemento(), PDO::PARAM_STR);
+            $stmt->bindValue(':bairro', $this->getBairro(), PDO::PARAM_STR);
             $stmt->bindValue(':cidade', $this->getCidade(), PDO::PARAM_STR);
             $stmt->bindValue(':cep', $this->getCep(), PDO::PARAM_STR);
             $stmt->bindValue(':estado', $this->getEstado(), PDO::PARAM_STR);
@@ -468,13 +476,13 @@ class Funcionario
             $this->pdo->commit();
             return true;
 
-            } catch (\Exception $e) {
-                if ($this->pdo->inTransaction()) {
-                    $this->pdo->rollBack();
-                }
-                error_log($e->getMessage());
-                return false;
+        } catch (\Exception $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
             }
+            error_log($e->getMessage());
+            return false;
+        }
 
     }
 
@@ -488,32 +496,40 @@ class Funcionario
         try {
             $this->pdo->beginTransaction();
 
+            // Validação do bairro (obrigatório)
+            $bairro = $this->getBairro();
+
+            if (empty(trim($bairro ?? ''))) {
+                throw new \Exception("O bairro é obrigatório.");
+            }
+
             $sql = "UPDATE funcionario SET 
-                    nome = :nome,
-                    sexo = :sexo,
-                    dataNascimento = :dataNascimento,
-                    naturalidade = :naturalidade,
-                    estadoNascimento = :estadoNascimento,
-                    tipoLogradouro = :tipoLogradouro,
-                    nomeLogradouro = :nomeLogradouro,
-                    numero = :numero,
-                    complemento = :complemento,
-                    cidade = :cidade,
-                    cep = :cep,
-                    estado = :estado,
-                    email = :email,
-                    cargoFuncao = :cargoFuncao,
-                    tipoContrato = :tipoContrato,
-                    status = :status,
-                    dataAdmissao = :dataAdmissao,
-                    dataDesligamento = :dataDesligamento,
-                    feriasProgramadas = :feriasProgramadas,
-                    agencia = :agencia,
-                    conta = :conta,
-                    tipoConta = :tipoConta,
-                    chavePix = :chavePix,
-                    observacoes = :observacoes
-                WHERE idFuncionario = :id";
+                nome = :nome,
+                sexo = :sexo,
+                dataNascimento = :dataNascimento,
+                naturalidade = :naturalidade,
+                estadoNascimento = :estadoNascimento,
+                tipoLogradouro = :tipoLogradouro,
+                nomeLogradouro = :nomeLogradouro,
+                numero = :numero,
+                complemento = :complemento,
+                bairro = :bairro,
+                cidade = :cidade,
+                cep = :cep,
+                estado = :estado,
+                email = :email,
+                cargoFuncao = :cargoFuncao,
+                tipoContrato = :tipoContrato,
+                status = :status,
+                dataAdmissao = :dataAdmissao,
+                dataDesligamento = :dataDesligamento,
+                feriasProgramadas = :feriasProgramadas,
+                agencia = :agencia,
+                conta = :conta,
+                tipoConta = :tipoConta,
+                chavePix = :chavePix,
+                observacoes = :observacoes
+            WHERE idFuncionario = :id";
 
             $stmt = $this->pdo->prepare($sql);
 
@@ -526,6 +542,10 @@ class Funcionario
             $stmt->bindValue(':nomeLogradouro', $this->getNomeLogradouro(), PDO::PARAM_STR);
             $stmt->bindValue(':numero', $this->getNumero(), PDO::PARAM_STR);
             $stmt->bindValue(':complemento', $this->getComplemento(), PDO::PARAM_STR);
+
+            // Bairro obrigatório
+            $stmt->bindValue(':bairro', $bairro, PDO::PARAM_STR);
+
             $stmt->bindValue(':cidade', $this->getCidade(), PDO::PARAM_STR);
             $stmt->bindValue(':cep', $this->getCep(), PDO::PARAM_STR);
             $stmt->bindValue(':estado', $this->getEstado(), PDO::PARAM_STR);
@@ -556,11 +576,12 @@ class Funcionario
 
             $stmt->execute();
 
-
-            // Verifica se o funcionário já possui contato cadastrado
+            /*
+             * VERIFICA SE JÁ EXISTE CONTATO
+             */
             $stmtCheck = $this->pdo->prepare(
-                "SELECT idContato 
-             FROM contatoFuncionario 
+                "SELECT idContato
+             FROM contatoFuncionario
              WHERE idFuncionario = :id"
             );
 
@@ -572,9 +593,13 @@ class Funcionario
 
             $stmtCheck->execute();
 
+            /*
+             * Se existe contato → UPDATE
+             * Se não existe → INSERT
+             */
             if ($stmtCheck->rowCount() > 0) {
 
-                $sqlContato = "UPDATE contatoFuncionario 
+                $sqlContato = "UPDATE contatoFuncionario
                            SET telefone = :telefone,
                                whatsapp = :whatsapp
                            WHERE idFuncionario = :id";
@@ -600,49 +625,48 @@ class Funcionario
                 PDO::PARAM_INT
             );
 
-            // Converte valores vazios para NULL
+            /*
+             * TELEFONE E WHATSAPP
+             */
             $telefone = $this->getTelefone();
             $whatsapp = $this->getWhatsapp();
 
             $stmtContato->bindValue(
                 ':telefone',
-                $telefone !== '' ? $telefone : null,
-                $telefone !== '' ? PDO::PARAM_STR : PDO::PARAM_NULL
+                !empty(trim($telefone ?? '')) ? $telefone : null,
+                !empty(trim($telefone ?? ''))
+                ? PDO::PARAM_STR
+                : PDO::PARAM_NULL
             );
 
             $stmtContato->bindValue(
                 ':whatsapp',
-                $whatsapp !== '' ? $whatsapp : null,
-                $whatsapp !== '' ? PDO::PARAM_STR : PDO::PARAM_NULL
+                !empty(trim($whatsapp ?? '')) ? $whatsapp : null,
+                !empty(trim($whatsapp ?? ''))
+                ? PDO::PARAM_STR
+                : PDO::PARAM_NULL
             );
 
             $stmtContato->execute();
 
-            
-
+            // Confirma todas as alterações
             $this->pdo->commit();
 
             return true;
 
-        // } catch (\Exception $e) {
-
-        //     if ($this->pdo->inTransaction()) {
-        //         $this->pdo->rollBack();
-        //     }
-
-        //     error_log($e->getMessage());
-
-        //     return false;
-        // }
-
         } catch (\Exception $e) {
-    if ($this->pdo->inTransaction()) {
-        $this->pdo->rollBack();
+
+            // Desfaz tudo caso aconteça algum erro
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+
+            error_log($e->getMessage());
+
+            return false;
+        }
     }
 
-    die("ERRO REAL: " . $e->getMessage());
-}
-    }
     public function delete(int $id): bool
     {
         $stmt = $this->pdo->prepare("DELETE FROM funcionario WHERE idFuncionario = :id");
@@ -660,7 +684,6 @@ class Funcionario
     }
 
     //   Busca funcionários com filtros
-
     public function buscarComFiltros(string $nome = '', string $cargoFuncao = '', string $status = '', string $cpf = ''): array
     {
         $sql = "SELECT * FROM funcionario WHERE 1=1";
@@ -703,7 +726,6 @@ class Funcionario
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
     public function possuiLancamentos(int $idFuncionario): bool
     {
