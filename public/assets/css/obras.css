@@ -672,6 +672,8 @@ input[readonly] {
     gap: 16px;
   }
 
+  
+
   /* ------------------------------------------
      CARD CLIENTE
   ------------------------------------------ */
@@ -959,6 +961,7 @@ input[readonly] {
 
 /* Correções exclusivas da tela Obras em dispositivos móveis. */
 @media (max-width: 768px) {
+
   #pagina-obras,
   #pagina-obras #form-dados,
   #pagina-obras fieldset,
@@ -967,6 +970,26 @@ input[readonly] {
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
+  }
+
+  #pagina-obras .observacao-funcionario {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  #pagina-obras .observacao-funcionario textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  #pagina-obras .grid-funcionario .btn-area {
+    grid-column: 1 / -1;
+    width: 100%;
+    transform: none;
   }
 
   #pagina-obras .grid-form,
