@@ -178,6 +178,7 @@ idObraFuncionario INT AUTO_INCREMENT PRIMARY KEY,
 idFuncionario INT NOT NULL,
 idObra INT NOT NULL,
 isResponsavel BOOLEAN NOT NULL DEFAULT FALSE,
+ observacao TEXT NULL,
     CONSTRAINT fk_obraFuncionario_funcionario
         FOREIGN KEY (idFuncionario)
         REFERENCES funcionario(idFuncionario),
@@ -188,6 +189,7 @@ isResponsavel BOOLEAN NOT NULL DEFAULT FALSE,
         UNIQUE (idFuncionario, idObra)
 
 );
+
 
 -- =====================================================
 -- OBRA FUNCIONARIO VEÍCULO
@@ -637,17 +639,22 @@ VALUES
 -- =====================================================
 -- INSERÇAO DE DADOS DE OBRA FUNCIONÁRIO
 -- =====================================================
-INSERT INTO obraFuncionario (idFuncionario, idObra, isResponsavel) VALUES
-(1, 1, TRUE),
-(2, 2, TRUE),
-(3, 3, TRUE),
-(4, 4, TRUE),
-(5, 5, TRUE),
-(6, 6, TRUE),
-(7, 7, TRUE),
-(8, 8, TRUE),
-(9, 9, TRUE),
-(10, 10, TRUE);
+INSERT INTO obraFuncionario (
+    idFuncionario,
+    idObra,
+    isResponsavel,
+    observacao
+) VALUES
+(1, 1, TRUE, 'Peças utilizadas: 3 disjuntores, 2 tomadas e 10 metros de cabo elétrico.'),
+(2, 2, TRUE, 'Peças utilizadas: 5 lâmpadas LED, 3 interruptores e 20 metros de fio elétrico.'),
+(3, 3, TRUE, 'Peças utilizadas: 2 tomadas, 1 quadro de distribuição e 15 metros de cabo elétrico.'),
+(4, 4, TRUE, 'Peças utilizadas: 4 disjuntores, 6 conectores e 25 metros de fio elétrico.'),
+(5, 5, TRUE, 'Peças utilizadas: 8 lâmpadas LED, 2 interruptores e 10 metros de eletroduto.'),
+(6, 6, TRUE, 'Peças utilizadas: 1 quadro elétrico, 3 disjuntores e 30 metros de cabo elétrico.'),
+(7, 7, TRUE, 'Peças utilizadas: 6 tomadas, 4 interruptores e 20 metros de fio elétrico.'),
+(8, 8, TRUE, 'Peças utilizadas: 2 disjuntores, 15 metros de cabo elétrico e 5 conectores.'),
+(9, 9, TRUE, 'Peças utilizadas: 10 lâmpadas LED, 3 soquetes e 12 metros de fio elétrico.'),
+(10, 10, TRUE, 'Peças utilizadas: 1 quadro de distribuição, 5 disjuntores e 40 metros de cabo elétrico.');
 
 -- =====================================================
 -- NOVOS VÍNCULOS DE FUNCIONÁRIOS COM OBRAS - AGOSTO/2026
