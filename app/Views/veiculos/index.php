@@ -60,7 +60,8 @@ header("Expires: 0");
 
 // TÍTULO
 $titulo = 'Veículos';
-$favicon = '/ideal/public/assets/icon/veiculo.png';
+$favicon = BASE_URL . '/assets/icon/veiculo.png';
+
 $pageStyles = [
     BASE_URL . '/assets/css/veiculos.css?v=' . time(),
 ];

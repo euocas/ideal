@@ -8,7 +8,7 @@ $obra ??= null;
 
 $actionUrl ??= BASE_URL . "/index.php?url=obras/store";
 $titulo = 'Obras';
-$favicon = '/ideal/public/assets/icon/obra2.png';
+$favicon = BASE_URL . '/assets/icon/obra2.png';
 $pageStyles = [
     BASE_URL . '/assets/css/obras.css?v=' . time(),
 ];
@@ -490,6 +490,13 @@ require_once __DIR__ . '/../includes/header.php';
                             <input type="date" name="dataSaidaFuncionario" id="dataSaidaFuncionario">
                         </div>
 
+                        <div class="form-group observacao-funcionario">
+                            <label>Observação</label>
+                            <textarea id="observacaoFuncionario"
+                                placeholder="Ex.: Utilizou as peças XYA, ZWS e KMJ"></textarea>
+                        </div>
+
+
                         <div class="form-group btn-area">
                             <button type="button" class="btn-adicionar" onclick="adicionarFuncionarioNaTabela()">
                                 <i class="fa-solid fa-plus"></i>
@@ -512,6 +519,7 @@ require_once __DIR__ . '/../includes/header.php';
                                     <th>Data de Início</th>
                                     <th>Data de Saída</th>
                                     <th>Status</th>
+                                    <th>Observação</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -561,9 +569,14 @@ require_once __DIR__ . '/../includes/header.php';
                                             $func['statusFuncionario'] ?? 'Ativo'
                                         );
 
+                                        $observacao = htmlspecialchars(
+                                            $func['observacao'] ?? '—'
+                                        );
+
                                         $statusClass = strtolower($status) === 'ativo'
                                             ? 'ativo'
                                             : 'inativo';
+
 
                                         $idFunc = $func['idFuncionario'];
                                         $idVeic = $func['idVeiculo'] ?? '';
@@ -585,6 +598,11 @@ require_once __DIR__ . '/../includes/header.php';
                                                 <input type="hidden"
                                                     name="funcionariosObra[<?= $indiceFuncionario ?>][idVeiculo]"
                                                     value="<?= $idVeic ?>">
+
+                                                <input type="hidden"
+                                                    name="funcionariosObra[<?= $indiceFuncionario ?>][observacao]"
+                                                    value="<?= htmlspecialchars($observacao ?? '') ?>">
+
                                             </td>
 
                                             <td><?= $funcao ?></td>
@@ -597,6 +615,11 @@ require_once __DIR__ . '/../includes/header.php';
                                                 <span class="status <?= $statusClass ?>">
                                                     <?= $status ?>
                                                 </span>
+                                            </td>
+
+                                            <!-- NOVA COLUNA -->
+                                            <td class="observacao-tabela">
+                                                <?= $observacao ?>
                                             </td>
 
                                             <td class="acoes-tabela">

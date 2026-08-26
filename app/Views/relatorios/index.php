@@ -5,7 +5,7 @@
 /** @var array $dados */
 
 $titulo = 'Relatórios';
-$favicon = '/ideal/public/assets/icon/relatorio.png';
+$favicon = BASE_URL . '/assets/icon/relatorio.png';
 $pageStyles = [
     BASE_URL . '/assets/css/variables.css',
     BASE_URL . '/assets/css/relatorios.css?v=' . time(),

@@ -131,6 +131,42 @@ input[type="datetime-local"] {
   cursor: pointer;
 }
 
+.observacao-funcionario {
+  grid-column: span 6;
+}
+
+.observacao-funcionario textarea {
+  width: 100%;
+  min-height: 46px;
+  resize: vertical;
+}
+
+.btn-area {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateY(-37px);
+}
+.observacao-tabela {
+  max-width: 350px;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+}
+.responsavel-tabela {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.responsavel-tabela input[type="radio"] {
+  margin: 0;
+}
+#observacaoFuncionario {
+    resize: none;
+}
+
 /* ==========================================
    TABELA FUNCIONÁRIO
 ========================================== */

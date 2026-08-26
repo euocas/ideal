@@ -279,6 +279,7 @@ class Obra
         $sql = "SELECT 
             of.idFuncionario,
             of.isResponsavel,
+            of.observacao,
             f.nome AS nomeFuncionario,
             f.cargoFuncao AS funcao,
             f.dataAdmissao,
@@ -311,11 +312,6 @@ class Obra
 
         return "—";
     }
-
-    // =====================================================
-    // CRUD
-    // =====================================================
-
     public function save(): bool
     {
         try {
@@ -358,9 +354,9 @@ class Obra
             // 2. SALVA OS FUNCIONÁRIOS VINCULADOS
             if (!empty($this->funcionariosVinculados)) {
 
-                $sqlFunc = "INSERT INTO obraFuncionario (idObra,idFuncionario,isResponsavel) 
+                $sqlFunc = "INSERT INTO obraFuncionario (idObra,idFuncionario,isResponsavel,observacao) 
                VALUES 
-                (:idObra,:idFuncionario,:isResponsavel)";
+                (:idObra,:idFuncionario,:isResponsavel,:observacao)";
 
                 $stmtFunc = $this->pdo->prepare($sqlFunc);
 
@@ -371,11 +367,12 @@ class Obra
                     if (empty($func['idFuncionario']))
                         continue;
 
-                    // Salva na tabela obraFuncionario
+                    // Salva o vínculo Funcionário ↔ Obra
                     $stmtFunc->execute([
                         ':idObra' => $this->idObra,
                         ':idFuncionario' => $func['idFuncionario'],
-                        ':isResponsavel' => !empty($func['isResponsavel']) ? 1 : 0
+                        ':isResponsavel' => !empty($func['isResponsavel']) ? 1 : 0,
+                         ':observacao' => !empty($func['observacao'])? $func['observacao']: null
                     ]);
 
                     // Pega o ID do vínculo Obra-Funcionario gerado
@@ -427,7 +424,6 @@ class Obra
         }
         return null;
     }
-
     public function findByContrato(string $contrato): ?self
     {
         $contrato = trim($contrato);
@@ -523,9 +519,9 @@ class Obra
 
             // Re-insere o que veio da tela atualizado
             if (!empty($this->funcionariosVinculados)) {
-                $sqlFunc = "INSERT INTO obraFuncionario (idObra,idFuncionario,isResponsavel)
+                $sqlFunc = "INSERT INTO obraFuncionario (idObra,idFuncionario,isResponsavel,observacao)
              VALUES
-             (:idObra,:idFuncionario,:isResponsavel)";
+             (:idObra,:idFuncionario,:isResponsavel,:observacao)";
 
 
                 $stmtFunc = $this->pdo->prepare($sqlFunc);
@@ -543,7 +539,8 @@ class Obra
                     $stmtFunc->execute([
                         ':idObra' => $this->idObra,
                         ':idFuncionario' => $func['idFuncionario'],
-                        ':isResponsavel' => !empty($func['isResponsavel']) ? 1 : 0
+                        ':isResponsavel' => !empty($func['isResponsavel']) ? 1 : 0,
+                        ':observacao' => !empty($func['observacao'])? $func['observacao']: null
                     ]);
 
 
@@ -570,43 +567,44 @@ class Obra
         }
     }
 
-   public function delete(int $id): bool
-{
-    try {
-        $this->pdo->beginTransaction();
+    public function delete(int $id): bool
+    {
+        try {
+            $this->pdo->beginTransaction();
 
-        // 1. Busca os IDs dos funcionários vinculados a esta obra
-        $stmtFind = $this->pdo->prepare("SELECT idObraFuncionario FROM obraFuncionario WHERE idObra = :id");
-        $stmtFind->execute([':id' => $id]);
-        $ids = $stmtFind->fetchAll(PDO::FETCH_COLUMN);
+            // 1. Busca os IDs dos funcionários vinculados a esta obra
+            $stmtFind = $this->pdo->prepare("SELECT idObraFuncionario FROM obraFuncionario WHERE idObra = :id");
+            $stmtFind->execute([':id' => $id]);
+            $ids = $stmtFind->fetchAll(PDO::FETCH_COLUMN);
 
-        // 2. Se houver funcionários, deleta os veículos vinculados a eles nesta obra
-        if (!empty($ids)) {
-            $in = str_repeat('?,', count($ids) - 1) . '?';
-            $stmtDelVeic = $this->pdo->prepare("DELETE FROM obraFuncionarioVeiculo WHERE idObraFuncionario IN ($in)");
-            $stmtDelVeic->execute($ids);
+            // 2. Se houver funcionários, deleta os veículos vinculados a eles nesta obra
+            if (!empty($ids)) {
+                $in = str_repeat('?,', count($ids) - 1) . '?';
+                $stmtDelVeic = $this->pdo->prepare("DELETE FROM obraFuncionarioVeiculo WHERE idObraFuncionario IN ($in)");
+                $stmtDelVeic->execute($ids);
+            }
+
+            // 3. Deleta os funcionários vinculados à obra
+            $stmtDelFunc = $this->pdo->prepare("DELETE FROM obraFuncionario WHERE idObra = :id");
+            $stmtDelFunc->execute([':id' => $id]);
+
+            // 4. Por fim, deleta a obra em si
+            $sql = "DELETE FROM obra WHERE idObra = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':id' => $id]);
+
+            $this->pdo->commit();
+            return true;
+
+        } catch (\Exception $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            error_log("Erro no Delete de Obra: " . $e->getMessage());
+            return false;
         }
-
-        // 3. Deleta os funcionários vinculados à obra
-        $stmtDelFunc = $this->pdo->prepare("DELETE FROM obraFuncionario WHERE idObra = :id");
-        $stmtDelFunc->execute([':id' => $id]);
-
-        // 4. Por fim, deleta a obra em si
-        $sql = "DELETE FROM obra WHERE idObra = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':id' => $id]);
-
-        $this->pdo->commit();
-        return true;
-
-    } catch (\Exception $e) {
-        if ($this->pdo->inTransaction()) {
-            $this->pdo->rollBack();
-        }
-        error_log("Erro no Delete de Obra: " . $e->getMessage());
-        return false;
     }
-}    public function possuiLancamentos(int $idObra): bool
+    public function possuiLancamentos(int $idObra): bool
     {
         $sql = "SELECT COUNT(*)
             FROM financeiroobra

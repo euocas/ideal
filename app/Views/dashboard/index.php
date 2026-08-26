@@ -51,9 +51,21 @@ require_once __DIR__ . '/../includes/header.php';
 
         <div class="dashboard-header">
 
+            <?php
+            date_default_timezone_set('America/Sao_Paulo');
+            $hora = (int) date('H');
+            if ($hora >= 5 && $hora < 12) {
+                $saudacao = 'Bom dia';
+            } elseif ($hora >= 12 && $hora < 18) {
+                $saudacao = 'Boa tarde';
+            } else {
+                $saudacao = 'Boa noite';
+            }
+            ?>
+
             <div class="dashboard-header-info">
                 <h1>
-                    Bem-vindo,
+                    <?= $saudacao ?>,
                     <?= $_SESSION['usuario']['nome']; ?>
                 </h1>
             </div>
